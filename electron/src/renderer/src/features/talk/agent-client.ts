@@ -123,6 +123,9 @@ export class AgentClient {
           type: 'session.start',
           instructions: settings.instructions,
           voice: settings.voice,
+          // The built-in voice uses the backend's light engine so a live
+          // conversation stays responsive; a cloned voice keeps its engine.
+          fast_default_voice: !settings.voice,
           language: settings.language,
           barge_in: settings.bargeIn,
           greet: settings.greet,

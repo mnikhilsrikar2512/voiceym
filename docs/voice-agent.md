@@ -27,7 +27,7 @@ frames for audio.
 
 | Direction | Message |
 |---|---|
-| → | `{"type": "session.start", "instructions": "...", "voice": "<profile id>", "engine": "", "language": "en", "greet": false, "barge_in": true}` (first message; every field optional) |
+| → | `{"type": "session.start", "instructions": "...", "voice": "<profile id>", "engine": "", "language": "en", "greet": false, "barge_in": true, "fast_default_voice": false}` (first message; every field optional). `fast_default_voice: true` with no `voice` or `engine` speaks with the light KittenTTS engine when it is installed, which keeps live conversation responsive on low-memory machines; the Talk screen sends it for its default voice |
 | → | binary: microphone audio, PCM16 little-endian mono, 16 kHz, any chunk size |
 | → | `{"type": "input_text", "text": "..."}` a typed message |
 | → | `{"type": "interrupt"}` stop the current reply |

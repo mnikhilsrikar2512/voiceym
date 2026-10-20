@@ -177,6 +177,22 @@ deps_factory: Callable[[], VoiceAgentDeps] = default_deps
 # ── The session ────────────────────────────────────────────────────────────
 
 
+#: Light engine for the built-in voice: small enough to load and speak in real
+#: time on 8 GB machines, where the main cloning model can stall a live turn.
+FAST_VOICE_ENGINE = "kittentts"
+
+
+def fast_voice_engine() -> str:
+    """The fast engine's id when it is installed, else "" (use the active engine)."""
+    try:
+        from services.tts_backend import get_backend_class
+
+        ok, _ = get_backend_class(FAST_VOICE_ENGINE).is_available()
+    except Exception:  # noqa: BLE001 — an unknown or broken engine just falls back
+        return ""
+    return FAST_VOICE_ENGINE if ok else ""
+
+
 @dataclass
 class SessionConfig:
     instructions: str = DEFAULT_INSTRUCTIONS
@@ -195,10 +211,15 @@ class SessionConfig:
             value = data.get(key)
             return value.strip()[:limit] if isinstance(value, str) else ""
 
+        voice, engine = _s("voice"), _s("engine")
+        # A client may ask for the fast built-in voice when no cloned voice is
+        # picked; a named voice or engine always wins.
+        if not voice and not engine and data.get("fast_default_voice") is True:
+            engine = fast_voice_engine()
         return cls(
             instructions=_s("instructions", MAX_INSTRUCTIONS_CHARS) or DEFAULT_INSTRUCTIONS,
-            voice=_s("voice"),
-            engine=_s("engine"),
+            voice=voice,
+            engine=engine,
             language=_s("language", 40),
             greet=bool(data.get("greet", False)),
             barge_in=bool(data.get("barge_in", True)),

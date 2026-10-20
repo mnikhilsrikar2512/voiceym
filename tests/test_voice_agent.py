@@ -103,6 +103,17 @@ def test_session_config_is_bounded_and_defaults_sensibly():
     assert va.SessionConfig.from_message({}).instructions == va.DEFAULT_INSTRUCTIONS
 
 
+def test_fast_default_voice_only_applies_without_a_chosen_voice(monkeypatch):
+    monkeypatch.setattr(va, "fast_voice_engine", lambda: "kittentts")
+    pick = va.SessionConfig.from_message
+    assert pick({"fast_default_voice": True}).engine == "kittentts"
+    assert pick({"fast_default_voice": True, "voice": "p1"}).engine == ""
+    assert pick({"fast_default_voice": True, "engine": "omnivoice"}).engine == "omnivoice"
+    assert pick({}).engine == ""
+    monkeypatch.setattr(va, "fast_voice_engine", lambda: "")
+    assert pick({"fast_default_voice": True}).engine == ""
+
+
 def test_text_turn_streams_sentences_audio_and_transcripts():
     async def run():
         fakes, sink = Fakes(), Sink()
