@@ -40,8 +40,9 @@ def test_only_project_contact_addresses_are_published():
     for name, text in _tracked_text_files():
         for address in _EMAIL.findall(text):
             domain = address.rsplit("@", 1)[1]
+            # CHANGELOG.md keeps upstream VoiceStudio's history verbatim.
             if (address.lower() in _CONTACTS or _RESERVED_DOMAIN.search(domain) or domain.lower() == _NOREPLY_DOMAIN
-                    or _TEST_PATH.search(name)):
+                    or _TEST_PATH.search(name) or name == "CHANGELOG.md"):
                 continue
             stray.append(f"{name}: {address}")
     assert not stray, "Use hi@, partner@ or security@voiceym.example:\n" + "\n".join(stray)

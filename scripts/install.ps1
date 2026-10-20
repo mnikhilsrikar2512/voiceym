@@ -5,9 +5,9 @@ $vsVersion = $Version
 if ($Help) {
     Write-Output @'
 Voiceym Electron installer (Windows x64 and ARM64)
-  irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
-  $env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
-  $env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
+  irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
+  $env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
+  $env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
 File usage: .\install.ps1 [-Version X.Y.Z] [-Main | -Source] [-Silent]
 Uninstall: .\install.ps1 -Uninstall (preserves user data)
   $env:VOICEYM_INSTALL_MODE='uninstall'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex

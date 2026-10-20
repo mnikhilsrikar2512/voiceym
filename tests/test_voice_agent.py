@@ -238,7 +238,9 @@ def client(monkeypatch):
     from api.routers import voice_agent as router
 
     fakes = Fakes()
-    monkeypatch.setattr(va, "deps_factory", fakes.deps)
+    # Other suites pop and re-import service modules: patch the module object
+    # the router actually holds, not this file's import.
+    monkeypatch.setattr(router.voice_agent, "deps_factory", fakes.deps)
     monkeypatch.setattr(router, "is_local_host", lambda host: True)
     app = FastAPI()
     app.include_router(router.router)

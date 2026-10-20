@@ -29,8 +29,8 @@ _REPO = pathlib.Path(__file__).resolve().parent.parent
 OLD_DISCORD = "discord.gg/aRRdVj3de7"
 NEW_DISCORD = "discord.gg/bzQavDfVV9"
 
+# README.md no longer links upstream VoiceStudio's Discord.
 _LINK_FILES = [
-    "README.md",
     ".github/CONTRIBUTING.md",
     "electron/src/shared/pages/EnterprisePage.jsx",
     "electron/src/shared/components/LogsFooter.jsx",

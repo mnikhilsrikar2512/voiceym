@@ -12,9 +12,9 @@ const html = `<!doctype html>
 <p>Build main and install:</p><pre>curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --main</pre>
 <p>Uninstall (keep settings, models and projects):</p><pre>curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --uninstall</pre>
 <h2>Windows PowerShell</h2>
-<pre>irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex</pre>
-<pre>$env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex</pre>
-<pre>$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex</pre>
+<pre>irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex</pre>
+<pre>$env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex</pre>
+<pre>$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex</pre>
 <p>Uninstall (clear any version override first):</p><pre>Remove-Item Env:VOICEYM_VERSION -ErrorAction SilentlyContinue
 $env:VOICEYM_INSTALL_MODE='uninstall'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex</pre>
 <p>Main builds require Git, Node.js 22+, Bun, Rust/Cargo and platform build tools.

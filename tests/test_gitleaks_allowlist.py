@@ -6,11 +6,17 @@ import tomllib
 
 
 ROOT = Path(__file__).resolve().parents[1]
-# The upstream project's public PostHog token. Voiceym no longer ships it, but
-# it stays in git history, so the full-history scan still needs the entry.
-_UPSTREAM_POSTHOG_TOKEN = "phc_kJK9nFqtwFmB4CYWS4bMDTY7z9P4KCRyiRT7CzJTXm9f"  # gitleaks:allow
+# Upstream VoiceStudio's public PostHog token. Voiceym no longer ships it, but
+# it stays in git history, so the full-history scan still needs exactly one
+# anchored entry for it (identified by its SHA-256, never the literal).
+_UPSTREAM_POSTHOG_SHA256 = "20b808bcff907f1afac896c5b835a04415a4b914c4314477314397f0f3f6fc38"
+_POSTHOG_ENTRIES = [
+    regex for regex in tomllib.loads((ROOT / ".gitleaks.toml").read_text(encoding="utf-8"))["allowlist"]["regexes"]
+    if regex.startswith("^phc_")
+]
+assert [hashlib.sha256(r[1:-1].encode()).hexdigest() for r in _POSTHOG_ENTRIES] == [_UPSTREAM_POSTHOG_SHA256]
 EXPECTED_EXACT_REGEXES = {
-    f"^{_UPSTREAM_POSTHOG_TOKEN}$",
+    _POSTHOG_ENTRIES[0],
     "^528e871c2a26c4f0f7773b9754e2e1acae20899d$",
     "^hf_abcdefghijklmnopqrstuvwxyz01234567890abcd$",
     "^hf_abcdefghijklmnopqrstuvwxyz0123456789ABCDEF$",

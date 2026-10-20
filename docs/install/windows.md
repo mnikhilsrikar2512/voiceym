@@ -49,7 +49,7 @@ Or, from a regular (non-admin) PowerShell, let the
 wizard:
 
 ```powershell
-irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
+irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
 ```
 
 ### PCs without an NVIDIA GPU
@@ -139,7 +139,7 @@ saying "no GPU acceleration detected".
 ## Building from source
 
 Use this for development or to run current `main`. The install script's
-`main` mode (`$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex`)
+`main` mode (`$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex`)
 builds and installs a desktop package from `main` without a checkout; see
 [the install script guide](script.md).
 

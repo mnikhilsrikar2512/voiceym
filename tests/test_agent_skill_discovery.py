@@ -8,7 +8,7 @@ def test_readme_installs_skills_from_the_canonical_repository() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
     assert "npx skills add mnikhilsrikar2512/voiceym" in readme
-    assert "npx skills add mnikhilsrikar2512/voiceym" not in readme
+    assert "npx skills add debpalash/VoiceStudio" not in readme
 
 
 def test_public_skill_surfaces_use_current_identity_and_license() -> None:

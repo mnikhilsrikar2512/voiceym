@@ -339,16 +339,17 @@ def test_uninstall_ping_info_written_when_enabled_and_removed_when_not(
     assert not info.exists()
 
 
-def test_uninstall_ping_info_written_for_a_source_build_with_the_default_token(
+def test_uninstall_ping_info_written_for_a_build_with_a_configured_token(
     sent, monkeypatch, tmp_path
 ):
-    """#1193: a consented source build has a destination (the in-repo default),
-    so the uninstall ping must work there too."""
-    analytics.set_opted_in(True)  # no env token → in-repo default
+    """A consented build with a destination (here the env token) must get a
+    working uninstall ping too."""
+    monkeypatch.setenv("POSTHOG_PROJECT_TOKEN", "test-destination")
+    analytics.set_opted_in(True)
     info = tmp_path / analytics.UNINSTALL_PING_INFO_BASENAME
     assert info.exists()
     payload = json.loads(info.read_text())
-    assert payload["token"] == analytics._PUBLIC_PROJECT_TOKEN
+    assert payload["token"] == "test-destination"
     assert payload["host"] == "https://us.i.posthog.com"
 
 

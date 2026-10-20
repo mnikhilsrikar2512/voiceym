@@ -1,4 +1,4 @@
-# CosyVoice 3 inference requirements for Voiceym's one-click install.
+# CosyVoice 3 inference requirements for VoiceStudio's one-click install.
 #
 # Derived from upstream's requirements.txt at FunAudioLLM/CosyVoice@074ca6dc
 # (2026-05-25) and trimmed to what synthesis needs. What differs, and why:

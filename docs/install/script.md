@@ -8,11 +8,11 @@ On Windows, download the `Voiceym-Electron-…-win-x64.exe` installer (or
 Or use PowerShell (the endpoint detects PowerShell's user agent):
 
 ```powershell
-irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
-$env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
+irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
+$env:VOICEYM_VERSION='X.Y.Z'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
 # Clear a previous version override before selecting main:
 Remove-Item Env:VOICEYM_VERSION -ErrorAction SilentlyContinue
-$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex
+$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
 ```
 
 On ARM64 Windows the script installs the native ARM64 build and falls back to the x64 build when a release has none. Windows main builds also need Visual Studio C++ build tools (plus the ARM64 build tools on ARM). The script builds

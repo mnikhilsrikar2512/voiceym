@@ -14,7 +14,6 @@ weights download from Hugging Face when you install a model.
 
 **Official images:** [`ghcr.io/mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym/pkgs/container/voiceym)
 and [`palashdeb/omnivoice-studio` on Docker Hub](https://hub.docker.com/r/palashdeb/omnivoice-studio) — same images, same tags.
-The former `ghcr.io/mnikhilsrikar2512/voiceym` path remains a compatible alias.
 
 ## Architecture
 

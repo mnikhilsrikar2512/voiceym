@@ -25,10 +25,10 @@ test('PowerShell user agent and explicit suffix choose the Windows installer', a
   }
 });
 test('explicit shell suffix wins over user agent', async () => {
-  assert.equal(await worker.fetch(new Request('https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh', { headers: { 'User-Agent': 'PowerShell/7' } })).text(), shell);
+  assert.equal(await worker.fetch(new Request('https://voiceym.example/install.sh', { headers: { 'User-Agent': 'PowerShell/7' } })).text(), shell);
 });
 test('HTML visitors see all three installation choices', async () => {
-  const response = worker.fetch(new Request('https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh', { headers: { Accept: 'text/html' } }));
+  const response = worker.fetch(new Request('https://voiceym.example/install', { headers: { Accept: 'text/html' } }));
   assert.match(response.headers.get('Content-Type'), /text\/html/);
   const html = await response.text();
   assert.match(html, /--version X.Y.Z/);
@@ -36,6 +36,6 @@ test('HTML visitors see all three installation choices', async () => {
   assert.match(html, /Electron/);
 });
 test('HEAD is bodyless and unsupported methods are rejected', async () => {
-  assert.equal(await worker.fetch(new Request('https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh', { method: 'HEAD' })).text(), '');
-  assert.equal(worker.fetch(new Request('https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh', { method: 'POST' })).status, 405);
+  assert.equal(await worker.fetch(new Request('https://voiceym.example/install', { method: 'HEAD' })).text(), '');
+  assert.equal(worker.fetch(new Request('https://voiceym.example/install', { method: 'POST' })).status, 405);
 });

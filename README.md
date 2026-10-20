@@ -69,7 +69,7 @@ curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scri
 curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --uninstall
 ```
 
-On Windows, run `irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | iex` in PowerShell.
+On Windows, run `irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex` in PowerShell.
 
 If `voiceym.example/install` is unreachable or returns 404, run the same script
 straight from the repository, or clone it and run `scripts/install.sh`:

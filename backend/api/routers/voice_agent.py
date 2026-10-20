@@ -38,6 +38,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 
 from api.dependencies import is_local_host, ws_remote_authorized
+from services import voice_agent
 
 router = APIRouter()
 logger = logging.getLogger("omnivoice.voice_agent.ws")
@@ -69,8 +70,6 @@ async def agent_ws(websocket: WebSocket):
         return
 
     await websocket.accept()
-
-    from services import voice_agent
 
     send_lock = asyncio.Lock()
 

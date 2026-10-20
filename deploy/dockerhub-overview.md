@@ -130,7 +130,6 @@ Preview builds always come from `main` and never version-sort below `:stable`,
 so upgrades flow naturally. The same images and tags
 are mirrored on GHCR at
 [`ghcr.io/mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym/pkgs/container/voiceym).
-The former `ghcr.io/mnikhilsrikar2512/voiceym` path remains a compatible alias.
 
 ---
 
