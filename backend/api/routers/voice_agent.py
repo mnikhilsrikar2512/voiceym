@@ -120,8 +120,8 @@ async def agent_ws(websocket: WebSocket):
             await session.close()
         try:
             await websocket.close()
-        except RuntimeError:
-            pass
+        except (WebSocketDisconnect, RuntimeError):
+            pass  # the client already left; starlette raises either depending on timing
 
 
 def _json(message: dict) -> dict | None:

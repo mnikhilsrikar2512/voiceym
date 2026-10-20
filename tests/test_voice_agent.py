@@ -282,6 +282,44 @@ def test_websocket_requires_session_start_first(client):
     assert event["code"] == "bad_request"
 
 
+def test_client_that_vanished_mid_session_does_not_crash_the_handler(monkeypatch):
+    """Closing a socket the client already dropped raises WebSocketDisconnect
+    in starlette; the handler must swallow it, not surface an ASGI error."""
+    from types import SimpleNamespace
+
+    from starlette.websockets import WebSocketDisconnect
+
+    from api.routers import voice_agent as router
+
+    monkeypatch.setattr(router.voice_agent, "deps_factory", Fakes().deps)
+    monkeypatch.setattr(router, "is_local_host", lambda host: True)
+    inbox = [
+        {"type": "websocket.receive", "text": json.dumps({"type": "session.start"})},
+        {"type": "websocket.disconnect", "code": 1006},
+    ]
+
+    class GoneSocket:
+        headers: dict = {}
+        client = SimpleNamespace(host="127.0.0.1")
+
+        async def accept(self):
+            pass
+
+        async def receive(self):
+            return inbox.pop(0)
+
+        async def send_text(self, _text):
+            pass
+
+        async def send_bytes(self, _data):
+            pass
+
+        async def close(self, code=1000, reason=None):
+            raise WebSocketDisconnect(code=1006)
+
+    asyncio.run(router.agent_ws(GoneSocket()))
+
+
 def test_websocket_refuses_remote_clients_without_a_key(monkeypatch):
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
