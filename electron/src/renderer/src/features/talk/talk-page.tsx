@@ -11,6 +11,7 @@ import { LanguagePicker } from '@/features/clone/language-picker';
 import { useProfiles } from '@/hooks/use-profiles';
 import { cn } from '@/lib/utils';
 import { AgentClient, type AgentSettings, type AgentSnapshot } from './agent-client';
+import { TalkModelPicker } from './talk-model';
 import { VoiceOrb } from './voice-orb';
 import './talk-page.css';
 
@@ -248,6 +249,8 @@ export function TalkPage() {
                 {t('talk.add_voice')}
               </Link>
             </div>
+
+            <TalkModelPicker />
 
             <div className="talk-field">
               <span>{t('talk.language')}</span>
