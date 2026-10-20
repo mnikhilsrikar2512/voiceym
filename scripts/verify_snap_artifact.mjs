@@ -42,7 +42,7 @@ export function verifySnapMetadata(source, metadata) {
   const name = field(source, "name");
   const version = field(source, "version");
   const confinement = field(source, "confinement");
-  if (name !== "voicestudio") throw new Error(`Unexpected Snap name: ${name}`);
+  if (name !== "voiceym") throw new Error(`Unexpected Snap name: ${name}`);
   if (version !== metadata.version) throw new Error(`Unexpected Snap version: ${version}`);
   if (field(source, "title") !== PRODUCT_NAME) throw new Error("Unexpected Snap title");
   if (field(source, "summary") !== metadata.listing.shortDescription) {
@@ -91,7 +91,7 @@ function option(name, fallback) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const releaseDir = resolve(root, option("release-dir", "electron/release"));
   const candidates = readdirSync(releaseDir)
-    .filter((name) => /^VoiceStudio-Electron-.*-linux-x64\.snap$/.test(name))
+    .filter((name) => /^Voiceym-Electron-.*-linux-x64\.snap$/.test(name))
     .sort();
   if (candidates.length !== 1) {
     throw new Error(`Expected one x64 Snap artifact, found: ${candidates.join(", ")}`);
@@ -104,7 +104,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   verifySnapRuntimePayload(listing);
   const launcher = execFileSync("unsquashfs", ["-cat", artifact, "command.sh"], { encoding: "utf8" });
   verifySnapLauncher(launcher);
-  for (const path of ["resources/native/voicestudio-desktop-bridge", "resources/tools/uv"]) {
+  for (const path of ["resources/native/voiceym-desktop-bridge", "resources/tools/uv"]) {
     if (!listing.includes(path)) throw new Error(`Snap payload is missing ${path}`);
   }
   const packageJson = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
@@ -123,7 +123,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     root,
     option(
       "output",
-      `electron/release/VoiceStudio-Electron-${packageJson.version}-snap-verification.json`,
+      `electron/release/Voiceym-Electron-${packageJson.version}-snap-verification.json`,
     ),
   );
   writeFileSync(output, `${JSON.stringify(evidence, null, 2)}\n`);

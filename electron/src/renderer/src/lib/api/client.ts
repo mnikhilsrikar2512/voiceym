@@ -143,7 +143,7 @@ export async function errorFromResponse(res: Response): Promise<ApiError> {
       // Plain-text body.
     }
   }
-  // A 502/503/504 that is not JSON did not come from VoiceStudio: a reverse
+  // A 502/503/504 that is not JSON did not come from Voiceym: a reverse
   // proxy (nginx, Caddy, a tunnel) gave up waiting and answered with its own
   // HTML page (#2781). Echoing that page told the user nothing about the real
   // situation, which is that the backend may well still be rendering.
@@ -217,7 +217,7 @@ export async function apiFetch(
   // already-succeeded streamed generation fail.
   if (
     typeof window !== "undefined" &&
-    window.voicestudio?.backend &&
+    window.voiceym?.backend &&
     !isBackendReachable(getBackendStatusSnapshot().stage)
   )
     throw new ApiError(0, tr("tts_errors.backend_unreachable"));

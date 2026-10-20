@@ -72,7 +72,7 @@ function normalized(value, windows = process.platform === "win32") {
       .toLowerCase();
   // path.posix, not the host resolver: `windows` is an explicit parameter, so
   // POSIX normalisation must stay POSIX even when this runs on Windows. The
-  // host resolver turned "/work/VoiceStudio" into "C:\work\VoiceStudio",
+  // host resolver turned "/work/Voiceym" into "C:\work\Voiceym",
   // which then matched nothing in a POSIX command line.
   return path.posix.resolve(String(value || ""));
 }
@@ -80,7 +80,7 @@ function normalized(value, windows = process.platform === "win32") {
 // The retired Tauri shell's reverse-DNS identifier. A backend a final Tauri
 // install spawned lives under a per-app directory named after it —
 // `…/com.debpalash.omnivoice-studio/project/.venv/…` — so its path names
-// VoiceStudio as unambiguously as the checkout path does, just from the other
+// Voiceym as unambiguously as the checkout path does, just from the other
 // direction. The Electron app's managed runtime is matched by
 // ELECTRON_RUNTIME_VENV below.
 //
@@ -95,10 +95,10 @@ function normalized(value, windows = process.platform === "win32") {
 export const APP_BUNDLE_ID = "com.debpalash.omnivoice-studio";
 
 // The Electron app's managed runtime venv: `<userData>/runtime/project/.venv`
-// where userData is the `VoiceStudio` app folder, or a custom runtime location,
-// which the app always roots in a folder named `VoiceStudio`
+// where userData is the `Voiceym` app folder, or a custom runtime location,
+// which the app always roots in a folder named `Voiceym`
 // (electron/src/main/backend.ts defaultRuntimeRoot / selectedRuntimeRoot).
-export const ELECTRON_RUNTIME_VENV = /[\\/]voicestudio[\\/](?:runtime[\\/])?project[\\/]\.venv[\\/]/i;
+export const ELECTRON_RUNTIME_VENV = /[\\/]voiceym[\\/](?:runtime[\\/])?project[\\/]\.venv[\\/]/i;
 
 export function belongsToCheckout(
   cwd,
@@ -290,7 +290,7 @@ export async function clearDevPortsWith(ports, ops) {
     if (!first.owned) throw new Error(`Refusing to stop unrelated process ${pid}`);
     if (ops.canStop === false) {
       throw new Error(
-        `VoiceStudio process ${pid} is using a development port; stop it in Task Manager and retry`,
+        `Voiceym process ${pid} is using a development port; stop it in Task Manager and retry`,
       );
     }
 

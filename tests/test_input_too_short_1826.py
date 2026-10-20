@@ -23,7 +23,7 @@ _RAW = (
     "Kernel size can't be greater than actual input size"
 )
 _WRAPPED = (
-    "TTS engine stopped mid-generation with an error VoiceStudio doesn't "
+    "TTS engine stopped mid-generation with an error Voiceym doesn't "
     "recognize. Retry once; if it keeps failing, please report it with the "
     f"full trace. Underlying error: RuntimeError: {_RAW}"
 )

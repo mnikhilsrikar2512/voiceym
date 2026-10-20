@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 if ($PrepareHostedRunner -and ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hosted')) {
     throw 'Installer policy preparation is restricted to disposable GitHub-hosted runners'
 }
-$user = "VoiceStudioMsiTest"
+$user = "VoiceymMsiTest"
 $password = 'Vs-' + [guid]::NewGuid().ToString('N') + '!'
 $secure = ConvertTo-SecureString $password -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential("$env:COMPUTERNAME\$user", $secure)
@@ -17,7 +17,7 @@ $createdUser = $false
 $policyChanged = $false
 $policyPath = 'SOFTWARE\Policies\Microsoft\Windows\Installer'
 $policyKey = $null
-$logDirectory = Join-Path $env:PUBLIC ('VoiceStudioMsiSmoke-' + [guid]::NewGuid().ToString('N'))
+$logDirectory = Join-Path $env:PUBLIC ('VoiceymMsiSmoke-' + [guid]::NewGuid().ToString('N'))
 
 try {
     New-Item -ItemType Directory -Path $logDirectory | Out-Null
@@ -48,7 +48,7 @@ try {
     )
     if ($install.ExitCode -ne 0) { throw "standard-user install exited $($install.ExitCode)" }
 
-    $root = "C:\Users\$user\AppData\Local\VoiceStudio (Current User)"
+    $root = "C:\Users\$user\AppData\Local\Voiceym (Current User)"
     if (-not (Test-Path "$root\omnivoice-studio.exe")) { throw "per-user shell missing at $root" }
     if (-not (Test-Path "$root\uv.exe")) { throw "per-user uv sidecar missing at $root" }
 

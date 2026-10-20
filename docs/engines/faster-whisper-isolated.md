@@ -1,4 +1,4 @@
-# VoiceStudio — Faster-Whisper (Crash-Isolated) Engine
+# Voiceym — Faster-Whisper (Crash-Isolated) Engine
 
 The same CTranslate2 Whisper engine as [faster-whisper](faster-whisper.md),
 run in a **separate child process** ("sidecar"). CTranslate2's GPU teardown

@@ -1,5 +1,5 @@
 /**
- * Donation goal data — "Support VoiceStudio development" goal bar (spec 007, Option B).
+ * Donation goal data — "Support Voiceym development" goal bar (spec 007, Option B).
  *
  * Source-of-truth strategy (Option B):
  *   1. A bundled, committed snapshot ships with the app so the goal bar ALWAYS

@@ -10,15 +10,15 @@ import { STAR_COUNT_URL } from './local-first.mjs';
 const bridgeFacts = (page) =>
   page.evaluate(() => ({
     title: document.title,
-    platform: window.voicestudio?.app?.platform,
-    saveData: typeof window.voicestudio?.files?.saveData,
+    platform: window.voiceym?.app?.platform,
+    saveData: typeof window.voiceym?.files?.saveData,
   }));
 
 test('launch: window, title and bridge match the real OS', async (t) => {
   await withApp(t, {}, async ({ page }) => {
-    await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+    await page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
     const facts = await bridgeFacts(page);
-    assert.match(facts.title, /VoiceStudio/);
+    assert.match(facts.title, /Voiceym/);
     assert.equal(facts.platform, process.platform);
     assert.equal(facts.saveData, 'function');
   });
@@ -77,7 +77,7 @@ test('guard: a Node-level main-process request fails the run', async (t) => {
 test('guard: a run that observed no requests fails', async (t) => {
   await assert.rejects(
     withApp(t, {}, async ({ app, page }) => {
-      await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+      await page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
       await app.evaluate(async ({ BrowserWindow, net }) => {
         // Detach the observed log: clearing the live array races late requests.
         globalThis.__requestLog = [];
@@ -93,7 +93,7 @@ test('guard: a renderer request leaving the machine fails the run', async (t) =>
   // The app's CSP blocks it; the console error is what the harness reports.
   await assert.rejects(
     withApp(t, {}, async ({ page }) => {
-      await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+      await page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
       await page.evaluate(() => fetch('https://example.com/leak').catch(() => {}));
     }),
     /Renderer reported errors/,
@@ -128,7 +128,7 @@ test('first run: setup gate completes to home', async (t) => {
     await page.getByRole('button', { name: 'Enter studio', exact: true }).last().click();
     await page.getByRole('heading', { name: 'Home', exact: true }).waitFor();
     assert.equal(
-      await page.evaluate(() => localStorage.getItem('voicestudio.setup.complete.v1')),
+      await page.evaluate(() => localStorage.getItem('voiceym.setup.complete.v1')),
       '1',
     );
     assert.match(await page.evaluate(() => location.hash), /^(#\/?)?$/);
@@ -163,7 +163,7 @@ test('consent: declining analytics keeps the app usable and sends nothing', asyn
 test('backend down: app shows the connecting state without crashing', async (t) => {
   await withApp(t, { backend: 'down' }, async ({ page }) => {
     await page.getByText('Connecting to the running engine…').waitFor();
-    assert.equal(await page.evaluate(() => typeof window.voicestudio?.files?.saveData), 'function');
+    assert.equal(await page.evaluate(() => typeof window.voiceym?.files?.saveData), 'function');
   });
 });
 
@@ -217,7 +217,7 @@ test('settings: theme and language survive restart, user data stays in the profi
     });
     const dark = page.getByRole('group', { name: 'Dark', exact: true });
     // Studio is the default palette, so pick the other one to make the change observable.
-    const original = dark.getByRole('button', { name: 'VoiceStudio Original', exact: true });
+    const original = dark.getByRole('button', { name: 'Voiceym Original', exact: true });
     await original.click();
     await original.and(page.locator('[aria-pressed="true"]')).waitFor();
 
@@ -226,7 +226,7 @@ test('settings: theme and language survive restart, user data stays in the profi
     });
     await page.getByRole('combobox', { name: 'Language', exact: true }).click();
     await page.getByRole('option', { name: 'Deutsch', exact: true }).click();
-    await page.waitForFunction(() => localStorage.getItem('voicestudio.locale') === 'de');
+    await page.waitForFunction(() => localStorage.getItem('voiceym.locale') === 'de');
 
     const paths = await session.app.evaluate(({ app }) => [
       app.getPath('userData'),
@@ -238,8 +238,8 @@ test('settings: theme and language survive restart, user data stays in the profi
 
     const restarted = await session.relaunch();
     const saved = await restarted.page.evaluate(() => ({
-      locale: localStorage.getItem('voicestudio.locale'),
-      theme: JSON.parse(localStorage.getItem('voicestudio.theme.v2') || '{}'),
+      locale: localStorage.getItem('voiceym.locale'),
+      theme: JSON.parse(localStorage.getItem('voiceym.theme.v2') || '{}'),
     }));
     assert.equal(saved.locale, 'de');
     assert.equal(saved.theme.dark, 'signal');
@@ -256,7 +256,7 @@ test('unclean exit: relaunch on the same profile starts normally', async (t) => 
     child.kill('SIGKILL');
     await exited;
     const restarted = await session.relaunch();
-    await restarted.page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+    await restarted.page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
     const facts = await bridgeFacts(restarted.page);
     assert.equal(facts.platform, process.platform);
   });
@@ -264,7 +264,7 @@ test('unclean exit: relaunch on the same profile starts normally', async (t) => 
 
 test('dialogs: open and save round-trip through the main process', async (t) => {
   await withApp(t, {}, async ({ app, page, profile }) => {
-    await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+    await page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
     const stub = (method, result) =>
       app.evaluate(
         ({ dialog }, [name, value]) => {
@@ -276,12 +276,12 @@ test('dialogs: open and save round-trip through the main process', async (t) => 
     // Open: a chosen directory comes back authorized; a cancel comes back as null.
     const models = join(profile, 'models');
     await stub('showOpenDialog', { canceled: false, filePaths: [models] });
-    const picked = await page.evaluate(() => window.voicestudio.files.authorizeModelsDirectory());
+    const picked = await page.evaluate(() => window.voiceym.files.authorizeModelsDirectory());
     assert.equal(canonical(picked.path), canonical(models));
     assert.match(picked.authorization, /^[a-f0-9]{64}$/);
     await stub('showOpenDialog', { canceled: true, filePaths: [] });
     assert.equal(
-      await page.evaluate(() => window.voicestudio.files.authorizeModelsDirectory()),
+      await page.evaluate(() => window.voiceym.files.authorizeModelsDirectory()),
       null,
     );
 
@@ -290,18 +290,18 @@ test('dialogs: open and save round-trip through the main process', async (t) => 
     mkdirSync(dirname(output), { recursive: true });
     await stub('showSaveDialog', { canceled: false, filePath: output });
     const saved = await page.evaluate(() =>
-      window.voicestudio.files.saveData({
-        data: new TextEncoder().encode('VoiceStudio desktop test'),
+      window.voiceym.files.saveData({
+        data: new TextEncoder().encode('Voiceym desktop test'),
         suggestedName: 'dialog-test.txt',
       }),
     );
     assert.deepEqual(saved, { canceled: false, path: output });
-    assert.equal(readFileSync(output, 'utf8'), 'VoiceStudio desktop test');
+    assert.equal(readFileSync(output, 'utf8'), 'Voiceym desktop test');
 
     rmSync(output);
     await stub('showSaveDialog', { canceled: true });
     const cancelled = await page.evaluate(() =>
-      window.voicestudio.files.saveData({
+      window.voiceym.files.saveData({
         data: new TextEncoder().encode('never written'),
         suggestedName: 'dialog-test.txt',
       }),
@@ -323,7 +323,7 @@ test('harness: seeding survives a document without storage access', async (t) =>
 test('reload keeps the bridge working', async (t) => {
   await withApp(t, {}, async ({ page }) => {
     await page.reload();
-    await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
+    await page.waitForFunction(() => Boolean(window.voiceym?.files?.saveData));
     const facts = await bridgeFacts(page);
     assert.equal(facts.platform, process.platform);
     assert.equal(facts.saveData, 'function');

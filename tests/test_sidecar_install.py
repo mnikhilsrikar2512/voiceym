@@ -628,7 +628,7 @@ def test_weights_download_sends_the_bearer_string_not_the_token_record(monkeypat
     """#2163: `token_resolver.resolve()` returns a ResolvedToken record, but
     snapshot_download takes `token: str | None` and silently ignores a non-str
     — falling back to huggingface_hub's own ambient token discovery. So gated
-    engine weights 401 for a user whose token lives in VoiceStudio's Settings
+    engine weights 401 for a user whose token lives in Voiceym's Settings
     rather than HF's cache. Every other weights test here stubs resolve() to
     None, which is exactly why this went unnoticed."""
     from services.token_resolver import ResolvedToken
@@ -1651,7 +1651,7 @@ def test_a_submodule_tree_is_fetched_at_its_pinned_revision(monkeypatch):
     assert urls == []
 
     # At another revision: only the submodule is fetched again.
-    (sub / ".voicestudio_source_revision").write_text("old\n", encoding="utf-8")
+    (sub / ".voiceym_source_revision").write_text("old\n", encoding="utf-8")
     si._step_fetch_source(spec, si._new_job(spec.engine_id))
     assert urls == [extra.tarball_url]
 

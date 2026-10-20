@@ -1,4 +1,4 @@
-# VoiceStudio — OmniVoice GGUF Engine
+# Voiceym — OmniVoice GGUF Engine
 
 OmniVoice GGUF runs the same OmniVoice model as the [default
 engine](omnivoice.md), but through a native binary
@@ -66,7 +66,7 @@ Before reporting ready, the engine:
 
 - verifies the binary against the SHA-256 manifest (`bin/checksums.sha256`);
 - detects macOS Gatekeeper quarantine and prints the exact
-  `xattr -cr '/Applications/VoiceStudio.app'` fix;
+  `xattr -cr '/Applications/Voiceym.app'` fix;
 - restores a missing execute bit (a git clone or zip extract on POSIX can
   drop `+x`, which used to surface as a permission error mislabeled as
   out-of-memory — [#437](https://github.com/debpalash/VoiceStudio/issues/437)).

@@ -23,8 +23,8 @@ vi.mock('@/components/bridge', () => ({
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 let onState: (state: SiteBrowserState) => void;
 const ready = {
-  url: 'https://voicestudio.sh/',
-  title: 'VoiceStudio',
+  url: 'https://voiceym.example/',
+  title: 'Voiceym',
   loading: false,
   error: false,
   canGoBack: false,

@@ -8,7 +8,7 @@ import avatar6 from './contributors/Chang-Jin-Lee.png';
 import avatar7 from './contributors/Shivendra-Coherent.png';
 import avatar8 from './contributors/marreiradigital.jpg';
 
-// GitHub /repos/debpalash/VoiceStudio/contributors snapshot, 2026-09-28.
+// GitHub /repos/mnikhilsrikar2512/voiceym/contributors snapshot, 2026-09-28.
 // Human contributors with strictly more than 10 repository commits; bundled for offline use.
 export const homeContributors = [
   { login: 'debpalash', commits: 2781, avatar: avatar0 },

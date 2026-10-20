@@ -20,13 +20,13 @@ plugs:
   browser-support:
     interface: browser-support
     allow-sandbox: false
-name: voicestudio
+name: voiceym
 version: 0.5.7
-title: VoiceStudio
+title: Voiceym
 summary: ${metadata.listing.shortDescription}
 description: ${metadata.listing.description}
 apps:
-  voicestudio:
+  voiceym:
     plugs:
       - browser-support
       - desktop
@@ -46,7 +46,7 @@ apps:
 
 test('accepts canonical strict Snap metadata', () => {
   assert.deepEqual(verifySnapMetadata(snapYaml, { ...metadata, version: '0.5.7' }), {
-    name: 'voicestudio',
+    name: 'voiceym',
     version: '0.5.7',
     confinement: 'strict',
     base: 'core22',
@@ -118,15 +118,15 @@ for (const nested of [true, false]) test(
   `configures strict-confinement startup for a ${nested ? 'nested' : 'expanded'} Snap payload`,
   { skip: hasSquashfsTools ? false : 'squashfs-tools is not installed' },
   () => {
-    const workDir = mkdtempSync(resolve(tmpdir(), 'voicestudio-snap-repair-test-'));
+    const workDir = mkdtempSync(resolve(tmpdir(), 'voiceym-snap-repair-test-'));
     const source = resolve(workDir, 'source');
     const template = resolve(workDir, 'template');
-    const artifact = resolve(workDir, 'VoiceStudio.snap');
+    const artifact = resolve(workDir, 'Voiceym.snap');
     const repaired = resolve(workDir, 'repaired');
     try {
       mkdirSync(source);
       mkdirSync(template);
-      writeFileSync(resolve(source, 'command.sh'), '#!/bin/sh\nexec \"$SNAP/desktop-init.sh\" \"$SNAP/desktop-common.sh\" \"$SNAP/desktop-gnome-specific.sh\" \"$SNAP/voicestudio\" \"$@\"\n');
+      writeFileSync(resolve(source, 'command.sh'), '#!/bin/sh\nexec \"$SNAP/desktop-init.sh\" \"$SNAP/desktop-common.sh\" \"$SNAP/desktop-gnome-specific.sh\" \"$SNAP/voiceym\" \"$@\"\n');
       for (const script of ['desktop-init.sh', 'desktop-common.sh', 'desktop-gnome-specific.sh']) {
         writeFileSync(resolve(template, script), '#!/bin/sh\n');
       }

@@ -82,7 +82,7 @@ it('the renderer gets the photo as a data URL, never the signed download link', 
       get: async () => ({
         email: 'ana@example.com',
         displayName: 'Ana',
-        avatarUrl: 'https://app-s3.voicestudio.sh/a.png?X-Amz-Signature=secret',
+        avatarUrl: 'https://app-s3.voiceym.example/a.png?X-Amz-Signature=secret',
         personalOrganizationId: 'Or1',
         organizations: [],
       }),

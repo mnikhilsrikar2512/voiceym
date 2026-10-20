@@ -73,14 +73,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: VoiceStudioKit tests
-        working-directory: mobile/ios/VoiceStudioKit
+      - name: VoiceymKit tests
+        working-directory: mobile/ios/VoiceymKit
         run: swift test
 
       - name: Generate Xcode project
         run: |
           brew install xcodegen
-          xcodegen generate --spec mobile/ios/VoiceStudio/project.yml
+          xcodegen generate --spec mobile/ios/Voiceym/project.yml
 
       - name: Build app and UI tests (simulator)
         run: |
@@ -95,14 +95,14 @@ jobs:
           # for UI testing" (kAXErrorCannotComplete).
           xcrun simctl boot "$UDID" || true
           xcrun simctl bootstatus "$UDID" -b
-          xcodebuild -project mobile/ios/VoiceStudio/VoiceStudio.xcodeproj \
-            -scheme VoiceStudio -destination "id=$UDID" \
+          xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj \
+            -scheme Voiceym -destination "id=$UDID" \
             CODE_SIGNING_ALLOWED=NO build-for-testing
 
       - name: UI smoke test
         run: |
-          xcodebuild -project mobile/ios/VoiceStudio/VoiceStudio.xcodeproj \
-            -scheme VoiceStudio -destination "id=$SIM_UDID" \
+          xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj \
+            -scheme Voiceym -destination "id=$SIM_UDID" \
             -resultBundlePath "$RUNNER_TEMP/ui.xcresult" \
             CODE_SIGNING_ALLOWED=NO test-without-building
 
@@ -127,16 +127,16 @@ jobs:
       # release artifact.
       - name: Unsigned iPhone build
         run: |
-          xcodebuild -project mobile/ios/VoiceStudio/VoiceStudio.xcodeproj \
-            -scheme VoiceStudio -configuration Release -sdk iphoneos \
+          xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj \
+            -scheme Voiceym -configuration Release -sdk iphoneos \
             -destination 'generic/platform=iOS' -derivedDataPath "$RUNNER_TEMP/device" \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
           mkdir -p "$RUNNER_TEMP/ipa/Payload"
-          cp -R "$RUNNER_TEMP/device/Build/Products/Release-iphoneos/VoiceStudio.app" "$RUNNER_TEMP/ipa/Payload/"
-          (cd "$RUNNER_TEMP/ipa" && zip -qry "$RUNNER_TEMP/VoiceStudio-unsigned.ipa" Payload)
+          cp -R "$RUNNER_TEMP/device/Build/Products/Release-iphoneos/Voiceym.app" "$RUNNER_TEMP/ipa/Payload/"
+          (cd "$RUNNER_TEMP/ipa" && zip -qry "$RUNNER_TEMP/Voiceym-unsigned.ipa" Payload)
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: VoiceStudio-ios-unsigned
-          path: ${{ runner.temp }}/VoiceStudio-unsigned.ipa
+          name: Voiceym-ios-unsigned
+          path: ${{ runner.temp }}/Voiceym-unsigned.ipa
           retention-days: 7

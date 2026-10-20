@@ -14,7 +14,7 @@ function GithubIcon({ className }: { className?: string }) {
   );
 }
 
-const STARS_URL = 'https://api.github.com/repos/debpalash/VoiceStudio';
+const STARS_URL = 'https://api.github.com/repos/mnikhilsrikar2512/voiceym';
 const REFRESH_MS = 20 * 60 * 1000;
 // The last bundled count remains visible when GitHub cannot be reached.
 const BUNDLED_STARS = 43_638;

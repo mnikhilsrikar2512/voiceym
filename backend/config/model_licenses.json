@@ -92,7 +92,7 @@
       "audit_observations": {
         "commercial_inference": {
           "status": "mixed_bundle_requires_per_file_records",
-          "summary": "This repo contains unrelated models. VoiceStudio downloads Breeze TTS 2 Q8_0 and Sortformer 4spk v1 Q8_0 only. Both have noncommercial upstream signals but different governing terms; see file variants."
+          "summary": "This repo contains unrelated models. Voiceym downloads Breeze TTS 2 Q8_0 and Sortformer 4spk v1 Q8_0 only. Both have noncommercial upstream signals but different governing terms; see file variants."
         },
         "output_terms": {
           "status": "not_assessed",
@@ -100,7 +100,7 @@
         },
         "sources": [
           {
-            "url": "https://github.com/debpalash/VoiceStudio/blob/06c6e077f0fc35149efefc3561e9be5ae835d916/backend/config/models.yaml",
+            "url": "https://github.com/mnikhilsrikar2512/voiceym/blob/06c6e077f0fc35149efefc3561e9be5ae835d916/backend/config/models.yaml",
             "checked_at": "2026-10-09",
             "method": "read_pinned_source"
           }
@@ -1460,7 +1460,7 @@
           "tokenizer.json",
           "tokenization_voxcpm2.py",
           "MiniCPM-4 provenance",
-          "optional denoiser/text normalization (verify VoiceStudio route)"
+          "optional denoiser/text normalization (verify Voiceym route)"
         ]
       }
     },
@@ -2057,7 +2057,7 @@
             "method": "read_primary_source"
           },
           {
-            "url": "https://github.com/debpalash/VoiceStudio/blob/06c6e077f0fc35149efefc3561e9be5ae835d916/backend/engines/supertonic3/constants.py",
+            "url": "https://github.com/mnikhilsrikar2512/voiceym/blob/06c6e077f0fc35149efefc3561e9be5ae835d916/backend/engines/supertonic3/constants.py",
             "checked_at": "2026-10-09",
             "method": "read_primary_source"
           }
@@ -3022,8 +3022,8 @@
       "commercial_use": false,
       "review_status": "unreviewed",
       "credit": "Unresolved: record the author and required notice for each selected asset.",
-      "source_url": "https://github.com/debpalash/VoiceStudio/blob/main/docs/engine-acceptance.md",
-      "evidence_url": "https://github.com/debpalash/VoiceStudio/blob/main/docs/engine-acceptance.md",
+      "source_url": "https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engine-acceptance.md",
+      "evidence_url": "https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engine-acceptance.md",
       "configured_at": "backend/services/tts_backend.py; backend/services/rvc.py; backend/services/asr_backend.py",
       "notes": "Cannot enumerate every user asset from repository; represent unknown/unreviewed state explicitly, with user provenance inputs."
     }

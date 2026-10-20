@@ -46,14 +46,14 @@ def test_stream_frame_names_the_cause_and_stops_retries():
     assert payload["error_class"] == "RuntimeError"
     assert payload["terminal"] is True and payload["retryable"] is False
     assert "Install / Repair" in payload["detail"]
-    # Only VoiceStudio-owned text: the module name from the exception is not echoed.
+    # Only Voiceym-owned text: the module name from the exception is not echoed.
     assert "secret_pkg_name" not in str(payload)
 
 
 def test_response_hint_is_owned_text():
     resp = public_exception_response(
         ModuleNotFoundError("No module named 'C:/Users/someone/m'"),
-        fallback="VoiceStudio hit an internal error.",
+        fallback="Voiceym hit an internal error.",
     )
     assert resp["docs_topic"] == "ENGINE_DEPENDENCY_MISSING"
     assert "someone" not in str(resp)

@@ -4,30 +4,28 @@
 # Settings that cannot live in code: docs/maintainers/repository-settings.md
 
 # Governance and CI
-/.github/CODEOWNERS                    @debpalash
-/.github/workflows/                    @debpalash
-/.github/scripts/                      @debpalash
+/.github/CODEOWNERS                    @mnikhilsrikar2512
+/.github/workflows/                    @mnikhilsrikar2512
+/.github/scripts/                      @mnikhilsrikar2512
 
 # Licensing and contributor agreements
-/LICENSE                               @debpalash
-/LICENSE-NOTICE.md                     @debpalash
-/.github/CLA-*.md                      @debpalash
-/.github/CCLA-*.md                     @debpalash
+/LICENSE                               @mnikhilsrikar2512
+/LICENSE-NOTICE.md                     @mnikhilsrikar2512
 
 # Release, packaging, and container builds
-/electron/electron-builder.config.mjs  @debpalash
-/electron/build/                       @debpalash
-/electron/scripts/embed-appimage-update.mjs @debpalash
-/scripts/prepare_electron_release.py   @debpalash
-/scripts/check_electron_release_assets.py @debpalash
-/scripts/clear-release-rerun-assets.py @debpalash
-/scripts/verify-macos-signing.sh       @debpalash
-/deploy/                               @debpalash
-/docs/RELEASING.md                     @debpalash
+/electron/electron-builder.config.mjs  @mnikhilsrikar2512
+/electron/build/                       @mnikhilsrikar2512
+/electron/scripts/embed-appimage-update.mjs @mnikhilsrikar2512
+/scripts/prepare_electron_release.py   @mnikhilsrikar2512
+/scripts/check_electron_release_assets.py @mnikhilsrikar2512
+/scripts/clear-release-rerun-assets.py @mnikhilsrikar2512
+/scripts/verify-macos-signing.sh       @mnikhilsrikar2512
+/deploy/                               @mnikhilsrikar2512
+/docs/RELEASING.md                     @mnikhilsrikar2512
 
 # Version source, its mirrors, and lockfiles
-/package.json                          @debpalash
-/pyproject.toml                        @debpalash
-/backend/core/version.py               @debpalash
-/bun.lock                              @debpalash
-/uv.lock                               @debpalash
+/package.json                          @mnikhilsrikar2512
+/pyproject.toml                        @mnikhilsrikar2512
+/backend/core/version.py               @mnikhilsrikar2512
+/bun.lock                              @mnikhilsrikar2512
+/uv.lock                               @mnikhilsrikar2512

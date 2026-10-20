@@ -5,11 +5,11 @@ Copyright (c) voicebox contributors.
 
 Some MCP clients only speak stdio. They spawn this binary; we pipe each
 JSON-RPC message to ``http://127.0.0.1:<port>/mcp/`` (the FastMCP app mounted
-on the running VoiceStudio backend) and stream the server's response back.
+on the running Voiceym backend) and stream the server's response back.
 
 Environment variables:
   OMNIVOICE_URL        full backend base URL (http or https, may carry a
-                       path prefix, e.g. https://gpu-box/voicestudio). Wins
+                       path prefix, e.g. https://gpu-box/voiceym). Wins
                        over OMNIVOICE_HOST / OMNIVOICE_PORT.
   OMNIVOICE_PORT       backend port (default from config/app.json).
   OMNIVOICE_HOST       host (default 127.0.0.1).
@@ -143,7 +143,7 @@ async def _handle_request(
             _write_stdout({
                 "jsonrpc": "2.0",
                 "id": message.get("id"),
-                "error": {"code": -32000, "message": f"VoiceStudio MCP proxy got HTTP {response.status_code}"},
+                "error": {"code": -32000, "message": f"Voiceym MCP proxy got HTTP {response.status_code}"},
             })
             return
 
@@ -175,7 +175,7 @@ async def _run() -> int:
     api_key = os.environ.get("OMNIVOICE_API_KEY", "").strip()
     if api_key:
         if not _credentials_allowed(url):
-            _err("remote VoiceStudio API keys require https:// (set OMNIVOICE_URL)")
+            _err("remote Voiceym API keys require https:// (set OMNIVOICE_URL)")
             return 1
         forward_headers["Authorization"] = f"Bearer {api_key}"
 
@@ -183,7 +183,7 @@ async def _run() -> int:
 
     async with httpx.AsyncClient(timeout=httpx.Timeout(300.0)) as client:
         if not await _wait_for_backend(client, health_url, forward_headers):
-            _err(f"timed out waiting for VoiceStudio at {health_url} — is the app running?")
+            _err(f"timed out waiting for Voiceym at {health_url} — is the app running?")
             return 2
         try:
             while True:

@@ -100,7 +100,7 @@ it('hands an unexplained readiness failure to the default repair agent', async (
     })
     .mockResolvedValueOnce({ tts: { active: null, backends: [] } });
   const listener = vi.fn();
-  window.addEventListener('voicestudio:repair-agent-open', listener);
+  window.addEventListener('voiceym:repair-agent-open', listener);
   renderNotice();
 
   fireEvent.click(screen.getByRole('button', { name: 'repairAgent.fix' }));
@@ -112,7 +112,7 @@ it('hands an unexplained readiness failure to the default repair agent', async (
   }>;
   expect(event.detail.autoFix).toBe(true);
   expect(event.detail.report).toContain('ACTION_REQUEST');
-  window.removeEventListener('voicestudio:repair-agent-open', listener);
+  window.removeEventListener('voiceym:repair-agent-open', listener);
 });
 
 it('selects an installed compatible engine without opening Settings or an agent', async () => {
@@ -138,7 +138,7 @@ it('selects an installed compatible engine without opening Settings or an agent'
     return Promise.resolve({});
   });
   const listener = vi.fn();
-  window.addEventListener('voicestudio:repair-agent-open', listener);
+  window.addEventListener('voiceym:repair-agent-open', listener);
   renderNotice();
 
   fireEvent.click(screen.getByRole('button', { name: 'repairAgent.fix' }));
@@ -150,7 +150,7 @@ it('selects an installed compatible engine without opening Settings or an agent'
     }),
   );
   expect(listener).not.toHaveBeenCalled();
-  window.removeEventListener('voicestudio:repair-agent-open', listener);
+  window.removeEventListener('voiceym:repair-agent-open', listener);
 });
 
 it('joins an existing install instead of submitting the model twice', async () => {

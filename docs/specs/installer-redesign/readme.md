@@ -23,7 +23,7 @@ service, cache migration or replacement installer framework is proposed.
 Packaged CPU-only x64 bootstrap already shipped in [#2500](https://github.com/debpalash/VoiceStudio/pull/2500).
 The Electron install/uninstall guides and stable-only update policy were aligned in
 [#2578](https://github.com/debpalash/VoiceStudio/pull/2578).
-Package-managed installs can disable the updater with `VOICESTUDIO_DISABLE_UPDATER=1`
+Package-managed installs can disable the updater with `VOICEYM_DISABLE_UPDATER=1`
 ([#2557](https://github.com/debpalash/VoiceStudio/pull/2557)). Preserve these changes.
 Do not restore the removed Preview update channel or duplicate the landed and open
 work listed in the [review](review.md#integration-refresh-2026-10-05).

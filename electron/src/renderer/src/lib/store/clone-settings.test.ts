@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const KEY = 'voicestudio.clone.settings.v1';
+const KEY = 'voiceym.clone.settings.v1';
 
 async function loadModule(): Promise<typeof import('./clone-settings')> {
   vi.resetModules();

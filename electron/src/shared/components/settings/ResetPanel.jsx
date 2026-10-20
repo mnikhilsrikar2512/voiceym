@@ -219,7 +219,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
       toast.success(
         steps.restart
           ? t('settings.reset_done_restart', {
-              defaultValue: 'Reset complete — restarting VoiceStudio…',
+              defaultValue: 'Reset complete — restarting Voiceym…',
             })
           : t('settings.reset_done', { defaultValue: 'Reset complete — reloading…' }),
       );
@@ -295,7 +295,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
     },
     {
       id: 'everything',
-      label: t('settings.reset_tier_everything', { defaultValue: 'Everything VoiceStudio did' }),
+      label: t('settings.reset_tier_everything', { defaultValue: 'Everything Voiceym did' }),
       hint: t('settings.reset_tier_everything_hint', {
         defaultValue:
           'Back to a fresh install: settings, voices, projects, audio, models, engines, logs. The app restarts on the first-run screen.',
@@ -313,7 +313,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
         icon={RotateCcw}
         title={t('settings.reset', { defaultValue: 'Reset & remove' })}
         description={t('settings.reset_desc', {
-          defaultValue: 'Put part — or all — of VoiceStudio back to how it shipped.',
+          defaultValue: 'Put part — or all — of Voiceym back to how it shipped.',
         })}
       >
         {shellless ? (
@@ -435,7 +435,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
       <Dialog
         open={open}
         onClose={() => !busy && setOpen(false)}
-        title={t('settings.reset_confirm_title', { defaultValue: 'Reset VoiceStudio?' })}
+        title={t('settings.reset_confirm_title', { defaultValue: 'Reset Voiceym?' })}
         size="md"
         footer={
           <>
@@ -484,7 +484,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
               <span data-testid="reset-shared-warning">
                 {t('settings.reset_models_shared_warning', {
                   defaultValue:
-                    'The model cache is the standard Hugging Face cache, shared with other AI tools on this machine — removing it may delete models VoiceStudio never downloaded. Everything VoiceStudio needs will download again on next use.',
+                    'The model cache is the standard Hugging Face cache, shared with other AI tools on this machine — removing it may delete models Voiceym never downloaded. Everything Voiceym needs will download again on next use.',
                 })}
               </span>
             </p>
@@ -525,7 +525,7 @@ export default function ResetPanel({ _forceAdvanced = false } = {}) {
             <p className="m-0 [font-family:var(--font-sans)] text-[length:var(--text-sm)] leading-[1.6] text-[var(--chrome-fg-muted)]">
               {t('settings.reset_restart_note', {
                 defaultValue:
-                  'VoiceStudio will restart its engine to finish. This takes a few seconds.',
+                  'Voiceym will restart its engine to finish. This takes a few seconds.',
               })}
             </p>
           )}

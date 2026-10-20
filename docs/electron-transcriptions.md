@@ -32,7 +32,7 @@ native dictation and target-app delivery are described below. Cross-application
 history migration remains separate parity work.
 
 Electron installs Chromium permission-check and request handlers before either
-the main window or recorder loads. Only the trusted VoiceStudio top-level origin
+the main window or recorder loads. Only the trusted Voiceym top-level origin
 receives audio capture; camera, embedded-frame and foreign-origin requests are
 denied. The operating system's microphone permission remains authoritative.
 

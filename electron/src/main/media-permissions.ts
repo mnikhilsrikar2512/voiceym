@@ -21,7 +21,7 @@ export function allowsRendererPermission(
 
 /**
  * Electron requires both handlers for complete Chromium permission handling.
- * VoiceStudio grants its trusted renderer audio capture and the small set of
+ * Voiceym grants its trusted renderer audio capture and the small set of
  * browser permissions its existing controls use; every foreign origin and
  * camera request remains denied.
  */

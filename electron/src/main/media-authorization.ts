@@ -47,7 +47,7 @@ export async function authorizeModelsDirectory(dataDir: string, selected: string
   await mkdir(selected, { recursive: true });
   const path = await realpath(selected);
   if (!(await stat(path)).isDirectory()) throw new Error('Expected a directory');
-  const probe = join(path, `.voicestudio-write-test-${randomBytes(8).toString('hex')}`);
+  const probe = join(path, `.voiceym-write-test-${randomBytes(8).toString('hex')}`);
   try {
     await writeFile(probe, 'ok', { flag: 'wx', mode: 0o600 });
   } catch (error) {

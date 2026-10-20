@@ -1,7 +1,7 @@
 """CLI/module bridge for terminals, editor extensions, and agent hooks.
 
 Transcribes files and reads the speech capability document from a local,
-standalone or remote VoiceStudio backend.
+standalone or remote Voiceym backend.
 
 Native dictation control (start/stop/toggle/status and ``--insert``) was served
 by the retired Tauri desktop shell on port 3902. The Electron app has no such
@@ -31,8 +31,8 @@ DEFAULT_ENGINE_URL = f"http://127.0.0.1:{DEFAULT_BACKEND_PORT}"
 
 
 def _default_engine_url() -> str:
-    """VOICESTUDIO_URL, else the backend's OMNIVOICE_PORT on loopback."""
-    explicit = os.environ.get("VOICESTUDIO_URL", "").strip()
+    """VOICEYM_URL, else the backend's OMNIVOICE_PORT on loopback."""
+    explicit = os.environ.get("VOICEYM_URL", "").strip()
     if explicit:
         return explicit
     try:
@@ -48,7 +48,7 @@ class SpeechClientError(RuntimeError):
 
 class _RejectCredentialRedirect(request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ARG002
-        raise SpeechClientError("VoiceStudio refused a credentialed redirect")
+        raise SpeechClientError("Voiceym refused a credentialed redirect")
 
 
 def _join_url(base_url: str, path: str) -> str:
@@ -82,10 +82,10 @@ def _open(req: request.Request, timeout: float = 300.0) -> tuple[bytes, str]:
     target = urlsplit(req.full_url)
     scheme = target.scheme.lower()
     if scheme not in {"http", "https"}:
-        raise SpeechClientError("VoiceStudio URLs must use http:// or https://")
+        raise SpeechClientError("Voiceym URLs must use http:// or https://")
     credentialed = bool(req.get_header("Authorization"))
     if credentialed and scheme != "https" and not _is_loopback_host(target.hostname):
-        raise SpeechClientError("Remote VoiceStudio credentials require https://")
+        raise SpeechClientError("Remote Voiceym credentials require https://")
     try:
         opener = (
             request.build_opener(_RejectCredentialRedirect())
@@ -97,7 +97,7 @@ def _open(req: request.Request, timeout: float = 300.0) -> tuple[bytes, str]:
     except error.HTTPError as exc:
         raise SpeechClientError(_decode_error(exc)) from exc
     except error.URLError as exc:
-        raise SpeechClientError(f"VoiceStudio is unavailable: {exc.reason}") from exc
+        raise SpeechClientError(f"Voiceym is unavailable: {exc.reason}") from exc
 
 
 def _json_request(method: str, url: str, payload: Any | None = None) -> Any:
@@ -109,7 +109,7 @@ def _json_request(method: str, url: str, payload: Any | None = None) -> Any:
     try:
         return json.loads(body)
     except json.JSONDecodeError as exc:
-        raise SpeechClientError("VoiceStudio returned invalid JSON") from exc
+        raise SpeechClientError("Voiceym returned invalid JSON") from exc
 
 
 def _encode_multipart(
@@ -119,7 +119,7 @@ def _encode_multipart(
     fields: dict[str, str],
     boundary: str | None = None,
 ) -> tuple[bytes, str]:
-    boundary = boundary or f"voicestudio-{secrets.token_hex(16)}"
+    boundary = boundary or f"voiceym-{secrets.token_hex(16)}"
     marker = boundary.encode("ascii")
     parts: list[bytes] = []
     for name, value in fields.items():
@@ -160,7 +160,7 @@ NATIVE_CONTROL_RETIRED = (
 
 def _capabilities(args: argparse.Namespace) -> int:
     result = _json_request(
-        "GET", _join_url(args.engine_url, "/.well-known/voicestudio-speech")
+        "GET", _join_url(args.engine_url, "/.well-known/voiceym-speech")
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
@@ -211,8 +211,8 @@ def _transcribe(args: argparse.Namespace) -> int:
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="voicestudio-speech",
-        description="Consume VoiceStudio's local speech platform.",
+        prog="voiceym-speech",
+        description="Consume Voiceym's local speech platform.",
     )
     parser.add_argument(
         "--engine-url",
@@ -251,7 +251,7 @@ def main(argv: list[str] | None = None) -> int:
             return _capabilities(args)
         raise SpeechClientError(NATIVE_CONTROL_RETIRED)
     except (SpeechClientError, KeyError) as exc:
-        print(f"voicestudio-speech: {exc}", file=sys.stderr)
+        print(f"voiceym-speech: {exc}", file=sys.stderr)
         return 2
 
 

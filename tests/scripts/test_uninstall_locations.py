@@ -2,7 +2,7 @@
 retired Tauri ones.
 
 The Electron shell keeps its managed Python runtime, window state, logs and
-updater cache under its VoiceStudio app folder (app.getPath('userData'),
+updater cache under its Voiceym app folder (app.getPath('userData'),
 electron/src/main/backend.ts). A script that only knew the Tauri identifier
 left gigabytes behind on every Electron uninstall.
 
@@ -27,11 +27,11 @@ PS1 = os.path.join(REPO, "scripts", "uninstall.ps1")
 def _layout(tmp_path):
     home = tmp_path / "home"
     if platform.system() == "Darwin":
-        user_data = home / "Library/Application Support/VoiceStudio"
-        logs = home / "Library/Logs/VoiceStudio"
+        user_data = home / "Library/Application Support/Voiceym"
+        logs = home / "Library/Logs/Voiceym"
         legacy = home / "Library/Application Support/com.debpalash.omnivoice-studio"
     else:
-        user_data = home / ".config/VoiceStudio"
+        user_data = home / ".config/Voiceym"
         logs = user_data / "logs"
         legacy = home / ".local/share/com.debpalash.omnivoice-studio"
     for path in (user_data / "runtime/project/.venv", logs, legacy / "project"):
@@ -60,7 +60,7 @@ def _run(tmp_path, home, *args):
 @pytest.mark.skipif(sys.platform.startswith("win"), reason="bash script is macOS/Linux-only")
 def test_sh_removes_electron_and_legacy_tauri_folders(tmp_path):
     home, user_data, logs, legacy = _layout(tmp_path)
-    owned = tmp_path / "fast-disk" / "VoiceStudio"
+    owned = tmp_path / "fast-disk" / "Voiceym"
     (owned / "project/.venv").mkdir(parents=True)
     (user_data / "runtime-location.json").write_text(json.dumps({"root": str(owned), "owned": True}))
 
@@ -88,7 +88,7 @@ def test_sh_removes_electron_and_legacy_tauri_folders(tmp_path):
 )
 def test_sh_keeps_runtime_roots_the_app_does_not_own(tmp_path, location):
     home, user_data, _, _ = _layout(tmp_path)
-    root = tmp_path / "elsewhere" / location.get("name", "VoiceStudio")
+    root = tmp_path / "elsewhere" / location.get("name", "Voiceym")
     root.mkdir(parents=True)
     (user_data / "runtime-location.json").write_text(
         json.dumps({"root": str(root), "owned": location["owned"]})
@@ -110,7 +110,7 @@ def test_sh_keeps_runtime_roots_the_app_does_not_own(tmp_path, location):
 ])
 def test_sh_ignores_damaged_or_unverified_runtime_records(tmp_path, make_file):
     home, user_data, _, _ = _layout(tmp_path)
-    root = tmp_path / "unrelated" / "VoiceStudio"
+    root = tmp_path / "unrelated" / "Voiceym"
     (root / "keep-me").mkdir(parents=True)
     (user_data / "runtime-location.json").write_text(make_file(str(root)))
 
@@ -128,12 +128,12 @@ def test_scripts_no_longer_cite_the_removed_tauri_backend():
 def test_ps1_targets_electron_folders_and_its_uninstaller():
     with open(PS1, encoding="utf-8-sig") as handle:
         text = handle.read()
-    assert "$electronAppName = 'VoiceStudio'" in text
+    assert "$electronAppName = 'Voiceym'" in text
     assert "Join-Path $appData $electronAppName" in text
-    assert "$electronUpdaterCache = 'voicestudio-electron-updater'" in text
+    assert "$electronUpdaterCache = 'voiceym-electron-updater'" in text
     assert "runtime-location.json" in text and "$location.owned -eq $true" in text
     assert "(Join-Path $root 'project') -PathType Container" in text
-    assert "'Uninstall VoiceStudio.exe'" in text
+    assert "'Uninstall Voiceym.exe'" in text
     # App removal is refused before cleanup when the caller is elevated.
     # Behavioral coverage lives in test_uninstall_elevation.py.
     assert "if ($Yes -and $isElevated)" in text

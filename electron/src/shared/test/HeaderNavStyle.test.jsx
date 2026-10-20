@@ -59,7 +59,7 @@ describe('Header — rail mode (default)', () => {
         tts: {
           active: 'omni',
           backends: [
-            { id: 'omni', display_name: 'VoiceStudio (k2-fsa/OmniVoice, 600+ languages)' },
+            { id: 'omni', display_name: 'Voiceym (k2-fsa/OmniVoice, 600+ languages)' },
           ],
         },
         asr: { active: 'whisper', backends: [{ id: 'whisper', display_name: 'Whisper' }] },
@@ -121,7 +121,7 @@ describe('Header — rail mode (default)', () => {
     expect(container.querySelector('.header-area--tabs')).toBeNull();
     expect(screen.queryByTestId('titletab-dub')).toBeNull();
     // Breadcrumb (current view) + centred wordmark both stay.
-    expect(container.textContent).toMatch(/VoiceStudio/);
+    expect(container.textContent).toMatch(/Voiceym/);
     expect(screen.getByTestId('voice-studio-logo')).toBeInTheDocument();
     expect(container.textContent).toMatch(/Dub/);
   });
@@ -169,7 +169,7 @@ describe('Header — titlebar tabs mode', () => {
 
   it('drops the centred wordmark — the tabs need that room', () => {
     const { container } = renderHeader({ navStyle: 'tabs' });
-    expect(container.textContent).not.toMatch(/VoiceStudio/);
+    expect(container.textContent).not.toMatch(/Voiceym/);
     expect(screen.queryByTestId('voice-studio-logo')).toBeNull();
   });
 });

@@ -1,5 +1,5 @@
 {
-  "name": "voicestudio-install",
+  "name": "voiceym-install",
   "account_id": "312a0af0ff35f6e2d1c77df2925d17dd",
   "main": "worker.mjs",
   "compatibility_date": "2026-08-01",
@@ -7,8 +7,8 @@
   "preview_urls": true,
   "keep_vars": true,
   "routes": [
-    { "pattern": "voicestudio.sh/install*", "zone_name": "voicestudio.sh" },
-    { "pattern": "www.voicestudio.sh/install*", "zone_name": "voicestudio.sh" }
+    { "pattern": "voiceym.example/install*", "zone_name": "voiceym.example" },
+    { "pattern": "www.voiceym.example/install*", "zone_name": "voiceym.example" }
   ],
   "rules": [
     { "type": "Text", "globs": ["**/*.sh", "**/*.ps1"], "fallthrough": true }

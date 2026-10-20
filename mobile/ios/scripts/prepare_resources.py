@@ -57,7 +57,7 @@ def prepare(output, info):
         lines = [f'{json.dumps(k)} = {json.dumps(lookup(locale, v) or lookup(english, v), ensure_ascii=True)};' for k, v in permissions.items()]
         (localized / "InfoPlist.strings").write_text("\n".join(lines) + "\n")
     version = json.loads((ROOT / "package.json").read_text())["version"]
-    data = plistlib.loads((IOS / "VoiceStudio/Info.plist").read_bytes())
+    data = plistlib.loads((IOS / "Voiceym/Info.plist").read_bytes())
     data["CFBundleShortVersionString"] = version
     data["CFBundleVersion"] = "1"
     data["CFBundleLocalizations"] = sorted(path.stem for path in source.glob("*.json"))

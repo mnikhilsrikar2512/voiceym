@@ -62,7 +62,7 @@ def status() -> dict:
 def _download(url: str, destination: Path, digest: str, expected_size: int) -> None:
     if not url.startswith("https://github.com/"):
         raise ValueError("audio.cpp downloads require the pinned GitHub release")
-    request = urllib.request.Request(url, headers={"User-Agent": "VoiceStudio"})
+    request = urllib.request.Request(url, headers={"User-Agent": "Voiceym"})
     hasher = hashlib.sha256()
     received = 0
     with urllib.request.urlopen(request, timeout=30) as response, destination.open("wb") as out:

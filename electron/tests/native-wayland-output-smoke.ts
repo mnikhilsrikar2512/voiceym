@@ -8,15 +8,15 @@ assert.equal(process.platform, 'linux', 'Wayland output verification requires Li
 assert(process.env.WAYLAND_DISPLAY, 'Wayland output verification requires WAYLAND_DISPLAY');
 
 const helper = new DictationOutputClient(
-  process.env.VOICESTUDIO_NATIVE_OUTPUT_EXE ||
-    resolve('native/desktop-bridge/target/debug/voicestudio-desktop-bridge'),
+  process.env.VOICEYM_NATIVE_OUTPUT_EXE ||
+    resolve('native/desktop-bridge/target/debug/voiceym-desktop-bridge'),
 );
 try {
   const session = Number(await helper.request({ method: 'begin', origin: 'tray' }));
   assert(Number.isSafeInteger(session) && session > 0);
   await helper.request({ method: 'activate', session });
   assert.equal(
-    await helper.request({ method: 'deliver', session, text: 'VoiceStudio Wayland smoke' }),
+    await helper.request({ method: 'deliver', session, text: 'Voiceym Wayland smoke' }),
     'copied',
   );
   await assert.rejects(

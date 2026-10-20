@@ -59,7 +59,7 @@ def test_home_keeps_creation_actions_with_open_source_heading():
     assert "t('homeUi.subtitle')" in home
     assert "<HomeContributors />" in home
     assert "group.map(" in home
-    assert "browser.open('https://voicestudio.sh')" in home
+    assert "browser.open('https://voiceym.example')" in home
     assert "PanelLeftOpenIcon" not in home
 
 

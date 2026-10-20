@@ -1,6 +1,6 @@
 """Per-model licence acceptance: a non-commercial-category model is unusable until accepted.
 
-VoiceStudio is not the licensor of any model and cannot grant model access.
+Voiceym is not the licensor of any model and cannot grant model access.
 Acceptance records that the user confirmed they have the rights the model's
 own licence requires (for example non-commercial use, or a separate grant
 from the rights holder). It is a local, honest-acknowledgement gate, not a
@@ -46,7 +46,7 @@ class ModelLicenceNotAccepted(RuntimeError):
             f"Licence not accepted for {names}. Review and accept it in Model Catalogue."
             if models
             else "Model licence records are unreadable, so models cannot be verified. "
-            "Reinstall or update VoiceStudio."
+            "Reinstall or update Voiceym."
         )
         self.reason = reason
 

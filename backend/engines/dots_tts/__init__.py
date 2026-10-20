@@ -86,7 +86,7 @@ class DotsTTSBackend(SubprocessBackend):
         if sys.platform == "win32":
             return False, (
                 "dots.tts is not supported on Windows — upstream targets "
-                "Linux and macOS only. Run VoiceStudio under WSL2, or use a "
+                "Linux and macOS only. Run Voiceym under WSL2, or use a "
                 "Linux/macOS host. See docs/engines/dots-tts.md."
             )
 
@@ -103,13 +103,13 @@ class DotsTTSBackend(SubprocessBackend):
             return False, (
                 "dots.tts venv not found. Set OMNIVOICE_DOTS_TTS_DIR to your "
                 "dots.tts clone (the directory containing pyproject.toml) and "
-                "restart VoiceStudio. CUDA or CPU only (no MPS). See "
+                "restart Voiceym. CUDA or CPU only (no MPS). See "
                 "docs/engines/dots-tts.md for the full install walk-through."
             )
         if not DOTS_TTS_SIDECAR_SCRIPT.exists():
             return False, (
                 "dots.tts sidecar script missing at "
-                f"{DOTS_TTS_SIDECAR_SCRIPT} — reinstall VoiceStudio."
+                f"{DOTS_TTS_SIDECAR_SCRIPT} — reinstall Voiceym."
             )
         return True, "ok (CUDA when present, else CPU)"
 

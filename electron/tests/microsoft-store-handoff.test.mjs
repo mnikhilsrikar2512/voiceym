@@ -7,8 +7,8 @@ import test from 'node:test';
 import { createMicrosoftStoreHandoff } from '../../scripts/create_microsoft_store_handoff.mjs';
 
 test('creates a Partner Center handoff only from validated signed packages', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'voicestudio-microsoft-store-handoff-'));
-  const file = 'VoiceStudio-MicrosoftStore-0.5.7-win-x64.exe';
+  const dir = mkdtempSync(join(tmpdir(), 'voiceym-microsoft-store-handoff-'));
+  const file = 'Voiceym-MicrosoftStore-0.5.7-win-x64.exe';
   const packagePath = join(dir, file);
   writeFileSync(packagePath, 'signed installer fixture');
   const updateManifest = 'electron-microsoft-store-stable-win32-x64.yml';
@@ -46,13 +46,13 @@ test('creates a Partner Center handoff only from validated signed packages', () 
   assert.equal(handoff.packages[0].updateManifest, updateManifest);
   assert.equal(
     handoff.packages[0].url,
-    'https://github.com/debpalash/VoiceStudio/releases/download/v0.5.7/' + file,
+    'https://github.com/mnikhilsrikar2512/voiceym/releases/download/v0.5.7/' + file,
   );
   assert.deepEqual(JSON.parse(readFileSync(output, 'utf8')), handoff);
 });
 
 test('rejects unsigned or non-versioned handoffs', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'voicestudio-microsoft-store-reject-'));
+  const dir = mkdtempSync(join(tmpdir(), 'voiceym-microsoft-store-reject-'));
   assert.throws(
     () =>
       createMicrosoftStoreHandoff({

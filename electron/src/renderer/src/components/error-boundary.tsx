@@ -14,7 +14,7 @@ import { Button } from './ui/button';
 import { openRepairAgent } from '@/lib/repair-agent-events';
 import { captureException } from '@shared/utils/analytics';
 
-const MODULE_RETRY_PREFIX = 'voicestudio.moduleRetry:';
+const MODULE_RETRY_PREFIX = 'voiceym.moduleRetry:';
 const reloadRenderer = () => window.location.reload();
 
 function claimModuleRetry(message: string): string | null {
@@ -119,7 +119,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { error: E
   }
   componentDidCatch(error: Error, info: ErrorInfo) {
     captureException(error, 'renderer:react-boundary');
-    console.error('[VoiceStudio UI]', error, info.componentStack);
+    console.error('[Voiceym UI]', error, info.componentStack);
   }
   render() {
     return this.state.error ? (

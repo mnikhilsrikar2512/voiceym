@@ -3,7 +3,7 @@
 Fail-before/pass-after: before the sentinel module existed, a backend process
 death in a browser/dev/Docker deployment left NO backend-side evidence at all
 (crash_log.txt is only written on *caught* route exceptions), so the next run
-had nothing to report and "Can't reach the local VoiceStudio backend" arrived
+had nothing to report and "Can't reach the local Voiceym backend" arrived
 with zero diagnostics. These tests pin the whole forensics contract: a
 leftover sentinel with a dead pid becomes a crash record; a clean shutdown
 never does; a live second instance is never misreported; the record store
@@ -288,7 +288,7 @@ def test_idle_shell_exit_is_retained_without_becoming_a_user_warning(sentinel_en
     record = {
         "last_activity": None,
         "log_tail": [
-            "INFO VoiceStudio model loaded successfully.",
+            "INFO Voiceym model loaded successfully.",
             "INFO Preload complete - model ready.",
         ],
     }

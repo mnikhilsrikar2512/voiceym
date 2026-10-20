@@ -20,7 +20,7 @@ engine can do expressively in [expressive-speech](../expressive-speech.md);
 sidecar disk footprints in [disk-usage](disk-usage.md); the bar a new engine
 must clear in [engine-acceptance](../engine-acceptance.md).
 
-New to VoiceStudio? Install the app first — [macOS](../install/macos.md)
+New to Voiceym? Install the app first — [macOS](../install/macos.md)
 (first launch needs the one-time right-click → **Open** Gatekeeper
 approval), [Windows](../install/windows.md), [Linux](../install/linux.md),
 [Docker](../install/docker.md).
@@ -29,7 +29,7 @@ approval), [Windows](../install/windows.md), [Linux](../install/linux.md),
 
 | Engine | Guide | Runs on | Cloning | Enabled by |
 |---|---|---|---|---|
-| VoiceStudio (OmniVoice) — **default** | [omnivoice](omnivoice.md) | CUDA · MPS · CPU | ✅ | installed by default |
+| Voiceym (OmniVoice) — **default** | [omnivoice](omnivoice.md) | CUDA · MPS · CPU | ✅ | installed by default |
 | VoxCPM2 | [voxcpm2](voxcpm2.md) | CUDA · MPS · CPU | ✅ + voice design | `pip install "voxcpm>=2.0.3"` |
 | MOSS-TTS-Nano | [moss-tts-nano](moss-tts-nano.md) | CUDA · CPU | ✅ (ref only) | clone + `uv pip install -e .` |
 | KittenTTS | [kittentts](kittentts.md) | CPU | — (8 preset voices) | `pip install kittentts` |
@@ -56,7 +56,7 @@ as `max_ref_seconds` and `ref_strategy`.
 
 | Engine | Uses | From a longer clip |
 |---|---|---|
-| VoiceStudio (OmniVoice), OmniVoice (subprocess) | up to 20 s | picks the 15 s passage with the most speech and transcribes it (`best_window`) |
+| Voiceym (OmniVoice), OmniVoice (subprocess) | up to 20 s | picks the 15 s passage with the most speech and transcribes it (`best_window`) |
 | VoxCPM2 | up to 30 s | keeps the first 30 s after edge-silence trim (`head`) |
 | Other engines | not verified | the clip is passed through (`null`) |
 

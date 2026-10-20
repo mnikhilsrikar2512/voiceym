@@ -11,7 +11,7 @@
 export const LEGACY_API_KEY_STORAGE_KEY = 'ov_api_key';
 export const ADMIN_SESSION_STORAGE_KEY = 'ov_admin_session';
 const ADMIN_SESSION_EPOCH_STORAGE_KEY = 'ov_admin_session_epoch';
-export const CSRF_HEADER_NAME = 'X-VoiceStudio-CSRF';
+export const CSRF_HEADER_NAME = 'X-Voiceym-CSRF';
 
 const ADMIN_SESSION_RE = /^ovs_admin_session_[A-Za-z0-9_-]{43}$/;
 const WS_TICKET_RE = /^ovs_ws_ticket_[A-Za-z0-9_-]{43}$/;

@@ -1,7 +1,7 @@
 // Integration directory links, not sponsors, rankings, or connected accounts.
 // Capabilities are not declared here: the Electron setup registry
 // (electron/src/renderer/src/features/integrations/setup-registry.ts) is the
-// only place that claims what an entry actually does with VoiceStudio.
+// only place that claims what an entry actually does with Voiceym.
 // Official icon sources and verification links: docs/integration-directory.md.
 import genericLogo from '../assets/integrations/integration-generic.svg';
 import twilioLogo from '../assets/integrations/twilio.png';
@@ -15,7 +15,7 @@ import mcpLogo from '../assets/integrations/mcp.png';
 import claudeLogo from '../assets/integrations/claude.svg';
 import cursorLogo from '../assets/integrations/cursor.svg';
 import openaiLogo from '../assets/integrations/openai.svg';
-import voiceStudioLogo from '../assets/integrations/voicestudio.svg';
+import voiceymLogo from '../assets/integrations/voiceym.svg';
 
 export const VOICE_AI_DIRECTORY = [
   {
@@ -81,8 +81,8 @@ export const VOICE_AI_DIRECTORY = [
     logoUrl: openaiLogo,
   },
   {
-    name: 'VoiceStudio API',
-    url: 'https://github.com/debpalash/VoiceStudio',
-    logoUrl: voiceStudioLogo,
+    name: 'Voiceym API',
+    url: 'https://github.com/mnikhilsrikar2512/voiceym',
+    logoUrl: voiceymLogo,
   },
 ];

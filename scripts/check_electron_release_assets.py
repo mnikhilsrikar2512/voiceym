@@ -79,7 +79,7 @@ def verify_release(
         if target in OPTIONAL_TARGETS:
             # Skip only when NOTHING of this target is published: an installer
             # or blockmap without its manifest is an incomplete release.
-            payload = f"VoiceStudio-Electron-{version}-{os_token}-{arch}{extension}"
+            payload = f"Voiceym-Electron-{version}-{os_token}-{arch}{extension}"
             traces = (manifest_name, payload, f"{payload}.blockmap")
             if not manifest_path.is_file() and not any(name in assets for name in traces):
                 continue
@@ -108,7 +108,7 @@ def verify_release(
             raise ReleaseContractError(
                 f"{manifest_name} has version {declared_version}, expected {version}"
             )
-        expected_artifact = f"VoiceStudio-Electron-{version}-{os_token}-{arch}{extension}"
+        expected_artifact = f"Voiceym-Electron-{version}-{os_token}-{arch}{extension}"
         if artifact != expected_artifact or legacy_path != artifact:
             raise ReleaseContractError(f"{manifest_name} points at unexpected artifact {artifact}")
         if legacy_sha != file_sha or len(file_sha) < 80:

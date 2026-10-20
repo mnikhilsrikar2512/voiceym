@@ -3,7 +3,7 @@ OpenAI-compatible TTS & STT API — Phase 3.2 (ROADMAP.md P0).
 
 Drop-in replacement for OpenAI's audio endpoints so that any tool speaking the
 OpenAI protocol (the official ``openai`` SDK, the OpenAI Agents SDK voice
-pipeline, pipecat, LiveKit, litellm, n8n, etc.) can use VoiceStudio as a local
+pipeline, pipecat, LiveKit, litellm, n8n, etc.) can use Voiceym as a local
 backend with zero code changes.
 
 Endpoints
@@ -13,16 +13,16 @@ Endpoints
     POST /v1/audio/translations    → STT + translate to English (Whisper engines)
     GET  /v1/models                → OpenAI aliases + installed engines
     GET  /v1/models/{id}           → one model
-    GET  /v1/audio/voices          → list available voices (VoiceStudio extension)
+    GET  /v1/audio/voices          → list available voices (Voiceym extension)
 
 Errors on these routes use OpenAI's shape,
 ``{"error": {"message", "type", "param", "code"}}``, so the SDK raises typed
 errors with a readable message; request-validation failures are 400 (OpenAI's
 status) rather than FastAPI's 422. The original ``detail`` is kept alongside
-for existing VoiceStudio clients.
+for existing Voiceym clients.
 
 The router delegates to the active TTS/ASR backends via the same adapter
-protocol used by the rest of VoiceStudio, so engine selection, GPU offloading,
+protocol used by the rest of Voiceym, so engine selection, GPU offloading,
 model loading, and invisible provenance watermarking (services.watermark,
 #1169) all work identically.
 
@@ -88,7 +88,7 @@ def _openai_error_body(status: int, message: str, *, param=None, code=None, deta
             "param": param,
             "code": code,
         },
-        # Kept for VoiceStudio-aware clients that read FastAPI's `detail`.
+        # Kept for Voiceym-aware clients that read FastAPI's `detail`.
         "detail": message if detail is None else detail,
     }
 
@@ -162,7 +162,7 @@ _OPENAI_TTS_MODEL_RE = re.compile(r"^(tts-1(-hd)?|gpt-[a-z0-9.]+(-mini)?-tts)(-[
 #: engine; these are listed so clients that validate the model list find them.
 OPENAI_STT_MODELS = ("whisper-1", "gpt-4o-transcribe", "gpt-4o-mini-transcribe")
 
-# OpenAI's named voices aren't real voices in VoiceStudio. Map them to the
+# OpenAI's named voices aren't real voices in Voiceym. Map them to the
 # active engine's default voice so callers that hardcode "alloy" (or the
 # Agents SDK's default "ash") don't get an engine-preset error.
 _OPENAI_VOICE_ALIASES = {
@@ -246,7 +246,7 @@ class SpeechRequest(BaseModel):
     model: str = Field(
         default="omnivoice",
         description=(
-            "TTS model to use. Maps to VoiceStudio engine IDs: "
+            "TTS model to use. Maps to Voiceym engine IDs: "
             "'omnivoice', 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. "
             "OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated "
             "snapshots) are aliases for the active engine."
@@ -260,7 +260,7 @@ class SpeechRequest(BaseModel):
     voice: Union[str, dict] = Field(
         default="default",
         description=(
-            "Voice to use. For VoiceStudio: pass a voice profile ID, a voice "
+            "Voice to use. For Voiceym: pass a voice profile ID, a voice "
             "profile name (case-insensitive; an ID wins, and a name shared by "
             "several profiles is a 409 listing their IDs), 'default', "
             "or a KittenTTS preset name (also accepted as OpenAI's "
@@ -273,7 +273,7 @@ class SpeechRequest(BaseModel):
         default=None,
         max_length=4096,
         description="OpenAI's voice-style instructions, forwarded as the engine's style "
-        "instruction (OmniVoice keeps only its voice-design tags). VoiceStudio's "
+        "instruction (OmniVoice keeps only its voice-design tags). Voiceym's "
         "`instruct` wins when both are sent.",
     )
     response_format: SpeechFormat = Field(
@@ -291,7 +291,7 @@ class SpeechRequest(BaseModel):
         description="'audio' streams raw audio bytes (the default); 'sse' streams "
         "`speech.audio.delta` / `speech.audio.done` server-sent events.",
     )
-    # VoiceStudio extensions (not part of OpenAI spec, but accepted if sent)
+    # Voiceym extensions (not part of OpenAI spec, but accepted if sent)
     language: Optional[str] = Field(default=None, description="Language code (ISO 639-1)")
     description: Optional[str] = Field(
         default=None,
@@ -302,19 +302,19 @@ class SpeechRequest(BaseModel):
     duration: Optional[float] = Field(
         default=None,
         gt=0,
-        description="VoiceStudio extension: target output duration in seconds.",
+        description="Voiceym extension: target output duration in seconds.",
     )
     seed: Optional[int] = Field(
         default=None,
-        description="VoiceStudio extension: deterministic sampling seed.",
+        description="Voiceym extension: deterministic sampling seed.",
     )
     denoise: bool = Field(
         default=True,
-        description="VoiceStudio extension: prepend denoise control when supported.",
+        description="Voiceym extension: prepend denoise control when supported.",
     )
     preprocess_prompt: bool = Field(
         default=True,
-        description="VoiceStudio extension: trim/preprocess reference prompt when supported.",
+        description="Voiceym extension: trim/preprocess reference prompt when supported.",
     )
     chunk_duration: Optional[float] = Field(
         default=None,
@@ -335,19 +335,19 @@ class SpeechRequest(BaseModel):
         default=None,
         ge=1,
         le=128,
-        description="VoiceStudio extension: iterative unmasking steps (app default 16; 32 = the model's documented quality preset).",
+        description="Voiceym extension: iterative unmasking steps (app default 16; 32 = the model's documented quality preset).",
     )
     guidance_scale: Optional[float] = Field(
         default=None,
         gt=0,
         le=20,
-        description="VoiceStudio extension: classifier-free guidance scale (app default 2.0).",
+        description="Voiceym extension: classifier-free guidance scale (app default 2.0).",
     )
 
     @field_validator("voice", mode="before")
     @classmethod
     def _voice_id(cls, v: Any) -> Any:
-        # OpenAI accepts a custom voice as {"id": "voice_..."}; VoiceStudio's
+        # OpenAI accepts a custom voice as {"id": "voice_..."}; Voiceym's
         # equivalent is a voice-profile id, so unwrap it.
         if isinstance(v, dict):
             vid = v.get("id")
@@ -386,7 +386,7 @@ def _known_engine_ids() -> str:
 
 
 def _resolve_engine(model_id: str):
-    """Map an OpenAI model name to a VoiceStudio backend."""
+    """Map an OpenAI model name to a Voiceym backend."""
     from services.tts_backend import (
         get_backend_class, get_active_tts_backend, get_engine_instance_for,
     )
@@ -402,7 +402,7 @@ def _resolve_engine(model_id: str):
             400,
             f"Unknown model '{model_id}'. Use an OpenAI TTS model id "
             f"({', '.join(OPENAI_TTS_MODELS)}) for the active engine, or a "
-            f"VoiceStudio engine id: {_known_engine_ids()}. "
+            f"Voiceym engine id: {_known_engine_ids()}. "
             "GET /v1/models lists what this server offers.",
             param="model", code="model_not_found",
         )
@@ -490,7 +490,7 @@ def _ffmpeg_or_error(fmt: str) -> str:
     if not exe:
         raise OpenAIError(
             400,
-            f"response_format '{fmt}' needs ffmpeg, which VoiceStudio could not find. "
+            f"response_format '{fmt}' needs ffmpeg, which Voiceym could not find. "
             "Request 'wav', 'flac' or 'pcm', or install ffmpeg (Settings → Audio tools) "
             "or set FFMPEG_PATH.",
             param="response_format", code="unsupported_response_format",
@@ -589,7 +589,7 @@ def _run_tts(backend, text: str, kw: dict):
     sr = backend.sample_rate
     # Engines that already emit mastered, studio-grade audio (e.g. VoxCPM2's
     # native 48 kHz) opt out of apply_mastering via `applies_own_mastering`.
-    # That chain's highpass + Compressor is tuned for VoiceStudio's 24 kHz clone
+    # That chain's highpass + Compressor is tuned for Voiceym's 24 kHz clone
     # output; applied to a studio engine it adds an audible level pump that
     # degrades the very output we want clean. Loudness normalisation still
     # runs — it's a benign peak scale, not dynamics.
@@ -628,7 +628,7 @@ _STREAM_CHUNK = 32 * 1024
 
 def _sse_events(audio: bytes):
     """OpenAI's speech SSE stream: base64 `speech.audio.delta` events, then a
-    `speech.audio.done`. VoiceStudio synthesises the whole clip first, so the
+    `speech.audio.done`. Voiceym synthesises the whole clip first, so the
     events carry the finished audio in chunks (no token usage to report)."""
     for i in range(0, len(audio), _STREAM_CHUNK):
         delta = base64.b64encode(audio[i:i + _STREAM_CHUNK]).decode("ascii")
@@ -650,7 +650,7 @@ async def create_speech(req: SpeechRequest):
     try:
         backend = _resolve_engine(req.model)
     except ModelLicenceNotAccepted as exc:
-        # OpenAI's error shape; `detail` keeps the models for VoiceStudio clients.
+        # OpenAI's error shape; `detail` keeps the models for Voiceym clients.
         raise OpenAIError(403, exc.detail(), param="model", code=exc.detail()["code"]) from exc
 
     # Compressed formats need ffmpeg: fail fast, before any model load or GPU
@@ -689,7 +689,7 @@ async def create_speech(req: SpeechRequest):
         kw["guidance_scale"] = req.guidance_scale
     if req.language:
         kw["language"] = req.language
-    # OpenAI's `instructions` maps onto VoiceStudio's `instruct` (it used to be
+    # OpenAI's `instructions` maps onto Voiceym's `instruct` (it used to be
     # dropped silently); an explicit `instruct` wins.
     instruct = req.instruct or _engine_instructions(backend, req.instructions)
     if instruct:
@@ -869,7 +869,7 @@ class _TaskUnsupported(Exception):
 
 
 class _ModelNotActive(Exception):
-    """``model`` names a VoiceStudio ASR engine that is not the one serving."""
+    """``model`` names a Voiceym ASR engine that is not the one serving."""
 
     def __init__(self, requested: str, active: str):
         super().__init__(requested)
@@ -994,7 +994,7 @@ async def _transcribe_request(
     # TTS-only install: no ASR model on disk → actionable 409, BEFORE any
     # backend load could silently auto-download multi-GB whisper weights.
     # Same typed detail shape as /transcribe (capture.py): the machine fields
-    # (`error`, `missing_repo_id`, `recommended`) let VoiceStudio-aware clients
+    # (`error`, `missing_repo_id`, `recommended`) let Voiceym-aware clients
     # render the one-click download CTA, while `message` keeps a human-readable
     # line for generic OpenAI-compat clients.
     missing = await asyncio.to_thread(asr_model_missing_error)
@@ -1039,7 +1039,7 @@ async def _transcribe_request(
         # weights, so it belongs inside the pool with the transcribe call —
         # never on the event loop.
         # OpenAI model ids (and any other name) mean "the active engine". A
-        # VoiceStudio ASR engine id is a concrete choice: serve it only when
+        # Voiceym ASR engine id is a concrete choice: serve it only when
         # it is the engine actually loaded, never silently substitute another.
         explicit_engine = model if _is_asr_engine_id(model) else None
 
@@ -1167,7 +1167,7 @@ async def _transcribe_request(
 
 _MODEL_DESC = (
     "ASR model. OpenAI ids ('whisper-1', 'gpt-4o-transcribe', "
-    "'gpt-4o-mini-transcribe') are served by the active engine; a VoiceStudio "
+    "'gpt-4o-mini-transcribe') are served by the active engine; a Voiceym "
     "ASR engine id must name the active engine (400 otherwise)."
 )
 #: The SDK sends list fields as `name[]` in multipart forms; accept both.
@@ -1236,9 +1236,9 @@ def _model_entry(model_id: str, kind: str, alias: bool) -> dict:
         "id": model_id,
         "object": "model",
         "created": 0,
-        "owned_by": "voicestudio",
-        # VoiceStudio extension: what the id does here.
-        "voicestudio": {"kind": kind, "alias_for_active_engine": alias},
+        "owned_by": "voiceym",
+        # Voiceym extension: what the id does here.
+        "voiceym": {"kind": kind, "alias_for_active_engine": alias},
     }
 
 
@@ -1281,16 +1281,16 @@ def retrieve_model(model_id: str):
             return m
     if is_openai_tts_model(model_id):
         return _model_entry(model_id, "tts", True)
-    raise OpenAIError(404, f"The model '{model_id}' does not exist on this VoiceStudio server.",
+    raise OpenAIError(404, f"The model '{model_id}' does not exist on this Voiceym server.",
                       param="model", code="model_not_found")
 
 
-# ── Voices: GET /v1/audio/voices (VoiceStudio extension) ─────────────────────
+# ── Voices: GET /v1/audio/voices (Voiceym extension) ─────────────────────
 
 
 @router.get("/audio/voices")
 def list_voices():
-    """List available voices. VoiceStudio extension to the OpenAI API."""
+    """List available voices. Voiceym extension to the OpenAI API."""
     from services.tts_backend import list_backends
 
     backends = list_backends()
@@ -1302,7 +1302,7 @@ def list_voices():
             "voice_id": name,
             "name": name.capitalize(),
             "type": "openai_alias",
-            "description": f"OpenAI '{name}' voice — maps to the active VoiceStudio engine's default voice.",
+            "description": f"OpenAI '{name}' voice — maps to the active Voiceym engine's default voice.",
         })
 
     # Include voice profiles from the database. `voice_id` is always

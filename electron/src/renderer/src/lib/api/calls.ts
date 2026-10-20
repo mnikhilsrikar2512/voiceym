@@ -1,5 +1,5 @@
 /**
- * Typed client for the phone-call agent (`/calls`). VoiceStudio places and
+ * Typed client for the phone-call agent (`/calls`). Voiceym places and
  * answers calls through the user's own Twilio number; nothing is dialled until
  * the user confirms a call in the Calls workspace.
  */

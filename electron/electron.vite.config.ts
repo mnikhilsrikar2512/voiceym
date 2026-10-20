@@ -27,14 +27,14 @@ const define = {
     process.env.VITE_POSTHOG_KEY ?? process.env.POSTHOG_PROJECT_TOKEN ?? '',
   ),
   __POSTHOG_HOST__: JSON.stringify(process.env.VITE_POSTHOG_HOST ?? process.env.POSTHOG_HOST ?? ''),
-  // VoiceStudio Cloud sign-in ships dark in packaged builds until the vssaas production API is live.
-  __CLOUD_ACCOUNTS__: JSON.stringify(process.env.VOICESTUDIO_CLOUD_ACCOUNTS === '1'),
+  // Voiceym Cloud sign-in ships dark in packaged builds until the vssaas production API is live.
+  __CLOUD_ACCOUNTS__: JSON.stringify(process.env.VOICEYM_CLOUD_ACCOUNTS === '1'),
 };
 
 // OMNIVOICE_UI_PORT is canonical (the backend reads it for its origin
-// allow-list); VOICESTUDIO_UI_PORT is the accepted legacy alias.
+// allow-list); VOICEYM_UI_PORT is the accepted legacy alias.
 const rendererPort =
-  Number(process.env.OMNIVOICE_UI_PORT || process.env.VOICESTUDIO_UI_PORT) ||
+  Number(process.env.OMNIVOICE_UI_PORT || process.env.VOICEYM_UI_PORT) ||
   DEFAULT_ELECTRON_DEV_PORT;
 
 export default defineConfig({
@@ -129,7 +129,7 @@ export default defineConfig({
         '/api': {
           target:
             'http://127.0.0.1:' +
-            (process.env.VOICESTUDIO_ELECTRON_PROXY_PORT || DEFAULT_ELECTRON_PROXY_PORT),
+            (process.env.VOICEYM_ELECTRON_PROXY_PORT || DEFAULT_ELECTRON_PROXY_PORT),
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/api/, ''),
           configure(proxy) {

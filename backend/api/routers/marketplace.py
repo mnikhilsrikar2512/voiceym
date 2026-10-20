@@ -304,7 +304,7 @@ def publish_to_marketplace(
     """Publish a voice profile to the local marketplace directory.
 
     This saves a .omnivoice bundle to the marketplace folder so other
-    VoiceStudio instances on the same machine (or shared network drive)
+    Voiceym instances on the same machine (or shared network drive)
     can discover and import it.
     """
     with db_conn() as conn:

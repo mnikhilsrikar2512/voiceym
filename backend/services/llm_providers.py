@@ -1,4 +1,4 @@
-"""LLM provider registry for every VoiceStudio LLM skill.
+"""LLM provider registry for every Voiceym LLM skill.
 
 OpenAI-compatible, native SDK and desktop CLI transports share the same
 completion interface. This module resolves configuration without contacting
@@ -208,13 +208,13 @@ _PROVIDERS: tuple[Provider, ...] = (
     Provider("sdk", "LiteLLM (other providers)", "", "",
              key_envs=("LITELLM_API_KEY",), model_env="LITELLM_MODEL", transport="sdk"),
     Provider("claude-code", "Claude Code (CLI)", "", "",
-             transport="cli", sdk_provider="claude", model_env="VOICESTUDIO_CLAUDE_MODEL"),
+             transport="cli", sdk_provider="claude", model_env="VOICEYM_CLAUDE_MODEL"),
     Provider("codex-cli", "Codex (CLI)", "", "",
-             transport="cli", sdk_provider="codex", model_env="VOICESTUDIO_CODEX_MODEL"),
+             transport="cli", sdk_provider="codex", model_env="VOICEYM_CODEX_MODEL"),
     Provider("pi-cli", "Pi (CLI)", "", "",
-             transport="cli", sdk_provider="pi", model_env="VOICESTUDIO_PI_MODEL"),
+             transport="cli", sdk_provider="pi", model_env="VOICEYM_PI_MODEL"),
     Provider("opencode-cli", "OpenCode (CLI)", "", "",
-             transport="cli", sdk_provider="opencode", model_env="VOICESTUDIO_OPENCODE_MODEL"),
+             transport="cli", sdk_provider="opencode", model_env="VOICEYM_OPENCODE_MODEL"),
     Provider("custom", "Custom (OpenAI-compatible)", "", "",
              key_envs=("TRANSLATE_API_KEY",), base_url_env="TRANSLATE_BASE_URL",
              model_env="TRANSLATE_MODEL", key_optional=True,
@@ -274,7 +274,7 @@ def resolve_base_url(p: Provider, *, substitute: bool = True) -> str:
 
 #: How long a discovered model id is trusted. Bounded rather than permanent
 #: because the user can swap the loaded model inside LM Studio without touching
-#: VoiceStudio at all — an unbounded cache would keep sending the unloaded name
+#: Voiceym at all — an unbounded cache would keep sending the unloaded name
 #: and 404 every translation until a restart (greptile).
 DISCOVERY_TTL_S = 300.0
 
@@ -352,7 +352,7 @@ def _probe_lmstudio_loaded_model(base_url: str, api_key: str = "local") -> Optio
         clean_base = base_url.rstrip("/")
         if clean_base.endswith("/v1"):
             clean_base = clean_base[: -len("/v1")]
-        headers = {"User-Agent": "VoiceStudio"}
+        headers = {"User-Agent": "Voiceym"}
         if api_key and api_key != "local":
             headers["Authorization"] = f"Bearer {api_key}"
         req = urllib.request.Request(f"{clean_base}/api/v0/models", headers=headers)
@@ -552,11 +552,11 @@ def configuration_error(p: Provider, *, require_model: bool = True) -> Optional[
 
     if p.transport == "cli":
         from services.llm_cli import executable
-        return None if executable(p.sdk_provider) else "Install and sign in to the selected CLI, then restart VoiceStudio."
+        return None if executable(p.sdk_provider) else "Install and sign in to the selected CLI, then restart Voiceym."
     if p.transport == "sdk":
         import importlib.util
         if importlib.util.find_spec("litellm") is None:
-            return "Install the LiteLLM SDK in the VoiceStudio backend."
+            return "Install the LiteLLM SDK in the Voiceym backend."
         if require_model and not configured_model(p):
             return "Set the Model in Settings > Models > LLM."
         if p.id == "sdk" and require_model and "/" not in configured_model(p):

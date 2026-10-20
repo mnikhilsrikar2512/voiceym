@@ -109,13 +109,13 @@ class MossTTSV15Backend(SubprocessBackend):
             return False, (
                 "MOSS-TTS-v1.5 venv not found. Set OMNIVOICE_MOSS_TTS_V15_DIR "
                 "to your MOSS-TTS clone (the directory containing pyproject.toml) "
-                "and restart VoiceStudio. Install the matching PyTorch runtime. See "
+                "and restart Voiceym. Install the matching PyTorch runtime. See "
                 "docs/engines/moss-tts-v15.md for the full install walk-through."
             )
         if not MOSS_TTS_V15_SIDECAR_SCRIPT.exists():
             return False, (
                 "MOSS-TTS-v1.5 sidecar script missing at "
-                f"{MOSS_TTS_V15_SIDECAR_SCRIPT} — reinstall VoiceStudio."
+                f"{MOSS_TTS_V15_SIDECAR_SCRIPT} — reinstall Voiceym."
             )
         return True, "ok (runtime-available accelerator or CPU; no MPS)"
 

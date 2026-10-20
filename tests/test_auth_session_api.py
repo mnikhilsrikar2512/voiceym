@@ -8,7 +8,7 @@ import pytest
 MASTER = "MASTER_DO_NOT_LEAK_7d29"
 CSRF_HEADERS = {
     "Origin": "http://voice.test",
-    "X-VoiceStudio-CSRF": "1",
+    "X-Voiceym-CSRF": "1",
 }
 
 
@@ -137,7 +137,7 @@ def test_https_origin_behind_tls_terminating_proxy_can_logout():
         "/api/auth/session",
         headers={
             "Origin": "https://voice.test",
-            "X-VoiceStudio-CSRF": "1",
+            "X-Voiceym-CSRF": "1",
             "X-Forwarded-Proto": "https",
         },
     )
@@ -348,7 +348,7 @@ def test_cookie_logout_rejects_wrong_missing_and_null_origin():
     for origin in (None, "null", "http://voice.test.evil.test"):
         client = _client()
         assert _issue_cookie(client).status_code == 204
-        headers = {"X-VoiceStudio-CSRF": "1"}
+        headers = {"X-Voiceym-CSRF": "1"}
         if origin is not None:
             headers["Origin"] = origin
 
@@ -444,7 +444,7 @@ def test_explicit_invalid_authorization_blocks_legacy_cookie_migration():
 def test_legacy_cookie_migration_fails_without_exact_origin(origin):
     client = _client()
     client.cookies.set("ov_key", MASTER, domain="voice.test")
-    headers = {"X-VoiceStudio-CSRF": "1"}
+    headers = {"X-Voiceym-CSRF": "1"}
     if origin is not None:
         headers["Origin"] = origin
 
@@ -538,7 +538,7 @@ def test_cookie_session_csrf_guard_covers_all_unsafe_routes(monkeypatch):
     wrong_origin = client.post(
         "/api/settings/hf-token",
         json={"token": "hf_test"},
-        headers={"Origin": "http://voice.test.evil.test", "X-VoiceStudio-CSRF": "1"},
+        headers={"Origin": "http://voice.test.evil.test", "X-Voiceym-CSRF": "1"},
     )
     allowed = client.post(
         "/api/settings/hf-token",

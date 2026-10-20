@@ -1,13 +1,3 @@
-<!--
-First pull request? Unless exempt under the CLA checker’s policy, sign the
-Contributor License Agreement once, before or after
-opening it: https://github.com/debpalash/VoiceStudio/issues/2586
-Your signature covers your future contributions. Every other non-exempt human commit
-author and co-author must also sign before merge. If this pull request contains
-`Supersedes #N`, that also includes the non-exempt human opener, commit authors
-and co-authors of pull request #N.
--->
-
 ## Summary
 
 <!-- Brief description of what this PR does. -->
@@ -39,7 +29,6 @@ and co-authors of pull request #N.
 ## Checklist
 
 - [ ] I've tested this locally
-- [ ] Every non-exempt human commit author has signed the [CLA](https://github.com/debpalash/VoiceStudio/blob/main/.github/CLA-1.0.md) (the **CLA** check tells you how)
 - [ ] I've updated relevant documentation (if applicable)
 - [ ] No local machine paths, logs, or personal env details in this PR
 - [ ] Maintained version files are in sync (if an owner-requested bump): root `package.json`, `pyproject.toml`, `backend/core/version.py`, and lockfiles
@@ -47,7 +36,7 @@ and co-authors of pull request #N.
 
 ## Release cadence
 
-VoiceStudio ships **continuous-to-main** — no release candidates, no soak windows.
+Voiceym ships **continuous-to-main** — no release candidates, no soak windows.
 Every merged PR is immediately part of rolling source (`main`) and Docker
 `:latest`. Electron artifact rehearsals validate desktop packages without publishing.
 Version bumps require owner approval; validated releases are tagged from `main`

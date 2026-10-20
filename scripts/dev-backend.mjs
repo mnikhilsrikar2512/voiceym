@@ -5,7 +5,7 @@
 // In dev, concurrently's --kill-others-on-fail used to tear the whole stack
 // down the moment uvicorn exited, and the only trace of WHY was whatever
 // scrolled past in the terminal — the browser tab just showed "Can't reach
-// the local VoiceStudio backend". This wrapper launches uvicorn directly,
+// the local Voiceym backend". This wrapper launches uvicorn directly,
 // owns Python source reloads, restarts isolated crashes with a bounded backoff,
 // and prints a boxed banner with:
 //   - the exit code / signal,

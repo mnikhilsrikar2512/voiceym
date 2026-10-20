@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 import { LoopbackError, startLoopback } from './loopback';
 
-const page = 'https://app.voicestudio.sh/app/desktop-signed-in';
+const page = 'https://app.voiceym.example/app/desktop-signed-in';
 const hit = (uri: string, query: string) =>
   fetch(uri + query, { redirect: 'manual' }).then((r) => ({
     status: r.status,

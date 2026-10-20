@@ -8,7 +8,7 @@ describe('backendFailureHints', () => {
   it('explains a launch the OS refused (#2440)', () => {
     expect(
       backendFailureHints(
-        'Could not start C:\\runtime\\python.exe: spawn UNKNOWN. Install or repair the local runtime, then restart VoiceStudio.',
+        'Could not start C:\\runtime\\python.exe: spawn UNKNOWN. Install or repair the local runtime, then restart Voiceym.',
       ),
     ).toEqual(['backend.hint_spawn_blocked']);
     expect(backendFailureHints('Could not start /x/python: spawn EACCES')).toEqual([
@@ -27,7 +27,7 @@ describe('backendFailureHints', () => {
   it('flags a path inside a cloud-synced folder (#2465)', () => {
     expect(
       backendFailureHints(
-        'The Python environment in C:\\Users\\a\\OneDrive\\Desktop\\VoiceStudio is missing or incomplete.',
+        'The Python environment in C:\\Users\\a\\OneDrive\\Desktop\\Voiceym is missing or incomplete.',
       ),
     ).toEqual(['backend.hint_synced_folder']);
   });
@@ -43,14 +43,14 @@ describe('backendFailureHints', () => {
 
 describe('inSyncedFolder', () => {
   it.each([
-    'C:\\Users\\a\\OneDrive\\Desktop\\VoiceStudio',
-    'C:\\Users\\a\\OneDrive - Contoso\\VoiceStudio',
-    '/Users/a/Dropbox/VoiceStudio',
-    '/Users/a/Library/Mobile Documents/iCloud Drive/VoiceStudio',
-    'G:\\Google Drive\\VoiceStudio',
+    'C:\\Users\\a\\OneDrive\\Desktop\\Voiceym',
+    'C:\\Users\\a\\OneDrive - Contoso\\Voiceym',
+    '/Users/a/Dropbox/Voiceym',
+    '/Users/a/Library/Mobile Documents/iCloud Drive/Voiceym',
+    'G:\\Google Drive\\Voiceym',
   ])('detects %s', (path) => expect(inSyncedFolder(path)).toBe(true));
 
-  it.each(['C:\\VoiceStudio', '/home/a/voicestudio', '/home/a/Documents/onedrive-notes-app'])(
+  it.each(['C:\\Voiceym', '/home/a/voiceym', '/home/a/Documents/onedrive-notes-app'])(
     'ignores %s',
     (path) => expect(inSyncedFolder(path)).toBe(false),
   );

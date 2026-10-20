@@ -3,7 +3,7 @@ import type { WorkflowRun } from './workflow-runtime';
 async function withStore<T>(mode: IDBTransactionMode, operation: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
   const database = await new Promise<IDBDatabase>((resolve, reject) => {
     let blocked = false;
-    const request = indexedDB.open('voicestudio.workflow-runs', 1);
+    const request = indexedDB.open('voiceym.workflow-runs', 1);
     request.onupgradeneeded = () => request.result.createObjectStore('runs');
     request.onsuccess = () => {
       if (blocked) { request.result.close(); return; }

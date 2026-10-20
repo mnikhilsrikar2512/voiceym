@@ -787,7 +787,7 @@ describe('short-lived admin session client', () => {
     expect(fetchImpl).toHaveBeenCalledWith(
       'https://voice.test/api/auth/session',
       expect.objectContaining({
-        headers: { 'X-VoiceStudio-CSRF': '1' },
+        headers: { 'X-Voiceym-CSRF': '1' },
         credentials: 'include',
       }),
     );

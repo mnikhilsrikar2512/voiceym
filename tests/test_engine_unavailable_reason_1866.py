@@ -8,7 +8,7 @@ rather than "you have not installed this yet".
 
 The probe's own sentence still cannot cross the boundary — it carries exception
 text, local paths and sometimes credentials. What changed is that the private
-diagnostic is now CLASSIFIED into a VoiceStudio-owned category, the same shape
+diagnostic is now CLASSIFIED into a Voiceym-owned category, the same shape
 `_public_routing_reason` already uses for routing.
 """
 import pytest

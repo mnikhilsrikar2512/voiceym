@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────────────────
-#  VoiceStudio — Docker Compose
+#  Voiceym — Docker Compose
 #
 #  Quick start:
 #    docker compose -f deploy/docker-compose.yml --profile cpu up    # CPU mode
@@ -15,7 +15,7 @@
 #  `:latest` / `:rocm` to follow the rolling preview built from main.
 #
 #  SECURITY: The port is bound to 127.0.0.1 by default — only this
-#  machine can reach the API. To expose VoiceStudio on your LAN (or
+#  machine can reach the API. To expose Voiceym on your LAN (or
 #  through a reverse proxy / tunnel), change the port mapping to
 #  "0.0.0.0:3900:3900" or "3900:3900". Export a long random
 #  OMNIVOICE_API_KEY before starting a Studio profile; use HTTPS or an
@@ -25,7 +25,7 @@
 services:
   # ── CPU mode — activate with: docker compose --profile cpu up
   omnivoice:
-    image: ghcr.io/debpalash/voicestudio:stable
+    image: ghcr.io/mnikhilsrikar2512/voiceym:stable
     # To build from source instead of pulling, comment out `image:` and
     # uncomment the three lines below:
     # build:
@@ -66,7 +66,7 @@ services:
 
   # ── GPU mode — activate with: docker compose --profile gpu up
   omnivoice-gpu:
-    image: ghcr.io/debpalash/voicestudio:stable
+    image: ghcr.io/mnikhilsrikar2512/voiceym:stable
     # To build from source, swap `image:` for the commented `build:` lines.
     # build:
     #   context: ..
@@ -111,7 +111,7 @@ services:
   # the amdgpu kernel driver (the ROCm userspace ships inside the image).
   # Podman works with the same two --device flags (Quadlet: AddDevice=).
   omnivoice-rocm:
-    image: ghcr.io/debpalash/voicestudio:stable-rocm
+    image: ghcr.io/mnikhilsrikar2512/voiceym:stable-rocm
     # To build from source instead of pulling, comment out `image:` and
     # uncomment the lines below. BASE_IMAGE/GPU_FLAVOR are required — the
     # Dockerfile's defaults build the CUDA variant.

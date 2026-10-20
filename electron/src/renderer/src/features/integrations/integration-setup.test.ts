@@ -37,13 +37,13 @@ it('exports client-specific HTTP configuration for the actual backend and port',
   const claude = mcpSetup('claude-code', 'http://127.0.0.1:3912');
   const cursor = mcpSetup('cursor', 'https://voice.example/backend/');
   expect(claude?.file).toBe('.mcp.json');
-  expect(JSON.parse(claude!.text).mcpServers.voicestudio).toEqual({
+  expect(JSON.parse(claude!.text).mcpServers.voiceym).toEqual({
     type: 'http',
     url: 'http://127.0.0.1:3912/mcp/',
     headers: { 'X-OmniVoice-Client-Id': 'claude-code' },
   });
   expect(cursor?.file).toBe('.cursor/mcp.json');
-  expect(JSON.parse(cursor!.text).mcpServers.voicestudio).toEqual({
+  expect(JSON.parse(cursor!.text).mcpServers.voiceym).toEqual({
     url: 'https://voice.example/backend/mcp/',
     headers: {
       'X-OmniVoice-Client-Id': 'cursor',
@@ -80,7 +80,7 @@ it('exports a manual n8n workflow to the current backend without credentials', (
   expect(request.parameters.method).toBe('POST');
   expect(JSON.parse(request.parameters.jsonBody)).toEqual({
     model: 'tts-1',
-    input: 'VoiceStudio',
+    input: 'Voiceym',
     voice: 'default',
     response_format: 'wav',
   });
@@ -116,7 +116,7 @@ it('exports Codex CLI as a config.toml Streamable HTTP server table', () => {
   expect(codex?.format).toBe('toml');
   expect(codex?.text).toBe(
     [
-      '[mcp_servers.voicestudio]',
+      '[mcp_servers.voiceym]',
       'url = "http://127.0.0.1:3912/mcp/"',
       'http_headers = { "X-OmniVoice-Client-Id" = "codex-cli" }',
       '',
@@ -130,7 +130,7 @@ function lookup(key: string) {
     .split('.')
     .reduce<unknown>((node, part) => (node as Record<string, unknown>)?.[part], en);
 }
-it('backs every "Works with VoiceStudio" entry with a real catalog route, blocks and strings', () => {
+it('backs every "Works with Voiceym" entry with a real catalog route, blocks and strings', () => {
   const base = 'http://127.0.0.1:3912';
   for (const [slug, setup] of Object.entries(INTEGRATION_SETUPS)) {
     expect(getIntegrationBySlug(slug), slug).toBeDefined();
@@ -157,12 +157,12 @@ it('backs every "Works with VoiceStudio" entry with a real catalog route, blocks
   expect(integrationSetup('constructor')).toBeUndefined();
 });
 it('gives the API and container cards runnable snippets for the right endpoints and images', () => {
-  const api = INTEGRATION_SETUPS['voicestudio-api'].blocks('http://127.0.0.1:3912/')!;
+  const api = INTEGRATION_SETUPS['voiceym-api'].blocks('http://127.0.0.1:3912/')!;
   const text = api.map((block) => block.text).join('\n');
   expect(text).toContain('curl http://127.0.0.1:3912/v1/audio/speech');
   expect(text).toContain('curl http://127.0.0.1:3912/v1/audio/transcriptions');
   expect(text).toContain('base_url="http://127.0.0.1:3912/v1"');
-  expect(INTEGRATION_SETUPS['voicestudio-api'].blocks('https://u:p@host')).toBeNull();
+  expect(INTEGRATION_SETUPS['voiceym-api'].blocks('https://u:p@host')).toBeNull();
   const docker = INTEGRATION_SETUPS.docker
     .blocks('')!
     .map((block) => block.text)
@@ -170,11 +170,11 @@ it('gives the API and container cards runnable snippets for the right endpoints 
   expect(docker).toContain('palashdeb/omnivoice-studio:stable');
   const ghcr = INTEGRATION_SETUPS['github-container-registry'].blocks('')!;
   expect(ghcr.map((block) => block.text).join('\n')).toContain(
-    'ghcr.io/debpalash/voicestudio:stable',
+    'ghcr.io/mnikhilsrikar2512/voiceym:stable',
   );
   const mcp = INTEGRATION_SETUPS['model-context-protocol'].blocks('http://127.0.0.1:3912')!;
   expect(mcp[0].text).toContain('URL: http://127.0.0.1:3912/mcp/\n');
-  const local = JSON.parse(mcp[1].text).mcpServers.voicestudio;
+  const local = JSON.parse(mcp[1].text).mcpServers.voiceym;
   expect(local.args).toEqual(['-m', 'backend.mcp_shim']);
   expect(local.env).toEqual({
     OMNIVOICE_URL: 'http://127.0.0.1:3912',
@@ -183,18 +183,18 @@ it('gives the API and container cards runnable snippets for the right endpoints 
   expect(text).not.toContain('Authorization');
 });
 it('keeps remote scheme, path prefix and credential placeholders without exporting secrets', () => {
-  const remote = 'https://gpu.example/voicestudio/';
+  const remote = 'https://gpu.example/voiceym/';
   const [http, stdio] = INTEGRATION_SETUPS['model-context-protocol'].blocks(remote)!;
   expect(http.text).toContain('Header: Authorization: Bearer $OMNIVOICE_API_KEY');
-  expect(INTEGRATION_SETUPS['voicestudio-api'].blocks(remote)![0].hintKey).toBe(
+  expect(INTEGRATION_SETUPS['voiceym-api'].blocks(remote)![0].hintKey).toBe(
     'integrationCatalog.apiBearerHint',
   );
-  expect(JSON.parse(stdio.text).mcpServers.voicestudio.env).toEqual({
-    OMNIVOICE_URL: 'https://gpu.example/voicestudio',
+  expect(JSON.parse(stdio.text).mcpServers.voiceym.env).toEqual({
+    OMNIVOICE_URL: 'https://gpu.example/voiceym',
     OMNIVOICE_CLIENT_ID: '<your-client-id>',
     OMNIVOICE_API_KEY: '<backend API key>',
   });
-  const api = INTEGRATION_SETUPS['voicestudio-api'].blocks(remote)!;
+  const api = INTEGRATION_SETUPS['voiceym-api'].blocks(remote)!;
   for (const id of ['speech', 'transcription'])
     expect(api.find((block) => block.id === id)!.text).toContain(
       '-H "Authorization: Bearer $OMNIVOICE_API_KEY"',
@@ -204,7 +204,7 @@ it('keeps remote scheme, path prefix and credential placeholders without exporti
   );
   // Each MCP client references the key through its own env interpolation.
   const header = (slug: string) =>
-    JSON.parse(mcpSetup(slug, remote)!.text).mcpServers.voicestudio.headers;
+    JSON.parse(mcpSetup(slug, remote)!.text).mcpServers.voiceym.headers;
   expect(header('claude-code')).toEqual({
     'X-OmniVoice-Client-Id': 'claude-code',
     Authorization: 'Bearer ${OMNIVOICE_API_KEY}',
@@ -219,14 +219,14 @@ it('never sends an API key to a remote plain-http backend', () => {
   for (const slug of ['claude-code', 'cursor', 'codex-cli'])
     expect(mcpSetup(slug, insecure)!.text).not.toMatch(/Authorization|bearer_token/);
   const stdio = INTEGRATION_SETUPS['model-context-protocol'].blocks(insecure)![1];
-  expect(JSON.parse(stdio.text).mcpServers.voicestudio.env.OMNIVOICE_API_KEY).toBeUndefined();
-  const api = INTEGRATION_SETUPS['voicestudio-api']
+  expect(JSON.parse(stdio.text).mcpServers.voiceym.env.OMNIVOICE_API_KEY).toBeUndefined();
+  const api = INTEGRATION_SETUPS['voiceym-api']
     .blocks(insecure)!
     .map((block) => block.text)
     .join('\n');
   expect(api).not.toContain('Authorization');
   expect(api).not.toContain('os.environ');
-  expect(INTEGRATION_SETUPS['voicestudio-api'].blocks(insecure)![0].hintKey).toBe(
+  expect(INTEGRATION_SETUPS['voiceym-api'].blocks(insecure)![0].hintKey).toBe(
     'integrationCatalog.apiInsecureHint',
   );
   expect(INTEGRATION_SETUPS['model-context-protocol'].blocks(insecure)![0].text).not.toContain(
@@ -239,7 +239,7 @@ it('never sends an API key to a remote plain-http backend', () => {
 import { openaiAgentsSetup } from './openai-agents-setup';
 it('points the OpenAI Agents voice pipeline at the current backend without a stored key', () => {
   const setup = openaiAgentsSetup('openai-agents', 'https://voice.example/backend/');
-  expect(setup?.file).toBe('voicestudio_agents.py');
+  expect(setup?.file).toBe('voiceym_agents.py');
   expect(setup!.text).toContain('base_url="https://voice.example/backend/v1"');
   expect(setup!.text).toContain(
     'api_key=os.environ.get("OMNIVOICE_API_KEY", "not-needed-locally")',
@@ -277,7 +277,7 @@ it('gives Windows a PowerShell docker run with a CSPRNG key and backtick continu
     expect(ps.text).not.toMatch(/^export |\\$/m);
     expect(ps.text).toContain('RandomNumberGenerator');
     expect(ps.text).toContain('-e OMNIVOICE_API_KEY="$env:OMNIVOICE_API_KEY" `');
-    expect(ps.text.trimEnd()).toMatch(/(?:voicestudio|omnivoice-studio):stable$/);
+    expect(ps.text.trimEnd()).toMatch(/(?:voiceym|omnivoice-studio):stable$/);
   }
 });
 it('mounts the host model cache at the image HF_HOME and adds no dead bind knob', () => {

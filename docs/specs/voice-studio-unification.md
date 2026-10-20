@@ -1,4 +1,4 @@
-# Voice Studio Unification — spec
+# Voiceym Unification — spec
 
 **Goal:** Collapse the separate **Clone** and **Design** tabs into one profile-centric **Voice** workspace, restack its layout (Prompt over Voice Source in a single column), and move generation history out of the left sidebar into a right-hand, workspace-scoped panel.
 
@@ -19,7 +19,7 @@ Constraints honored (from `CLAUDE.md`): existing `voice_profiles` / `generation_
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ◉ Voice                              ⊙ VoiceStudio                        ● Idle    ⚡ Flush ▾   │
+│  ◉ Voice                              ⊙ Voiceym                        ● Idle    ⚡ Flush ▾   │
 ├────────────┬──────────────────────────────────────────────┬────────────────────────────────────┤
 │ 📁 Projects│  ⌘ PROMPT                                     │  ↺ HISTORY        [All][Clone][Des]│
 │ ⤓ Downloads│ ┌──────────────────────────────────────────┐ │ ┌────────────────────────────────┐ │

@@ -11,7 +11,7 @@
  * bootstrap.
  *
  * Built on standard shadcn primitives (Button/Input/Select/Progress/Badge)
- * + Tailwind utilities themed by the VoiceStudio palette tokens. The only
+ * + Tailwind utilities themed by the Voiceym palette tokens. The only
  * bespoke CSS left is the breathing-waveform / rise-in keyframes in
  * firstrun.css. All motion honors prefers-reduced-motion; every asset is
  * bundled — a first run may be on a restricted network.
@@ -479,7 +479,7 @@ export default function FirstRunSetup() {
                     a screenshot from any of them identifies the build. */}
                 <div className="flex flex-wrap items-baseline gap-2.5">
                   <h1 className="m-0 font-serif text-[clamp(1.6rem,3vw,2.2rem)] font-semibold leading-tight tracking-tight">
-                    {t('firstrun.title', 'Set up VoiceStudio')}
+                    {t('firstrun.title', 'Set up Voiceym')}
                   </h1>
                   <span className="font-mono text-[0.62rem] tracking-[0.14em] text-fg-subtle">
                     v{APP_VERSION}
@@ -882,7 +882,7 @@ export function JourneyRail({ active, t }) {
   return (
     <nav
       className="flex flex-wrap items-center gap-x-5 gap-y-2"
-      aria-label={t('firstrun.title', 'Set up VoiceStudio')}
+      aria-label={t('firstrun.title', 'Set up Voiceym')}
     >
       {stages.map(([id, label], i) => {
         const isActive = i === activeIdx;

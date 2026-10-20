@@ -4,7 +4,7 @@
  * Chromium's detached performance monitor currently injects a minified,
  * anonymous script whose reportAllChanges timer reads a removed performance
  * entry. It runs in the renderer execution context, so the browser forwards the
- * error to window.onerror even though no VoiceStudio code appears in its stack.
+ * error to window.onerror even though no Voiceym code appears in its stack.
  */
 export function isInjectedPerformanceMonitorError(message, error, filename) {
   if (filename) return false;

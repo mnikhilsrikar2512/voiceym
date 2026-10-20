@@ -28,7 +28,7 @@ interface McpBinding {
 }
 
 const DEFAULT_PROFILE = '__default__';
-const MCP_DOCS_URL = 'https://github.com/debpalash/VoiceStudio/blob/main/docs/mcp.md';
+const MCP_DOCS_URL = 'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/mcp.md';
 
 export function McpBindingsSettings() {
   const { t } = useTranslation();

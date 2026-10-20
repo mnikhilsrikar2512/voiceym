@@ -42,12 +42,12 @@ it('previews the official website only when the title is clicked', () => {
   browser.open.mockClear();
   render(<HomePage />);
   const title = screen.getByRole('link', { name: 'homeUi.title' });
-  expect(en.homeUi.title).toBe('VoiceStudio.sh Open Source');
-  expect(title).toHaveAttribute('href', 'https://voicestudio.sh');
+  expect(en.homeUi.title).toBe('voiceym.example Open Source');
+  expect(title).toHaveAttribute('href', 'https://voiceym.example');
   fireEvent.mouseEnter(title);
   expect(browser.open).not.toHaveBeenCalled();
   fireEvent.click(title);
-  expect(browser.open).toHaveBeenCalledWith('https://voicestudio.sh');
+  expect(browser.open).toHaveBeenCalledWith('https://voiceym.example');
 });
 
 it('names the feature Dubbing consistently while preserving the existing route', () => {
@@ -69,11 +69,11 @@ it('credits qualifying contributors and opens their GitHub profiles externally',
   const all = screen.getByRole('link', { name: 'homeUi.allContributors' });
   expect(all).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/graphs/contributors',
+    'https://github.com/mnikhilsrikar2512/voiceym/graphs/contributors',
   );
   fireEvent.click(all);
   expect(files.openExternal).toHaveBeenCalledWith(
-    'https://github.com/debpalash/VoiceStudio/graphs/contributors',
+    'https://github.com/mnikhilsrikar2512/voiceym/graphs/contributors',
   );
   for (const { login } of homeContributors) {
     if (login === 'debpalash') continue;

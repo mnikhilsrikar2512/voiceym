@@ -1,6 +1,6 @@
-# VoiceStudio on your phone (iOS and Android)
+# Voiceym on your phone (iOS and Android)
 
-The iOS and Android apps are **companions** for a VoiceStudio you already run:
+The iOS and Android apps are **companions** for a Voiceym you already run:
 the desktop app, a Docker container or a server. Speech, cloning, dubbing and
 dictation run on that computer. The phone sends requests only to the computer
 you pair it with: no accounts, no cloud relay and no analytics.
@@ -28,7 +28,7 @@ you pair it with: no accounts, no cloud relay and no analytics.
 
 ## Pair the phone
 
-1. On the computer, open VoiceStudio, click the **Local** pill in the footer
+1. On the computer, open Voiceym, click the **Local** pill in the footer
    and choose **Network** ([how sharing works](sharing.md)). On a different network, use
    [Tailscale](sharing.md) or an HTTPS address instead.
 2. In the app, tap **Scan QR code** and scan the code the panel shows. Or tap
@@ -43,7 +43,7 @@ Plain `http://` works only for addresses on your own network (home Wi-Fi,
 ## If something doesn't work
 
 - **"Accept the licence on your computer"**: some models need their licence
-  accepted first. Open VoiceStudio on the computer → **Model Catalogue** and
+  accepted first. Open Voiceym on the computer → **Model Catalogue** and
   accept it there; the phone can't accept licences.
 - **Engine shown as unavailable**: install it on the computer. The reason the
   app shows comes from the computer.
@@ -68,7 +68,7 @@ uv run python scripts/export_openapi.py    # mobile/contract/openapi.json from t
 `tests/test_mobile_contract.py` fails when either is stale.
 
 **Try the iPhone app without Xcode.** Each `mobile` workflow run uploads an
-unsigned build, `VoiceStudio-ios-unsigned` (kept 7 days). Download it from the
+unsigned build, `Voiceym-ios-unsigned` (kept 7 days). Download it from the
 run's Artifacts, then install it with a sideloading tool that signs it with your
 own Apple ID (for example Sideloadly). With a free Apple ID the install expires
 after 7 days; turn on Developer Mode on the iPhone (Settings → Privacy &

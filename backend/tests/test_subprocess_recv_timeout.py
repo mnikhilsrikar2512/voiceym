@@ -175,7 +175,7 @@ def test_timeout_error_names_the_deadline_instead_of_blaming_the_pipe(
 
     Before this, a kill and a crash both raised "sidecar closed pipe
     mid-generate", so the one fact that explains the failure — that
-    VoiceStudio stopped the sidecar on its own deadline — appeared only in the
+    Voiceym stopped the sidecar on its own deadline — appeared only in the
     backend log, and reporters reasonably concluded the engine had crashed.
     """
     from engines.omnivoice_subprocess import OmniVoiceSubprocessBackend

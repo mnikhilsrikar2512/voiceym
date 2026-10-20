@@ -85,7 +85,7 @@ _FAILOVER_ATTEMPTED: set[str] = set()
 
 
 def _is_allowed_probe_endpoint(endpoint: str) -> bool:
-    """Only probe the two fixed HTTPS origins shipped by VoiceStudio."""
+    """Only probe the two fixed HTTPS origins shipped by Voiceym."""
     try:
         parsed = urlsplit(endpoint)
         port = parsed.port
@@ -144,7 +144,7 @@ def probe_endpoint(endpoint: str, timeout: float = PROBE_TIMEOUT_S) -> ProbeResu
     if not _is_allowed_probe_endpoint(endpoint):
         return ProbeResult(endpoint=endpoint, reachable=False, error="invalid_endpoint")
     url = endpoint.rstrip("/") + "/"
-    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "VoiceStudio-endpoint-probe"})
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Voiceym-endpoint-probe"})
     start = time.monotonic()
     try:
         with urllib.request.urlopen(req, timeout=timeout):  # nosec B310 -- fixed HTTPS allowlist above
@@ -173,7 +173,7 @@ def throughput_probe(endpoint: str, timeout: float = PROBE_TIMEOUT_S) -> Optiona
         url,
         headers={
             "Range": f"bytes=0-{_THROUGHPUT_SAMPLE_BYTES - 1}",
-            "User-Agent": "VoiceStudio-endpoint-probe",
+            "User-Agent": "Voiceym-endpoint-probe",
         },
     )
     deadline = time.monotonic() + timeout

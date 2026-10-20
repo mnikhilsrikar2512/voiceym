@@ -1,18 +1,18 @@
 """Every symbol the backend imports from the vendored `omnivoice` package
 must actually exist there.
 
-#1417: the VoiceStudio rename (5cab8e01) rewrote
-`from omnivoice.models.omnivoice import OmniVoice` to `... import VoiceStudio`,
+#1417: the Voiceym rename (5cab8e01) rewrote
+`from omnivoice.models.omnivoice import OmniVoice` to `... import Voiceym`,
 but the class in that module is still `OmniVoice` — the rename changed the
 import and never touched the definition. The result shipped in v0.4.2:
 
-  ImportError: cannot import name 'VoiceStudio' from 'omnivoice.models.omnivoice'
+  ImportError: cannot import name 'Voiceym' from 'omnivoice.models.omnivoice'
 
 Preload swallowed it as "non-fatal", so the app ran with dead TTS and no
 visible error; `/generate` retried until "Model load exceeded 1200.0s".
 
 `omnivoice` is the upstream k2-fsa model package, deliberately NOT renamed
-(CLAUDE.md keeps the engine/model name while the product became VoiceStudio),
+(CLAUDE.md keeps the engine/model name while the product became Voiceym),
 so the import was wrong at the source rather than the class being misnamed.
 
 This checks the relationship statically — an AST scan, no torch/transformers

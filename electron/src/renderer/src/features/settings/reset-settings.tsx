@@ -87,26 +87,26 @@ const SCOPE_ICONS: Record<ScopeKey, LucideIcon> = {
 };
 
 export const UI_PREFERENCE_KEYS = [
-  'voicestudio.theme.v2',
-  'voicestudio.theme',
-  'voicestudio.appearance',
-  'voicestudio.locale',
-  'voicestudio.clone.settings.v1',
-  'voicestudio.take-settings.v1',
-  'voicestudio.review-mode.v1',
-  'voicestudio.settings.last-route',
-  'voicestudio.transcription.mode',
-  'voicestudio.workspace-layout',
-  'voicestudio.library-width',
-  'voicestudio.editor-width',
-  'voicestudio.inspector-width',
-  'voicestudio.gallery.favorites.v1',
-  'voicestudio.dismissed-system-notifications',
+  'voiceym.theme.v2',
+  'voiceym.theme',
+  'voiceym.appearance',
+  'voiceym.locale',
+  'voiceym.clone.settings.v1',
+  'voiceym.take-settings.v1',
+  'voiceym.review-mode.v1',
+  'voiceym.settings.last-route',
+  'voiceym.transcription.mode',
+  'voiceym.workspace-layout',
+  'voiceym.library-width',
+  'voiceym.editor-width',
+  'voiceym.inspector-width',
+  'voiceym.gallery.favorites.v1',
+  'voiceym.dismissed-system-notifications',
   'omnivoice.demoClonePrompted',
   'omnivoice.dubbingDemoDismissed',
 ] as const;
 
-export const LOCAL_SETTING_KEYS = ['voicestudio.dictation-settings.v1'] as const;
+export const LOCAL_SETTING_KEYS = ['voiceym.dictation-settings.v1'] as const;
 
 export function selectedBytes(scopes: ResetScope[], selected: ScopeKey[]): number {
   return scopes
@@ -144,7 +144,7 @@ async function clearFrontendState(plan: ReturnType<typeof resetPlan>): Promise<v
     await projectLibrary.clear();
     clearLongformDraftForReset();
     clearDubDraftForReset();
-    localStorage.removeItem('voicestudio.design.v1');
+    localStorage.removeItem('voiceym.design.v1');
     localStorage.removeItem('omni_transcriptions');
   }
   if (plan.setup) forgetSetupProgress();

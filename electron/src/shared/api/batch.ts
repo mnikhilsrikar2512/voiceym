@@ -29,7 +29,7 @@ export interface BatchJob {
 }
 
 interface NativeWatchUpload {
-  __voiceStudioNativeWatchUpload: true;
+  __voiceymNativeWatchUpload: true;
   token: string;
   name: string;
   size: number;
@@ -37,7 +37,7 @@ interface NativeWatchUpload {
 }
 
 function isNativeWatchUpload(file: File | NativeWatchUpload): file is NativeWatchUpload {
-  return !(file instanceof File) && file.__voiceStudioNativeWatchUpload === true;
+  return !(file instanceof File) && file.__voiceymNativeWatchUpload === true;
 }
 
 /** List batch jobs, optionally filtered by status. */

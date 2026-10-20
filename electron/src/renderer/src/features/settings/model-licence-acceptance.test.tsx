@@ -93,7 +93,7 @@ describe('model licence acceptance', () => {
   });
   const boxes = () => Array.from(document.querySelectorAll('input[type="checkbox"]')) as HTMLInputElement[];
 
-  it('states VoiceStudio is not the licensor and needs a ticked box per model', async () => {
+  it('states Voiceym is not the licensor and needs a ticked box per model', async () => {
     await render(
       <LicenceAcceptanceFooter
         models={[pending('a/one', 'One', 'commercial'), pending('b/two', 'Two', 'noncommercial')]}

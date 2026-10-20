@@ -1,15 +1,15 @@
 // Explicit opt-in: performs real local synthesis using an already-installed model.
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
-const profileId = process.env.VOICESTUDIO_LIVE_PROFILE;
-if (!profileId) throw new Error('Set VOICESTUDIO_LIVE_PROFILE to a saved local voice profile');
+const profileId = process.env.VOICEYM_LIVE_PROFILE;
+if (!profileId) throw new Error('Set VOICEYM_LIVE_PROFILE to a saved local voice profile');
 const browser = await chromium.launch({
   channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge',
   headless: true,
 });
 try {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   const [engines, models, profiles] = await Promise.all(
     ['/engines/tts', '/models', '/profiles'].map(async (path) => {
       const response = await page.request.get(base + '/api' + path);
@@ -38,7 +38,7 @@ try {
   await page
     .getByRole('textbox', { name: 'Script', exact: true })
     .fill(
-      '# Verification\nThis is a short VoiceStudio audiobook test.\n\n# Conclusion\nThis second chapter completes our test.',
+      '# Verification\nThis is a short Voiceym audiobook test.\n\n# Conclusion\nThis second chapter completes our test.',
     );
   await page.getByText('Production overrides', { exact: true }).click();
   await page.getByLabel('Seed', { exact: true }).fill('0');
@@ -70,7 +70,7 @@ try {
   const { mkdtempSync, writeFileSync } = await import('node:fs');
   const { tmpdir } = await import('node:os');
   const { join } = await import('node:path');
-  const path = join(mkdtempSync(join(tmpdir(), 'voicestudio-book-')), 'verification.m4b');
+  const path = join(mkdtempSync(join(tmpdir(), 'voiceym-book-')), 'verification.m4b');
   writeFileSync(path, await audio.body());
   const { execFileSync } = await import('node:child_process');
   const { resolve } = await import('node:path');

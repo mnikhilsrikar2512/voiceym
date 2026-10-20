@@ -60,7 +60,7 @@ export function mcpSetup(slug: string, baseUrl: string) {
       format: client.format,
       // JSON string syntax is valid TOML basic-string syntax, so values stay escaped.
       text: [
-        '[mcp_servers.voicestudio]',
+        '[mcp_servers.voiceym]',
         `url = ${JSON.stringify(url)}`,
         `http_headers = { ${JSON.stringify(MCP_CLIENT_ID_HEADER)} = ${JSON.stringify(slug)} }`,
         ...(bearer ? [`bearer_token_env_var = ${JSON.stringify(API_KEY_ENV)}`] : []),
@@ -75,7 +75,7 @@ export function mcpSetup(slug: string, baseUrl: string) {
     text: JSON.stringify(
       {
         mcpServers: {
-          voicestudio: {
+          voiceym: {
             ...(client.type ? { type: client.type } : {}),
             url,
             headers: {

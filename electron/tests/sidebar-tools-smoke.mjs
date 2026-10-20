@@ -6,7 +6,7 @@ const browser = await chromium.launch({
   ...(process.env.PLAYWRIGHT_BUNDLED === '1' ? {} : { channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge' }),
   headless: true,
 });
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 try {
   for (const platform of ['win32', 'darwin', 'linux']) {
     for (const locale of ['en', 'de', 'ar']) {
@@ -19,9 +19,9 @@ try {
       const page = await browser.newPage({ viewport: { width: 960, height: 600 } });
       await page.addInitScript(
         ({ platform, locale }) => {
-          localStorage.setItem('voicestudio.setup.complete.v1', '1');
-          localStorage.setItem('voicestudio.locale', locale);
-          window.voicestudio = {
+          localStorage.setItem('voiceym.setup.complete.v1', '1');
+          localStorage.setItem('voiceym.locale', locale);
+          window.voiceym = {
             app: {
               version: 'test',
               platform,

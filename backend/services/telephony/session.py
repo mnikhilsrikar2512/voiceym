@@ -24,7 +24,7 @@ from typing import AsyncIterator, Protocol
 
 logger = logging.getLogger("omnivoice.telephony")
 
-END_MARK = "voicestudio-end"
+END_MARK = "voiceym-end"
 START_TIMEOUT_S = 10.0
 TOKEN_TTL_S = 60.0
 

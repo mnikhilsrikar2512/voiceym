@@ -1,4 +1,4 @@
-# VoiceStudio — Install Troubleshooting
+# Voiceym — Install Troubleshooting
 
 The top 10 errors users have actually hit on `v0.2.x`, with their causes and
 fixes. Most have a deeplink anchor that the in-app error UI's "Open docs for
@@ -56,7 +56,7 @@ loopback port before launching; its API proxy and health checks follow that port
 automatically. Candidates advance by 1000, up to 16 alternatives, so additional
 app windows discover and attach to the same backend. A fresh launch retries the
 default after a fallback backend stops. This recovery is available on all desktop platforms.
-Occupied fallback ports must carry VoiceStudio's backend response marker before
+Occupied fallback ports must carry Voiceym's backend response marker before
 attachment; unrelated listeners are skipped. This marker distinguishes services,
 not malicious processes running as the same local user.
 If an identified backend is still starting, Electron waits within its startup
@@ -64,11 +64,11 @@ budget instead of launching another process on that occupied port.
 It does not override an explicit `OMNIVOICE_PORT`, a custom backend command, or an
 externally managed backend. For those configurations, choose an allowed port in
 your launch environment. An ordinary “address already in use” conflict still uses
-the existing backend-attachment/conflict flow; VoiceStudio does not stop unrelated
+the existing backend-attachment/conflict flow; Voiceym does not stop unrelated
 processes or change firewall rules.
 
 If the backend log ends with `FATAL: the operating system refused to let
-VoiceStudio listen on port …` (`[Errno 13]` / WinError 10013), the OS denied the
+Voiceym listen on port …` (`[Errno 13]` / WinError 10013), the OS denied the
 bind rather than reporting a taken port. On Windows a possible cause is a
 reserved range (Hyper-V, WSL, Docker and WinNAT reserve them); another process
 holding the port exclusively gives the same error. List the reserved ranges with
@@ -105,16 +105,16 @@ receive a stable `docs_topic` and a safe fallback message, never private excepti
 | --- | --- |
 | `GPU_ARCH_UNSUPPORTED` | The installed PyTorch build cannot run kernels on this GPU. Select CPU in Settings → Performance & Device, or use a PyTorch build compatible with the GPU. |
 | `HOST_MEMORY_EXHAUSTED` | The machine ran out of system memory, so the engine could not finish. Close other memory-heavy apps, unload unused models with **Flush models**, render a shorter passage, or select a lighter TTS engine. On Windows, enlarging the page file also helps. A CPU-only machine has no GPU memory to free — this is RAM, not VRAM. |
-| `WINDOWS_APP_CONTROL_BLOCKED` | Windows application control blocked a required file. Ask the administrator to allow the trusted VoiceStudio runtime, then restart the app. |
+| `WINDOWS_APP_CONTROL_BLOCKED` | Windows application control blocked a required file. Ask the administrator to allow the trusted Voiceym runtime, then restart the app. |
 | `AUDIO_IO_FAILED` | Check the audio format, free disk space, and file permissions; review the folder in Settings → Storage. |
-| `ENGINE_DEPENDENCY_MISSING` | A Python package the engine imports is not installed. Open Model Catalogue, select the engine and use **Install / Repair**, then restart VoiceStudio. Terminal: retrying the same request fails the same way. |
+| `ENGINE_DEPENDENCY_MISSING` | A Python package the engine imports is not installed. Open Model Catalogue, select the engine and use **Install / Repair**, then restart Voiceym. Terminal: retrying the same request fails the same way. |
 | `REFERENCE_STT_MISSING` | The voice has no transcript and no speech-to-text model is installed to write one. Type the reference clip's words into the transcript box (clips up to 20 seconds), or install and select a speech-to-text model in Model Catalogue. |
 | `HF_MIRROR_UNREACHABLE` | The configured Hugging Face mirror could not be reached while fetching the engine's weights. Restore the official endpoint in Settings → Models → Hugging Face mirror, then retry. |
 
 Every unclassified 500 also carries `error_type` (the Python exception class, never
 its message), and bug reports record it as "Backend error class" together with the
 "Backend failure topic". A reverse proxy that times out (`502`/`504` with its own HTML
-page) is reported as a proxy problem, not a VoiceStudio one: raise its read timeout
+page) is reported as a proxy problem, not a Voiceym one: raise its read timeout
 (for nginx, `proxy_read_timeout`) for long generations. Choosing the best 15-second
 window of a long reference clip happens before the generate time budget starts, so a
 slow CPU speech-to-text model no longer causes `TTS generate exceeded 300s`.
@@ -285,7 +285,7 @@ before the token works for downloads.
    the "App" row with a green check next to your username.
 
 If the token and license are already valid but an older build still reports
-401 during installation, update VoiceStudio and retry. Settings tokens now
+401 during installation, update Voiceym and retry. Settings tokens now
 reach both the fast download path and engine-weight installers; no token
 rotation is needed for that fixed client bug.
 
@@ -308,11 +308,11 @@ itself does not grant access.
    and accept the conditions.
 2. Open **Settings → API Keys** and save a read token from that same account.
 3. Open **Model Catalogue**, review and accept the PocketTTS terms locally,
-   then retry. VoiceStudio stores this acknowledgement only on your machine.
+   then retry. Voiceym stores this acknowledgement only on your machine.
 
 ## 3. Gatekeeper quarantine on macOS
 
-**Symptom:** "VoiceStudio.app is damaged and can't be opened."
+**Symptom:** "Voiceym.app is damaged and can't be opened."
 
 **Cause:** Gatekeeper cannot verify the app's Apple Developer identity — the
 build is unsigned or ad-hoc signed (local `bun run dist` packages, or a release
@@ -362,7 +362,7 @@ the common case) that capture can abort the process from inside the native CUDA
 library. It happens below the interpreter, so no `except` in the app can catch
 it and nothing is logged.
 
-**Fix:** update — VoiceStudio now selects the compile mode per GPU and does not
+**Fix:** update — Voiceym now selects the compile mode per GPU and does not
 capture CUDA graphs below sm_80, so this should no longer happen. If you still
 see a crash in the generate path on any GPU, turn compilation off entirely:
 
@@ -448,14 +448,14 @@ paths (Docker and the Colab notebook), which ignore project-level uv settings.
 one-sided edit is caught rather than shipped.
 
 **What you do not have to do:** `torchaudio 2.9` removed `set_audio_backend()`,
-which VoiceStudio used to call unguarded — that turned this upgrade into a
+which Voiceym used to call unguarded — that turned this upgrade into a
 different hard startup crash (`AttributeError` inside `ml_imports`). It is
 guarded now, so the upgrade path above is clean on a current checkout.
 
 **Keeping the change:** these are the repo's own pins, so a `git pull` that
 touches them will conflict or overwrite. Re-apply after updating until the
 default pin moves — the default cannot move for everyone until the newer torch
-is verified across the older GPUs VoiceStudio supports, since a newer build can
+is verified across the older GPUs Voiceym supports, since a newer build can
 drop older architectures. Which ones varies by torch release, not by the CUDA
 variant alone: the pinned 2.8.0+cu128 build reports `sm_70` first, while the
 cu128 arch list captured in #1285 still carried `sm_61`.
@@ -481,14 +481,14 @@ Russia, sometimes on corporate proxies.
 ## 7. `.deb` ffprobe path conflict on upgrade
 
 **Symptom:** after upgrading from a pre-v0.3 .deb, `ffprobe -version` reports
-"VoiceStudio bundled ffprobe" instead of the system ffmpeg, breaking other apps
+"Voiceym bundled ffprobe" instead of the system ffmpeg, breaking other apps
 that rely on `/usr/bin/ffprobe`.
 
 **Fix:** see [linux.md#deb-ffprobe-conflict](linux.md#deb-ffprobe-conflict).
 
 ## 7b. "Media engine unavailable" / FFmpeg questions
 
-FFmpeg, FFprobe, and yt-dlp are **not** things you install for VoiceStudio.
+FFmpeg, FFprobe, and yt-dlp are **not** things you install for Voiceym.
 The app resolves them itself, in order: a path provided by the desktop shell →
 the static build shipped with the Python environment → the app's own
 downloaded build → whatever is on your PATH. When nothing resolves at all
@@ -508,12 +508,12 @@ If a running install ever reports "Media engine unavailable":
    **Use system copy** afterwards.
 
 Transcription tells these apart from other failures. If a dub transcription
-reports that it needs ffmpeg, follow the steps above; VoiceStudio also exposes
+reports that it needs ffmpeg, follow the steps above; Voiceym also exposes
 its resolved FFmpeg under the bare name `ffmpeg` to the engines it launches, so
 a library that runs plain `ffmpeg` no longer fails with `[Errno 2] No such file
 or directory: 'ffmpeg'`. A "lost its output pipe" (`[Errno 32] Broken pipe`)
 reply means the app that launched the backend closed or relaunched; restart
-VoiceStudio.
+Voiceym.
 
 The same panel updates **yt-dlp** (video imports): site support changes
 faster than app releases, so when video-URL imports start failing, press
@@ -525,13 +525,13 @@ version** reverts to the build the app shipped with.
 First update yt-dlp under **Settings → Audio tools**. If YouTube still requires
 your signed-in session, export its cookies in Netscape `cookies.txt` format,
 then open **Advanced** on the dubbing import card and choose that file under
-**YouTube sign-in** before importing. VoiceStudio uses
+**YouTube sign-in** before importing. Voiceym uses
 the export for that import only and makes two best-effort attempts to delete
 its temporary copy.
 
-Cookie exports are login credentials. VoiceStudio never reads a browser's
+Cookie exports are login credentials. Voiceym never reads a browser's
 cookie database automatically, never saves the export in your project, and
-never uploads it anywhere except to your own VoiceStudio backend. Use an export
+never uploads it anywhere except to your own Voiceym backend. Use an export
 limited to YouTube where your browser extension supports domain filtering.
 For a backend on another machine, the picker is enabled only over HTTPS; plain
 HTTP is accepted solely on the desktop app's loopback connection. Electron's
@@ -542,7 +542,7 @@ restricted to a private tailnet; see [API authentication](../api-auth.md).
 
 ## 8. Docker LAN access — media preview 404
 
-**Symptom:** VoiceStudio loads on `http://<lan-ip>:3900` but the audio preview
+**Symptom:** Voiceym loads on `http://<lan-ip>:3900` but the audio preview
 pane shows 404s for `/media/...`.
 
 **Cause:** pre-v0.3, the frontend hardcoded `localhost:3900` for media-preview
@@ -557,7 +557,7 @@ prebuilt image via `docker run -e`) and list the UI's origin in
 
 ## 9. Apple Silicon `mlx-whisper` unavailable on Intel mac
 
-**Symptom:** on an Intel mac, VoiceStudio logs `mlx-whisper backend unavailable;
+**Symptom:** on an Intel mac, Voiceym logs `mlx-whisper backend unavailable;
 falling back to faster-whisper`.
 
 **Cause:** `mlx-whisper` and `mlx-audio` only build for arm64 (Apple Silicon).
@@ -578,7 +578,7 @@ On builds before this was fixed, the failure looked much worse than a failed
 transcribe: CTranslate2 aborts the **process** rather than raising, so the whole
 backend died with `exit code -1073740791` (`0xC0000409`) and no error, the app
 restarted it, and the next attempt killed it again
-([#1371](https://github.com/debpalash/VoiceStudio/issues/1371)). VoiceStudio now
+([#1371](https://github.com/debpalash/VoiceStudio/issues/1371)). Voiceym now
 checks whether cuDNN 8 will load *before* selecting a CTranslate2 engine and
 falls back to PyTorch Whisper instead, so a missing library costs you WhisperX's
 word-level alignment — not the backend. Direct or already-selected CTranslate2
@@ -587,7 +587,7 @@ when cuDNN is missing. Hosts with working CUDA libraries keep GPU acceleration.
 The repair below is still worth doing to get WhisperX back.
 
 **Cause:** WhisperX and faster-whisper run on **CTranslate2**, which needs
-**cuDNN 8**, but PyTorch 2.8 ships cuDNN 9. VoiceStudio side-loads a cuDNN-8 copy
+**cuDNN 8**, but PyTorch 2.8 ships cuDNN 9. Voiceym side-loads a cuDNN-8 copy
 from `.venv\Lib\site-packages\cudnn8_compat\` — but the step that installs that
 folder only ever lived in the dev-loop setup script, which isn't bundled into
 the packaged app. **Packaged installs never had these libraries at all**, so
@@ -623,7 +623,7 @@ their own engine venvs. Pre-v0.3 they shared a single venv.
 
 **Fix:** Phase 2 ships subprocess isolation per engine (each engine runs in
 its own venv). For v0.3, workaround: install only one of the conflicting
-engines per VoiceStudio copy. See [docs/engines/cosyvoice.md](../engines/cosyvoice.md)
+engines per Voiceym copy. See [docs/engines/cosyvoice.md](../engines/cosyvoice.md)
 for the dedicated CosyVoice path.
 
 **Linked issue:** [#55](https://github.com/debpalash/VoiceStudio/issues/55)
@@ -631,9 +631,9 @@ for the dedicated CosyVoice path.
 **Same class, ASR side:** the `nemo-parakeet` ASR engine has the identical
 problem and currently has **no safe install path** at all — `nemo_toolkit[asr]`
 hard-pins `transformers>=4.57,<4.58`, which is unsatisfiable alongside
-VoiceStudio's own `transformers>=5.3` requirement. Installing it into the
+Voiceym's own `transformers>=5.3` requirement. Installing it into the
 shared venv breaks the backend outright. Do not `pip install nemo_toolkit`
-into VoiceStudio's environment; if you want to try it, use a separate Python
+into Voiceym's environment; if you want to try it, use a separate Python
 environment. Isolated-venv support for this engine (matching CosyVoice/
 dots-tts) is tracked in [#974](https://github.com/debpalash/VoiceStudio/issues/974).
 
@@ -644,24 +644,24 @@ that mentions `torch` and a `download.pytorch.org` (or `download-r2.pytorch.org`
 URL — e.g. `Failed to download torch==2.8.0+cu128 …win_amd64.whl`. The app then
 won't launch.
 
-**Cause:** on Windows/Linux NVIDIA machines, VoiceStudio installs the CUDA PyTorch
+**Cause:** on Windows/Linux NVIDIA machines, Voiceym installs the CUDA PyTorch
 build (`torch` + `torchaudio`) from PyTorch's own index. That CUDA wheel is
 large (~2.5 GB), so a flaky or restricted network drops it partway. This is a
-download/network problem, **not** a bug in VoiceStudio — but the CUDA wheels come
+download/network problem, **not** a bug in Voiceym — but the CUDA wheels come
 from a *named, explicit* index that a PyPI mirror (`UV_DEFAULT_INDEX`) cannot
 redirect, so the generic mirror trick doesn't help here.
 
 **Fix, in order:**
 
 1. **Clean & Retry.** Large downloads frequently succeed on a second attempt —
-   VoiceStudio already retries each request 5× with long timeouts, and a fresh
+   Voiceym already retries each request 5× with long timeouts, and a fresh
    attempt restarts cleanly.
 2. **Use a VPN** if your network throttles or blocks the PyTorch CDN.
 3. **Provide the wheels manually (offline path).** Download the two wheels that
    match your machine from a source you *can* reach (the official
    [pytorch.org](https://pytorch.org/get-started/locally/) wheel index or a
    regional mirror), then drop them in the wheel folder and **Clean & Retry** —
-   VoiceStudio will install from your local copies instead of the network:
+   Voiceym will install from your local copies instead of the network:
    - Folder: **`<env dir>/wheels`** (the exact path is printed in the error
      message and in the setup log; `<env dir>` is your chosen install/storage
      location).
@@ -669,7 +669,7 @@ redirect, so the generic mirror trick doesn't help here.
      — e.g. `torch-2.8.0+cu128-cp311-cp311-win_amd64.whl` and the matching
      `torchaudio-2.8.0+cu128-cp311-cp311-win_amd64.whl`. They must match the
      pinned versions (shown in the failing URL).
-   - On retry, VoiceStudio re-resolves the install using those local wheels; the
+   - On retry, Voiceym re-resolves the install using those local wheels; the
      rest of the (small) dependencies still come from PyPI/your mirror.
 
 If you don't have an NVIDIA GPU, you don't need the CUDA build at all — a CPU /
@@ -696,7 +696,7 @@ PyTorch build and, for every engine, whether it uses the GPU.
 **Fix, by platform:**
 
 - **Windows:** PyTorch engines stay on the CPU (no ROCm wheels exist for the
-  PyTorch version VoiceStudio ships). Engines with their own GPU runtime — today
+  PyTorch version Voiceym ships). Engines with their own GPU runtime — today
   audio.cpp (Vulkan) — do use a Radeon: install its runtime from **Settings →
   Models**. Details and the advanced, unsupported AMD-wheels route:
   [windows.md — GPU support](windows.md#gpu-support).
@@ -724,7 +724,7 @@ time.
 
 **Fix — force a clean re-download:**
 
-1. **Fully quit VoiceStudio.** Check Task Manager (Windows) / Activity Monitor
+1. **Fully quit Voiceym.** Check Task Manager (Windows) / Activity Monitor
    (macOS) and end any leftover `omnivoice` / `python` process — a half-running
    one keeps the cache locked.
 2. **Delete the incomplete model folder(s) entirely** from the HF cache (the
@@ -741,7 +741,7 @@ order:
 - **Connection** — use a stable, direct connection; pause any VPN; avoid
   corporate/school networks.
 - **Region mirror** — if `huggingface.co` is slow/blocked where you are,
-  VoiceStudio normally handles this automatically: with no endpoint explicitly
+  Voiceym normally handles this automatically: with no endpoint explicitly
   configured it probes both the official endpoint and the `hf-mirror.com`
   community mirror and downloads from whichever works (downloads are
   checksum-verified either way; see
@@ -770,7 +770,7 @@ huggingface-cli download k2-fsa/OmniVoice
 huggingface-cli download Systran/faster-whisper-large-v3
 ```
 
-(If VoiceStudio uses a custom models directory, set `HF_HOME` to it first so the
+(If Voiceym uses a custom models directory, set `HF_HOME` to it first so the
 files land where the app looks.)
 
 > Newer builds detect an incomplete cache and re-offer the download instead of
@@ -895,7 +895,7 @@ of going quiet: a **429** with a `Retry-After` header means the request was
 *refused before it started* because the worker pool is already backed up (safe
 to retry verbatim — nothing ran), and a **503** with `Retry-After` means the
 job was accepted but hit its bound. Both carry
-`X-VoiceStudio-Retryable: true`, and the streaming NDJSON error frame carries
+`X-Voiceym-Retryable: true`, and the streaming NDJSON error frame carries
 `"retryable": true` with `retry_after`. Back off on those rather than
 hammering — on a 1-worker machine, concurrent requests serialize by design.
 
@@ -906,7 +906,7 @@ exits. The error message will then recommend switching the ASR engine to
 **Model Catalogue**: it runs transcription in a separate process that can be
 force-killed to reclaim a hung transcribe *and* its VRAM, at a small per-call
 overhead. It reuses your existing faster-whisper install (nothing extra to
-download). VoiceStudio never switches engines automatically — this stays your
+download). Voiceym never switches engines automatically — this stays your
 call.
 
 > **Seeing "The backend crashed (exit code …)" instead?** That's the other
@@ -924,11 +924,11 @@ call.
 > Outside the desktop app (browser dev, Docker, LAN share) the same notice is
 > raised by the **backend itself** on its next start — see **section 14c**.
 
-## 14b. "Can't reach the local VoiceStudio backend" flashing during startup or an automatic restart
+## 14b. "Can't reach the local Voiceym backend" flashing during startup or an automatic restart
 
 **Symptom (older builds):** while the backend was still starting — or while the
 desktop shell was auto-restarting a crashed backend — every click produced a
-**"Can't reach the local VoiceStudio backend"** toast, over and over, even though
+**"Can't reach the local Voiceym backend"** toast, over and over, even though
 the backend came back on its own a few seconds later.
 
 **Cause:** a real backend start/restart takes **10–20+ seconds** (Python venv
@@ -965,7 +965,7 @@ or files (#1635).
 
 ## 14c. "Can't reach the backend" in a browser — `bun run dev`, Docker, or LAN share
 
-**Symptom:** you're using VoiceStudio **outside the desktop app** — the dev
+**Symptom:** you're using Voiceym **outside the desktop app** — the dev
 stack (`bun run dev`), a Docker deployment, or a shared/remote backend — and
 requests fail with a "can't reach the backend" error.
 
@@ -1008,10 +1008,10 @@ Where the forensics live: `omnivoice.log`, `run_sentinel.json`, and
 Windows, `~/.omnivoice` on Linux, or `$OMNIVOICE_DATA_DIR` — the Docker image
 mounts it as the `omnivoice_data` volume).
 
-## 14d. "Can't reach the local VoiceStudio backend" when the backend never started
+## 14d. "Can't reach the local Voiceym backend" when the backend never started
 
 **Symptom (older builds):** the app opened, but every action failed with
-**"Can't reach the local VoiceStudio backend — it may still be starting up, or it
+**"Can't reach the local Voiceym backend — it may still be starting up, or it
 stopped."** Waiting and retrying never helped, and the message gave you nothing
 to act on or to put in a bug report.
 
@@ -1040,7 +1040,7 @@ later attempt can't erase the diagnosis of the first one.
 
 **From source (`bun run dev`)?** Run `bun run setup:api` first so the
 backend's Python environment exists. If the window never comes up, read the
-terminal output plus `omnivoice.log` and `backend_err.log` in your VoiceStudio
+terminal output plus `omnivoice.log` and `backend_err.log` in your Voiceym
 data folder. If a packaging build (`bun run dist`) stops while compiling the
 Rust native helper with a missing `pkg-config` library, install the package
 block in the [Linux source-build guide](linux.md#building-from-source).
@@ -1054,16 +1054,16 @@ This entry covered a corrupted WebView2 profile in the archived Tauri app
 (`IPC custom protocol failed, Tauri will now use the postMessage interface
 instead`, issue #879). The Electron app does not use WebView2. Install Electron
 with the [migration guide](../electron-migration.md); if the Electron app hangs
-at startup, see [14d](#14d-cant-reach-the-local-voicestudio-backend-when-the-backend-never-started).
+at startup, see [14d](#14d-cant-reach-the-local-voiceym-backend-when-the-backend-never-started).
 
-## 16. macOS: microphone permission never prompts, VoiceStudio never appears in System Settings
+## 16. macOS: microphone permission never prompts, Voiceym never appears in System Settings
 
 **Symptom:** clicking record shows "Microphone access denied. macOS: open
-System Settings → Privacy & Security → Microphone and enable VoiceStudio" —
-but VoiceStudio never appears in that list, so there's nothing to enable.
+System Settings → Privacy & Security → Microphone and enable Voiceym" —
+but Voiceym never appears in that list, so there's nothing to enable.
 `NSMicrophoneUsageDescription` is present in the app's `Info.plist`, and
 resetting the permission (`tccutil reset Microphone
-com.voicestudio.desktop`) followed by a relaunch changes nothing — no
+com.voiceym.desktop`) followed by a relaunch changes nothing — no
 system prompt ever appears.
 
 **Cause:** the app bundle was missing the Hardened Runtime *entitlement* for
@@ -1083,7 +1083,7 @@ first use.
 
 **Workaround on older builds (≤ v0.3.12):** record your voice sample in any
 other app (Voice Memos, QuickTime, etc.) and upload the resulting file in
-VoiceStudio instead of using live recording — upload-based cloning is
+Voiceym instead of using live recording — upload-based cloning is
 unaffected and works normally.
 
 **Linked issue:** [#1013](https://github.com/debpalash/VoiceStudio/issues/1013)
@@ -1097,7 +1097,7 @@ unaffected and works normally.
 ## 17. Windows: backend won't start with a non-English (CJK) username — `UnicodeDecodeError` in `site`
 
 **Symptom:** the app never gets past first-run setup / "starting_backend", and
-the backend log shows the interpreter dying before any VoiceStudio code runs:
+the backend log shows the interpreter dying before any Voiceym code runs:
 
 ```
 Fatal Python error: init_import_site: Failed to import the site module
@@ -1113,13 +1113,13 @@ install `.pth` embeds that path in UTF-8, which is rarely a valid byte
 sequence in the active ANSI code page (`gbk`, `shift_jis`, etc.), and the
 interpreter can never start (#1783).
 
-**Fix:** VoiceStudio now rewrites those `.pth` entries to ASCII-only paths after
+**Fix:** Voiceym now rewrites those `.pth` entries to ASCII-only paths after
 each runtime install and before each launch, so existing environments recover
 on the next start. If the backend still cannot start, keep the app
 environment on an ASCII-only path. On the first-run
 setup screen, press **Change…** beside **App environment** and pick a folder
-such as `C:\VoiceStudio` before setup starts. An environment that cannot start
-fails VoiceStudio's runtime check, so setup opens again: choose an ASCII-only
+such as `C:\Voiceym` before setup starts. An environment that cannot start
+fails Voiceym's runtime check, so setup opens again: choose an ASCII-only
 App environment location there. The broken environment is left in place for
 manual removal.
 
@@ -1157,11 +1157,11 @@ Full guide: [dubbing/translation-engines.md](../dubbing/translation-engines.md#i
 
 On networks that block or can't resolve **GitHub**, the first-run bootstrap may
 fail to download the managed Python (`uv venv ... failed`, often a DNS error).
-VoiceStudio now tries, in order: the default GitHub host → a gh-proxy mirror → your
+Voiceym now tries, in order: the default GitHub host → a gh-proxy mirror → your
 **system Python** (if 3.11+ is installed). If all three fail:
 
 1. **Install Python 3.11+** from <https://www.python.org/downloads/> (on Windows,
-   tick *"Add Python to PATH"*), then relaunch — VoiceStudio will use it.
+   tick *"Add Python to PATH"*), then relaunch — Voiceym will use it.
 2. **Point at a reachable mirror** for the Python download:
    - `UV_PYTHON_INSTALL_MIRROR=https://gh-proxy.com/https://github.com/astral-sh/python-build-standalone/releases/download`
 3. **Point at a PyPI mirror** for the dependency install (`uv sync`):
@@ -1178,7 +1178,7 @@ VoiceStudio now tries, in order: the default GitHub host → a gh-proxy mirror �
 
 This was a `v0.5.0` workspace-lifecycle bug exposed by rapid Launchpad ↔ Dub
 navigation while media renderers were cleaning up. Current builds isolate each
-workspace under its own DOM owner. Update VoiceStudio; no model or project data
+workspace under its own DOM owner. Update Voiceym; no model or project data
 repair is required.
 
 **Linked issue:** [#1590](https://github.com/debpalash/VoiceStudio/issues/1590)
@@ -1216,7 +1216,7 @@ crash (exit code `0xffffffff` / `-1073741819`) rather than a Python traceback.
 CUDA normally on some Blackwell cards, so this is not simply a wheel without
 kernels for your GPU. What is confirmed is that on the Windows setups in
 [#1931](https://github.com/debpalash/VoiceStudio/issues/1931) `import torch`
-dies natively before any VoiceStudio code can classify it, which is why the app
+dies natively before any Voiceym code can classify it, which is why the app
 can only say the backend did not start. Moving to torch 2.9.x clears it for the
 users who hit it.
 
@@ -1236,22 +1236,22 @@ uv run python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_
 
 `True (12, 0)` means Blackwell is working.
 
-**Note.** torchaudio 2.9 removed `set_audio_backend()`. VoiceStudio's call is
+**Note.** torchaudio 2.9 removed `set_audio_backend()`. Voiceym's call is
 guarded, so the upgrade above no longer trades one startup crash for another —
 but if you are on a build older than that guard you will see
 `AttributeError: module 'torchaudio' has no attribute 'set_audio_backend'`
-in the same phase. Update VoiceStudio, or delete that line in
+in the same phase. Update Voiceym, or delete that line in
 `backend/main.py`.
 
 **Why the pin has not moved.** Raising it for everyone changes the CUDA build
 on every platform, in Docker, and in CI, so it is a deliberate decision rather
 than a patch. Track it in [#1931](https://github.com/debpalash/VoiceStudio/issues/1931).
 
-## Uninstalling / removing all of VoiceStudio's data
+## Uninstalling / removing all of Voiceym's data
 
-VoiceStudio is fully local — no accounts, no services, nothing to deactivate. To
+Voiceym is fully local — no accounts, no services, nothing to deactivate. To
 reclaim disk space or fully remove it, run the uninstaller, which lists every
-VoiceStudio folder with its size (dry-run first) and deletes on `--yes`:
+Voiceym folder with its size (dry-run first) and deletes on `--yes`:
 
 ```bash
 scripts/uninstall.sh            # macOS/Linux — dry-run
@@ -1273,17 +1273,17 @@ remove the app binary itself are in
 
 ### Pedalboard illegal-instruction crashes
 
-VoiceStudio pins pedalboard to `>=0.9.14,<0.9.21` while [upstream portable-wheel repair #466](https://github.com/spotify/pedalboard/pull/466) remains open. Re-sync the locked environment after updating from a build with newer affected wheels. This keeps the existing effects API floor while avoiding the reported Linux CPU import crash.
+Voiceym pins pedalboard to `>=0.9.14,<0.9.21` while [upstream portable-wheel repair #466](https://github.com/spotify/pedalboard/pull/466) remains open. Re-sync the locked environment after updating from a build with newer affected wheels. This keeps the existing effects API floor while avoiding the reported Linux CPU import crash.
 
 ### TorchCodec unavailable
 
-When torchaudio requires an unavailable TorchCodec installation, VoiceStudio writes through soundfile and reads audio (reference clips, dub segments, cached-segment headers) through soundfile or its FFmpeg fallback, so dub assembly works on torchaudio 2.9 without TorchCodec. Reference amplitude is normalized using the decoded sample representation, including 8-, 24-, and 32-bit PCM.
+When torchaudio requires an unavailable TorchCodec installation, Voiceym writes through soundfile and reads audio (reference clips, dub segments, cached-segment headers) through soundfile or its FFmpeg fallback, so dub assembly works on torchaudio 2.9 without TorchCodec. Reference amplitude is normalized using the decoded sample representation, including 8-, 24-, and 32-bit PCM.
 
 ### Isolated engine timeouts
 
 Generation has a separate deadline from health checks. Default sidecar deadlines scale with text length and the host execution budget; per-engine timeout overrides remain supported. The outer job guard includes time for sidecar termination and error reporting. A timeout identifies the deadline, while a closed pipe without a timeout indicates a crash.
 
-VoiceStudio 0.5.6 could report an installed one-click TTS engine such as
+Voiceym 0.5.6 could report an installed one-click TTS engine such as
 VoxCPM2 or MOSS-TTS-Nano as unavailable when **Test engine** probed its
 in-process adapter instead of the installed isolated runtime. Update to a
 newer desktop build; reinstalling the engine or downloading its model again
@@ -1293,7 +1293,7 @@ Per-engine receive overrides include `OMNIVOICE_CONFUCIUS4_RECV_TIMEOUT_S`, `OMN
 
 ### FFprobe alongside FFmpeg
 
-When FFprobe is not on PATH, VoiceStudio also checks beside the selected FFmpeg binary. Parent folders named `ffmpeg` remain unchanged; only the executable name becomes `ffprobe` (or `ffprobe.exe` on Windows).
+When FFprobe is not on PATH, Voiceym also checks beside the selected FFmpeg binary. Parent folders named `ffmpeg` remain unchanged; only the executable name becomes `ffprobe` (or `ffprobe.exe` on Windows).
 
 ### Subtitle and manuscript encodings
 
@@ -1302,7 +1302,7 @@ Electron and web imports accept UTF-8, UTF-16 with a byte-order mark, and Window
 
 ### Compile fallback after startup
 
-An architecture accepted by the torch.compile preflight may still encounter independent Dynamo, Inductor, Triton, or CUDA-graph runtime errors. VoiceStudio distinguishes those from GPU memory exhaustion and retries with eager execution; architecture support alone does not guarantee compilation succeeds.
+An architecture accepted by the torch.compile preflight may still encounter independent Dynamo, Inductor, Triton, or CUDA-graph runtime errors. Voiceym distinguishes those from GPU memory exhaustion and retries with eager execution; architecture support alone does not guarantee compilation succeeds.
 
 ### Native engine installation from a remote client
 
@@ -1341,7 +1341,7 @@ the message:
 
 - **`Could not start <program>: spawn UNKNOWN`** — Windows (or your security
   software) refused to run the Python runtime; `UNKNOWN` is how the OS reports a
-  blocked executable. Add VoiceStudio's runtime folder to your antivirus
+  blocked executable. Add Voiceym's runtime folder to your antivirus
   exclusions (Windows Security → Virus & threat protection → Manage settings →
   Exclusions) and make sure it is not inside OneDrive, then retry.
 - **`Backend did not answer on port 3900 within N s`** — the wait for the
@@ -1354,7 +1354,7 @@ the message:
   ran out of time is treated as inconclusive instead of sending an intact
   runtime back to the setup screen. The first start after an install is the
   slowest because antivirus scans every new file; later starts are much faster.
-- **Installed app, Python environment deleted** (antivirus, disk cleanup, interrupted update): VoiceStudio rebuilds it by itself on the next launch with the normal setup progress screen, once per launch. If that repair fails the setup screen says so; check the engine log and press Retry. Your voices and projects are never touched.
+- **Installed app, Python environment deleted** (antivirus, disk cleanup, interrupted update): Voiceym rebuilds it by itself on the next launch with the normal setup progress screen, once per launch. If that repair fails the setup screen says so; check the engine log and press Retry. Your voices and projects are never touched.
 - **`The Python environment in <folder> is missing`** or **`… is incomplete:
   <reason>`** (running from a source checkout) — run `bun run setup:api` in the
   repository and let it finish (the message names the folder to open the terminal in; it is never taken from the terminal's working directory, so running from `C:\Windows\System32` does not matter). A folder without `pyproject.toml` is not a source checkout: install from the release installer instead. *Missing* means no `.venv` exists yet.
@@ -1364,7 +1364,7 @@ the message:
   runtime). If the folder is inside OneDrive, Dropbox, iCloud Drive or Google
   Drive, move the checkout to a plain local folder first: online-only
   placeholders and file locking break the Python environment. The same applies to `error loading dynamically imported module: http://localhost:3902/@fs/…/node_modules/.vite/deps/…` from a dev server running inside OneDrive (installed builds never load from a dev server).
-- **`EPERM: operation not permitted, rename …\.previous-backend`** — a scanner or OneDrive held the runtime folder while VoiceStudio refreshed it. The app retries for about 10 s, then updates the files in place; if it still fails, exclude the runtime folder from antivirus and quit any VoiceStudio left in Task Manager.
+- **`EPERM: operation not permitted, rename …\.previous-backend`** — a scanner or OneDrive held the runtime folder while Voiceym refreshed it. The app retries for about 10 s, then updates the files in place; if it still fails, exclude the runtime folder from antivirus and quit any Voiceym left in Task Manager.
 
 A native crash (`3221225477`, `-1073741819`) right after pressing Generate
 shortly after launch was caused by the startup preload and the first generation
@@ -1374,7 +1374,7 @@ paths; if a load ever wedges past its deadline, retries fail immediately with a
 persists, attach the full faulthandler dump (the `Windows fatal exception` block
 including every `Thread` section) from Settings → Logs → Backend. Bug reports
 already carry a condensed copy: the crash message names the faulting frame, and
-the report keeps the faulting thread's VoiceStudio frames (which model or job
+the report keeps the faulting thread's Voiceym frames (which model or job
 was loading) plus the frame each other thread was running.
 
 ### ASR initialization errors
@@ -1393,7 +1393,7 @@ Concurrent pre-migration database snapshots reserve distinct backup counters bef
 
 ## "This model can't be used until you accept its licence"
 
-VoiceStudio does not own or license the models it runs. Models whose licence is
+Voiceym does not own or license the models it runs. Models whose licence is
 not plainly commercial (non-commercial, conditional or unidentified terms, such
 as the default OmniVoice model) are blocked until you accept their licence once.
 Accept it in the dialog that appears, or in **Model Manager → the model's
@@ -1401,7 +1401,7 @@ Licence icon**. Nothing is re-downloaded. Headless and API users can accept with
 `POST /models/licenses/accept`; see
 [Licence acceptance before use](../licensing/model-review-workflow.md#licence-acceptance-before-use).
 
-### Setup stops at `VOICESTUDIO_CUDNN8_PROBE` on a CPU-only computer
+### Setup stops at `VOICEYM_CUDNN8_PROBE` on a CPU-only computer
 
 If an older installer exits with code `3221225477` at this probe, install the
 updated desktop build and retry **Install local runtime**. CPU and ROCm setup
@@ -1414,7 +1414,7 @@ verification decides whether the runtime works.
 ### "Backend exited unexpectedly (exit code 3221225477)" while loading a model
 
 A cut-off model download makes Windows kill the backend with an access violation
-(`0xC0000005`) when the weights are read. VoiceStudio now checks each
+(`0xC0000005`) when the weights are read. Voiceym now checks each
 `.safetensors` file's header against its size before loading and re-downloads a
 truncated file automatically. If you point `OMNIVOICE_CHECKPOINT` at your own
 folder, it names the incomplete file instead; delete it and download it again.

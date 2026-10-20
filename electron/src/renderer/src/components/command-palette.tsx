@@ -92,10 +92,10 @@ export function CommandPalette() {
       }
     };
     window.addEventListener('keydown', key);
-    window.addEventListener('voicestudio:commands', show);
+    window.addEventListener('voiceym:commands', show);
     return () => {
       window.removeEventListener('keydown', key);
-      window.removeEventListener('voicestudio:commands', show);
+      window.removeEventListener('voiceym:commands', show);
     };
   }, [navigate]);
   const workspaceGroup = t('nav.workspaces');

@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { ROUTES as routes } from './fixtures/routes.mjs';
 
-const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const viewports = [
   { width: 1440, height: 900 },
   { width: 640, height: 720 },
@@ -35,7 +35,7 @@ try {
     route.fulfill({ json: { stargazers_count: 1234 } }),
   );
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
   });
   await page.goto(`${base}/#/`, { waitUntil: 'domcontentloaded' });
 

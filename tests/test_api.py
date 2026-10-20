@@ -1,5 +1,5 @@
 """
-VoiceStudio API — Unit Test Suite
+Voiceym API — Unit Test Suite
 Tests all roadmap features: TaskManager, scene detection, lip-sync scoring,
 export endpoints (VTT, SRT, MP3, segments ZIP, stems ZIP), streaming TTS.
 

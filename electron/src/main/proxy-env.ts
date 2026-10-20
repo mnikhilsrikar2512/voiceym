@@ -86,7 +86,7 @@ export function downloadProxyEnv(
     const hosts = proxyBypassHosts(settings?.bypass ?? '');
     // Stop before uv can reinterpret the raw registry value as a hostname.
     // Omitting a bypass rule could route private requests through the proxy.
-    if (settings && hosts === null) throw new Error('VOICESTUDIO_PROXY_BYPASS_UNSUPPORTED');
+    if (settings && hosts === null) throw new Error('VOICEYM_PROXY_BYPASS_UNSUPPORTED');
     if (settings && hosts !== null) {
       Object.assign(env, parseWinInetProxy(settings.server));
       systemBypass = hosts;

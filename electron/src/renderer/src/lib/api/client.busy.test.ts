@@ -14,7 +14,7 @@ const { apiFetch, apiJson } = await import('./client');
 
 /** The guard only engages in the native shell, where a real bridge exists. */
 function nativeShell(): void {
-  vi.stubGlobal('voicestudio', { backend: {} });
+  vi.stubGlobal('voiceym', { backend: {} });
 }
 
 beforeEach(() => {

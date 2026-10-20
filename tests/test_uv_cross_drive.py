@@ -251,7 +251,7 @@ def test_every_bootstrap_uv_call_passes_env(path):
 
 # ── Engine installs never inherit the app's uv config ─────────────────────
 #
-# The backend runs inside VoiceStudio's tree, so a uv process it starts
+# The backend runs inside Voiceym's tree, so a uv process it starts
 # discovers the app's pyproject.toml and applies its [tool.uv]
 # constraint-dependencies (torch==2.8.0). Resolved that way,
 # torch==2.9.1+cu128 (MOSS-TTS-v1.5) and torch==2.7.0 (Confucius4) are

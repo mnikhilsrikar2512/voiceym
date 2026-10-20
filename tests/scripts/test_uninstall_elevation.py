@@ -20,14 +20,14 @@ HARNESS = r'''
 param([string]$ScriptPath, [string]$Root, [string]$Elevated, [string]$Apply, [string]$Remove)
 $ErrorActionPreference = 'Stop'
 $global:caseRoot = $Root
-$global:candidate = Join-Path $Root 'shared/VoiceStudio/Uninstall VoiceStudio.exe'
+$global:candidate = Join-Path $Root 'shared/Voiceym/Uninstall Voiceym.exe'
 function Get-ItemProperty {
   [CmdletBinding()] param([string[]]$Path)
   [pscustomobject]@{
-    DisplayName = 'VoiceStudio'
+    DisplayName = 'Voiceym'
     UninstallString = '"' + $global:candidate + '" /allusers'
-    PSPath = 'Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\Software\Uninstall\VoiceStudio'
-    PSChildName = 'VoiceStudio'
+    PSPath = 'Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\Software\Uninstall\Voiceym'
+    PSChildName = 'Voiceym'
   }
 }
 function Get-Acl {
@@ -85,13 +85,13 @@ if ($Apply -eq 'true') { $parameters.Yes=$true }
 
 def run_uninstaller(tmp_path, *, elevated, apply, remove_app=True):
     data = tmp_path / "appdata" / "OmniVoice"
-    userdata = tmp_path / "appdata" / "VoiceStudio"
-    installation = tmp_path / "shared" / "VoiceStudio"
+    userdata = tmp_path / "appdata" / "Voiceym"
+    installation = tmp_path / "shared" / "Voiceym"
     for folder in (data, userdata, installation, tmp_path / "localapp", tmp_path / "profile"):
         folder.mkdir(parents=True, exist_ok=True)
     (data / "project.txt").write_text("user project")
     (userdata / "settings.json").write_text("{}")
-    executable = installation / "Uninstall VoiceStudio.exe"
+    executable = installation / "Uninstall Voiceym.exe"
     executable.write_text("synthetic executable placeholder; never executed")
     harness = tmp_path / "harness.ps1"
     harness.write_text(HARNESS)

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const fixture = join(workspaceRoot, 'backend/assets/samples/dictation/en_conversational.wav');
 const browser = await chromium.launch({
   channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge',
@@ -15,7 +15,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
     localStorage.removeItem('omni_transcriptions');
   });
   const errors = [];

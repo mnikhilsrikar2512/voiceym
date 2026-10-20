@@ -4,7 +4,7 @@
 // Electron's main process before the app starts; local-first.mjs re-exports it for test files.
 
 /** The only GitHub request the app makes by policy (star badge); tests answer it with a stub. */
-const STAR_COUNT_URL = 'https://api.github.com/repos/debpalash/VoiceStudio';
+const STAR_COUNT_URL = 'https://api.github.com/repos/mnikhilsrikar2512/voiceym';
 const STAR_COUNT_STUB = { stargazers_count: 1234 };
 
 const LOCAL_SCHEMES = new Set(['app:', 'file:', 'data:', 'blob:', 'devtools:']);

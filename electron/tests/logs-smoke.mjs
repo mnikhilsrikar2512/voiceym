@@ -20,7 +20,7 @@ import { chromium } from 'playwright';
       clears++;
       return r.fulfill({ json: { cleared: true } });
     });
-    await p.goto((process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/settings/logs');
+    await p.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/settings/logs');
     const log = p.getByRole('log');
     await log.getByText('INFO ready', { exact: false }).waitFor();
     await p

@@ -4,6 +4,6 @@
 // GitHub Sponsors leads (monthly or one-time, credited on the sponsor's GitHub
 // profile); Ko-fi and PayPal remain for supporters without a GitHub account.
 // The supporter picks which — no default-charge nudge, no amount pre-selected.
-export const GITHUB_SPONSORS_URL = 'https://github.com/sponsors/debpalash';
-export const KOFI_URL = 'https://ko-fi.com/debpalash';
-export const PAYPAL_URL = 'https://paypal.me/palashCoder';
+export const GITHUB_SPONSORS_URL = 'https://github.com/mnikhilsrikar2512/voiceym';
+export const KOFI_URL = 'https://github.com/mnikhilsrikar2512/voiceym';
+export const PAYPAL_URL = 'https://github.com/mnikhilsrikar2512/voiceym';

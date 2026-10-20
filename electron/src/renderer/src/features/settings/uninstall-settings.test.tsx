@@ -23,7 +23,7 @@ import { UninstallSettings, uninstallBytes } from './uninstall-settings';
 
 const targets = [
   { key: 'data' as const, path: 'C:\\OmniVoice', size_bytes: 1024, exists: true, shared: false },
-  { key: 'env' as const, path: 'C:\\VoiceStudio', size_bytes: 2048, exists: true, shared: false },
+  { key: 'env' as const, path: 'C:\\Voiceym', size_bytes: 2048, exists: true, shared: false },
   {
     key: 'models' as const,
     path: 'C:\\Users\\pal\\.cache\\huggingface',

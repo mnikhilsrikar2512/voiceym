@@ -31,7 +31,7 @@ it('allows a 40% wider spacious pane and restores the saved width on remount', (
   expect(separator).toHaveAttribute('aria-valuemax', '750');
   fireEvent.keyDown(separator, { key: 'ArrowRight' });
   expect(separator).toHaveAttribute('aria-valuenow', '436');
-  expect(localStorage.getItem('voicestudio.secondary-sidebar.spacious')).toBe('436');
+  expect(localStorage.getItem('voiceym.secondary-sidebar.spacious')).toBe('436');
   first.unmount();
   render(pane);
   expect(screen.getByRole('separator')).toHaveAttribute('aria-valuenow', '436');

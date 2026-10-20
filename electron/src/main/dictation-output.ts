@@ -84,7 +84,7 @@ export class DictationOutputClient {
 
   private start(): void {
     this.child = spawn(this.executable, [String(this.ownerPid)], {
-      env: { ...process.env, VOICESTUDIO_DESKTOP_EXE: process.execPath },
+      env: { ...process.env, VOICEYM_DESKTOP_EXE: process.execPath },
       stdio: ['pipe', 'pipe', 'pipe'],
       windowsHide: true,
       detached: process.platform !== 'win32',

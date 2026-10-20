@@ -740,7 +740,7 @@ fn should_start_clipboard_only(
 #[cfg(target_os = "linux")]
 fn untargeted_wayland_insert_enabled() -> bool {
     is_wayland()
-        && std::env::var("VOICESTUDIO_WAYLAND_UNTARGETED_INSERT").is_ok_and(|value| {
+        && std::env::var("VOICEYM_WAYLAND_UNTARGETED_INSERT").is_ok_and(|value| {
             matches!(
                 value.trim().to_ascii_lowercase().as_str(),
                 "1" | "true" | "yes"

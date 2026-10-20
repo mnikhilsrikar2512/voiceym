@@ -2360,8 +2360,8 @@
       "commercial_use": false,
       "review_status": "unreviewed",
       "credit": "Unresolved: record the author and required notice for each selected asset.",
-      "source_url": "https://github.com/debpalash/VoiceStudio/blob/main/docs/engine-acceptance.md",
-      "evidence_url": "https://github.com/debpalash/VoiceStudio/blob/main/docs/engine-acceptance.md",
+      "source_url": "https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engine-acceptance.md",
+      "evidence_url": "https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engine-acceptance.md",
       "configured_at": "backend/services/tts_backend.py; backend/services/rvc.py; backend/services/asr_backend.py",
       "notes": "Cannot enumerate every user asset from repository; represent unknown/unreviewed state explicitly, with user provenance inputs."
     }

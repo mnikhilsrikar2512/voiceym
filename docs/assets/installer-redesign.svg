@@ -1,27 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1110" viewBox="0 0 1600 1110" role="img" aria-labelledby="title desc">
-<title id="title">Proposed VoiceStudio installation experience</title>
+<title id="title">Proposed Voiceym installation experience</title>
 <desc id="desc">Three illustrative screens: review a target-bound installation plan, follow persistent download progress, and recover from a failure while retaining completed downloads. This is a design mockup, not a screenshot of implemented software. All storage numbers are illustrative.</desc>
 <rect width="1600" height="1110" fill="#101b21"/>
 <style>text{font-family:Inter,Arial,sans-serif} .muted{fill:#52646b}</style>
 <text x="40" y="58" font-size="34" fill="#ecf6ef" font-weight="700">A first run that makes sense</text>
-<text x="40" y="91" font-size="18" fill="#9eb6bb" font-weight="400">VoiceStudio installer redesign · proposed layouts · illustrative data, not an implemented screen</text>
+<text x="40" y="91" font-size="18" fill="#9eb6bb" font-weight="400">Voiceym installer redesign · proposed layouts · illustrative data, not an implemented screen</text>
 <text x="40" y="143" font-size="24" fill="#eff8f5" font-weight="600">1  Review the plan</text>
 <rect x="40" y="165" width="470" height="755" rx="20" fill="#f5f8f4"/>
 <rect x="40" y="165" width="470" height="64" rx="20" fill="#e6efea"/>
 <rect x="40" y="205" width="470" height="24" rx="0" fill="#e6efea"/>
-<text x="62" y="204" font-size="20" fill="#183e3b" font-weight="700">VoiceStudio</text>
+<text x="62" y="204" font-size="20" fill="#183e3b" font-weight="700">Voiceym</text>
 <text x="350" y="204" font-size="14" fill="#395b5c" font-weight="400">Help  ·  English</text>
 <text x="565" y="143" font-size="24" fill="#eff8f5" font-weight="600">2  See real progress</text>
 <rect x="565" y="165" width="470" height="755" rx="20" fill="#f5f8f4"/>
 <rect x="565" y="165" width="470" height="64" rx="20" fill="#e6efea"/>
 <rect x="565" y="205" width="470" height="24" rx="0" fill="#e6efea"/>
-<text x="587" y="204" font-size="20" fill="#183e3b" font-weight="700">VoiceStudio</text>
+<text x="587" y="204" font-size="20" fill="#183e3b" font-weight="700">Voiceym</text>
 <text x="875" y="204" font-size="14" fill="#395b5c" font-weight="400">Help  ·  English</text>
 <text x="1090" y="143" font-size="24" fill="#eff8f5" font-weight="600">3  Recover in place</text>
 <rect x="1090" y="165" width="470" height="755" rx="20" fill="#f5f8f4"/>
 <rect x="1090" y="165" width="470" height="64" rx="20" fill="#e6efea"/>
 <rect x="1090" y="205" width="470" height="24" rx="0" fill="#e6efea"/>
-<text x="1112" y="204" font-size="20" fill="#183e3b" font-weight="700">VoiceStudio</text>
+<text x="1112" y="204" font-size="20" fill="#183e3b" font-weight="700">Voiceym</text>
 <text x="1400" y="204" font-size="14" fill="#395b5c" font-weight="400">Help  ·  English</text>
 <text x="64" y="266" font-size="27" fill="#152d35" font-weight="700">Your first voice</text>
 <text x="64" y="295" font-size="18" fill="#152d35" font-weight="400">Goal: clone a voice</text>
@@ -41,7 +41,7 @@
 <text x="64" y="634" font-size="16" fill="#52646b" font-weight="400">4.2 GiB peak + 10 GiB reserve = 14.2 GiB*</text>
 <text x="64" y="661" font-size="16" fill="#52646b" font-weight="400">18.0 GiB free on that drive*</text>
 <rect x="64" y="684" width="422" height="68" rx="10" fill="#fff" stroke="#d8e1df"/>
-<text x="78" y="711" font-size="15" fill="#152d35" font-weight="400">Models: /media/ssd/VoiceStudio</text>
+<text x="78" y="711" font-size="15" fill="#152d35" font-weight="400">Models: /media/ssd/Voiceym</text>
 <text x="78" y="736" font-size="14" fill="#08685b" font-weight="400">Change location   ·   View files and licenses</text>
 <text x="64" y="782" font-size="15" fill="#52646b" font-weight="400">Only these selected components will install</text>
 <rect x="64" y="806" width="422" height="44" rx="10" fill="#0c695f"/>

@@ -32,7 +32,7 @@ Give the number (international format, such as `+14155550123`), the task brief,
 and the voice. Optional: the engine, the language, a disclosure for this call
 only, and a time limit (10 minutes by default, 30 at most).
 
-1. VoiceStudio asks Twilio to place the call. Only one agent call (placed or
+1. Voiceym asks Twilio to place the call. Only one agent call (placed or
    answered) runs at a time by default (at most two, in call settings). There is no queue and no bulk
    dialing: every call starts from your own request.
 2. When the call is answered, the agent speaks the disclosure first. This line
@@ -45,7 +45,7 @@ only, and a time limit (10 minutes by default, 30 at most).
 5. The agent ends the call politely when the task is done or cannot be done.
    It escalates to you ("needs you") when asked something the brief does not
    answer.
-6. After the call, VoiceStudio writes a summary and outcome: `booked`, `done`,
+6. After the call, Voiceym writes a summary and outcome: `booked`, `done`,
    `not_done`, `needs_you` or `failed`.
 
 While the call runs you can watch the live transcript. You can also take over:
@@ -133,7 +133,7 @@ anyone.
 
 ## API
 
-All routes are on VoiceStudio's local API (admin-only; never on the telephony
+All routes are on Voiceym's local API (admin-only; never on the telephony
 listener or tunnel).
 
 | Method and path | Purpose |
@@ -180,7 +180,7 @@ turn the other person talked over.
 - `POST /calls` calls Twilio's REST API (`Calls.json`) with your Account SID and
   Auth Token. `Url` is the telephony listener's voice webhook with the call's id
   (`?call=`), and `StatusCallback` is `/integrations/twilio/status`. Twilio
-  signs both, and VoiceStudio checks the signature exactly as for incoming calls.
+  signs both, and Voiceym checks the signature exactly as for incoming calls.
 - When the call is answered, the webhook answers with a `<Connect><Stream>`
   whose single-use token is bound to both the Twilio call and the agent session.
 - Caller audio (8 kHz μ-law) is split into utterances by an energy-based voice
@@ -194,5 +194,5 @@ turn the other person talked over.
   back and never spoken or recorded.
 - Replies are synthesized with the streaming TTS pipeline in the chosen voice,
   resampled to 8 kHz μ-law and sent as 20 ms frames. On barge-in (about 200 ms
-  of the other person's speech while the agent talks), VoiceStudio sends Twilio
+  of the other person's speech while the agent talks), Voiceym sends Twilio
   a `clear` to drop buffered audio.

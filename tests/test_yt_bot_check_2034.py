@@ -1,7 +1,7 @@
 """#2034 — YouTube's "Sign in to confirm you're not a bot" wall.
 
 The reporter got yt-dlp's raw advice ("Use --cookies-from-browser or --cookies"),
-which names CLI flags nobody using VoiceStudio can pass. The app's own answer is
+which names CLI flags nobody using Voiceym can pass. The app's own answer is
 the Dub tab's cookies.txt import, so the failure gets its own class and hint,
 and it is never retried as a network blip or escalated like a 403.
 """

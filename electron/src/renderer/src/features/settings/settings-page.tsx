@@ -232,7 +232,7 @@ const extraSettings = [
   },
 ] as const;
 
-/** Settings → Account is listed only when this build offers VoiceStudio Cloud accounts. */
+/** Settings → Account is listed only when this build offers Voiceym Cloud accounts. */
 export function extraSettingsFor(cloudAccountsAvailable: boolean) {
   return extraSettings.filter((item) => cloudAccountsAvailable || !('cloudAccountsOnly' in item));
 }

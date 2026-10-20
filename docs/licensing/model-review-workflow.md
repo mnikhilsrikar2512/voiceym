@@ -8,7 +8,7 @@ preferences are preserved.
 
 ## Licence acceptance before use
 
-VoiceStudio is not the owner or licensor of any model and cannot grant model
+Voiceym is not the owner or licensor of any model and cannot grant model
 access or rights. Every model whose licence category is not **Commercial use
 allowed** (MIT, Apache-2.0, BSD, ISC, CC0, CC-BY) must be accepted before it can
 be used, including models that are already downloaded. That covers
@@ -79,7 +79,7 @@ Clicking it opens the licence dialog, on a solid background, in this order:
    (model and evidence versions, evidence date, terms fingerprint, registry
    version and acceptance history; long hashes are shortened with a copy
    button) and **Verified install (preview)**.
-5. A footer that stays visible: the notice that VoiceStudio is not the licensor
+5. A footer that stays visible: the notice that Voiceym is not the licensor
    and cannot grant access, a confirmation checkbox, and **Accept licence** or
    **Withdraw acceptance**.
 

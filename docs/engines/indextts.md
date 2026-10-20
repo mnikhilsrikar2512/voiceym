@@ -1,12 +1,12 @@
-# VoiceStudio — IndexTTS 2.5
+# Voiceym — IndexTTS 2.5
 
 IndexTTS 2.5 is an optional, multilingual voice-cloning engine for dubbing
 and expressive speech. It supports Chinese, English, Japanese, Spanish, and
 Arabic, with reference-audio cloning, emotion references, emotion vectors,
 and text-directed emotion.
 
-VoiceStudio runs IndexTTS in a dedicated subprocess and Python environment.
-This keeps its `transformers<5` dependency isolated from VoiceStudio's
+Voiceym runs IndexTTS in a dedicated subprocess and Python environment.
+This keeps its `transformers<5` dependency isolated from Voiceym's
 runtime. Existing user-managed IndexTTS-2 environments remain supported.
 
 ## Install
@@ -16,7 +16,7 @@ require substantial disk space.
 
 1. Open **Model Catalogue**.
 2. Expand **IndexTTS 2.5** and select **Install**.
-3. Keep VoiceStudio open while source, dependencies, and weights download.
+3. Keep Voiceym open while source, dependencies, and weights download.
 
 The installer:
 
@@ -31,7 +31,7 @@ The installer:
 - saves `OMNIVOICE_INDEXTTS_DIR` and activates the engine without a restart.
 
 An app-managed IndexTTS-2 checkout remains intact while 2.5 installs into a
-separate directory. VoiceStudio switches to 2.5 only after the new source,
+separate directory. Voiceym switches to 2.5 only after the new source,
 environment, and weights pass verification. User-managed clones are never
 modified or removed; their legacy
 `indextts.infer_v2` entry point remains supported.
@@ -43,7 +43,7 @@ if their interpreter cannot be checked, the installer reports how to recover.
 
 ## Manual install
 
-Use a separate checkout and venv. Do not install IndexTTS into VoiceStudio's
+Use a separate checkout and venv. Do not install IndexTTS into Voiceym's
 root environment.
 
 ```bash
@@ -69,7 +69,7 @@ export OMNIVOICE_INDEXTTS_DIR=/path/to/index-tts
 )
 ```
 
-Restart VoiceStudio after setting a persistent environment variable outside
+Restart Voiceym after setting a persistent environment variable outside
 the app.
 
 On an AMD ROCm host, swap the venv's torch for a ROCm build after the install
@@ -79,7 +79,7 @@ CUDA build, which cannot see an AMD GPU and runs entirely on the CPU.
 
 ## Compatibility
 
-VoiceStudio probes these locations in order:
+Voiceym probes these locations in order:
 
 1. `${OMNIVOICE_INDEXTTS_DIR}/.venv/`;
 2. `backend/engines/indextts/.venv/`;
@@ -99,11 +99,11 @@ synthesis from a wedged one, and waits up to 900 seconds for a sidecar that has
 gone genuinely silent. Set `OMNIVOICE_INDEXTTS_RECV_TIMEOUT_S` (minimum 30) to
 tune that ceiling.
 
-IndexTTS 2.5 requires a language token. VoiceStudio maps locale codes and
+IndexTTS 2.5 requires a language token. Voiceym maps locale codes and
 language names to the five supported languages and detects Chinese, Japanese,
 or Arabic script for Auto requests. Ambiguous Latin text defaults to English.
 
-IndexTTS 2.5 uses `duration_factor` for native duration guidance. VoiceStudio's
+IndexTTS 2.5 uses `duration_factor` for native duration guidance. Voiceym's
 dubbing fit stage remains responsible for exact segment timing. Legacy
 IndexTTS-2 installations continue receiving their `target_tokens` control.
 
@@ -129,7 +129,7 @@ reinstall.
 
 Some pinned configs name checkpoints on the upstream authors' training cluster.
 When a configured absolute `gpt_checkpoint` or `s2mel_checkpoint` is missing,
-VoiceStudio uses the installed `gpt.pth` or `s2mel.pth` if present. This also
+Voiceym uses the installed `gpt.pth` or `s2mel.pth` if present. This also
 handles Windows paths on other operating systems. Existing valid custom paths
 and relative paths remain unchanged.
 
@@ -177,7 +177,7 @@ derivative-work, prohibited-use, attribution, and compliance obligations.
 Review the [official license](https://huggingface.co/IndexTeam/IndexTTS-2.5/blob/main/LICENSE)
 before installing or using the model.
 
-This model is not covered by VoiceStudio's blanket commercial-use statement.
+This model is not covered by Voiceym's blanket commercial-use statement.
 Organizations above either threshold must obtain Bilibili's separate written
 license before installing or using IndexTTS 2.5. Other engines remain available
 without enabling this optional sidecar.

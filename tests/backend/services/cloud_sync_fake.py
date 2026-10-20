@@ -1,4 +1,4 @@
-"""An in-memory VoiceStudio Cloud sync server with the SyncClient interface (tests only)."""
+"""An in-memory Voiceym Cloud sync server with the SyncClient interface (tests only)."""
 from __future__ import annotations
 
 import copy

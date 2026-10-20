@@ -1,16 +1,16 @@
 name: 🤝 Sponsorship inquiry
-description: Support VoiceStudio and (optionally) claim a logo slot. Not for bugs or feature requests.
+description: Support Voiceym and (optionally) claim a logo slot. Not for bugs or feature requests.
 title: "Sponsorship inquiry: "
 labels: ["sponsor"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for considering sponsoring **VoiceStudio** 💛
+        Thanks for considering sponsoring **Voiceym** 💛
 
-        VoiceStudio is free, local-first, and AGPL-3.0 — sponsorship keeps development going.
-        See **[SPONSORS.md](https://github.com/debpalash/VoiceStudio/blob/main/SPONSORS.md)** for tiers, placements, and logo guidelines.
-        Prefer to just donate? [GitHub Sponsors](https://github.com/sponsors/debpalash) (monthly or one-time), [Ko-fi](https://ko-fi.com/debpalash) (recurring), or [PayPal](https://paypal.me/palashCoder) (one-time) — you don't need this form for that.
+        Voiceym is free, local-first, and AGPL-3.0 — sponsorship keeps development going.
+        See **[SPONSORS.md](https://github.com/mnikhilsrikar2512/voiceym/blob/main/SPONSORS.md)** for tiers, placements, and logo guidelines.
+        Prefer to just donate? [GitHub Sponsors](https://github.com/mnikhilsrikar2512/voiceym) (monthly or one-time), [Ko-fi](https://github.com/mnikhilsrikar2512/voiceym) (recurring), or [PayPal](https://github.com/mnikhilsrikar2512/voiceym) (one-time) — you don't need this form for that.
   - type: input
     id: name
     attributes:
@@ -72,7 +72,7 @@ body:
     attributes:
       label: Acknowledgements
       options:
-        - label: I understand sponsorship is a thank-you, not a paywall — VoiceStudio stays fully free and AGPL-3.0, and sponsors don't get gated features.
+        - label: I understand sponsorship is a thank-you, not a paywall — Voiceym stays fully free and AGPL-3.0, and sponsors don't get gated features.
           required: true
-        - label: If I provide a logo, I have the right to use it and grant VoiceStudio permission to display it in the README, the app, and the project website.
+        - label: If I provide a logo, I have the right to use it and grant Voiceym permission to display it in the README, the app, and the project website.
           required: false

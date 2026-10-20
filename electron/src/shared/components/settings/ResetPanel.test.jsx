@@ -305,7 +305,7 @@ describe('ResetPanel', () => {
 
     await waitFor(() =>
       expect(toast.error).toHaveBeenCalledWith(
-        'VoiceStudio couldn’t safely clear saved projects. Your project data was left intact; free some storage or restart the app, then try again.',
+        'Voiceym couldn’t safely clear saved projects. Your project data was left intact; free some storage or restart the app, then try again.',
       ),
     );
     expect(toast.error).not.toHaveBeenCalledWith(expect.stringContaining('LongformLocalFallback'));

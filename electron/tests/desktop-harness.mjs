@@ -42,7 +42,7 @@ export function electronExecutable() {
 }
 
 /** Latin non-ASCII plus a space, so path-encoding bugs in user-data handling surface per OS. */
-export const makeProfile = () => mkdtempSync(join(tmpdir(), 'VoiceStudio Tëst '));
+export const makeProfile = () => mkdtempSync(join(tmpdir(), 'Voiceym Tëst '));
 
 /** A loopback port with nothing listening on it. */
 export const freePort = () =>
@@ -77,10 +77,10 @@ async function launch({ profile, backendPort, proxyPort, seed }) {
       ...inherited,
       ELECTRON_RENDERER_URL: '',
       OMNIVOICE_PORT: String(backendPort),
-      VOICESTUDIO_SKIP_BACKEND: '1',
-      VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: '1',
-      VOICESTUDIO_DISABLE_UPDATER: '1',
-      VOICESTUDIO_ELECTRON_PROXY_PORT: String(proxyPort),
+      VOICEYM_SKIP_BACKEND: '1',
+      VOICEYM_ALLOW_MULTIPLE_INSTANCES: '1',
+      VOICEYM_DISABLE_UPDATER: '1',
+      VOICEYM_ELECTRON_PROXY_PORT: String(proxyPort),
     },
     timeout: 60000,
   });
@@ -96,8 +96,8 @@ async function launch({ profile, backendPort, proxyPort, seed }) {
     await context.addInitScript(() => {
       try {
         for (const [key, value] of [
-          ['voicestudio.setup.complete.v1', '1'],
-          ['voicestudio.locale', 'en'],
+          ['voiceym.setup.complete.v1', '1'],
+          ['voiceym.locale', 'en'],
         ]) {
           if (localStorage.getItem(key) === null) localStorage.setItem(key, value);
         }

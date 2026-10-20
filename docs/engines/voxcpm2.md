@@ -1,7 +1,7 @@
-# VoiceStudio — VoxCPM2 Engine
+# Voiceym — VoxCPM2 Engine
 
 VoxCPM2 (OpenBMB) is the studio-quality option: native 48 kHz output,
-zero-shot voice cloning, and — uniquely among VoiceStudio's engines —
+zero-shot voice cloning, and — uniquely among Voiceym's engines —
 **voice design**: creating a synthetic voice from a text description
 ("young female, warm tone, British accent") with no reference audio at all.
 
@@ -23,7 +23,7 @@ zero-shot voice cloning, and — uniquely among VoiceStudio's engines —
 
 ## Setup
 
-Install the package into VoiceStudio's Python environment:
+Install the package into Voiceym's Python environment:
 
 ```bash
 pip install "voxcpm>=2.0.3"
@@ -47,7 +47,7 @@ now retried once with a fresh client. See
 
 ## Behaviour notes
 
-- **Voice design:** provide a description and no reference audio. VoiceStudio
+- **Voice design:** provide a description and no reference audio. Voiceym
   passes it in the native `(description)text` format; there is no separate
   `voice_description` argument in VoxCPM 2.0.3.
 - **Cloning:** the reference clip is prepared before use (edge-silence trim
@@ -62,7 +62,7 @@ now retried once with a fresh client. See
   mode. A transcript without reference audio is ignored. These mappings follow
   the [VoxCPM 2.0.3 examples](https://github.com/OpenBMB/VoxCPM/blob/2.0.3/README.md#-voice-design)
   in both the managed sidecar and in-process adapter.
-- VoxCPM2 emits mastered, studio-grade audio, so VoiceStudio **skips its
+- VoxCPM2 emits mastered, studio-grade audio, so Voiceym **skips its
   shared mastering chain** (which is tuned for 24 kHz engines) — only benign
   loudness normalization applies.
 - A trailing-silence guard trims long near-silent tails from generations,
@@ -77,13 +77,13 @@ now retried once with a fresh client. See
 
 ## One-click install
 
-Click **Install** in **Model Catalogue → VoxCPM2**. VoiceStudio
+Click **Install** in **Model Catalogue → VoxCPM2**. Voiceym
 puts VoxCPM2 in its own Python environment under its data directory and runs
 it there, in a separate process. It installs the CUDA build of PyTorch on an
 NVIDIA GPU, the CPU build on other Windows and Linux machines, and the
 regular build on Apple Silicon.
 
-Nothing it installs touches VoiceStudio itself or any other engine, and
+Nothing it installs touches Voiceym itself or any other engine, and
 **Uninstall** in the same row removes only that folder. An existing
 `pip install voxcpm` setup keeps working as it is. The button is not offered
 on Intel Macs, where no PyTorch build it needs exists. The model weights
@@ -92,7 +92,7 @@ download on first use.
 ## Troubleshooting
 
 - Engine shows unavailable: the `voxcpm` package isn't installed — run the
-  `pip install` above and restart VoiceStudio.
+  `pip install` above and restart Voiceym.
 - Repeated first-download failures: check connectivity/HF access, then see
   [install/troubleshooting.md](../install/troubleshooting.md).
 

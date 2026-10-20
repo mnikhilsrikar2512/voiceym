@@ -56,7 +56,7 @@ reviews:
   path_instructions:
     - path: "**/*.{py,rs,js,jsx,ts,tsx}"
       instructions: >-
-        VoiceStudio is local-first: no required cloud calls, accounts or API
+        Voiceym is local-first: no required cloud calls, accounts or API
         keys. Flag any new outbound network call that is not on the sanctioned
         list in CLAUDE.md (Local-first guarantee) and .github/CONTRIBUTING.md
         (Quality gates); analytics stays behind the first-run consent prompt.

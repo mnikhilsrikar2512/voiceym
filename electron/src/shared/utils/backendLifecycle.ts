@@ -5,7 +5,7 @@
  * The shell always knows whether the backend process is starting, ready,
  * being auto-restarted by the supervisor (#567), or terminally failed — but
  * until this module, api/client.ts guessed: it retried a transport failure
- * for ~2.9 s and then threw "Can't reach the local VoiceStudio backend", while
+ * for ~2.9 s and then threw "Can't reach the local Voiceym backend", while
  * a real backend start/restart takes 10–20+ s (venv spawn + torch import).
  * Every request that landed in that window dead-ended with the scary toast,
  * which is why the error "kept coming up" on every restart/cold-start race.
@@ -23,7 +23,7 @@
  * `ensure_venv_ready` refused (Intel Mac, a failed `uv sync`, a blocked
  * GitHub). This module used to return only the stage tag and throw that
  * message away, so every backend-start failure collapsed into apiFetch's
- * evidence-free "Can't reach the local VoiceStudio backend" — the shell knew
+ * evidence-free "Can't reach the local Voiceym backend" — the shell knew
  * exactly what went wrong and the frontend structurally could not read it.
  * The stage probe now returns `{ stage, message }` and callers surface it.
  */
@@ -72,11 +72,11 @@ export function _toLifecycle(res: { stage?: string; message?: unknown } | null):
  * (`last_bootstrap_failure`, #1177). A precise diagnosis outranks silence,
  * and the retained copy is the only place it still exists. */
 export async function backendLifecycleStage(): Promise<BackendLifecycle> {
-  if (typeof window === 'undefined' || !window.voicestudio) {
+  if (typeof window === 'undefined' || !window.voiceym) {
     return { stage: 'unknown', message: null };
   }
   try {
-    const status = await window.voicestudio.backend.getStatus();
+    const status = await window.voiceym.backend.getStatus();
     if (status.stage === 'ready') return { stage: 'ready', message: null };
     if (['failed', 'crashed', 'port_in_use'].includes(status.stage)) {
       const detail = status.message?.trim() || status.logTail.at(-1)?.trim() || null;

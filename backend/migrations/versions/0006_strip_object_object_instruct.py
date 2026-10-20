@@ -4,7 +4,7 @@ Revision ID: 0006_strip_object_object_instruct
 Revises: 0005_unified_profiles
 Create Date: 2026-06-20 00:00:00.000000
 
-A pre-fix Voice Studio build ("Save design as profile") passed the
+A pre-fix Voiceym build ("Save design as profile") passed the
 ``buildDesignInstruct()`` *object* straight to FormData, which string-coerced it
 to the literal ``"[object Object]"`` and persisted that into
 ``voice_profiles.instruct`` (#550 #545 #542 #537 #530 #525). On first

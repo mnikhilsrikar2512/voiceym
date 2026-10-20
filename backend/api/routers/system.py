@@ -220,9 +220,9 @@ def _nvidia_live_stats() -> tuple[float, float, float] | None:
 def _ui_port() -> int | None:
     """The browser UI dev-server port, or None when there is no such server.
 
-    Shares core.csrf's resolver (OMNIVOICE_UI_PORT, alias VOICESTUDIO_UI_PORT)
+    Shares core.csrf's resolver (OMNIVOICE_UI_PORT, alias VOICEYM_UI_PORT)
     so Settings → Sharing reports the port the CORS/CSRF allow-list trusts.
-    The packaged desktop app serves its UI from app://voicestudio, so with no
+    The packaged desktop app serves its UI from app://voiceym, so with no
     UI port configured a desktop-contained backend has none to report; the
     Electron dev shell passes its renderer port explicitly.
     """
@@ -524,7 +524,7 @@ def _tauri_plugin_log_candidates():
     if sys.platform == "darwin":
         return [
             os.path.join(home, "Library/Logs", bid, "tauri.log"),
-            os.path.join(home, "Library/Logs", bid, "VoiceStudio.log"),
+            os.path.join(home, "Library/Logs", bid, "Voiceym.log"),
         ]
     if sys.platform.startswith("linux"):
         data_dir = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local/share")
@@ -1028,7 +1028,7 @@ def system_notifications():
                 "id": "disk-low",
                 "level": "warn",
                 "title": f"Low disk space ({free_gb:.1f} GB free)",
-                "message": "VoiceStudio needs disk space for models, audio, and temp files.",
+                "message": "Voiceym needs disk space for models, audio, and temp files.",
                 "action": {"type": "settings-tab", "target": "storage"},
             })
     except Exception:

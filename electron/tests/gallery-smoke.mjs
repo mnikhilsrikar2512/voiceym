@@ -8,7 +8,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
   });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
@@ -63,7 +63,7 @@ try {
       ],
     }),
   );
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.goto(base + '/#/gallery');
   await page.getByRole('heading', { name: item.name }).waitFor();
   assert.equal(uses, 0);

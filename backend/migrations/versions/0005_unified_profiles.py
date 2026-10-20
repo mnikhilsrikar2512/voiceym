@@ -1,4 +1,4 @@
-"""Voice Studio unification: profile `kind` discriminator + design params
+"""Voiceym unification: profile `kind` discriminator + design params
 
 Revision ID: 0005_unified_profiles
 Revises: 0004_mcp_client_bindings

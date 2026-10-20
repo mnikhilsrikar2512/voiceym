@@ -27,7 +27,7 @@ try {
             else { $key.SetValue('DisableMSI', 1, [Microsoft.Win32.RegistryValueKind]::DWord) }
             $key.Dispose()
         }
-        $logsBefore = @(Get-ChildItem $env:PUBLIC -Directory -Filter 'VoiceStudioMsiSmoke-*' | ForEach-Object FullName)
+        $logsBefore = @(Get-ChildItem $env:PUBLIC -Directory -Filter 'VoiceymMsiSmoke-*' | ForEach-Object FullName)
         $failure = $null
         try { & "$PSScriptRoot/smoke-per-user-msi.ps1" -MsiPath $invalid -PrepareHostedRunner }
         catch { $failure = $_.Exception.Message }
@@ -42,8 +42,8 @@ try {
             $key.Dispose()
             if (-not $valid) { throw 'Policy value/type changed after failure' }
         }
-        if (Get-LocalUser -Name VoiceStudioMsiTest -ErrorAction SilentlyContinue) { throw 'Test account survived failed install' }
-        $newLogs = @(Get-ChildItem $env:PUBLIC -Directory -Filter 'VoiceStudioMsiSmoke-*' | Where-Object { $_.FullName -notin $logsBefore })
+        if (Get-LocalUser -Name VoiceymMsiTest -ErrorAction SilentlyContinue) { throw 'Test account survived failed install' }
+        $newLogs = @(Get-ChildItem $env:PUBLIC -Directory -Filter 'VoiceymMsiSmoke-*' | Where-Object { $_.FullName -notin $logsBefore })
         if ($newLogs.Count -ne 1 -or -not (Test-Path (Join-Path $newLogs[0].FullName 'install.log'))) { throw 'Verbose failure log missing' }
         Write-Host "PASS policy restoration after invalid MSI: $case"
     }

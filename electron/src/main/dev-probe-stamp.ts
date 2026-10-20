@@ -8,7 +8,7 @@ import { join } from 'node:path';
  * project metadata, the interpreter or site-packages did, so a matching stamp
  * lets the next launch skip it.
  */
-const STAMP_FILE = '.voicestudio-dev-probe';
+const STAMP_FILE = '.voiceym-dev-probe';
 
 function fingerprint(path: string): string {
   try {

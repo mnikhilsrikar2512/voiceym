@@ -98,7 +98,7 @@ def test_clear_reports_nothing_when_there_is_no_plugin_log(system_mod, tmp_path,
             "darwin",
             [
                 "Library/Logs/{bid}/tauri.log",
-                "Library/Logs/{bid}/VoiceStudio.log",
+                "Library/Logs/{bid}/Voiceym.log",
                 "Library/Logs/OmniVoice/backend.log",
                 "Library/Logs/OmniVoice/backend_err.log",
             ],

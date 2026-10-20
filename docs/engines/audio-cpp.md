@@ -1,9 +1,9 @@
-# VoiceStudio — audio.cpp Engine (Breeze-TTS-2)
+# Voiceym — audio.cpp Engine (Breeze-TTS-2)
 
 [audio.cpp](https://github.com/0xShug0/audio.cpp) is a pure-C++ ggml audio
 inference framework with prebuilt binaries for Windows, macOS, and Linux and
-no Python dependency. VoiceStudio discovers the compute providers compiled
-into the installed binary and selects the best available device. VoiceStudio drives its
+no Python dependency. Voiceym discovers the compute providers compiled
+into the installed binary and selects the best available device. Voiceym drives its
 `audiocpp_server` over loopback HTTP — v1 serves the **`breeze_tts`**
 family: **Breeze-TTS-2** (BreezeBlue, 3B params, English + Chinese, voice
 clone + voice design + voice direction, 24 kHz).
@@ -31,7 +31,7 @@ clone + voice design + voice direction, 24 kHz).
 | macOS x64 | upstream `metal` archive (Metal disabled by upstream) | CPU |
 | Linux aarch64 | none upstream | unavailable in v1 |
 
-VoiceStudio runs `audiocpp_server --list-devices` once per installed binary,
+Voiceym runs `audiocpp_server --list-devices` once per installed binary,
 prefers CUDA, ROCm, Metal, then a discrete Vulkan GPU, and keeps CPU as a safe
 fallback. Device numbers are local to each backend registry. The Q8_0 GGUF is
 approximately 4.73 GiB, plus runtime memory.
@@ -43,7 +43,7 @@ instead of that dedicated-VRAM floor.
 ## Install
 
 On a supported desktop, install the model from **Settings → Models**, then use
-**Install runtime** on the audio.cpp/Sortformer engine row. VoiceStudio fetches
+**Install runtime** on the audio.cpp/Sortformer engine row. Voiceym fetches
 the pinned archive, verifies its published size and SHA-256, rejects unsafe
 archive paths, probes its device list, and installs it under the update-surviving
 app-data engine directory. The action is explicit; generation never downloads
@@ -88,7 +88,7 @@ For a user-managed runtime:
    ```
 
    Alternatively set `OMNIVOICE_AUDIOCPP_DIR` to the directory containing it.
-3. Restart VoiceStudio, open **Model Catalogue (TTS tab → the engine's Weights)**, find
+3. Restart Voiceym, open **Model Catalogue (TTS tab → the engine's Weights)**, find
    **Breeze-TTS-2 Q8_0 for audio.cpp**, review its research/non-commercial
    license note, and click **Install**. Generation never starts this ~4.73 GiB
    download automatically.
@@ -135,7 +135,7 @@ exact release URL and SHA for your platform.
 
 The managed loopback port may be taken. Check `server.log` next to
 `server.json` in the app data `audiocpp/` directory, or set a different
-`OMNIVOICE_AUDIOCPP_PORT` and restart VoiceStudio.
+`OMNIVOICE_AUDIOCPP_PORT` and restart Voiceym.
 
 ### `Breeze-TTS-2 ... not installed` or `package ... not completely installed`
 

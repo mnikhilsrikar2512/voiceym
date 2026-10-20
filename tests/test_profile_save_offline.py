@@ -106,7 +106,7 @@ def installed_snapshot(tmp_path, monkeypatch):
     (snapshot / "config.json").write_text("{}")
     with open(snapshot / "model.bin", "wb") as weights:
         weights.truncate(64 * 1024 * 1024)
-    (repo_dir / "voicestudio-revision").write_text(revision_for(_REPO) + "\n")
+    (repo_dir / "voiceym-revision").write_text(revision_for(_REPO) + "\n")
     monkeypatch.setenv("HF_HUB_CACHE", str(cache))
     return str(snapshot)
 

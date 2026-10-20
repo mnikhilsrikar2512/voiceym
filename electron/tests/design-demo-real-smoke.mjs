@@ -14,7 +14,7 @@ try {
   await card.getByRole('button', { name: /Use this design/ }).click();
   await page.waitForFunction(
     () =>
-      JSON.parse(localStorage.getItem('voicestudio.design.v1') || '{}').attrs?.EnglishAccent ===
+      JSON.parse(localStorage.getItem('voiceym.design.v1') || '{}').attrs?.EnglishAccent ===
       'british accent',
   );
   assert.match(await page.locator('#design-script').inputValue(), /clock tower struck thirteen/);

@@ -1,7 +1,7 @@
 # Workflows and Calls
 
 The **Workflows** sidebar opens a local canvas with executable audio and text recipes and
-call drafts. Steps reuse VoiceStudio’s speech, transcription, translation and
+call drafts. Steps reuse Voiceym’s speech, transcription, translation and
 voice-conversion APIs and saved voices.
 
 ## Run a speech workflow
@@ -74,7 +74,7 @@ Pan, zoom and use the minimap to navigate the canvas. Arrow keys move selected
 steps. Drafts save locally and can be duplicated or deleted. Keyboard moves persist
 just like dragging; reopening preserves all saved workflows and steps.
 
-The **Calls** view lets VoiceStudio phone someone for you, in your own
+The **Calls** view lets Voiceym phone someone for you, in your own
 voice, and handle a short task: "book a table for 2 at 8pm Friday", "move my
 appointment to next week", "ask what time you open on Sunday". You watch the
 call live, can take over at any moment, and get a summary when it ends.
@@ -95,14 +95,14 @@ pass. Each item has a **Fix** button that opens the right page:
 | Check | What it means | Fix opens |
 | --- | --- | --- |
 | Twilio account connected | Account SID and auth token are saved | Integrations → Twilio |
-| Public link for Twilio | Twilio can reach VoiceStudio through your tunnel | Integrations → Twilio |
+| Public link for Twilio | Twilio can reach Voiceym through your tunnel | Integrations → Twilio |
 | Phone number to call from | A Twilio number is set | Integrations → Twilio |
 | Language model | A model is ready to hold the conversation | Settings → Models → LLM |
 | Speech recognition | A speech-to-text model is ready | Settings → Models → ASR |
 | A voice that may place calls | You have a voice allowed to call (below) | Saved voices |
 
 Press **Check again** after fixing something. If the page says **Calls need the
-latest backend**, your backend predates this feature: update VoiceStudio (or
+latest backend**, your backend predates this feature: update Voiceym (or
 restart the backend after updating), then set up Twilio.
 
 ## Which voices can call

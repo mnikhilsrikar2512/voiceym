@@ -47,11 +47,11 @@ const routes = [
   '/settings/openapi',
 ];
 
-const cdpBase = process.env.VOICESTUDIO_CDP_URL ?? 'http://127.0.0.1:9333';
-const rendererUrl = process.env.VOICESTUDIO_RENDERER_URL ?? 'http://localhost:3902/#/';
+const cdpBase = process.env.VOICEYM_CDP_URL ?? 'http://127.0.0.1:9333';
+const rendererUrl = process.env.VOICEYM_RENDERER_URL ?? 'http://localhost:3902/#/';
 const targets = await fetch(`${cdpBase}/json/list`).then((response) => response.json());
-const page = targets.find((target) => target.type === 'page' && target.title === 'VoiceStudio');
-if (!page) throw new Error('VoiceStudio CDP page was not found');
+const page = targets.find((target) => target.type === 'page' && target.title === 'Voiceym');
+if (!page) throw new Error('Voiceym CDP page was not found');
 
 const socket = new WebSocket(page.webSocketDebuggerUrl);
 await new Promise((resolve, reject) => {

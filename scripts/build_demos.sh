@@ -1,10 +1,10 @@
 #!/bin/bash
-# Build all demo assets for VoiceStudio v0.3.0.
+# Build all demo assets for Voiceym v0.3.0.
 #
 # Two render paths:
 #   1. macOS `say` (default) — fast, deterministic, ships immediately.
 #      Used to bootstrap the demo bundle so v0.3.0 has working demos on day one.
-#   2. VoiceStudio engine (--engine omnivoice) — production-quality re-render
+#   2. Voiceym engine (--engine omnivoice) — production-quality re-render
 #      once model weights are cached. Recipes documented but not executed
 #      until the user opts in.
 #
@@ -51,7 +51,7 @@ if [ "$ENGINE" = "omnivoice" ]; then
   # Delegate to the Python script that talks to the real engine.
   PY_ARGS=""
   [ "$SKIP_EXISTING" = 1 ] && PY_ARGS="--skip-existing"
-  echo "Rendering cloning + voice-design demos via VoiceStudio engine…"
+  echo "Rendering cloning + voice-design demos via Voiceym engine…"
   if [ -d "${REPO_ROOT}/.venv" ]; then
     "${REPO_ROOT}/.venv/bin/python" "${REPO_ROOT}/scripts/render_demos_omnivoice.py" $PY_ARGS
   else
@@ -61,7 +61,7 @@ if [ "$ENGINE" = "omnivoice" ]; then
   echo ""
   echo "Note: dictation samples are still rendered via 'say' — re-running for them now."
   # Fall through to render dictation; --skip-existing will preserve the
-  # VoiceStudio-rendered cloning + design outputs we just produced.
+  # Voiceym-rendered cloning + design outputs we just produced.
   SKIP_EXISTING=1
   ENGINE="say"
 fi
@@ -102,7 +102,7 @@ echo "── Voice cloning demo (24kHz mono 16-bit) ─────────�
 # Voice: Samantha (en_US adult female, the macOS default — clean, neutral,
 # warm). Reference text from the cloning spec.
 render "Samantha" \
-  "Hey. I'm the VoiceStudio demo voice. I was made right here, on your machine: private, local, and ready whenever you are." \
+  "Hey. I'm the Voiceym demo voice. I was made right here, on your machine: private, local, and ready whenever you are." \
   "${SAMPLES_DIR}/demo_voice.wav" 24000
 
 # Pre-rendered clone output — same voice, different text. Used when the user
@@ -128,7 +128,7 @@ render "Ralph" \
   "${DESIGN_DIR}/demo_voice_design_us_news_anchor.wav" 24000
 
 render "Rishi" \
-  "Thank you for calling VoiceStudio support. I can see your account here. Let's get this sorted out together." \
+  "Thank you for calling Voiceym support. I can see your account here. Let's get this sorted out together." \
   "${DESIGN_DIR}/demo_voice_design_indian_support_agent.wav" 24000
 
 # Captain Crusty — gravelly cartoon-sailor villain. Inspired by the "tough old
@@ -253,5 +253,5 @@ echo "── Totals ────────────────────
 du -sh "${SAMPLES_DIR}" | awk '{print "  Bundle size: " $1}'
 find "${SAMPLES_DIR}" -name "*.wav" | wc -l | awk '{print "  WAV count:   " $1}'
 echo ""
-echo "Done. To re-render with the VoiceStudio engine later:"
+echo "Done. To re-render with the Voiceym engine later:"
 echo "  scripts/build_demos.sh --engine omnivoice"

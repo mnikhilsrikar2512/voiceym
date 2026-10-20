@@ -13,7 +13,7 @@
 
 import { openExternal } from '../api/external';
 
-const BASE = 'https://github.com/debpalash/VoiceStudio/blob/main';
+const BASE = 'https://github.com/mnikhilsrikar2512/voiceym/blob/main';
 
 export const ERROR_DOCS: Record<string, string> = {
   GPU_ARCH_UNSUPPORTED: `${BASE}/docs/install/troubleshooting.md#generation-failure-diagnosis`,

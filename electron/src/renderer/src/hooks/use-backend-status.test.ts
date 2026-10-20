@@ -17,14 +17,14 @@ afterEach(() => {
   vi.resetModules();
 });
 it('does not advertise a native backend as ready before its first status', async () => {
-  vi.stubGlobal('voicestudio', { backend: {} });
+  vi.stubGlobal('voiceym', { backend: {} });
   const status = await import('./use-backend-status');
   expect(status.getBackendStatusSnapshot().stage).toBe('attaching');
 });
 it('does not replace a newer pushed status with an older initial snapshot', async () => {
   let push!: (status: unknown) => void;
   let finish!: (status: unknown) => void;
-  vi.stubGlobal('voicestudio', {
+  vi.stubGlobal('voiceym', {
     backend: {
       onStatus: (callback: typeof push) => {
         push = callback;
@@ -49,7 +49,7 @@ it('does not replace a newer pushed status with an older initial snapshot', asyn
 it('pauses backend queries until the native supervisor reports ready', async () => {
   onlineManager.setOnline(true);
   let push!: (status: unknown) => void;
-  vi.stubGlobal('voicestudio', {
+  vi.stubGlobal('voiceym', {
     backend: {
       onStatus: (callback: typeof push) => {
         push = callback;
@@ -76,7 +76,7 @@ it('pauses backend queries until the native supervisor reports ready', async () 
 it('stays online while a live backend is only busy, and offline when it dies', async () => {
   onlineManager.setOnline(true);
   let push!: (status: unknown) => void;
-  vi.stubGlobal('voicestudio', {
+  vi.stubGlobal('voiceym', {
     backend: {
       onStatus: (callback: typeof push) => {
         push = callback;
@@ -114,7 +114,7 @@ it('treats only ready and unresponsive as able to answer a request (#2430)', asy
 // reach the poll-interval helpers so background polls back off during a stall.
 it('lengthens background status polls while the backend is busy', async () => {
   let push!: (status: unknown) => void;
-  vi.stubGlobal('voicestudio', {
+  vi.stubGlobal('voiceym', {
     backend: {
       onStatus: (callback: typeof push) => {
         push = callback;
@@ -138,7 +138,7 @@ it('lengthens background status polls while the backend is busy', async () => {
 
 async function nativeConnectivity() {
   let push!: (status: unknown) => void;
-  vi.stubGlobal('voicestudio', {
+  vi.stubGlobal('voiceym', {
     backend: {
       onStatus: (callback: typeof push) => {
         push = callback;
@@ -203,7 +203,7 @@ it('internet reconnect cannot resume requests before native readiness or after a
 });
 
 it('keeps browser connectivity handling without a native supervisor', async () => {
-  vi.stubGlobal('voicestudio', undefined);
+  vi.stubGlobal('voiceym', undefined);
   await import('./use-backend-status');
   const client = new QueryClient();
   client.mount();

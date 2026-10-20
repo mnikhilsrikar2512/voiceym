@@ -68,7 +68,7 @@ def test_speech_maps_invalid_binary_to_503_with_repair_hint(client, monkeypatch)
                 "bin/omnivoice-tts-darwin-arm64",
                 "file is empty (0 bytes) — a placeholder, not a real binary",
                 "run `scripts/build-omnivoice-tts.sh --platform darwin-arm64` "
-                "or reinstall OmniVoice Studio",
+                "or reinstall OmniVoiceym",
             )
 
     monkeypatch.setitem(tts._REGISTRY, "broken-binary-engine", _BrokenBinary)

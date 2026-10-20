@@ -4,13 +4,13 @@ import { resolve, join } from 'node:path';
 import { createServer } from 'node:http';
 import assert from 'node:assert/strict';
 import { DictationOutputClient } from '../src/main/dictation-output';
-const folder = await mkdtemp(join(tmpdir(), 'voicestudio-watch-'));
+const folder = await mkdtemp(join(tmpdir(), 'voiceym-watch-'));
 const bytes = Buffer.from('disposable watch upload fixture');
 await writeFile(join(folder, 'sample.mp4'), bytes);
 const helper = new DictationOutputClient(
-  process.env.VOICESTUDIO_NATIVE_HELPER ||
+  process.env.VOICEYM_NATIVE_HELPER ||
     resolve(
-      'native/desktop-bridge/target/debug/voicestudio-desktop-bridge' +
+      'native/desktop-bridge/target/debug/voiceym-desktop-bridge' +
         (process.platform === 'win32' ? '.exe' : ''),
     ),
 );

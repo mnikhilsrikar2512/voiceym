@@ -48,7 +48,7 @@ def main() -> int:
     if args.cancel_after is not None and args.cancel_after <= 0:
         parser.error("--cancel-after must be positive")
 
-    with tempfile.TemporaryDirectory(prefix="voicestudio-sortformer-smoke-") as temp:
+    with tempfile.TemporaryDirectory(prefix="voiceym-sortformer-smoke-") as temp:
         clip = Path(temp) / "input.wav"
         subprocess.run(
             [

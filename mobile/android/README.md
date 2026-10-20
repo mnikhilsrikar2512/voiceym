@@ -1,6 +1,6 @@
-# VoiceStudio Android companion (M1)
+# Voiceym Android companion (M1)
 
-Native Kotlin / Jetpack Compose companion for a paired VoiceStudio host. No
+Native Kotlin / Jetpack Compose companion for a paired Voiceym host. No
 inference, cloud relay, analytics transmission, crash reporter or push service.
 
 ## Prerequisites
@@ -8,7 +8,7 @@ inference, cloud relay, analytics transmission, crash reporter or push service.
 - JDK 21 (AGP does not support the machine's default JDK 27).
 - Android SDK platform 36 and build tools; minimum device API 29.
 - Internet for the first Gradle/dependency download; no NDK required.
-- A VoiceStudio host with Network sharing enabled, or a private server/Tailscale
+- A Voiceym host with Network sharing enabled, or a private server/Tailscale
   URL. Engine installation, model license acceptance and host administration
   remain on the host.
 
@@ -24,7 +24,7 @@ printf 'sdk.dir=%s\n' "$ANDROID_HOME" > local.properties
 ./gradlew lint
 ./gradlew assembleDebugAndroidTest
 ./gradlew installDebug
-adb shell am start -n com.voicestudio.mobile/.MainActivity
+adb shell am start -n com.voiceym.mobile/.MainActivity
 ```
 
 Windows: use `gradlew.bat` and equivalent JAVA_HOME / ANDROID_HOME settings.
@@ -117,7 +117,7 @@ an empty `profile_id` explicitly means the engine preset, never source cloning.
 
 Before creating a job, Dub fetches `/engines/translation`, selects exactly its
 `active` ID, and requires positive `installed` and `ready` fields. Missing or
-unready engines direct the user to VoiceStudio Settings on the computer. An
+unready engines direct the user to Voiceym Settings on the computer. An
 `online` engine names the service and requires confirmation for that job using
 equally styled Allow/Decline buttons; dismissal and decline start no upload or
 translation. LLM engines also require that consent unless the resolved

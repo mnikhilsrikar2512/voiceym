@@ -8,7 +8,7 @@ from urllib.parse import SplitResult, urlsplit
 from core.app_config import DEFAULT_WEB_PORT
 
 
-CSRF_HEADER = "x-voicestudio-csrf"
+CSRF_HEADER = "x-voiceym-csrf"
 CSRF_VALUE = "1"
 SAFE_HTTP_METHODS = frozenset({"GET", "HEAD", "OPTIONS"})
 
@@ -85,17 +85,17 @@ def _origin_tuple(value: str | None) -> tuple[str, str, int | None] | None:
     return scheme, parsed.hostname.lower(), port
 
 
-# Electron serves the packaged renderer from app://voicestudio. The retired
+# Electron serves the packaged renderer from app://voiceym. The retired
 # Tauri shell's origins are deliberately absent: final Tauri installs spawn the
 # backend bundled with them, never this one.
-DEFAULT_DESKTOP_ORIGINS = ("app://voicestudio",)
+DEFAULT_DESKTOP_ORIGINS = ("app://voiceym",)
 
 # The browser UI dev-server port. OMNIVOICE_UI_PORT is canonical, matching
-# OMNIVOICE_PORT; VOICESTUDIO_UI_PORT is the name the Vite configs read before
+# OMNIVOICE_PORT; VOICEYM_UI_PORT is the name the Vite configs read before
 # the two were unified and stays accepted as an alias. Mirrored in
 # config/app.json.
 UI_PORT_ENV = "OMNIVOICE_UI_PORT"
-UI_PORT_ENV_ALIASES = ("VOICESTUDIO_UI_PORT",)
+UI_PORT_ENV_ALIASES = ("VOICEYM_UI_PORT",)
 DEFAULT_UI_PORT = DEFAULT_WEB_PORT
 
 

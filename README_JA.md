@@ -1,13 +1,13 @@
 <div align="center">
-  <img src="docs/logo.png" alt="VoiceStudio" width="88" />
-  <h1>VoiceStudio</h1>
+  <img src="docs/logo.png" alt="Voiceym" width="88" />
+  <h1>Voiceym</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift における VoiceStudio のランキング" width="220" height="48" /></a>
+    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift における Voiceym のランキング" width="220" height="48" /></a>
   </p>
   <p><strong>646 言語に対応した、オープンソースの音声クローン・ボイスデザイン・動画吹き替え・音声入力・文字起こし・オーディオブック制作ツール。</strong></p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">ウェブサイト</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">ダウンロード</a> ·
+    <a href="https://voiceym.example/?utm_source=github&utm_medium=readme&utm_campaign=project">ウェブサイト</a> ·
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/releases/latest">ダウンロード</a> ·
     <a href="#はじめに">はじめに</a> ·
     <a href="#ドキュメント">ドキュメント</a> ·
     <a href="https://discord.gg/bzQavDfVV9">Discord</a> ·
@@ -15,14 +15,14 @@
     <a href="README_CN.md">简体中文</a>
   </p>
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main" alt="CI" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio" alt="最新リリース" /></a>
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mnikhilsrikar2512/voiceym/ci.yml?branch=main" alt="CI" /></a>
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/releases/latest"><img src="https://img.shields.io/github/v/release/mnikhilsrikar2512/voiceym" alt="最新リリース" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="AGPL-3.0" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio&style=stats" alt="閲覧数" /></a>
+    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=Voiceym&style=stats" alt="閲覧数" /></a>
   </p>
 </div>
 
-![Electron アプリのツアー：音声クローン、ボイスデザイン、吹き替え、モデル管理](docs/media/electron/voicestudio.gif)
+![Electron アプリのツアー：音声クローン、ボイスデザイン、吹き替え、モデル管理](docs/media/electron/voiceym.gif)
 
 ## あなたの声で、あなたのワークフローを。
 
@@ -31,7 +31,7 @@
 | 声をクローン、または独自にデザイン | タイミングを合わせた音声で動画を吹き替え | エージェント向けのローカル API と MCP |
 | フローティングウィジェットで音声入力 | ストーリー、オーディオブック、バッチ処理 | オプションのリモートワーカー |
 
-まずは **VoiceStudio**（デフォルト、k2-fsa/OmniVoice を使用）から始めるか、別のエンジンを選択してください。[機能とエンジンの一覧](docs/feature-catalog.md)。
+まずは **Voiceym**（デフォルト、k2-fsa/OmniVoice を使用）から始めるか、別のエンジンを選択してください。[機能とエンジンの一覧](docs/feature-catalog.md)。
 
 ローカルのワークフローはお使いのハードウェア上で動作します。リモートサービスは任意で、利用状況の分析には同意が必要です。
 
@@ -51,7 +51,7 @@
   <tr><td align="center">ボイスデザイン</td><td align="center">ローカルモデル</td></tr>
 </table>
 
-<img width="2628" height="1950" alt="VoiceStudio デスクトップワークスペース" src="https://github.com/user-attachments/assets/b474497d-a453-49a3-a2dd-f023ec6b7659" />
+<img width="2628" height="1950" alt="Voiceym デスクトップワークスペース" src="https://github.com/user-attachments/assets/b474497d-a453-49a3-a2dd-f023ec6b7659" />
 
 </details>
 
@@ -61,16 +61,16 @@
 
 ```sh
 # 最新の Electron リリース
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh
 
 # 公開済みの特定の Electron リリース（X.Y.Z を置き換えてください）
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --version X.Y.Z
 
 # 現在の main をビルドしてデスクトップアプリをインストール
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --main
 
 # データを残したままアプリをアンインストール
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --uninstall
 ```
 
 リリース版のダウンロードには curl と SHA-256 ツールが必要です。`--main` には Git、
@@ -79,7 +79,7 @@ Node.js 22 以上、Bun、Rust/Cargo、および各プラットフォームの�
 インストーラーは設定、プロジェクト、モデルを保持します。旧バージョンを指定する場合は
 Electron パッケージを含んでいる必要があり、アーカイブ済みの Tauri ビルドにフォールバックすることはありません。
 
-[Releases](https://github.com/debpalash/VoiceStudio/releases/latest) からダウンロードし、お使いのプラットフォームのガイドに従ってください：
+[Releases](https://github.com/mnikhilsrikar2512/voiceym/releases/latest) からダウンロードし、お使いのプラットフォームのガイドに従ってください：
 
 **[macOS](docs/install/macos.md) · [Windows](docs/install/windows.md) · [Linux](docs/install/linux.md) · [Docker](docs/install/docker.md)**
 
@@ -90,20 +90,20 @@ Electron パッケージを含んでいる必要があり、アーカイブ済�
 コーディングエージェント（Claude Code、Codex、Cursor など）に貼り付けてください：
 
 ```text
-Install the VoiceStudio Electron app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the Voiceym Electron app on this device and verify it works, following
+https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/agent.md
 ```
 
 [エージェントガイド](docs/install/agent.md)では、ハードウェアの検出、既存データの再利用、
 モデルダウンロード前の確認、テスト生成について説明しています。スキルに対応したエージェントでは
-`npx skills add debpalash/VoiceStudio` も実行できます。
+`npx skills add mnikhilsrikar2512/voiceym` も実行できます。
 
 <details>
 <summary><strong>ソースから Electron プレビューを実行する</strong></summary>
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api  # Electron を起動する前に Python の依存関係を準備
 bun run dev
@@ -127,15 +127,15 @@ bun run dev
 | 連携 | [ローカル API](docs/speech-platform.md) · [MCP](docs/mcp.md) · [サンプル](examples/README.md) |
 | 開発 | [コントリビューション](.github/CONTRIBUTING.md) · [Electron](electron/README.md) · [変更履歴](CHANGELOG.md) |
 
-エージェントスキル：`npx skills add debpalash/VoiceStudio` — 音声ワークフローには **voicestudio**、リポジトリのメンテナンスには **voicestudio-maintainer** を選択してください。
+エージェントスキル：`npx skills add mnikhilsrikar2512/voiceym` — 音声ワークフローには **voiceym**、リポジトリのメンテナンスには **voiceym-maintainer** を選択してください。
 
 ## スポンサー
 
-<a href="https://forms.gle/2PYCvd39hbwijzX37"><img src="docs/media/sponsor-slot.svg" alt="あなたのブランドを — VoiceStudio の注目スポンサー枠に応募" width="640" /></a>
+<a href="https://forms.gle/2PYCvd39hbwijzX37"><img src="docs/media/sponsor-slot.svg" alt="あなたのブランドを — Voiceym の注目スポンサー枠に応募" width="640" /></a>
 
-**注目パートナーになりませんか。** [有料掲載に応募](https://forms.gle/2PYCvd39hbwijzX37) · [メールで問い合わせ](mailto:partner@voicestudio.sh)
+**注目パートナーになりませんか。** [有料掲載に応募](https://forms.gle/2PYCvd39hbwijzX37) · [メールで問い合わせ](mailto:partner@voiceym.example)
 
-開発を支援する：[Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [スポンサーシップの詳細](SPONSORS.md)
+開発を支援する：[Ko-fi](https://github.com/mnikhilsrikar2512/voiceym) · [PayPal](https://github.com/mnikhilsrikar2512/voiceym) · [スポンサーシップの詳細](SPONSORS.md)
 
 ## ライセンスと責任ある利用
 

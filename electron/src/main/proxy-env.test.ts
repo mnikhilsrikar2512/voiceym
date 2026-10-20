@@ -89,5 +89,5 @@ it('reads enabled registry values with a timeout and handles denied access', () 
 it('names unrepresentable proxy bypass rules instead of falling into misleading DNS errors', () => {
   expect(() =>
     downloadProxyEnv({}, 'win32', () => ({ server: 'socks=proxy:1080', bypass: '<local>' })),
-  ).toThrow('VOICESTUDIO_PROXY_BYPASS_UNSUPPORTED');
+  ).toThrow('VOICEYM_PROXY_BYPASS_UNSUPPORTED');
 });

@@ -1,4 +1,4 @@
-# VoiceStudio — Faster-Whisper Engine
+# Voiceym — Faster-Whisper Engine
 
 Faster-Whisper runs Whisper on CTranslate2 — the same transcription core
 WhisperX uses, **without** the wav2vec2 forced-alignment pass. It's the safe
@@ -57,7 +57,7 @@ transcription.
   pytorch-whisper covers that case on torch's bundled cuDNN 9.
 - On Linux kernels that refuse an executable stack, the CTranslate2 native
   library (4.4.0 and older) is rejected with "cannot enable executable stack"
-  (an OSError, not an ImportError). VoiceStudio clears that ELF flag in place
+  (an OSError, not an ImportError). Voiceym clears that ELF flag in place
   on first probe so the engine loads; if the file cannot be written it reports
   itself unavailable with the repair command rather than crashing engine
   selection ([#692](https://github.com/debpalash/VoiceStudio/issues/692)).

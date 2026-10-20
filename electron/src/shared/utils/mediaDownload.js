@@ -95,7 +95,7 @@ export async function downloadMedia(url, fallbackName, opts = {}) {
         if (!selection) return;
         toast.loading(i18n.t('app.toast_saving', { name: fallbackName }), { id: fallbackName });
         const res = await apiFetch(url, {
-          headers: { 'X-VoiceStudio-Path-Authorization': selection.authorization },
+          headers: { 'X-Voiceym-Path-Authorization': selection.authorization },
           retryTransport: false,
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -1,6 +1,6 @@
 (function installEarlyErrorCapture() {
   const target = window;
-  const faults = (target.__voicestudioEarlyFaults ??= []);
+  const faults = (target.__voiceymEarlyFaults ??= []);
 
   const onError = (event) => {
     faults.push({
@@ -25,9 +25,9 @@
 
   window.addEventListener('error', onError);
   window.addEventListener('unhandledrejection', onRejection);
-  target.__voicestudioStopEarlyErrorCapture = () => {
+  target.__voiceymStopEarlyErrorCapture = () => {
     window.removeEventListener('error', onError);
     window.removeEventListener('unhandledrejection', onRejection);
-    delete target.__voicestudioStopEarlyErrorCapture;
+    delete target.__voiceymStopEarlyErrorCapture;
   };
 })();

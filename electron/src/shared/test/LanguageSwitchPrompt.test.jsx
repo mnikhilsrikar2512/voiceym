@@ -43,7 +43,7 @@ describe('LanguageSwitchPrompt — first-run offer to switch the UI to English',
     expect(await screen.findByTestId('language-switch-prompt')).toBeInTheDocument();
     // Bilingual: the English offer line is always present (native name = Deutsch).
     expect(
-      screen.getByText(/VoiceStudio opened in Deutsch\. Prefer English\?/),
+      screen.getByText(/Voiceym opened in Deutsch\. Prefer English\?/),
     ).toBeInTheDocument();
     expect(screen.getByTestId('language-switch-english')).toBeInTheDocument();
   });

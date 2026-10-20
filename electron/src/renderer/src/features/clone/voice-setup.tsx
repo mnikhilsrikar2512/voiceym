@@ -16,7 +16,7 @@ import { ReferencePanel } from './reference-panel';
 const VIRTUALIZE_ABOVE = 30;
 const SEARCH_ABOVE = 4;
 const VOICE_ROW_HEIGHT = 76;
-const SORT_KEY = 'voicestudio.voice-picker-sort';
+const SORT_KEY = 'voiceym.voice-picker-sort';
 type Sort = 'recent' | 'name';
 
 export function voiceGridPresentation(count: number): 'grid' | 'virtual' {

@@ -1,6 +1,6 @@
 """moss-tts-nano-subprocess: MOSS-TTS-Nano from its own venv (one-click install).
 
-The in-process engine needs ``moss_tts_nano`` installed into VoiceStudio's own
+The in-process engine needs ``moss_tts_nano`` installed into Voiceym's own
 environment, with upstream's exact pins (torch 2.7.0, transformers 4.57.1)
 landing there too. It also looks for a model class the package no longer
 exports: at the commit pinned here, ``moss_tts_nano`` exports only

@@ -16,7 +16,7 @@ vi.mock('./locales/de.json', async () => {
 afterEach(cleanup);
 
 it('refreshes the initial fallback after the saved language bundle loads', async () => {
-  localStorage.setItem('voicestudio.locale', 'de');
+  localStorage.setItem('voiceym.locale', 'de');
   const { default: i18n } = await import('./index');
   function Status() {
     const { t } = useTranslation();

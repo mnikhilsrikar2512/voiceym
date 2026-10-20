@@ -1,14 +1,14 @@
 ﻿<#
 .SYNOPSIS
-  VoiceStudio — clean uninstaller (Windows).
+  Voiceym — clean uninstaller (Windows).
 
 .DESCRIPTION
-  Finds every folder VoiceStudio wrote (app data, the managed Python env, config,
+  Finds every folder Voiceym wrote (app data, the managed Python env, config,
   logs) and — separately, because it's a SHARED cache — the Hugging Face model
   cache, prints each with its size, and removes them. Dry-run by default: it
   prints what it WOULD delete and stops, so you always see the plan first.
 
-  Covers the Electron desktop app (its VoiceStudio app folder: managed Python
+  Covers the Electron desktop app (its Voiceym app folder: managed Python
   runtime, window state, logs, updater cache) and the folders a final Tauri
   install left behind (com.debpalash.omnivoice-studio).
 
@@ -35,11 +35,11 @@ $ErrorActionPreference = 'Stop'
 $legacyIdentifier = 'com.debpalash.omnivoice-studio'
 # Electron app folder (app.getPath('userData'); electron/src/main/app-identity.ts)
 # and electron-updater's download cache (package name + "-updater").
-$electronAppName = 'VoiceStudio'
-$electronUpdaterCache = 'voicestudio-electron-updater'
+$electronAppName = 'Voiceym'
+$electronUpdaterCache = 'voiceym-electron-updater'
 
 # The installed app: the Electron NSIS installer (default `irm ... | iex`
-# install) registers "Uninstall VoiceStudio.exe"; a final Tauri install is an
+# install) registers "Uninstall Voiceym.exe"; a final Tauri install is an
 # MSI product.
 $nsisUninstaller = $null
 $nsisScope = $null
@@ -51,7 +51,7 @@ if ($RemoveApp) {
   $isElevated = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator)
   if ($Yes -and $isElevated) {
-    throw 'App removal must run without administrator rights. No files were removed. Open a normal PowerShell window and rerun with -Yes -RemoveApp, or uninstall VoiceStudio through Settings > Apps first, then run -Yes without -RemoveApp to clean up its data.'
+    throw 'App removal must run without administrator rights. No files were removed. Open a normal PowerShell window and rerun with -Yes -RemoveApp, or uninstall Voiceym through Settings > Apps first, then run -Yes without -RemoveApp to clean up its data.'
   }
   $uninstallKeys = @(
     'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*',
@@ -59,13 +59,13 @@ if ($RemoveApp) {
     'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*'
   )
   $entries = @(Get-ItemProperty $uninstallKeys -ErrorAction SilentlyContinue |
-    Where-Object { $_.DisplayName -match 'VoiceStudio|OmniVoice' })
+    Where-Object { $_.DisplayName -match 'Voiceym|OmniVoice' })
   # The actual removal path is unelevated. A registered uninstaller that needs
   # administrator privileges requests its own consent; this script never lends
   # an elevated token to a registry-selected executable.
   foreach ($entry in $entries) {
     if ([string]$entry.UninstallString -match '^"([^"]+\.exe)"(?:\s+(/currentuser|/allusers))?\s*$' -and
-        (Split-Path $Matches[1] -Leaf) -eq 'Uninstall VoiceStudio.exe' -and
+        (Split-Path $Matches[1] -Leaf) -eq 'Uninstall Voiceym.exe' -and
         (Test-Path -LiteralPath $Matches[1] -PathType Leaf)) {
       $candidate = [System.IO.Path]::GetFullPath($Matches[1])
       $scope = $Matches[2]
@@ -119,7 +119,7 @@ $logsDefault = Join-Path (Join-Path $localApp 'OmniVoice') 'Logs'
 
 # A custom runtime location the Electron app created (and therefore owns) is
 # recorded in runtime-location.json. Only an owned, absolute folder named
-# VoiceStudio that holds the app's project is removed — the same rule the in-app uninstall applies; a reused
+# Voiceym that holds the app's project is removed — the same rule the in-app uninstall applies; a reused
 # Tauri environment is recorded unowned and kept.
 $electronRuntime = $null
 try {
@@ -128,7 +128,7 @@ try {
     $location = Get-Content -LiteralPath $locationFile -Raw | ConvertFrom-Json
     $root = [string]$location.root
     if ($location.owned -eq $true -and [System.IO.Path]::IsPathRooted($root) -and
-        (Split-Path $root -Leaf) -eq 'VoiceStudio' -and
+        (Split-Path $root -Leaf) -eq 'Voiceym' -and
         $root.TrimEnd('\') -ne (Join-Path $electronUserData 'runtime') -and
         (Test-Path -LiteralPath (Join-Path $root 'project') -PathType Container)) {
       $electronRuntime = $root
@@ -148,13 +148,13 @@ $appTargets = @()
 foreach ($p in @($dataDir, $electronUserData, $electronRuntime, $electronCache) + $legacyConfig + @($logsDefault, $userEnvDir)) {
   if ($p -and (Test-Path -LiteralPath $p)) { $appTargets += $p }
 }
-if ($RemoveApp -and $nsisUninstaller) { $appTargets += "App: VoiceStudio ($nsisUninstaller)" }
+if ($RemoveApp -and $nsisUninstaller) { $appTargets += "App: Voiceym ($nsisUninstaller)" }
 if ($RemoveApp -and $msiProduct) { $appTargets += "MSI product: $($msiProduct.DisplayName)" }
 
-Write-Host 'VoiceStudio uninstaller (Windows)'
+Write-Host 'Voiceym uninstaller (Windows)'
 Write-Host '---------------------------------'
 if ($appTargets.Count -eq 0) {
-  Write-Host 'No VoiceStudio app data / env / config folders found at the default or'
+  Write-Host 'No Voiceym app data / env / config folders found at the default or'
   Write-Host 'env-configured locations. Nothing to remove.'
 } else {
   Write-Host 'App data, managed Python env, config, and logs:'
@@ -178,8 +178,8 @@ if (-not $Yes) {
   if ($modelsPresent) { Write-Host '         (add -Models to also remove the shared model cache).' }
   if (-not $RemoveApp) {
     Write-Host '         (add -RemoveApp to also uninstall the installed app).'
-    Write-Host '         Or manually: Settings > Apps > VoiceStudio > Uninstall'
-    Write-Host '         (listed as "OmniVoice Studio" if you have not updated since the rename).'
+    Write-Host '         Or manually: Settings > Apps > Voiceym > Uninstall'
+    Write-Host '         (listed as "OmniVoiceym" if you have not updated since the rename).'
   }
   exit 0
 }
@@ -233,11 +233,11 @@ if ($Models -and $modelsPresent) {
   Write-Host "Kept model cache ($modelsDir) — re-run with -Models to remove it."
 }
 if ($RemoveApp -and $nsisUninstaller) {
-  Write-Host 'Uninstalling VoiceStudio...'
+  Write-Host 'Uninstalling Voiceym...'
   $arguments = @('/S')
   if ($nsisScope) { $arguments = @($nsisScope) + $arguments }
   $process = Start-Process -FilePath $nsisUninstaller -ArgumentList $arguments -Wait -PassThru
-  if ($process.ExitCode -in @(0, 3010)) { Write-Host 'VoiceStudio uninstalled.' }
+  if ($process.ExitCode -in @(0, 3010)) { Write-Host 'Voiceym uninstalled.' }
   else { Write-Host "The uninstaller exited with $($process.ExitCode) — remove it via Settings > Apps if it is still listed." }
 }
 if ($RemoveApp -and $msiProduct) {

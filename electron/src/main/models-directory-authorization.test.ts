@@ -10,7 +10,7 @@ afterEach(async () => {
 });
 
 it('mints one-shot models-directory capabilities only after a writable directory check', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'voicestudio-model-dir-'));
+  const root = await mkdtemp(join(tmpdir(), 'voiceym-model-dir-'));
   roots.push(root);
   const dataDir = join(root, 'data');
   const selected = join(root, 'model cache');
@@ -28,7 +28,7 @@ it('mints one-shot models-directory capabilities only after a writable directory
 });
 
 it('represents restoring the platform default with an authorized empty path', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'voicestudio-model-reset-'));
+  const root = await mkdtemp(join(tmpdir(), 'voiceym-model-reset-'));
   roots.push(root);
 
   const result = await authorizeModelsDirectory(join(root, 'data'), '');

@@ -166,7 +166,7 @@ describe('BackendCrashNotice — sentinel evidence gate (#1375)', () => {
     getUnacknowledgedBackendCrash.mockResolvedValue({
       ...MARKER,
       exit_code: -1073741819, // STATUS_ACCESS_VIOLATION
-      last_stderr: 'INFO [omnivoice.model] Loading VoiceStudio model on device: cuda',
+      last_stderr: 'INFO [omnivoice.model] Loading Voiceym model on device: cuda',
     });
     render(<BackendCrashNotice />);
     fireEvent.click(await screen.findByRole('button', { name: /view crash details/i }));

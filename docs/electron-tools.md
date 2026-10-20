@@ -54,6 +54,6 @@ error; no system binaries or user media are deleted. The same behavior applies t
 yt-dlp overlay updates, and restoring the tested version reports failed cleanup.
 Dubbing background preservation and long export filter graphs support both legacy
 `-filter_complex_script` and modern FFmpeg `-/filter_complex` file arguments.
-If FFmpeg rejects the legacy option before processing, VoiceStudio retries once
+If FFmpeg rejects the legacy option before processing, Voiceym retries once
 with the modern spelling; filter contents stay in a file to avoid Windows command
 line limits. Actual decoding/filter errors are reported without retrying.

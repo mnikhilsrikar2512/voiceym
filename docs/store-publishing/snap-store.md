@@ -8,14 +8,14 @@
 - Confinement: `strict`, using the `core22` base supported by the pinned
   electron-builder. Recheck the supported bases before the first submission.
 - Update owner: Snap Store. The in-app updater is unavailable in this build.
-- Snap name: `voicestudio` (`SNAP_NAME` in the workflow).
+- Snap name: `voiceym` (`SNAP_NAME` in the workflow).
 
 The workflow never changes listing copy, visibility or the `stable` channel on
 its own.
 
 ## Package and interface contract
 
-Build with `VOICESTUDIO_DISTRIBUTION=snap-store`. The resulting package embeds
+Build with `VOICEYM_DISTRIBUTION=snap-store`. The resulting package embeds
 `snap-store` and `store` as its distribution and update-owner metadata. Direct
 Linux builds still produce AppImage and Debian packages with their existing
 updater metadata.
@@ -52,8 +52,8 @@ Dispatch `.github/workflows/snap-store.yml` from any branch to build without
 uploading, or on an x64 Linux builder:
 
 ```bash
-export VOICESTUDIO_DISTRIBUTION=snap-store
-export VOICESTUDIO_RUST_TARGET=x86_64-unknown-linux-gnu
+export VOICEYM_DISTRIBUTION=snap-store
+export VOICEYM_RUST_TARGET=x86_64-unknown-linux-gnu
 node scripts/validate_store_foundation.mjs --distribution=snap-store
 bun install --frozen-lockfile
 bun run check:electron
@@ -67,8 +67,8 @@ node ../scripts/create_snap_store_assets.mjs
 
 Inspect these workflow artifacts before installing:
 
-- `VoiceStudio-Electron-<version>-linux-x64.snap`
-- `VoiceStudio-Electron-<version>-snap-verification.json`
+- `Voiceym-Electron-<version>-linux-x64.snap`
+- `Voiceym-Electron-<version>-snap-verification.json`
 - `store-artifact-manifest-linux-x64.json`
 - `snap-store-assets/icon.png`, five screenshots and `listing-assets.json`
 
@@ -85,9 +85,9 @@ Install the rehearsal locally, then connect the recording interface:
 
 ```bash
 sudo snap install --dangerous <file>.snap
-sudo snap connect voicestudio:audio-record
-snap connections voicestudio
-snap run voicestudio
+sudo snap connect voiceym:audio-record
+snap connections voiceym
+snap run voiceym
 ```
 
 The Snap follows Canonical's [Electron guidance for browser-support](https://snapcraft.io/docs/reference/interfaces/browser-support-interface/):
@@ -96,7 +96,7 @@ retaining `confinement: strict`. The interface auto-connects by default without
 the privileged `allow-sandbox: true` Store approval. Fresh installations should
 start from the desktop launcher without a terminal or manual sandbox setup.
 An explicitly disconnected interface is a user choice; inspect
-`snap connections voicestudio` and reconnect it manually if needed. When testing
+`snap connections voiceym` and reconnect it manually if needed. When testing
 an upgrade from an older local revision, verify the existing connection state
 rather than assuming the metadata change reconnects it.
 
@@ -138,13 +138,13 @@ do not switch to classic confinement merely to pass the test.
 One-time setup, by the owner:
 
 1. Register the name and confirm the Snapcraft account controls it:
-   `snapcraft register voicestudio`, then `snapcraft status voicestudio`.
+   `snapcraft register voiceym`, then `snapcraft status voiceym`.
 2. Create a GitHub environment named `snap-store` (optionally with required
    reviewers) and store upload credentials in it as
    `SNAPCRAFT_STORE_CREDENTIALS`:
 
    ```bash
-   snapcraft export-login --snaps=voicestudio \
+   snapcraft export-login --snaps=voiceym \
      --acls=package_access,package_push,package_update,package_release \
      --expires=<date> credentials.txt
    ```
@@ -187,7 +187,7 @@ and [revision/channel management](https://documentation.ubuntu.com/snapcraft/sta
 
 ## Rollback or delisting
 
-To recover one test machine, use `sudo snap revert voicestudio` or specify the
+To recover one test machine, use `sudo snap revert voiceym` or specify the
 known-good revision. For a channel rollback, have the owner release the previous
 known-good revision back to that channel, verify a refresh on a separate host,
 and record the new channel map. Closing a channel or changing listing visibility

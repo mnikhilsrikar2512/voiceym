@@ -1,4 +1,4 @@
-# VoiceStudio — Sherpa-ONNX Dictation Engine
+# Voiceym — Sherpa-ONNX Dictation Engine
 
 The k2-fsa/sherpa-onnx ONNX runtime as a **live dictation** engine: small
 int8 models that transcribe faster than realtime on CPU, with identical

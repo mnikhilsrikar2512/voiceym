@@ -1,12 +1,12 @@
-# VoiceStudio — GPT-SoVITS Engine
+# Voiceym — GPT-SoVITS Engine
 
 GPT-SoVITS (RVC-Boss) is one of the most popular open-source voice-cloning
 systems (57k+ GitHub stars, MIT-licensed). It does zero-shot and few-shot
 cloning with excellent naturalness in Chinese, English, Japanese, Cantonese,
 and Korean, and it is very fast (RTF ~0.014 on suitable hardware).
 
-Unlike VoiceStudio's other engines, GPT-SoVITS does not run inside the app.
-It ships as a standalone API server, and VoiceStudio connects to it over
+Unlike Voiceym's other engines, GPT-SoVITS does not run inside the app.
+It ships as a standalone API server, and Voiceym connects to it over
 HTTP.
 
 ## When to pick it
@@ -24,7 +24,7 @@ HTTP.
    python api_v2.py -a 127.0.0.1 -p 9880 -c GPT_SoVITS/configs/tts_infer.yaml
    ```
 
-   VoiceStudio speaks the **api_v2** protocol (`POST /tts`); the older
+   Voiceym speaks the **api_v2** protocol (`POST /tts`); the older
    `api.py` (v1) server does not expose that route and is incompatible.
    To use fine-tuned weights, point the `custom` section of
    `tts_infer.yaml` at your `GPT_weights*/…ckpt` and `SoVITS_weights*/…pth`.
@@ -32,7 +32,7 @@ HTTP.
 2. Select the engine via **Model Catalogue** (TTS tab → **Use**) or
    `OMNIVOICE_TTS_BACKEND=gpt-sovits`.
 
-VoiceStudio marks the engine available only when the server responds
+Voiceym marks the engine available only when the server responds
 (2-second reachability probe).
 
 ## Configuration
@@ -45,7 +45,7 @@ VoiceStudio marks the engine available only when the server responds
 | `OMNIVOICE_GPTSOVITS_REF_LANG` | `auto` | Language of the clip (`zh`/`en`/`ja`/`yue`/`ko`) |
 | `OMNIVOICE_TRUSTED_NETWORKS` | (unset) | Required to allow a non-loopback server |
 
-**Remote servers:** by default VoiceStudio only talks to loopback addresses
+**Remote servers:** by default Voiceym only talks to loopback addresses
 — part of the local-first guarantee. To point at a server on another
 machine (e.g. a GPU box on your LAN), add its network to
 `OMNIVOICE_TRUSTED_NETWORKS`; otherwise the connection is refused as an
@@ -53,14 +53,14 @@ untrusted endpoint.
 
 Prefer `https://` (or a private tunnel such as Tailscale/WireGuard) for any
 non-loopback server: with plain `http://` the text you synthesize and the
-audio that comes back cross the network unencrypted. VoiceStudio does not
+audio that comes back cross the network unencrypted. Voiceym does not
 disable certificate verification, so a TLS endpoint needs a certificate the
 system trusts.
 
 ## Behaviour notes
 
 - Output is 32 kHz mono (server output is resampled if needed).
-- Requests are sent unsplit (`text_split_method: cut0`); VoiceStudio chunks long
+- Requests are sent unsplit (`text_split_method: cut0`); Voiceym chunks long
   text itself. Server-side punctuation splitting (`cut5`) produces short
   fragments that the GPT stage sometimes ends early, dropping clauses.
 - api_v2 needs a reference clip for **every** request (it has no built-in
@@ -74,7 +74,7 @@ system trusts.
   fraction of a second of near-silence.
 - Speed control is forwarded as the server's `speed_factor`.
 - The GPU is whatever the GPT-SoVITS server itself uses (CUDA preferred);
-  VoiceStudio's side is just an HTTP client.
+  Voiceym's side is just an HTTP client.
 
 ## Known limits
 

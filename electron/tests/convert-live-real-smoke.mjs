@@ -4,10 +4,10 @@ const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL 
 try {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
-    localStorage.setItem('voicestudio.locale', 'en');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.locale', 'en');
   });
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
   const [engines, models, profiles] = await Promise.all(
     ['/engines/tts', '/models', '/profiles'].map(async (path) => {
       const response = await page.request.get(base + '/api' + path);
@@ -23,7 +23,7 @@ try {
     (p) =>
       p.kind === 'clone' &&
       p.ref_audio_path &&
-      (!process.env.VOICESTUDIO_LIVE_PROFILE || p.id === process.env.VOICESTUDIO_LIVE_PROFILE),
+      (!process.env.VOICEYM_LIVE_PROFILE || p.id === process.env.VOICEYM_LIVE_PROFILE),
   );
   assert.ok(profile, 'An existing clone profile is required');
   await page.goto(base + '/#/tools');

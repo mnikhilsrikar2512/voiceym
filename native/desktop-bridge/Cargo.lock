@@ -2513,7 +2513,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "voicestudio-desktop-bridge"
+name = "voiceym-desktop-bridge"
 version = "0.0.0"
 dependencies = [
  "arboard",

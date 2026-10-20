@@ -13,5 +13,5 @@ if [ -z "$MODULES" ]; then
     exit 1
 fi
 swiftc -typecheck -swift-version 6 -strict-concurrency=complete -I "$MODULES" \
-    "$IOS_DIR/VoiceStudio/Platform/HostMediaLoader.swift" \
-    "$IOS_DIR/VoiceStudio/Platform/SmokeTransport.swift"
+    "$IOS_DIR/Voiceym/Platform/HostMediaLoader.swift" \
+    "$IOS_DIR/Voiceym/Platform/SmokeTransport.swift"

@@ -6,7 +6,7 @@ import type {
   SaveAudioResult,
   UpdateState,
   UpdateReleaseInfo,
-  VoiceStudioBridge,
+  VoiceymBridge,
   RepairAgentEvent,
   AccountPublicState,
 } from './index.d';
@@ -19,7 +19,7 @@ function subscribe<T>(channel: string, cb: (payload: T) => void): () => void {
   };
 }
 
-const bridge: VoiceStudioBridge = {
+const bridge: VoiceymBridge = {
   browser: {
     open: (url) => ipcRenderer.invoke('site-browser:open', url),
     close: () => ipcRenderer.invoke('site-browser:close'),
@@ -158,4 +158,4 @@ const bridge: VoiceStudioBridge = {
   },
 };
 
-contextBridge.exposeInMainWorld('voicestudio', bridge);
+contextBridge.exposeInMainWorld('voiceym', bridge);

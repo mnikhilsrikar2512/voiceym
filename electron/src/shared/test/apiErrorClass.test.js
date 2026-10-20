@@ -3,7 +3,7 @@
  *
  * The backend's 500 handler has always put `error_class` in the response body,
  * but nothing lifted it onto the Error object. The auto bug reporter reads the
- * Error, so it filed "VoiceStudio hit an internal error; check the backend log
+ * Error, so it filed "Voiceym hit an internal error; check the backend log
  * for details." and nothing else — every such report identical, none of them
  * triageable.
  *

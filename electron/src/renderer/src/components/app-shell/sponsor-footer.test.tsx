@@ -32,7 +32,7 @@ it('places Discord before X and donate before the collapse control', async () =>
   expect(screen.queryByRole('link', { name: 'support.star_github' })).not.toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'contact.website' })).toHaveAttribute(
     'href',
-    'https://voicestudio.sh',
+    'https://voiceym.example',
   );
   expect(screen.queryByRole('img')).toBeNull();
   const discord = screen.getByRole('link', { name: 'support.join_discord' });
@@ -42,11 +42,11 @@ it('places Discord before X and donate before the collapse control', async () =>
   await waitFor(() => expect(mock.open).toHaveBeenCalledWith('https://discord.gg/bzQavDfVV9'));
 });
 
-it.each(['idebpalash', 'voicestudiosh'])('opens @%s in the external browser', async (handle) => {
+it.each(['idebpalash', 'voiceymsh'])('opens @%s in the external browser', async (handle) => {
   render(<SponsorFooter />);
   fireEvent.click(screen.getByRole('button', { name: 'contact.follow_cta' }));
   expect(await screen.findByText('Palash')).toBeVisible();
-  expect(screen.getByText('VoiceStudio')).toBeVisible();
+  expect(screen.getByText('Voiceym')).toBeVisible();
   const link = screen.getByRole('link', { name: `contact.follow_cta · @${handle}` });
   expect(link).toHaveAttribute('href', `https://x.com/${handle}`);
   fireEvent.click(link);
@@ -57,23 +57,23 @@ it('opens compact support links from the heart and links to the full page', asyn
   render(<SponsorFooter />);
   fireEvent.click(screen.getByRole('button', { name: 'donate.title' }));
   const sponsors = await screen.findByRole('link', { name: 'GitHub Sponsors' });
-  expect(sponsors).toHaveAttribute('href', 'https://github.com/sponsors/debpalash');
+  expect(sponsors).toHaveAttribute('href', 'https://github.com/mnikhilsrikar2512/voiceym');
   expect(document.querySelector('.sponsor-support-list a')).toBe(sponsors);
   fireEvent.click(sponsors);
   await waitFor(() =>
-    expect(mock.open).toHaveBeenCalledWith('https://github.com/sponsors/debpalash'),
+    expect(mock.open).toHaveBeenCalledWith('https://github.com/mnikhilsrikar2512/voiceym'),
   );
   expect(screen.getByRole('link', { name: 'Ko-fi' })).toHaveAttribute(
     'href',
-    'https://ko-fi.com/debpalash',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
   expect(screen.getByRole('link', { name: 'PayPal' })).toHaveAttribute(
     'href',
-    'https://paypal.me/palashCoder',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
   expect(screen.getByRole('link', { name: 'support.star_github' })).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
   expect(screen.getByRole('link', { name: 'support.join_discord' })).toHaveAttribute(
     'href',
@@ -81,7 +81,7 @@ it('opens compact support links from the heart and links to the full page', asyn
   );
   expect(document.querySelector('.sponsor-support-popup a[href*="discord"]')).toBeNull();
   fireEvent.click(screen.getByRole('link', { name: 'Ko-fi' }));
-  await waitFor(() => expect(mock.open).toHaveBeenCalledWith('https://ko-fi.com/debpalash'));
+  await waitFor(() => expect(mock.open).toHaveBeenCalledWith('https://github.com/mnikhilsrikar2512/voiceym'));
   fireEvent.click(screen.getAllByRole('button', { name: 'donate.title' })[1]);
   expect(mock.navigate).toHaveBeenCalledWith({ to: '/settings/support' });
 });
@@ -132,6 +132,6 @@ it('keeps the email fallback available from the booking form', async () => {
     target: { value: 'My brand and website' },
   });
   fireEvent.click(screen.getByRole('button', { name: 'sponsorSlot.copy_email' }));
-  await waitFor(() => expect(writeText).toHaveBeenCalledWith('partner@voicestudio.sh'));
+  await waitFor(() => expect(writeText).toHaveBeenCalledWith('partner@voiceym.example'));
   expect(screen.getByRole('textbox')).toHaveValue('My brand and website');
 });

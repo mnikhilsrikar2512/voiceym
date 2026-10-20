@@ -19,8 +19,8 @@ const app = await electron.launch({
 try {
   const page = await app.firstWindow();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
-    window.voicestudio = {
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    window.voiceym = {
       app: {
         platform: 'darwin',
         version: 'test',
@@ -34,7 +34,7 @@ try {
       },
     };
   });
-  await page.goto((process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/clone');
+  await page.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/clone');
   const bell = page.locator('[data-slot=account-corner] button:has(.lucide-bell)');
   await bell.waitFor();
   const rect = await bell.boundingBox();

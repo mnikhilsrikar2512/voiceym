@@ -47,7 +47,7 @@ export interface BackendCrashMarker {
 }
 
 function inElectron(): boolean {
-  return typeof window !== 'undefined' && !!window.voicestudio;
+  return typeof window !== 'undefined' && !!window.voiceym;
 }
 
 // ── Browser/Docker fallback: the backend's run-sentinel record (#1164) ─────
@@ -179,7 +179,7 @@ async function fetchLastRunCrash(): Promise<BackendCrashMarker | null> {
 export async function getLastBackendCrash(): Promise<BackendCrashMarker | null> {
   if (!inElectron()) return fetchLastRunCrash();
   try {
-    const crash = (await window.voicestudio.backend.getStatus()).lastCrash;
+    const crash = (await window.voiceym.backend.getStatus()).lastCrash;
     if (!crash) return null;
     return {
       ts: Math.round(crash.timestamp / 1000),
@@ -268,7 +268,7 @@ export async function acknowledgeBackendCrash(): Promise<void> {
     return;
   }
   try {
-    await window.voicestudio.backend.acknowledgeCrash();
+    await window.voiceym.backend.acknowledgeCrash();
   } catch {
     /* shell unavailable — nothing to acknowledge */
   }
@@ -370,7 +370,7 @@ export function crashCauseHint(
     return i18next.t('errors.crash_port_in_use', {
       defaultValue:
         `The backend could not start because port ${DEFAULT_BACKEND_PORT} is already in use — another copy of ` +
-        'VoiceStudio (or an app that claimed that port) is holding it. Quit the other instance ' +
+        'Voiceym (or an app that claimed that port) is holding it. Quit the other instance ' +
         'and relaunch; if nothing is visibly running, an orphaned backend from a previous ' +
         'session is still holding the port.',
     });
@@ -420,7 +420,7 @@ export function crashCauseHint(
         'at a GPU driver that does not match the bundled CUDA runtime, or a model file that ' +
         'downloaded incompletely. Update your GPU driver, then re-download the model from ' +
         'the engine Weights list in Model Catalogue (it repairs a partial download in place). If it keeps happening, ' +
-        'switch to a crash-isolated engine in Model Catalogue — "VoiceStudio (subprocess)" ' +
+        'switch to a crash-isolated engine in Model Catalogue — "Voiceym (subprocess)" ' +
         'for synthesis, "Faster-Whisper (crash-isolated subprocess)" for transcription. Those ' +
         'run the model in a separate process, so a crash like this takes down that process ' +
         'instead of the whole backend.',
@@ -557,7 +557,7 @@ export async function streamDropError(
     /* no window (tests) — the Error below still tells the story */
   }
   return new Error(
-    `The local VoiceStudio backend crashed (${describeCrashExit(crash)}) ${crashAge(crash)} ago, ` +
+    `The local Voiceym backend crashed (${describeCrashExit(crash)}) ${crashAge(crash)} ago, ` +
       'which dropped this stream — it is being restarted automatically. Open the crash notice for ' +
       `the error output. ${crashCauseHint(crash)}`,
   );

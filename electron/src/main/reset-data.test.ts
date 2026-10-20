@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, parse } from 'node:path';
 import { afterEach, expect, it } from 'vitest';
 import {
-  isValidVoiceStudioRoot,
+  isValidVoiceymRoot,
   purgeResetScopes,
   scanResetScopes,
   type ResetRoots,
@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 async function fixture(): Promise<ResetRoots & { root: string }> {
-  const root = await mkdtemp(join(tmpdir(), 'VoiceStudio-reset-test-'));
+  const root = await mkdtemp(join(tmpdir(), 'Voiceym-reset-test-'));
   created.push(root);
   const data = join(root, 'OmniVoice', 'data');
   const models = join(root, '.cache', 'huggingface');
@@ -57,7 +57,7 @@ it('reports real reset scopes and marks a cache outside app data as shared', asy
   expect(scopes.find((scope) => scope.key === 'models')!.size_bytes).toBeGreaterThan(0);
 });
 
-it('removes only selected VoiceStudio targets and preserves unrelated siblings', async () => {
+it('removes only selected Voiceym targets and preserves unrelated siblings', async () => {
   const roots = await fixture();
   const report = await purgeResetScopes(
     roots,
@@ -79,7 +79,7 @@ it('removes only selected VoiceStudio targets and preserves unrelated siblings',
 it('refuses filesystem roots, home directories and unsigned custom roots', async () => {
   const root = await mkdtemp(join(tmpdir(), 'unsigned-reset-test-'));
   created.push(root);
-  expect(await isValidVoiceStudioRoot(parse(root).root, null)).toBe(false);
-  expect(await isValidVoiceStudioRoot(root, root)).toBe(false);
-  expect(await isValidVoiceStudioRoot(root, null)).toBe(false);
+  expect(await isValidVoiceymRoot(parse(root).root, null)).toBe(false);
+  expect(await isValidVoiceymRoot(root, root)).toBe(false);
+  expect(await isValidVoiceymRoot(root, null)).toBe(false);
 });

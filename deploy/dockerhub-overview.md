@@ -1,4 +1,4 @@
-# VoiceStudio
+# Voiceym
 
 **The open-source ElevenLabs alternative.** Real-time dictation, zero-shot voice
 cloning, and cinematic video dubbing — fully local, with no cloud API keys or accounts.
@@ -6,15 +6,15 @@ cloning, and cinematic video dubbing — fully local, with no cloud API keys or 
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/palashdeb/omnivoice-studio?logo=docker&color=2496ED)](https://hub.docker.com/r/palashdeb/omnivoice-studio)
 [![Image Size](https://img.shields.io/docker/image-size/palashdeb/omnivoice-studio/latest?logo=docker&label=image%20size)](https://hub.docker.com/r/palashdeb/omnivoice-studio/tags)
-[![GitHub Stars](https://img.shields.io/github/stars/debpalash/VoiceStudio?logo=github&color=f59e0b)](https://github.com/debpalash/VoiceStudio)
-[![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](https://github.com/debpalash/VoiceStudio/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/mnikhilsrikar2512/voiceym?logo=github&color=f59e0b)](https://github.com/mnikhilsrikar2512/voiceym)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](https://github.com/mnikhilsrikar2512/voiceym/blob/main/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/bzQavDfVV9)
 
-[![debpalash/VoiceStudio on Trendshift](https://trendshift.io/api/badge/trendshift/repositories/28176/daily?language=Python)](https://trendshift.io/repositories/28176?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-28176)
+[![mnikhilsrikar2512/voiceym on Trendshift](https://trendshift.io/api/badge/trendshift/repositories/28176/daily?language=Python)](https://trendshift.io/repositories/28176?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-28176)
 
-![VoiceStudio — the open-source ElevenLabs alternative](https://raw.githubusercontent.com/debpalash/VoiceStudio/main/.github/assets/social-preview.png)
+![Voiceym — the open-source ElevenLabs alternative](https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/.github/assets/social-preview.png)
 
-VoiceStudio runs entirely on your own hardware (CUDA / ROCm / CPU
+Voiceym runs entirely on your own hardware (CUDA / ROCm / CPU
 auto-detect). Nothing leaves the machine without your explicit yes: product
 analytics are opt-in (PostHog, content-free usage metadata only) behind a
 first-run consent prompt — declining or skipping keeps them off, and
@@ -25,11 +25,11 @@ the UI in a browser.
 
 **Architecture:** published images are **`linux/amd64` only**; there is no
 native ARM64 image. On Apple Silicon, use the
-[native macOS app](https://github.com/debpalash/VoiceStudio/blob/main/docs/install/macos.md)
+[native macOS app](https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/macos.md)
 for Apple GPU acceleration; the Linux container cannot access the Mac's Apple
 GPU through MPS or MLX. Other ARM64 hosts need an AMD64 server or CPU emulation,
 which can be much slower. See the
-[architecture requirements](https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md#architecture)
+[architecture requirements](https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/docker.md#architecture)
 before pulling an image.
 
 > The desktop app's auto-updater is **desktop-only** and does not apply to this
@@ -43,11 +43,11 @@ the entire pipeline runs on CPU, just slower. Pull size: ~5 GB compressed
 
 ## See it in action
 
-![Switching TTS engines from the VoiceStudio status bar](https://raw.githubusercontent.com/debpalash/VoiceStudio/main/docs/media/0.5.0/quick-switch.gif)
+![Switching TTS engines from the Voiceym status bar](https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/docs/media/0.5.0/quick-switch.gif)
 
 | Model catalogue | Save a gallery voice |
 |---|---|
-| ![VoiceStudio Model Catalogue](https://raw.githubusercontent.com/debpalash/VoiceStudio/main/docs/media/0.5.0/catalogue.png) | ![Saving a gallery voice as a local profile](https://raw.githubusercontent.com/debpalash/VoiceStudio/main/docs/media/0.5.0/gallery-save.png) |
+| ![Voiceym Model Catalogue](https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/docs/media/0.5.0/catalogue.png) | ![Saving a gallery voice as a local profile](https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/docs/media/0.5.0/gallery-save.png) |
 
 ---
 
@@ -105,10 +105,10 @@ docker run -d --name omnivoice \
 Podman users: same two `--device` flags (Quadlet: `AddDevice=/dev/kfd` +
 `AddDevice=/dev/dri`). On RDNA3 consumer cards (RX 7900 XTX/XT), add
 `-e HSA_OVERRIDE_GFX_VERSION=11.0.0` if the GPU isn't detected — details in
-the [Docker install guide](https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md).
+the [Docker install guide](https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/docker.md).
 
 There's also a Compose file in the repo with `cpu` / `gpu` / `rocm` profiles;
-see the [Docker install guide](https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md).
+see the [Docker install guide](https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/docker.md).
 
 ---
 
@@ -129,8 +129,8 @@ Release tags are published only when the GitHub Release is published.
 Preview builds always come from `main` and never version-sort below `:stable`,
 so upgrades flow naturally. The same images and tags
 are mirrored on GHCR at
-[`ghcr.io/debpalash/voicestudio`](https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio).
-The former `ghcr.io/debpalash/omnivoice-studio` path remains a compatible alias.
+[`ghcr.io/mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym/pkgs/container/voiceym).
+The former `ghcr.io/mnikhilsrikar2512/voiceym` path remains a compatible alias.
 
 ---
 
@@ -143,7 +143,7 @@ The former `ghcr.io/debpalash/omnivoice-studio` path remains a compatible alias.
 - **🔊 Vocal Isolation** — Demucs splits speech from music and keeps the background.
 - **👥 Speaker Diarization** — Pyannote + WhisperX auto-identify who said what.
 - **📦 Batch Queue** — drop 50 videos and walk away; per-job progress.
-- **🤖 MCP Server** — drive VoiceStudio from Claude, Cursor, or any MCP client.
+- **🤖 MCP Server** — drive Voiceym from Claude, Cursor, or any MCP client.
 - **🛡️ AI Watermark** — invisible AudioSeal (Meta) marking that survives compression.
 - **⚡ GPU Auto-Detect** — CUDA · ROCm · CPU, with auto-offload on ≤8 GB cards.
 - **🧩 Extensible** — subclass `TTSBackend` to add any engine in ~50 lines.
@@ -179,7 +179,7 @@ adds there are root-owned).
 - The image ships with `OMNIVOICE_SERVER_MODE=1`, which relaxes the desktop-only
   loopback-origin gate so the admin UI works through Docker's NAT. Set it to `0`
   if you front the container with your own loopback auth proxy.
-- Without an API key, open VoiceStudio by `localhost` or an IP address; to use a
+- Without an API key, open Voiceym by `localhost` or an IP address; to use a
   host name such as `http://nas.lan:3900`, add `-e OMNIVOICE_ALLOWED_HOSTS=nas.lan`.
   URL imports refuse private-network addresses unless
   `-e OMNIVOICE_ALLOW_PRIVATE_URL_IMPORTS=1` is set.
@@ -187,10 +187,10 @@ adds there are root-owned).
   `OMNIVOICE_API_KEY` and pass the same key through the browser's login prompt.
   A six-digit share PIN is also available for casual LAN access, but it does
   not authorize administration or dictation; see the
-  [API authentication guide](https://github.com/debpalash/VoiceStudio/blob/main/docs/api-auth.md).
+  [API authentication guide](https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/api-auth.md).
 
 > **Security:** Loopback-only publishing is the safe default. Before exposing
-> VoiceStudio on a trusted LAN, configure `OMNIVOICE_API_KEY`. On any untrusted
+> Voiceym on a trusted LAN, configure `OMNIVOICE_API_KEY`. On any untrusted
 > network, plain HTTP is not safe for the API key or session cookie. Keep the
 > backend on an encrypted private overlay such as Tailscale/ZeroTier; do not
 > expose it directly to the public internet.
@@ -199,9 +199,9 @@ adds there are root-owned).
 
 ## Links
 
-- **Source & full install docs:** <https://github.com/debpalash/VoiceStudio>
-- **Docker guide:** <https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md>
-- **Troubleshooting:** <https://github.com/debpalash/VoiceStudio/blob/main/docs/install/troubleshooting.md>
+- **Source & full install docs:** <https://github.com/mnikhilsrikar2512/voiceym>
+- **Docker guide:** <https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/docker.md>
+- **Troubleshooting:** <https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/troubleshooting.md>
 - **Community / support:** [Discord](https://discord.gg/bzQavDfVV9)
 
-VoiceStudio is in active beta and licensed under AGPL-3.0.
+Voiceym is in active beta and licensed under AGPL-3.0.

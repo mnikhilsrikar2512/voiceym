@@ -40,7 +40,7 @@ try {
   await page.getByRole('button', { name: 'Play', exact: true }).click();
   await page.getByRole('button', { name: 'Pause', exact: true }).waitFor();
   await page.getByRole('button', { name: 'Pause', exact: true }).click();
-  const folder = mkdtempSync(join(tmpdir(), 'voicestudio-trim-check-'));
+  const folder = mkdtempSync(join(tmpdir(), 'voiceym-trim-check-'));
   await page.screenshot({ path: join(folder, 'trim.png') });
   const saved = page.waitForResponse(
     (response) =>

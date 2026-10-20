@@ -7,7 +7,7 @@ import pytest
 
 from services.cloud_sync.client import CloudOff, SyncApiError, SyncClient
 
-BASE = "https://appapi.voicestudio.sh/v1/sync"
+BASE = "https://appapi.voiceym.example/v1/sync"
 
 
 def make(handler, token="tok", device="Dv7kQ2mZx9LpR4sT"):
@@ -119,8 +119,8 @@ def test_a_rejected_token_is_replaced_once_then_the_call_retried():
     [
         ("http://evil.example/v1/sync", "Or1"),
         ("file:///etc/passwd", "Or1"),
-        ("https://appapi.voicestudio.sh/v1/sync", "../admin"),
-        ("https://appapi.voicestudio.sh/v1/sync", "Or1/x"),
+        ("https://appapi.voiceym.example/v1/sync", "../admin"),
+        ("https://appapi.voiceym.example/v1/sync", "Or1/x"),
     ],
 )
 def test_only_https_or_loopback_endpoints_and_base62_organizations(base, org):
@@ -134,8 +134,8 @@ def test_local_development_endpoint_is_allowed():
 
 
 @pytest.mark.parametrize("base", [
-    "https://appapi.voicestudio.sh/v1/sync",
-    "https://dev-appapi.voicestudio.sh/v1/sync",
+    "https://appapi.voiceym.example/v1/sync",
+    "https://dev-appapi.voiceym.example/v1/sync",
     "http://127.0.0.1:8090/v1/sync",
 ])
 def test_the_known_sync_endpoints_are_accepted(base):

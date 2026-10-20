@@ -7,9 +7,9 @@ const browser = await chromium.launch({
   headless: true,
 });
 const page = await browser.newPage();
-const baseUrl = process.env.VOICESTUDIO_UI_URL || "http://localhost:3912";
+const baseUrl = process.env.VOICEYM_UI_URL || "http://localhost:3912";
 await page.addInitScript(() => {
-  localStorage.setItem("voicestudio.setup.complete.v1", "1");
+  localStorage.setItem("voiceym.setup.complete.v1", "1");
 });
 try {
   for (const width of [1920, 1440, 960]) {

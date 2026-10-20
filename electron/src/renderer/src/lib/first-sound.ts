@@ -1,1 +1,1 @@
-export const FIRST_SOUND_EVENT = 'voicestudio:first-sound';
+export const FIRST_SOUND_EVENT = 'voiceym:first-sound';

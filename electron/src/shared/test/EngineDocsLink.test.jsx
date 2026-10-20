@@ -34,7 +34,7 @@ vi.mock('../api/external', () => ({ openExternal: (...a) => openExternal(...a) }
 
 import EngineCompatibilityMatrix from '../components/EngineCompatibilityMatrix';
 
-const DOCS = 'https://github.com/debpalash/VoiceStudio/blob/main/docs/engines/cosyvoice.md';
+const DOCS = 'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engines/cosyvoice.md';
 
 const response = () => ({
   tts: {
@@ -45,7 +45,7 @@ const response = () => ({
         display_name: 'OmniVoice (test)',
         available: true,
         reason: null,
-        docs_url: 'https://github.com/debpalash/VoiceStudio/blob/main/docs/engines/omnivoice.md',
+        docs_url: 'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/engines/omnivoice.md',
         isolation_mode: 'in-process',
         gpu_compat: ['cpu'],
       },

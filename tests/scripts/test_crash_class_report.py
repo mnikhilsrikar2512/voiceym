@@ -33,7 +33,7 @@ def report():
     ("title", "expected"),
     [
         # The real title shapes from the historical corpus.
-        ("[Bug] Can't reach the local VoiceStudio backend. It has not answered", "unreachable"),
+        ("[Bug] Can't reach the local Voiceym backend. It has not answered", "unreachable"),
         ("[Bug] Can't reach the local OmniVoice backend — it may still be starti", "unreachable"),
         ("[Bug] It was answering 6 minutes ago and then stopped responding", "unreachable"),
         ("[Crash] Backend died (exit code 1)", "backend-died"),

@@ -5,7 +5,7 @@ Every folder has a single job. Every file at the root earns its place.
 ## Layout
 
 ```
-VoiceStudio/
+Voiceym/
 │
 ├── README.md / README_CN.md / README_JA.md ⟵ user-facing overview (English / Chinese / Japanese)
 ├── CHANGELOG.md                 ⟵ release history; Electron releases use the tagged section
@@ -55,7 +55,7 @@ VoiceStudio/
 │
 ├── electron/                    ⟵ the only desktop app and web UI (Electron + React 19)
 │   ├── src/main/                lifecycle, backend supervisor, runtime setup, updater, native IPC
-│   ├── src/preload/             typed contextBridge → window.voicestudio
+│   ├── src/preload/             typed contextBridge → window.voiceym
 │   ├── src/renderer/            desktop React app: routes/, features/, components/, i18n/locales/
 │   ├── src/shared/              modules shared by the desktop and browser builds (api/, i18n/,
 │   │                            store/, ui/, utils/) — not a runnable app
@@ -88,7 +88,7 @@ VoiceStudio/
 │   └── frontend/                `node:test` checks for shared helpers and dev scripts
 │
 ├── scripts/                     ⟵ dev / build / release scripts (shell, python, mjs)
-│   ├── install.sh / install.ps1 shell + PowerShell installers served at voicestudio.sh/install
+│   ├── install.sh / install.ps1 shell + PowerShell installers served at voiceym.example/install
 │   ├── dev-backend.mjs          `bun run dev:api` backend supervisor
 │   ├── setup.py                 `bun run setup:api` post-sync platform setup (incl. ROCm opt-in)
 │   ├── electron-smoke-test.mjs  `bun run smoke-test` packaged-app launch check
@@ -100,7 +100,7 @@ VoiceStudio/
 │
 ├── .agents/skills/              ⟵ canonical skill copies (vite, fastapi-python), pinned by
 │                                   skills-lock.json — followed by path, never symlinked
-├── skills/                      ⟵ skills this repo publishes (voicestudio, voicestudio-maintainer)
+├── skills/                      ⟵ skills this repo publishes (voiceym, voiceym-maintainer)
 │
 ├── deploy/                      ⟵ Docker deployment configs + the installer worker
 │   ├── Dockerfile               CUDA by default; CI builds the ROCm variant from the same
@@ -108,7 +108,7 @@ VoiceStudio/
 │   ├── docker-compose.yml       one-click local deployment
 │   ├── torch-constraints.txt    pinned torch resolution for the image
 │   ├── dockerhub-overview.md    synced to the Docker Hub overview page at release
-│   └── install-worker/          live voicestudio.sh/install Cloudflare worker; bundles
+│   └── install-worker/          live voiceym.example/install Cloudflare worker; bundles
 │                                scripts/install.sh + install.ps1 (docs/install/script.md)
 │
 ├── docs/                        ⟵ developer docs, screenshots, branding
@@ -205,7 +205,7 @@ Removed in the 2026-07-12 cleanup pass (all preserved in git history):
 The current flat layout works fine for the current size. If the project grows to include additional apps (a mobile companion, a plugin SDK, multiple backends), migrate to a Turborepo-style monorepo:
 
 ```
-VoiceStudio/
+Voiceym/
 ├── apps/
 │   ├── api/                 ← was backend/
 │   └── desktop/             ← was electron/ (desktop + browser UI)

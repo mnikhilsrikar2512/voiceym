@@ -213,7 +213,7 @@ _BASE_SCHEMA = """
     );
     CREATE INDEX IF NOT EXISTS idx_call_sessions_created ON call_sessions(created_at);
 
-    -- Legacy tables kept for existing installs; the feature moved to VoiceStudio Pro.
+    -- Legacy tables kept for existing installs; the feature moved to Voiceym Pro.
     CREATE TABLE IF NOT EXISTS remote_workers (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL DEFAULT '',
@@ -295,7 +295,7 @@ _BASE_SCHEMA = """
     CREATE INDEX IF NOT EXISTS idx_remote_attempts_task ON remote_task_attempts(task_id);
     CREATE INDEX IF NOT EXISTS idx_remote_attempts_worker ON remote_task_attempts(worker_id, state);
 
-    -- VoiceStudio Cloud settings sync (S1). Same DDL as alembic 0014_cloud_sync.
+    -- Voiceym Cloud settings sync (S1). Same DDL as alembic 0014_cloud_sync.
     CREATE TABLE IF NOT EXISTS cloud_sync_state (
         organization_id TEXT PRIMARY KEY,
         device_id TEXT,
@@ -631,12 +631,12 @@ def _run_alembic_upgrade() -> None:
         )
         msg = (
             f"Database migration failed while running: {exc}. "
-            f"VoiceStudio stopped instead of running on a partially migrated database, "
+            f"Voiceym stopped instead of running on a partially migrated database, "
             f"and nothing was auto-restored (your database at {DB_PATH} was left "
             f"exactly as the failed migration left it). "
             f"{backup_note}. "
             "What to do: relaunch to retry; if it keeps failing, report it at "
-            "https://github.com/debpalash/VoiceStudio/issues (keep the backup file). "
+            "https://github.com/mnikhilsrikar2512/voiceym/issues (keep the backup file). "
             "To roll back manually: quit the app, replace omnivoice.db with the backup "
             "file, and reinstall the previous version."
         )

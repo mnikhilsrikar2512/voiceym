@@ -15,7 +15,7 @@ _REPO_CHANGELOG = os.path.join(
 
 _SAMPLE = """# Changelog
 
-All notable changes to OmniVoice Studio.
+All notable changes to OmniVoiceym.
 
 ## [Unreleased]
 

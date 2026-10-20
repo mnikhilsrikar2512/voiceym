@@ -17,9 +17,9 @@
 - No `--no-sandbox`, and no weakening of context isolation or CSP in app code.
 - Every remote action is pinned to a commit SHA, copied from the existing `ci.yml` / `snap-store.yml` pins.
 - No new dependencies. If one becomes unavoidable, regenerate `bun.lock` and confirm `bun install --frozen-lockfile` passes.
-- No CJK text in tests. The profile path uses Latin non-ASCII: `VoiceStudio Tëst `.
-- Launch env (from `native-watch-ui-smoke.mjs`): `ELECTRON_RENDERER_URL=''`, `OMNIVOICE_PORT=<fake>`, `VOICESTUDIO_SKIP_BACKEND=1`, `VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES=1`, `VOICESTUDIO_DISABLE_UPDATER=1`, `VOICESTUDIO_ELECTRON_PROXY_PORT=<free port>`.
-- Allowed request targets: `app:`, `file:`, `data:`, `blob:`, `devtools:`, and http(s) to `127.0.0.1` / `localhost` / `[::1]` on any port. `STAR_COUNT_URL = 'https://api.github.com/repos/debpalash/VoiceStudio'` is answered by a stub and never reaches the network.
+- No CJK text in tests. The profile path uses Latin non-ASCII: `Voiceym Tëst `.
+- Launch env (from `native-watch-ui-smoke.mjs`): `ELECTRON_RENDERER_URL=''`, `OMNIVOICE_PORT=<fake>`, `VOICEYM_SKIP_BACKEND=1`, `VOICEYM_ALLOW_MULTIPLE_INSTANCES=1`, `VOICEYM_DISABLE_UPDATER=1`, `VOICEYM_ELECTRON_PROXY_PORT=<free port>`.
+- Allowed request targets: `app:`, `file:`, `data:`, `blob:`, `devtools:`, and http(s) to `127.0.0.1` / `localhost` / `[::1]` on any port. `STAR_COUNT_URL = 'https://api.github.com/repos/mnikhilsrikar2512/voiceym'` is answered by a stub and never reaches the network.
 - Commits use the configured git identity only. No agent trailers or "Generated with" lines (CLAUDE.md, checked by `commit-identity`).
 - Docs and changelog land in the same PR (CONTRIBUTING → Testing; `CHANGELOG.md` `## [Unreleased]` → `### CI`, one-liners).
 
@@ -67,7 +67,7 @@
 
 - [ ] **Step 1: Write failing table test.**
   - Allowed: `app://-/index.html`, `file:///x`, `data:,x`, `blob:app://-/u`, `devtools://devtools/x`, `http://127.0.0.1:3900/health`, `http://localhost:49306/api`, `http://[::1]:1/`
-  - Rejected: `https://api.github.com/repos/debpalash/VoiceStudio` (stubbed, not allowed), `https://us.i.posthog.com/e`, `https://huggingface.co/`, `http://127.0.0.1.evil.com/`, `http://localhost.evil.com/`, `ws://example.com`
+  - Rejected: `https://api.github.com/repos/mnikhilsrikar2512/voiceym` (stubbed, not allowed), `https://us.i.posthog.com/e`, `https://huggingface.co/`, `http://127.0.0.1.evil.com/`, `http://localhost.evil.com/`, `ws://example.com`
 - [ ] **Step 2: Run** `node --test electron/tests/local-first.test.mjs`. Expected: FAIL (module missing).
 - [ ] **Step 3: Implement** the function. Parse with `new URL`. Compare `hostname` exactly; no substring or prefix matching.
 - [ ] **Step 4: Run**; expect PASS.
@@ -84,12 +84,12 @@
 - Consumes: `startHealthBackend` (Task 1), `isAllowedRequest`, `STAR_COUNT_URL`, `STAR_COUNT_STUB` (Task 2).
 - Produces:
   - `electronExecutable(): string` (per-OS path under `electron/node_modules/electron/dist`, as in `native-media-picker-smoke.mjs`)
-  - `makeProfile(): string` (`mkdtempSync(join(tmpdir(), 'VoiceStudio Tëst '))`)
+  - `makeProfile(): string` (`mkdtempSync(join(tmpdir(), 'Voiceym Tëst '))`)
   - `withApp(t: TestContext, opts: { profile?: string, fixtures?: object, seed?: boolean, backend?: 'up' | 'down' }, body: (s: Session) => Promise<void>): Promise<void>`
   - `Session = { app: ElectronApplication, page: Page, profile: string, backend: FakeBackend | null, relaunch(): Promise<Session> }`
   - `ARTIFACT_DIR = electron/test-results/<process.platform>`
 - `withApp` contract:
-  - `seed` defaults to `true`. When true, `context.addInitScript` sets `voicestudio.setup.complete.v1='1'` and `voicestudio.locale='en'`.
+  - `seed` defaults to `true`. When true, `context.addInitScript` sets `voiceym.setup.complete.v1='1'` and `voiceym.locale='en'`.
   - Starts `context.tracing` with screenshots and snapshots.
   - Installs the request guard twice: renderer via `context.route('**')`, main via `session.defaultSession.webRequest.onBeforeRequest` through `app.evaluate`. The guard aborts and records disallowed URLs, and fulfils `STAR_COUNT_URL` with `STAR_COUNT_STUB`. It then reloads the page once, so requests made before the hooks existed are seen.
   - Collects `pageerror` and console `error` events. `ALLOWED_CONSOLE_ERRORS` is an exported, commented regex list and starts empty.
@@ -98,7 +98,7 @@
   - Always: closes the app, closes the backend, and removes the profile unless the caller passed one.
 
 - [ ] **Step 1: Write failing tests** in `desktop-ui.test.mjs`:
-  - `launch: window, title and bridge match the real OS`. The title matches `/VoiceStudio/`. `typeof window.voicestudio.files.saveData === 'function'`. `window.voicestudio.app.platform === process.platform`.
+  - `launch: window, title and bridge match the real OS`. The title matches `/Voiceym/`. `typeof window.voiceym.files.saveData === 'function'`. `window.voiceym.app.platform === process.platform`.
   - `reload keeps the bridge working`. After `page.reload()`, the same bridge assertions pass (guards are checked by `withApp`).
 - [ ] **Step 2: Build and run** `bun run --cwd electron build && xvfb-run -a bun run --cwd electron test:desktop-ui` (drop `xvfb-run` off Linux). Expected: FAIL (harness missing).
 - [ ] **Step 3: Implement** `desktop-harness.mjs` to the contract above.
@@ -110,7 +110,7 @@
 **Files:** Modify `electron/tests/desktop-ui.test.mjs`
 
 - [ ] **Step 1: Write tests:**
-  - `first run: setup gate completes to home` (`seed: false`). The setup gate shows the `heading` "VoiceStudio". Complete it with the controls `setup-gate-smoke.mjs:97-107` drives, adapted to `models_ready: true`. Assert `location.hash` is `#/` and that `voicestudio.setup.complete.v1 === '1'`.
+  - `first run: setup gate completes to home` (`seed: false`). The setup gate shows the `heading` "Voiceym". Complete it with the controls `setup-gate-smoke.mjs:97-107` drives, adapted to `models_ready: true`. Assert `location.hash` is `#/` and that `voiceym.setup.complete.v1 === '1'`.
   - `consent: declining analytics sends nothing`. Use `fixtures: { '/api/settings/analytics': { available: true, prompted: false, opted_in: false } }`. Assert the buttons "Yes, share anonymous stats" and "No thanks" are both visible. Click "No thanks". Assert the backend recorded a POST to `/api/settings/analytics` whose body has `opted_in: false`, and that the prompt is gone. `withApp`'s guard covers the "sends nothing" part.
   - `backend down: app shows retry, no crash` (`backend: 'down'`, meaning a free port with nothing listening). Wait for the retry button (en `backend.retry` text); no `pageerror`.
 - [ ] **Step 2: Run** `test:desktop-ui` and confirm the new tests fail for the right reason before adjusting the selectors. Then make them pass.
@@ -136,7 +136,7 @@
   - `settings: theme and language survive restart`:
     - Open `#/settings/appearance`. In the "Dark" group, click the "Studio" button and assert `aria-pressed="true"` (as `theme-picker-smoke.mjs:31-44` does).
     - Change the UI language to German in `#/settings/general`.
-    - Call `relaunch()` on the same profile. Assert `voicestudio.theme.v2` still records Studio, the button is still pressed, and `voicestudio.locale === 'de'`.
+    - Call `relaunch()` on the same profile. Assert `voiceym.theme.v2` still records Studio, the button is still pressed, and `voiceym.locale === 'de'`.
     - Assert `app.getPath('userData')` and `app.getPath('sessionData')` both resolve inside `profile`, comparing real paths case-insensitively on win32.
   - `unclean exit: relaunch on same profile starts normally`. Kill the Electron process (`app.process().kill('SIGKILL')`), then `relaunch()`. Assert the window opens and the bridge assertions from Task 3 pass.
 - [ ] **Step 2: Run**; expect PASS after any selector fixes.
@@ -175,7 +175,7 @@
   - `bun run check:electron`;
   - `node --test electron/tests/*.test.mjs`.
 - [ ] **Step 5: Commit** `ci: run desktop UI tests on macOS, Windows and Linux`
-- [ ] **Step 6: Push and open PR 1.** Wait for every check, not just `electron-ui`. Harvest CodeRabbit and Greptile comments (`gh api repos/debpalash/VoiceStudio/pulls/<N>/comments`) and fix real findings on the branch. If a leg fails, read the uploaded artifacts before changing anything. The PR body notes: "Add `Desktop UI (*)` to required checks after two weeks green on main (owner)."
+- [ ] **Step 6: Push and open PR 1.** Wait for every check, not just `electron-ui`. Harvest CodeRabbit and Greptile comments (`gh api repos/mnikhilsrikar2512/voiceym/pulls/<N>/comments`) and fix real findings on the branch. If a leg fails, read the uploaded artifacts before changing anything. The PR body notes: "Add `Desktop UI (*)` to required checks after two weeks green on main (owner)."
 
 ---
 

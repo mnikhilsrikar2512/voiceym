@@ -1,19 +1,19 @@
-# VoiceStudio — Install on macOS
+# Voiceym — Install on macOS
 
-VoiceStudio's macOS desktop app is built with Electron. The archived Tauri app
+Voiceym's macOS desktop app is built with Electron. The archived Tauri app
 is no longer maintained; if you still run it, follow the
 [migration guide](../electron-migration.md).
 
 > [!IMPORTANT]
 > **Intel Macs are not supported** for the local backend (app UI only).
 > PyTorch stopped shipping Intel-Mac (macOS
-> x86_64) wheels after 2.2.x and VoiceStudio's dependencies need a newer torch,
+> x86_64) wheels after 2.2.x and Voiceym's dependencies need a newer torch,
 > so a local Python backend cannot install on an Intel Mac — from the DMG *or*
 > from source ([#889](https://github.com/debpalash/VoiceStudio/issues/889)).
 > On Intel, packaged setup stops before creating a Python environment or
 > downloading dependencies and shows remote-backend guidance instead: use the
 > remote connection controls on the setup screen to point the app at a backend
-> on another machine, or run VoiceStudio on an Apple Silicon Mac, Windows, or
+> on another machine, or run Voiceym on an Apple Silicon Mac, Windows, or
 > Linux.
 
 ## Requirements
@@ -39,13 +39,13 @@ larger TTS models. See [docs/setup/huggingface-token.md](../setup/huggingface-to
 
 Download the DMG that matches your Mac (check **Apple menu → About This Mac →
 Chip/Processor**) from the
-[Releases page](https://github.com/debpalash/VoiceStudio/releases/latest),
-double-click to mount it, and drag **VoiceStudio.app** into `/Applications`.
+[Releases page](https://github.com/mnikhilsrikar2512/voiceym/releases/latest),
+double-click to mount it, and drag **Voiceym.app** into `/Applications`.
 
 | Mac | DMG to download |
 |-----|-----------------|
-| Apple Silicon (M1/M2/M3/M4…) | `VoiceStudio-Electron-<version>-mac-arm64.dmg` |
-| Intel | `VoiceStudio-Electron-<version>-mac-x64.dmg` — **UI only**: the local backend cannot run on Intel ([#889](https://github.com/debpalash/VoiceStudio/issues/889)) |
+| Apple Silicon (M1/M2/M3/M4…) | `Voiceym-Electron-<version>-mac-arm64.dmg` |
+| Intel | `Voiceym-Electron-<version>-mac-x64.dmg` — **UI only**: the local backend cannot run on Intel ([#889](https://github.com/debpalash/VoiceStudio/issues/889)) |
 
 The architectures are **not** interchangeable: an Intel Mac cannot run the
 `arm64` build (Rosetta 2 only translates the other direction). An Apple
@@ -57,14 +57,14 @@ your voices and projects are kept. Compare the download with the release's
 
 Or install the latest release from Terminal with the
 [shell installer](script.md), which picks the right DMG, verifies its
-checksum, and installs `VoiceStudio.app` into `/Applications` (or
+checksum, and installs `Voiceym.app` into `/Applications` (or
 `~/Applications` when `/Applications` is not writable):
 
 ```bash
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh
 ```
 
-If the first launch is blocked by macOS Gatekeeper ("VoiceStudio cannot be
+If the first launch is blocked by macOS Gatekeeper ("Voiceym cannot be
 opened because the developer cannot be verified"), see the next section — it
 opens with one right-click, no Terminal.
 
@@ -72,7 +72,7 @@ opens with one right-click, no Terminal.
 
 <a id="gatekeeper-quarantine"></a>
 
-An unsigned or ad-hoc signed installer may show **"VoiceStudio cannot be opened
+An unsigned or ad-hoc signed installer may show **"Voiceym cannot be opened
 because the developer cannot be verified"**. macOS Gatekeeper cannot verify an
 Apple Developer identity until the Electron release is signed and notarized
 (#1779). For an installer from the official GitHub release, compare its SHA-256
@@ -81,7 +81,7 @@ Restricted environments that prohibit the workaround need a signed, notarized
 release; bypassing Gatekeeper is not a substitute.
 
 **Fix — GUI, no Terminal (do this):** in Finder, **right-click** (or
-Control-click) **VoiceStudio.app** → **Open** → click **Open** again in the
+Control-click) **Voiceym.app** → **Open** → click **Open** again in the
 dialog. (On macOS 15 Sequoia: double-click once, then go to **System Settings →
 Privacy & Security**, scroll down, and click **"Open Anyway"**.) This is a
 one-time confirmation per install; afterwards it launches by double-click.
@@ -98,7 +98,7 @@ one-time confirmation per install; afterwards it launches by double-click.
 **Fix — Terminal:** after dragging the app into `/Applications`, run:
 
 ```bash
-xattr -dr com.apple.quarantine "/Applications/VoiceStudio.app"
+xattr -dr com.apple.quarantine "/Applications/Voiceym.app"
 ```
 
 (Adjust the path if you put the app somewhere other than `/Applications`.)
@@ -136,8 +136,8 @@ Prerequisites (use a native arm64 terminal on Apple Silicon):
   Electron native helper.
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api   # create the Python environment with uv
 bun run dev         # Electron with hot reload; it starts and supervises the backend
@@ -150,7 +150,7 @@ publishing. Local packages are unsigned. See
 
 ## Apple Silicon vs Intel
 
-- **Apple Silicon (M-series):** VoiceStudio automatically picks the `mlx-whisper`
+- **Apple Silicon (M-series):** Voiceym automatically picks the `mlx-whisper`
   and `mlx-audio` backends where available — these use the Apple Neural Engine
   and Metal Performance Shaders for ~2× the throughput of the CPU path.
   Installing the **Parakeet TDT v3 (MLX)** model from **Model Catalogue** (ASR tab → the engine's **Weights**)
@@ -197,7 +197,7 @@ local backend is unsupported; connect to a remote backend instead.
 ### Fast process shutdown
 
 A process that exits while shutdown is signalling it can report a macOS
-permission error. VoiceStudio accepts this only after confirming the original
+permission error. Voiceym accepts this only after confirming the original
 process exited without being reaped (macOS can take a moment to report that
 exit, so it waits up to a quarter of a second), then still waits for nested
 operations to drain. Live-process permission errors and lost process ownership remain failures.

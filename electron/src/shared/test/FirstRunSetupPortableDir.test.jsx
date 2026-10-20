@@ -1,7 +1,7 @@
 /**
  * Portable mode must let the user choose the folder.
  *
- * Portable used to be pinned to `OmniVoiceStudio-Data` beside the app, with no
+ * Portable used to be pinned to `OmniVoiceym-Data` beside the app, with no
  * picker — the one storage row on the setup screen you could look at but not
  * change. Installed mode had a picker for all three of its directories.
  *
@@ -32,7 +32,7 @@ vi.mock('@tauri-apps/plugin-dialog', () => ({ open: (...a) => openMock(...a) }))
 import FirstRunSetup from '../components/FirstRunSetup';
 
 const ANCHOR = '/Applications';
-const ANCHOR_DEFAULT = `${ANCHOR}/OmniVoiceStudio-Data`;
+const ANCHOR_DEFAULT = `${ANCHOR}/OmniVoiceym-Data`;
 
 const setupState = ({ anchorWritable = true, baseDir = ANCHOR_DEFAULT } = {}) => ({
   firstRun: true,
@@ -87,7 +87,7 @@ afterEach(() => {
 describe('FirstRunSetup — portable folder is choosable', () => {
   it('sends the chosen folder to complete_setup as portableDir', async () => {
     wireInvoke(setupState());
-    openMock.mockResolvedValue('/Volumes/SSD/VoiceStudio');
+    openMock.mockResolvedValue('/Volumes/SSD/Voiceym');
     renderSetup();
 
     await waitFor(() => expect(screen.getByText(ANCHOR_DEFAULT)).toBeTruthy());
@@ -100,7 +100,7 @@ describe('FirstRunSetup — portable folder is choosable', () => {
       pickers[0].click();
     });
 
-    await waitFor(() => expect(screen.getByText('/Volumes/SSD/VoiceStudio')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('/Volumes/SSD/Voiceym')).toBeTruthy());
 
     // The target check is debounced 250 ms, and until it lands the plan counts
     // as `loading` and the button stays disabled — so wait for it to enable
@@ -123,7 +123,7 @@ describe('FirstRunSetup — portable folder is choosable', () => {
       expect(call).toBeTruthy();
       // The key name is the wire contract with InstallPlan::portable_dir —
       // rename either side and the folder is silently ignored.
-      expect(call[1].plan.portableDir).toBe('/Volumes/SSD/VoiceStudio');
+      expect(call[1].plan.portableDir).toBe('/Volumes/SSD/Voiceym');
       expect(call[1].plan.installMode).toBe('portable');
     });
   });
@@ -172,9 +172,9 @@ describe('FirstRunSetup — portable folder is choosable', () => {
     // The overclaim CodeRabbit caught (#1404): an absolute pointer cannot
     // survive a different mount path, so the cross-machine wording must not
     // appear here even though the anchor is writable.
-    wireInvoke(setupState({ anchorWritable: true, baseDir: '/Volumes/SSD/VoiceStudio' }));
+    wireInvoke(setupState({ anchorWritable: true, baseDir: '/Volumes/SSD/Voiceym' }));
     renderSetup();
-    await waitFor(() => expect(screen.getByText('/Volumes/SSD/VoiceStudio')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('/Volumes/SSD/Voiceym')).toBeTruthy());
     expect(screen.queryByText(/relative path/i)).toBeNull();
     expect(screen.getByText(/remembered on this machine/i)).toBeTruthy();
   });

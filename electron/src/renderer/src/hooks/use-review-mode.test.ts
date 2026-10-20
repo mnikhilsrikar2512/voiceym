@@ -13,7 +13,7 @@ it('defaults to staged review and persists an explicit straight-through choice',
 
   act(() => first.setReviewMode('off'));
   expect(hook.result.current).toBe('off');
-  expect(localStorage.getItem('voicestudio.review-mode.v1')).toBe('off');
+  expect(localStorage.getItem('voiceym.review-mode.v1')).toBe('off');
   hook.unmount();
 
   vi.resetModules();

@@ -130,7 +130,7 @@ describe('downloadMedia — Tauri branch (isTauri=true)', () => {
     expect(apiFetch).toHaveBeenCalledWith(
       'http://x/dub/download/job/dubbed_video.mp4?preserve_bg=1',
       {
-        headers: { 'X-VoiceStudio-Path-Authorization': 'a'.repeat(64) },
+        headers: { 'X-Voiceym-Path-Authorization': 'a'.repeat(64) },
         retryTransport: false,
       },
     );

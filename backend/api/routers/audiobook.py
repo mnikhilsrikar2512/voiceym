@@ -514,10 +514,10 @@ def _make_occ_counter(opts: ExpressiveOptions):
 
 
 def _omnivoice_sampling_kwargs(opts: ExpressiveOptions) -> dict:
-    """VoiceStudio-model generate kwargs for the sampling knobs. UNSET reproduces
+    """Voiceym-model generate kwargs for the sampling knobs. UNSET reproduces
     today exactly: num_step 32, guidance 2.0, and NO temperature/postprocess
     kwargs (the model keeps its own defaults). Emotion is never forwarded —
-    the VoiceStudio config rejects unknown kwargs."""
+    the Voiceym config rejects unknown kwargs."""
     from services.performance_profiles import tts_defaults
 
     defaults = tts_defaults()
@@ -539,7 +539,7 @@ def _omnivoice_sampling_kwargs(opts: ExpressiveOptions) -> dict:
 
 
 def _generic_extra_kwargs(opts: ExpressiveOptions) -> dict:
-    """Extra generate kwargs for a non-VoiceStudio engine. UNSET → empty dict →
+    """Extra generate kwargs for a non-Voiceym engine. UNSET → empty dict →
     byte-identical to the pre-#1208 generic call. Only present knobs are added,
     and every shipped backend's ``generate(self, text, **kw)`` ignores the ones
     it doesn't understand (never TypeError) — the engine-options contract. The
@@ -582,7 +582,7 @@ def _build_synth(
     """Describe how to synthesize for the active TTS engine.
 
     Returns a dict with ``mode``, ``resolve`` (voice-id → resolved refs, cached
-    per id) and ``engine_id``. For VoiceStudio it also carries the async
+    per id) and ``engine_id``. For Voiceym it also carries the async
     ``get_model``; other engines carry a ready ``synth`` + ``sample_rate``.
     :func:`_prepare_synth` turns this into a uniform ``(synth, sr, resolve,
     engine_id)`` once the (async) model is in hand.
@@ -657,7 +657,7 @@ async def _prepare_synth(
     lease: "voice_leases.VoiceFileLease | None" = None,
 ):
     """Resolve :func:`_build_synth` into ``(synth, sample_rate, resolve,
-    engine_id)`` — awaiting the VoiceStudio model load when needed. Shared by the
+    engine_id)`` — awaiting the Voiceym model load when needed. Shared by the
     full job and the per-chapter preview. ``language`` is threaded into every
     chunk so a non-English clone holds its language (#505 B2). ``opts`` (#1208)
     carries the expressive knobs; a default instance reproduces today exactly."""

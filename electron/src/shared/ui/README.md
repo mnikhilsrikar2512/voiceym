@@ -1,4 +1,4 @@
-# `ui/` — VoiceStudio design system
+# `ui/` — Voiceym design system
 
 The one place new UI is built from. Primitives, tokens, motion, all here.
 

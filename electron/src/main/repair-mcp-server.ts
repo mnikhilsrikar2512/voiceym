@@ -15,8 +15,8 @@ interface RepairContext {
 const MAX_RESPONSE = 1_000_000;
 // A single JSON-RPC line (tool arguments included) larger than this is refused.
 const MAX_REQUEST_LINE = 8_000_000;
-const configuredContextPath = process.env.VOICESTUDIO_REPAIR_CONTEXT_FILE;
-if (!configuredContextPath) throw new Error('VOICESTUDIO_REPAIR_CONTEXT_FILE is required');
+const configuredContextPath = process.env.VOICEYM_REPAIR_CONTEXT_FILE;
+if (!configuredContextPath) throw new Error('VOICEYM_REPAIR_CONTEXT_FILE is required');
 const contextPath: string = configuredContextPath;
 
 function send(message: unknown): void {
@@ -92,7 +92,7 @@ async function handle(request: JsonRpcRequest): Promise<void> {
           ? request.params.protocolVersion
           : '2025-06-18',
       capabilities: { tools: { listChanged: false } },
-      serverInfo: { name: 'voicestudio-repair', version: '1.0.0' },
+      serverInfo: { name: 'voiceym-repair', version: '1.0.0' },
     });
     return;
   }
@@ -105,9 +105,9 @@ async function handle(request: JsonRpcRequest): Promise<void> {
       tools: [
         {
           name: 'api_request',
-          title: 'VoiceStudio app API',
+          title: 'Voiceym app API',
           description:
-            'Read or update the running VoiceStudio app through its session-scoped repair bridge. Use /openapi.json to discover backend routes and /__voicestudio/status plus the Electron controls listed in the repair context for backend recovery.',
+            'Read or update the running Voiceym app through its session-scoped repair bridge. Use /openapi.json to discover backend routes and /__voiceym/status plus the Electron controls listed in the repair context for backend recovery.',
           inputSchema: {
             type: 'object',
             properties: {
@@ -129,7 +129,7 @@ async function handle(request: JsonRpcRequest): Promise<void> {
   }
   if (request.method === 'tools/call') {
     if (request.params?.name !== 'api_request') {
-      error(request.id, -32602, 'Unknown VoiceStudio repair tool');
+      error(request.id, -32602, 'Unknown Voiceym repair tool');
       return;
     }
     try {
@@ -142,7 +142,7 @@ async function handle(request: JsonRpcRequest): Promise<void> {
         content: [
           {
             type: 'text',
-            text: reason instanceof Error ? reason.message : 'VoiceStudio API request failed',
+            text: reason instanceof Error ? reason.message : 'Voiceym API request failed',
           },
         ],
         isError: true,

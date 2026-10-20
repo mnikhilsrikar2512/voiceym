@@ -19,7 +19,7 @@ Probe order for the server binary (existing installs win, zero migration):
        installed local copy.
 
 ``is_installed()`` is a cheap file-existence check — no spawn, no network.
-VoiceStudio never downloads executable code for this engine.
+Voiceym never downloads executable code for this engine.
 """
 from __future__ import annotations
 
@@ -333,7 +333,7 @@ def resolve_server_binary() -> Path:
             raise RuntimeError(
                 "audiocpp_server is not executable. Run `chmod +x "
                 "audiocpp_server` on the configured binary, then restart "
-                "VoiceStudio. See docs/engines/audio-cpp.md."
+                "Voiceym. See docs/engines/audio-cpp.md."
             )
     slug = _platform_slug()
     asset = _ASSETS.get(slug)

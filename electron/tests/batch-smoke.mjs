@@ -7,7 +7,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
   });
   let submits = 0;
   let cancels = 0;
@@ -90,7 +90,7 @@ try {
     deletes++;
     return route.fulfill({ json: { deleted: true } });
   });
-  await page.goto((process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/batch');
+  await page.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/batch');
   assert(await page.getByRole('button', { name: 'Add to Queue', exact: true }).isDisabled());
   await page
     .locator('input[type=file]')

@@ -3,7 +3,7 @@
 GitHub stores these settings outside the repository, so no file or CI check can
 enforce them. Apply them once as a repository admin, then re-check them after
 changing workflow or job names. The `gh api` commands below assume an
-authenticated `gh` with admin access to `debpalash/VoiceStudio`.
+authenticated `gh` with admin access to `mnikhilsrikar2512/voiceym`.
 
 ## Rolling out the CLA check
 
@@ -33,7 +33,7 @@ Requires a pull request, the backend/frontend test job, the commit-identity
 workflow and its privileged policy status, the CLA workflow job and its signature status, and
 blocks force-push and deletion. Without the pull request rule, a direct push
 whose commit already carries passing checks would be accepted. The rule needs
-no approving review, because `@debpalash` is the only maintainer and GitHub
+no approving review, because `@mnikhilsrikar2512` is the only maintainer and GitHub
 does not let authors approve their own pull requests.
 
 Each CLA recheck marks the head pending before looking up contributors and
@@ -93,7 +93,7 @@ statuses count whichever token the trusted workflows use. `strict_required_statu
 to date with `main` before merging.
 
 ```bash
-gh api --method POST repos/debpalash/VoiceStudio/rulesets --input - <<'JSON'
+gh api --method POST repos/mnikhilsrikar2512/voiceym/rulesets --input - <<'JSON'
 {
   "name": "main",
   "target": "branch",
@@ -138,7 +138,7 @@ green, for example to land an urgent fix, but never to push to `main` directly.
 For the CLA, prefer the `cla-override` label: it records that a maintainer
 reviewed the pull request by hand. Remove the bypass entry for a stricter
 setup. Do not enable "Require review from
-Code Owners" while `@debpalash` is the only code owner, because GitHub does not
+Code Owners" while `@mnikhilsrikar2512` is the only code owner, because GitHub does not
 let authors approve their own pull requests.
 
 UI: **Settings → Rules → Rulesets → New ruleset → New branch ruleset**. Set the
@@ -156,7 +156,7 @@ does not restrict updates or require checks, so the workflow can keep committing
 You can create the ruleset before the branch exists.
 
 ```bash
-gh api --method POST repos/debpalash/VoiceStudio/rulesets --input - <<'JSON'
+gh api --method POST repos/mnikhilsrikar2512/voiceym/rulesets --input - <<'JSON'
 {
   "name": "cla-signatures",
   "target": "branch",
@@ -171,7 +171,7 @@ gh api --method POST repos/debpalash/VoiceStudio/rulesets --input - <<'JSON'
 JSON
 ```
 
-Check both rulesets with `gh api repos/debpalash/VoiceStudio/rulesets`.
+Check both rulesets with `gh api repos/mnikhilsrikar2512/voiceym/rulesets`.
 
 ## Secret scanning and push protection
 
@@ -179,7 +179,7 @@ UI: **Settings → Code security → Secret Protection**. Enable **Secret scanni
 and **Push protection**.
 
 ```bash
-gh api --method PATCH repos/debpalash/VoiceStudio --input - <<'JSON'
+gh api --method PATCH repos/mnikhilsrikar2512/voiceym --input - <<'JSON'
 { "security_and_analysis": {
     "secret_scanning": { "status": "enabled" },
     "secret_scanning_push_protection": { "status": "enabled" } } }
@@ -199,7 +199,7 @@ and that link only works while this setting is on.
 UI: **Settings → Code security → Private vulnerability reporting → Enable**.
 
 ```bash
-gh api --method PUT repos/debpalash/VoiceStudio/private-vulnerability-reporting
+gh api --method PUT repos/mnikhilsrikar2512/voiceym/private-vulnerability-reporting
 ```
 
 ## Dependabot alerts
@@ -209,7 +209,7 @@ turns on security alerts. Version updates for GitHub Actions are configured
 separately in `.github/dependabot.yml`.
 
 ```bash
-gh api --method PUT repos/debpalash/VoiceStudio/vulnerability-alerts
+gh api --method PUT repos/mnikhilsrikar2512/voiceym/vulnerability-alerts
 ```
 
 ## Maintainer commit email

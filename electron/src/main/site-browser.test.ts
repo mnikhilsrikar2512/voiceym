@@ -21,7 +21,7 @@ vi.mock('electron', async () => {
   let id = 0;
   class Contents extends EventEmitter {
     id = ++id;
-    mainFrame = { url: 'app://voicestudio/index.html' };
+    mainFrame = { url: 'app://voiceym/index.html' };
     destroyed = false;
     navigationHistory = {
       canGoBack: vi.fn(() => true),
@@ -104,14 +104,14 @@ beforeEach(() => {
 
 describe('website URL policy', () => {
   it('accepts web URLs and bare domains', () => {
-    expect(browserUrl(' voicestudio.sh/docs ')).toBe('https://voicestudio.sh/docs');
+    expect(browserUrl(' voiceym.example/docs ')).toBe('https://voiceym.example/docs');
     expect(browserUrl('http://localhost:8000/?x=1&y=2')).toBe('http://localhost:8000/?x=1&y=2');
   });
   it.each([
     'javascript:alert(1)',
     'data:text/html,test',
     'file:///etc/passwd',
-    'app://voicestudio',
+    'app://voiceym',
     'https://user:pass@site.test',
     '',
     'https://',
@@ -122,7 +122,7 @@ describe('website URL policy', () => {
 
 it('opens an isolated sandboxed view only after the main window requests it', () => {
   expect(mocks.views).toHaveLength(0);
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const child = parent,
     view = mocks.views[0];
   expect(mocks.windows).toHaveLength(1);
@@ -136,7 +136,7 @@ it('opens an isolated sandboxed view only after the main window requests it', ()
   });
   expect(view.options.webPreferences.preload).toBeUndefined();
   expect(mocks.partition.mock.calls[0][0]).not.toContain('persist:');
-  expect(view.webContents.loadURL).toHaveBeenCalledWith('https://voicestudio.sh/');
+  expect(view.webContents.loadURL).toHaveBeenCalledWith('https://voiceym.example/');
   const callback = vi.fn();
   mocks.partition.mock.results[0].value.setPermissionRequestHandler.mock.calls[0][0](
     null,
@@ -150,7 +150,7 @@ it('opens an isolated sandboxed view only after the main window requests it', ()
 });
 
 it('keeps the native view inside the measured modal at different zoom levels and rejects invalid bounds', () => {
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const view = mocks.views[0];
   expect(view.setVisible).toHaveBeenLastCalledWith(false);
   vi.mocked(parent.webContents.getZoomFactor).mockReturnValue(1.25);
@@ -168,7 +168,7 @@ it('keeps the native view inside the measured modal at different zoom levels and
 });
 
 it('closes the modal with Escape while the remote page has keyboard focus', () => {
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const event = { preventDefault: vi.fn() };
   mocks.views[0].webContents.emit('before-input-event', event, { type: 'keyDown', key: 'Escape' });
   expect(event.preventDefault).toHaveBeenCalled();
@@ -176,7 +176,7 @@ it('closes the modal with Escape while the remote page has keyboard focus', () =
 });
 
 it('denies every browser IPC to remote content and subframes', () => {
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const view = mocks.views[0],
     child = parent;
   for (const name of SITE_BROWSER_CHANNELS) {
@@ -184,14 +184,14 @@ it('denies every browser IPC to remote content and subframes', () => {
     expect(() =>
       mocks.handlers.get(`site-browser:${name}`)!({
         sender: child.webContents,
-        senderFrame: { url: 'app://voicestudio/index.html' },
+        senderFrame: { url: 'app://voiceym/index.html' },
       }),
     ).toThrow('Untrusted browser request');
   }
 });
 
 it('reuses the browser, supports history, reports failures and opens the current page externally', () => {
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const child = parent,
     view = mocks.views[0];
   invoke('open', parent, 'https://example.com');
@@ -207,12 +207,12 @@ it('reuses the browser, supports history, reports failures and opens the current
   expect(invoke('state', child)).toMatchObject({ url: 'https://offline.test/', error: true });
   invoke('openExternal', child, 'default');
   expect(mocks.external).toHaveBeenCalledWith('default', 'https://offline.test/');
-  invoke('navigate', child, 'https://voicestudio.sh');
+  invoke('navigate', child, 'https://voiceym.example');
   expect(invoke('state', child).error).toBe(false);
 });
 
 it('blocks non-web navigations and popups, closes remote contents and removes parent listeners', () => {
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   const child = parent,
     view = mocks.views[0];
   const event = { preventDefault: vi.fn() };
@@ -228,14 +228,14 @@ it('blocks non-web navigations and popups, closes remote contents and removes pa
   expect(parent.contentView.removeChildView).toHaveBeenCalledWith(view);
   expect(view.webContents.close).toHaveBeenCalledWith({ waitForBeforeUnload: false });
   expect(parent.listenerCount('closed')).toBe(0);
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   parent.destroy();
   expect(mocks.views[1].webContents.close).toHaveBeenCalled();
 });
 
 it('disposes an embedded page on renderer reload without replacing the workspace URL', () => {
   expect(invoke('state', parent)).toBeNull();
-  invoke('open', parent, 'https://voicestudio.sh');
+  invoke('open', parent, 'https://voiceym.example');
   parent.webContents.emit('did-start-loading');
   expect(invoke('state', parent)).toBeNull();
   expect(mocks.views[0].webContents.close).toHaveBeenCalled();

@@ -72,12 +72,12 @@ describe('SetupWizard analytics consent step', () => {
     });
     render(withI18n(<SetupWizard onReady={() => {}} />));
     // The stepper rail gains the consent stage.
-    expect(await screen.findByText(/Improve VoiceStudio/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Improve Voiceym/i)).toBeInTheDocument();
 
     await advancePastModels();
     // The title renders exactly once (the card's own heading) — the masthead
     // subtitle and the section head no longer repeat it (#1855).
-    expect(await screen.findAllByText(/Help improve VoiceStudio\?/i)).toHaveLength(1);
+    expect(await screen.findAllByText(/Help improve Voiceym\?/i)).toHaveLength(1);
     // Two equal-weight choices, no preselected default.
     expect(screen.getByTestId('analytics-consent-yes')).toBeInTheDocument();
     expect(screen.getByTestId('analytics-consent-no')).toBeInTheDocument();
@@ -90,7 +90,7 @@ describe('SetupWizard analytics consent step', () => {
       opted_in: false,
     });
     render(withI18n(<SetupWizard onReady={() => {}} />));
-    await screen.findByText(/Improve VoiceStudio/i);
+    await screen.findByText(/Improve Voiceym/i);
     await advancePastModels();
 
     fireEvent.click(await screen.findByTestId('analytics-consent-yes'));
@@ -115,7 +115,7 @@ describe('SetupWizard analytics consent step', () => {
       opted_in: false,
     });
     render(withI18n(<SetupWizard onReady={() => {}} />));
-    await screen.findByText(/Improve VoiceStudio/i);
+    await screen.findByText(/Improve Voiceym/i);
     await advancePastModels();
 
     fireEvent.click(await screen.findByTestId('analytics-consent-no'));
@@ -143,7 +143,7 @@ describe('SetupWizard analytics consent step', () => {
     await advancePastModels();
     // Straight from models to dictation — an unanswerable ask would be a lie.
     expect(await screen.findByText(/Enter studio/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Help improve VoiceStudio\?/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Help improve Voiceym\?/i)).not.toBeInTheDocument();
     expect(apiFetch).not.toHaveBeenCalled();
     // The dictation step's rail label renders exactly once, and it's a
     // distinct string from the demo card's own title — the masthead

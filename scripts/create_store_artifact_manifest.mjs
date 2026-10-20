@@ -35,10 +35,10 @@ function sha256File(path) {
 function releaseArtifact(name, distribution) {
   const installerPrefix =
     {
-      direct: "VoiceStudio-Electron-",
-      "microsoft-store": "VoiceStudio-MicrosoftStore-",
-      "mac-app-store": "VoiceStudio-MacAppStore-",
-    }[distribution] ?? "VoiceStudio-Electron-";
+      direct: "Voiceym-Electron-",
+      "microsoft-store": "Voiceym-MicrosoftStore-",
+      "mac-app-store": "Voiceym-MacAppStore-",
+    }[distribution] ?? "Voiceym-Electron-";
   const updatePrefix =
     distribution === "microsoft-store"
       ? "electron-microsoft-store-stable-"
@@ -122,7 +122,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   createArtifactManifest({
     releaseDir,
     output,
-    distribution: option("distribution", process.env.VOICESTUDIO_DISTRIBUTION),
+    distribution: option("distribution", process.env.VOICEYM_DISTRIBUTION),
     platform,
     arch,
     version: packageJson.version,

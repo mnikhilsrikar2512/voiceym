@@ -1,8 +1,8 @@
 .build/
 .cache/
 .generated/
-VoiceStudioKit/.build/
-VoiceStudioKit/.swiftpm/
-VoiceStudio/VoiceStudio.xcodeproj/
+VoiceymKit/.build/
+VoiceymKit/.swiftpm/
+Voiceym/Voiceym.xcodeproj/
 **/xcuserdata/
 .DS_Store

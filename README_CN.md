@@ -1,13 +1,13 @@
 <div align="center">
-  <img src="docs/logo.png" alt="VoiceStudio" width="88" />
-  <h1>VoiceStudio</h1>
+  <img src="docs/logo.png" alt="Voiceym" width="88" />
+  <h1>Voiceym</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="VoiceStudio 在 Trendshift 上的排名" width="220" height="48" /></a>
+    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Voiceym 在 Trendshift 上的排名" width="220" height="48" /></a>
   </p>
   <p><strong>开源的声音克隆、声音设计、视频配音、语音听写、转录与有声书创作，支持 646 种语言。</strong></p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">官网</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">下载</a> ·
+    <a href="https://voiceym.example/?utm_source=github&utm_medium=readme&utm_campaign=project">官网</a> ·
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/releases/latest">下载</a> ·
     <a href="#开始使用">开始使用</a> ·
     <a href="#文档">文档</a> ·
     <a href="https://discord.gg/bzQavDfVV9">Discord</a> ·
@@ -15,14 +15,14 @@
     <a href="README_JA.md">日本語</a>
   </p>
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main" alt="CI" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio" alt="最新版本" /></a>
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mnikhilsrikar2512/voiceym/ci.yml?branch=main" alt="CI" /></a>
+    <a href="https://github.com/mnikhilsrikar2512/voiceym/releases/latest"><img src="https://img.shields.io/github/v/release/mnikhilsrikar2512/voiceym" alt="最新版本" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="AGPL-3.0" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio&style=stats" alt="访问量" /></a>
+    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=Voiceym&style=stats" alt="访问量" /></a>
   </p>
 </div>
 
-![Electron 应用演示：声音克隆、声音设计、视频配音和模型管理](docs/media/electron/voicestudio.gif)
+![Electron 应用演示：声音克隆、声音设计、视频配音和模型管理](docs/media/electron/voiceym.gif)
 
 ## 你的声音，你的工作流。
 
@@ -31,7 +31,7 @@
 | 克隆一个声音，或设计属于你的声音 | 为视频配上时间轴对齐的配音 | 面向智能体的本地 API 与 MCP |
 | 用悬浮组件随时听写 | 故事、有声书与批量任务 | 可选的远程 worker |
 
-从 **VoiceStudio** 开始（默认引擎，基于 k2-fsa/OmniVoice），也可以选择其他引擎。详见[功能与引擎目录](docs/feature-catalog.md)。
+从 **Voiceym** 开始（默认引擎，基于 k2-fsa/OmniVoice），也可以选择其他引擎。详见[功能与引擎目录](docs/feature-catalog.md)。
 
 本地工作流在你的硬件上运行。远程服务为可选功能；使用情况分析须经同意才会启用。
 
@@ -51,7 +51,7 @@
   <tr><td align="center">声音设计</td><td align="center">本地模型</td></tr>
 </table>
 
-<img width="2628" height="1950" alt="VoiceStudio 桌面工作区" src="https://github.com/user-attachments/assets/b474497d-a453-49a3-a2dd-f023ec6b7659" />
+<img width="2628" height="1950" alt="Voiceym 桌面工作区" src="https://github.com/user-attachments/assets/b474497d-a453-49a3-a2dd-f023ec6b7659" />
 
 </details>
 
@@ -61,16 +61,16 @@
 
 ```sh
 # 最新 Electron 版本
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh
 
 # 指定已发布的 Electron 版本（替换 X.Y.Z）
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --version X.Y.Z
 
 # 构建当前 main 并安装桌面应用
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --main
 
 # 卸载应用，保留你的数据
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall
+curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --uninstall
 ```
 
 下载发行版需要 curl 与 SHA-256 工具。`--main` 需要 Git、Node.js 22+、Bun、Rust/Cargo
@@ -78,7 +78,7 @@ curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall
 安装程序会保留你的设置、项目和模型。旧版本必须包含 Electron 包；
 它绝不会回退到已归档的 Tauri 构建。
 
-从 [Releases](https://github.com/debpalash/VoiceStudio/releases/latest) 下载，然后阅读对应平台的安装指南：
+从 [Releases](https://github.com/mnikhilsrikar2512/voiceym/releases/latest) 下载，然后阅读对应平台的安装指南：
 
 **[macOS](docs/install/macos.md) · [Windows](docs/install/windows.md) · [Linux](docs/install/linux.md) · [Docker](docs/install/docker.md)**
 
@@ -89,18 +89,18 @@ curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall
 粘贴到你的编码智能体（Claude Code、Codex、Cursor 等）：
 
 ```text
-Install the VoiceStudio Electron app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the Voiceym Electron app on this device and verify it works, following
+https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/agent.md
 ```
 
-[智能体安装指南](docs/install/agent.md)涵盖硬件检测、复用现有数据、下载模型前先征得同意，以及一次测试生成。支持技能的智能体也可以运行 `npx skills add debpalash/VoiceStudio`。
+[智能体安装指南](docs/install/agent.md)涵盖硬件检测、复用现有数据、下载模型前先征得同意，以及一次测试生成。支持技能的智能体也可以运行 `npx skills add mnikhilsrikar2512/voiceym`。
 
 <details>
 <summary><strong>从源码运行 Electron 预览版</strong></summary>
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api  # 启动 Electron 前先准备 Python 依赖
 bun run dev
@@ -123,15 +123,15 @@ bun run dev
 | 集成 | [本地 API](docs/speech-platform.md) · [MCP](docs/mcp.md) · [示例](examples/README.md) |
 | 参与开发 | [贡献指南](.github/CONTRIBUTING.md) · [Electron](electron/README.md) · [更新日志](CHANGELOG.md) |
 
-智能体技能：`npx skills add debpalash/VoiceStudio` — 音频工作流选 **voicestudio**，仓库维护选 **voicestudio-maintainer**。
+智能体技能：`npx skills add mnikhilsrikar2512/voiceym` — 音频工作流选 **voiceym**，仓库维护选 **voiceym-maintainer**。
 
 ## 赞助商
 
-<a href="https://forms.gle/2PYCvd39hbwijzX37"><img src="docs/media/sponsor-slot.svg" alt="你的品牌 —— 申请 VoiceStudio 推荐赞助展示位" width="640" /></a>
+<a href="https://forms.gle/2PYCvd39hbwijzX37"><img src="docs/media/sponsor-slot.svg" alt="你的品牌 —— 申请 Voiceym 推荐赞助展示位" width="640" /></a>
 
-**成为推荐合作伙伴。**[申请付费展示位](https://forms.gle/2PYCvd39hbwijzX37) · [发送邮件](mailto:partner@voicestudio.sh)
+**成为推荐合作伙伴。**[申请付费展示位](https://forms.gle/2PYCvd39hbwijzX37) · [发送邮件](mailto:partner@voiceym.example)
 
-支持开发：[GitHub Sponsors](https://github.com/sponsors/debpalash) · [Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [赞助详情](SPONSORS.md)
+支持开发：[GitHub Sponsors](https://github.com/mnikhilsrikar2512/voiceym) · [Ko-fi](https://github.com/mnikhilsrikar2512/voiceym) · [PayPal](https://github.com/mnikhilsrikar2512/voiceym) · [赞助详情](SPONSORS.md)
 
 ## 许可与负责任使用
 

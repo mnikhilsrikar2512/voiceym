@@ -1,4 +1,4 @@
-# VoiceStudio — MLX Whisper Engine
+# Voiceym — MLX Whisper Engine
 
 MLX Whisper runs Whisper on the Apple Silicon GPU via MLX. It exists because
 CTranslate2 (whisperx / faster-whisper) has **no Metal build** — on a Mac
@@ -44,7 +44,7 @@ platforms use the CUDA/CPU engines instead.
 
 ## Quirks
 
-- Audio is decoded through VoiceStudio's validated ffmpeg rather than the
+- Audio is decoded through Voiceym's validated ffmpeg rather than the
   bare `ffmpeg` PATH lookup mlx-whisper would do on its own — a clean
   from-source install with no system ffmpeg works fine
   ([#479](https://github.com/debpalash/VoiceStudio/issues/479)).

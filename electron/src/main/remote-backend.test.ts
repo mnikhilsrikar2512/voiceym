@@ -22,7 +22,7 @@ it('accepts only credential-free absolute HTTP backend bases', () => {
   }
 });
 
-it('verifies both VoiceStudio identity and usable API access', async () => {
+it('verifies both Voiceym identity and usable API access', async () => {
   const fetcher = vi.fn(async (input: string | URL | Request) => {
     const url = String(input);
     if (url.endsWith('/health')) return json({ status: 'ok', version: '0.5.2', device: 'cuda' });

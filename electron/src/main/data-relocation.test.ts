@@ -22,10 +22,10 @@ afterEach(async () => {
 });
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), 'VoiceStudio-relocation-test-'));
+  const root = await mkdtemp(join(tmpdir(), 'Voiceym-relocation-test-'));
   created.push(root);
   const source = join(root, 'OmniVoice', 'data');
-  const target = join(root, 'new-home', 'VoiceStudio');
+  const target = join(root, 'new-home', 'Voiceym');
   await mkdir(join(source, 'voices'), { recursive: true });
   await mkdir(dirname(target), { recursive: true });
   await writeFile(join(source, 'omnivoice.db'), 'database');
@@ -76,7 +76,7 @@ it('updates only the data-directory line in the shared durable environment', asy
   await mkdir(dirname(env), { recursive: true });
   await writeFile(env, 'HF_TOKEN=secret\nOMNIVOICE_DATA_DIR=/old\n');
   expect(await readDataDirectorySetting(env)).toBe('/old');
-  const quotedTarget = join(dirname(target), "Voice Studio's data");
+  const quotedTarget = join(dirname(target), "Voiceym's data");
   await writeDataDirectorySetting(quotedTarget, env);
   expect(await readDataDirectorySetting(env)).toBe(quotedTarget);
   expect(await readFile(env, 'utf8')).toContain('HF_TOKEN=secret\n');

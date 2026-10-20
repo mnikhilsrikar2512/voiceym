@@ -18,8 +18,8 @@ interface EarlyRendererFault {
 }
 
 type EarlyErrorWindow = Window & {
-  __voicestudioEarlyFaults?: EarlyRendererFault[];
-  __voicestudioStopEarlyErrorCapture?: () => void;
+  __voiceymEarlyFaults?: EarlyRendererFault[];
+  __voiceymStopEarlyErrorCapture?: () => void;
 };
 
 function shouldRepair(message: string, error: unknown, filename = ''): boolean {
@@ -69,9 +69,9 @@ export function installGlobalErrorRecovery(): void {
   if (installed || typeof window === 'undefined') return;
   installed = true;
   const target = window as EarlyErrorWindow;
-  const earlyFaults = target.__voicestudioEarlyFaults?.splice(0) ?? [];
-  target.__voicestudioStopEarlyErrorCapture?.();
-  delete target.__voicestudioEarlyFaults;
+  const earlyFaults = target.__voiceymEarlyFaults?.splice(0) ?? [];
+  target.__voiceymStopEarlyErrorCapture?.();
+  delete target.__voiceymEarlyFaults;
   window.addEventListener('error', (event) => {
     const message = event.error?.message || event.message;
     if (isBenignWindowError(message, event.error, event.filename)) return;

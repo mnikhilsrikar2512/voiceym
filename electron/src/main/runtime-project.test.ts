@@ -94,11 +94,11 @@ describe('packaged runtime setup', () => {
       const sitePackages = join(project, '.venv', 'Lib', 'site-packages');
       const run = vi.fn(async (_command: string, args: string[]) => {
         if (args[0] === 'sync') await interpreter(project);
-        if (args[1]?.includes('VOICESTUDIO_CUDNN8_PROBE=')) {
+        if (args[1]?.includes('VOICEYM_CUDNN8_PROBE=')) {
           if (args[1].includes('import torch')) {
             throw new Error('Runtime setup exited with code 3221225477');
           }
-          return `VOICESTUDIO_CUDNN8_PROBE=${JSON.stringify({ device: 'none', sitePackages })}\n`;
+          return `VOICEYM_CUDNN8_PROBE=${JSON.stringify({ device: 'none', sitePackages })}\n`;
         }
         return undefined;
       });
@@ -119,10 +119,10 @@ describe('packaged runtime setup', () => {
     const sitePackages = join(project, '.venv', 'Lib', 'site-packages');
     const run = vi.fn(async (_command: string, args: string[]) => {
       if (args[0] === 'sync') await interpreter(project);
-      if (args[1]?.includes('VOICESTUDIO_CUDNN8_PROBE=')) {
+      if (args[1]?.includes('VOICEYM_CUDNN8_PROBE=')) {
         throw Object.assign(new Error('Runtime setup exited with code 3221225477'), {
           stdout: printed
-            ? `VOICESTUDIO_CUDNN8_PROBE=${JSON.stringify({ device: 'none', sitePackages })}\n`
+            ? `VOICEYM_CUDNN8_PROBE=${JSON.stringify({ device: 'none', sitePackages })}\n`
             : '',
         });
       }
@@ -652,8 +652,8 @@ describe('packaged runtime setup', () => {
       const sitePackages = join(project, '.venv', 'Lib', 'site-packages');
       const run = vi.fn(async (command: string, args: string[]) => {
         if (args[0] === 'sync') await interpreter(project);
-        if (command === runtimePython(project) && args[1]?.includes('VOICESTUDIO_CUDNN8_PROBE=')) {
-          return `VOICESTUDIO_CUDNN8_PROBE=${JSON.stringify({ device: 'cuda', sitePackages })}\n`;
+        if (command === runtimePython(project) && args[1]?.includes('VOICEYM_CUDNN8_PROBE=')) {
+          return `VOICEYM_CUDNN8_PROBE=${JSON.stringify({ device: 'cuda', sitePackages })}\n`;
         }
         if (args[0] === 'pip') {
           const libDir = join(
@@ -702,8 +702,8 @@ describe('packaged runtime setup', () => {
       const sitePackages = join(project, '.venv', 'Lib', 'site-packages');
       const run = vi.fn(async (command: string, args: string[]) => {
         if (args[0] === 'sync') await interpreter(project);
-        if (command === runtimePython(project) && args[1]?.includes('VOICESTUDIO_CUDNN8_PROBE=')) {
-          return `VOICESTUDIO_CUDNN8_PROBE=${JSON.stringify({ device: 'cuda', sitePackages })}\n`;
+        if (command === runtimePython(project) && args[1]?.includes('VOICEYM_CUDNN8_PROBE=')) {
+          return `VOICEYM_CUDNN8_PROBE=${JSON.stringify({ device: 'cuda', sitePackages })}\n`;
         }
         return undefined;
       });

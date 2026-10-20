@@ -14,7 +14,7 @@ into the memory pressure behind the "Can't reach the local backend" OOM deaths.
 
 Default on. Opt out with ``OMNIVOICE_SINGLE_ENGINE_RESIDENT=0`` on machines with
 RAM to spare (keeping several engines warm avoids the reload latency on an A/B
-switch — ~8 s for the VoiceStudio core, ~1–2 s for the lighter engines).
+switch — ~8 s for the Voiceym core, ~1–2 s for the lighter engines).
 """
 from __future__ import annotations
 
@@ -65,7 +65,7 @@ def _evict_instance_cache(keep_cls) -> list[str]:
 async def evict_other_tts_engines(keep_id: str) -> list[str]:
     """Unload every resident TTS engine except ``keep_id`` and return their ids.
 
-    Spans both stores a TTS model can live in: the VoiceStudio core singleton
+    Spans both stores a TTS model can live in: the Voiceym core singleton
     (``model_manager.model``, freed under its async lock when we're switching
     *away* from it) and the generic engine instance cache. A no-op when the
     policy is off or nothing else is resident, so steady-state single-engine use
@@ -81,7 +81,7 @@ async def evict_other_tts_engines(keep_id: str) -> list[str]:
         return []  # Reject invalid overrides before changing any resident model.
     evicted: list[str] = []
 
-    # The VoiceStudio core singleton — only when the incoming engine isn't it.
+    # The Voiceym core singleton — only when the incoming engine isn't it.
     if keep_id != "omnivoice":
         try:
             import services.model_manager as mm
@@ -92,7 +92,7 @@ async def evict_other_tts_engines(keep_id: str) -> list[str]:
                     if not core_busy and mm.unload_shared_model():
                         evicted.append("omnivoice")
         except Exception:  # noqa: BLE001
-            logger.warning("evict: VoiceStudio core unload failed", exc_info=True)
+            logger.warning("evict: Voiceym core unload failed", exc_info=True)
 
     # Every other in-process / sidecar engine instance.
     evicted.extend(_evict_instance_cache(keep_cls))

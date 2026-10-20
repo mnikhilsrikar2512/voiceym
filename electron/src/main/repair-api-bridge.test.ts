@@ -23,7 +23,7 @@ async function upstream() {
       path: request.url || '',
       method: request.method || '',
       authorization: request.headers.authorization,
-      capability: request.headers['x-voicestudio-repair-token'] as string | undefined,
+      capability: request.headers['x-voiceym-repair-token'] as string | undefined,
     });
     response.writeHead(200, { 'content-type': 'application/json' });
     response.end('{"ok":true}');
@@ -154,14 +154,14 @@ it('restores Electron-owned backend state even while the Python backend is unava
   cleanup.push(bridge.close);
   const capability = context(bridge);
 
-  const status = await fetch(`${capability.baseUrl}/__voicestudio/status`, {
+  const status = await fetch(`${capability.baseUrl}/__voiceym/status`, {
     headers: capability.headers,
   });
   expect(status.status).toBe(200);
   expect(await status.json()).toMatchObject({ stage: 'crashed' });
   expect(
     (
-      await fetch(`${capability.baseUrl}/__voicestudio/backend/restart`, {
+      await fetch(`${capability.baseUrl}/__voiceym/backend/restart`, {
         method: 'POST',
         headers: capability.headers,
       })
@@ -169,7 +169,7 @@ it('restores Electron-owned backend state even while the Python backend is unava
   ).toBe(202);
   expect(
     (
-      await fetch(`${capability.baseUrl}/__voicestudio/backend/setup-runtime`, {
+      await fetch(`${capability.baseUrl}/__voiceym/backend/setup-runtime`, {
         method: 'POST',
         headers: capability.headers,
       })
@@ -177,7 +177,7 @@ it('restores Electron-owned backend state even while the Python backend is unava
   ).toBe(202);
   expect(
     (
-      await fetch(`${capability.baseUrl}/__voicestudio/backend/clean-setup`, {
+      await fetch(`${capability.baseUrl}/__voiceym/backend/clean-setup`, {
         method: 'POST',
         headers: capability.headers,
       })
@@ -209,7 +209,7 @@ it('keeps Electron recovery mutations read-only in diagnose mode', async () => {
 
   expect(
     (
-      await fetch(`${capability.baseUrl}/__voicestudio/backend/restart`, {
+      await fetch(`${capability.baseUrl}/__voiceym/backend/restart`, {
         method: 'POST',
         headers: capability.headers,
       })
@@ -227,37 +227,37 @@ it('creates locked-down Claude and OpenCode MCP configs and removes them on clos
     root,
     'fix',
     undefined,
-    'C:\\VoiceStudio\\repair-mcp-server.js',
+    'C:\\Voiceym\\repair-mcp-server.js',
   );
   const capability = context(bridge);
   expect(bridge.mcpConfigFile).toBeTruthy();
   expect(bridge.openCodeConfigFile).toBeTruthy();
 
   const claude = JSON.parse(readFileSync(bridge.mcpConfigFile!, 'utf8')) as {
-    mcpServers: { voicestudio: { args: string[]; env: Record<string, string> } };
+    mcpServers: { voiceym: { args: string[]; env: Record<string, string> } };
   };
   const openCode = JSON.parse(readFileSync(bridge.openCodeConfigFile!, 'utf8')) as {
     permission: Record<string, string>;
-    mcp: { voicestudio: { command: string[]; environment: Record<string, string> } };
+    mcp: { voiceym: { command: string[]; environment: Record<string, string> } };
   };
 
-  expect(claude.mcpServers.voicestudio.args).toEqual(['C:\\VoiceStudio\\repair-mcp-server.js']);
-  expect(openCode.permission).toEqual({ '*': 'deny', 'voicestudio_*': 'allow' });
-  expect(openCode.mcp.voicestudio.command).toEqual([
+  expect(claude.mcpServers.voiceym.args).toEqual(['C:\\Voiceym\\repair-mcp-server.js']);
+  expect(openCode.permission).toEqual({ '*': 'deny', 'voiceym_*': 'allow' });
+  expect(openCode.mcp.voiceym.command).toEqual([
     process.execPath,
-    'C:\\VoiceStudio\\repair-mcp-server.js',
+    'C:\\Voiceym\\repair-mcp-server.js',
   ]);
-  expect(claude.mcpServers.voicestudio.env.VOICESTUDIO_REPAIR_CONTEXT_FILE).toBe(
+  expect(claude.mcpServers.voiceym.env.VOICEYM_REPAIR_CONTEXT_FILE).toBe(
     bridge.contextFile,
   );
-  expect(openCode.mcp.voicestudio.environment.VOICESTUDIO_REPAIR_CONTEXT_FILE).toBe(
+  expect(openCode.mcp.voiceym.environment.VOICEYM_REPAIR_CONTEXT_FILE).toBe(
     bridge.contextFile,
   );
   expect(readFileSync(bridge.mcpConfigFile!, 'utf8')).not.toContain(
-    capability.headers['X-VoiceStudio-Repair-Token'],
+    capability.headers['X-Voiceym-Repair-Token'],
   );
   expect(readFileSync(bridge.openCodeConfigFile!, 'utf8')).not.toContain(
-    capability.headers['X-VoiceStudio-Repair-Token'],
+    capability.headers['X-Voiceym-Repair-Token'],
   );
 
   const files = [bridge.contextFile, bridge.mcpConfigFile!, bridge.openCodeConfigFile!];

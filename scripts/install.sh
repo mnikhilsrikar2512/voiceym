@@ -2,15 +2,15 @@
 # Install Electron from a release, or build and install current main.
 set -eu
 
-die() { printf 'VoiceStudio: %s\n' "$*" >&2; exit 1; }
+die() { printf 'Voiceym: %s\n' "$*" >&2; exit 1; }
 have() { command -v "$1" >/dev/null 2>&1; }
 usage() {
     cat <<'HELP'
-VoiceStudio Electron installer (macOS / Linux)
+Voiceym Electron installer (macOS / Linux)
 
-  curl -fsSL https://voicestudio.sh/install | sh
-  curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z
-  curl -fsSL https://voicestudio.sh/install | sh -s -- --main
+  curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh
+  curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --version X.Y.Z
+  curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh -s -- --main
 
   --version VERSION  Install a published Electron version (optional v prefix)
   --main, --source   Clone main, build Electron, and install the desktop app
@@ -20,7 +20,7 @@ VoiceStudio Electron installer (macOS / Linux)
 
 Release installs require curl and a SHA-256 tool. Main builds also require
 Git, Node.js 22+, Bun, Rust/Cargo, and native build dependencies (see README).
-The installer preserves settings, models, and projects. Quit VoiceStudio first.
+The installer preserves settings, models, and projects. Quit Voiceym first.
 Versions without Electron artifacts are not supported; Tauri is archived.
 HELP
 }
@@ -58,13 +58,13 @@ if [ "$OS" = mac ]; then
     PATH="$PATH:/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support"
     export PATH
 fi
-if [ -n "${VOICESTUDIO_INSTALL_DIR:-}" ]; then
-    case "$VOICESTUDIO_INSTALL_DIR" in /*) ;; *) die 'Install directory must be absolute';; esac
-    [ -d "$VOICESTUDIO_INSTALL_DIR" ] && [ -w "$VOICESTUDIO_INSTALL_DIR" ] || die 'Custom install directory must exist and be writable.'
+if [ -n "${VOICEYM_INSTALL_DIR:-}" ]; then
+    case "$VOICEYM_INSTALL_DIR" in /*) ;; *) die 'Install directory must be absolute';; esac
+    [ -d "$VOICEYM_INSTALL_DIR" ] && [ -w "$VOICEYM_INSTALL_DIR" ] || die 'Custom install directory must exist and be writable.'
 fi
 require_closed() {
-    if have pgrep && { pgrep -f '/VoiceStudio[.]app/Contents/MacOS/VoiceStudio([[:space:]]|$)' >/dev/null 2>&1 || pgrep -x VoiceStudio >/dev/null 2>&1 || pgrep -f '(^|/)voicestudio-electron([[:space:]]|$)' >/dev/null 2>&1; }; then
-        die 'Quit VoiceStudio completely (macOS: Command-Q), then run this command again. No app files were changed.'
+    if have pgrep && { pgrep -f '/Voiceym[.]app/Contents/MacOS/Voiceym([[:space:]]|$)' >/dev/null 2>&1 || pgrep -x Voiceym >/dev/null 2>&1 || pgrep -f '(^|/)voiceym-electron([[:space:]]|$)' >/dev/null 2>&1; }; then
+        die 'Quit Voiceym completely (macOS: Command-Q), then run this command again. No app files were changed.'
     fi
 }
 require_closed
@@ -84,26 +84,26 @@ if [ "$UNINSTALL" = 1 ]; then
             # Hidden .app backups inside Applications still appear in Launchpad.
             # Trash keeps recovery possible without leaving a launchable duplicate.
             mkdir -p "$HOME/.Trash"
-            recovery=$(mktemp -d "$HOME/.Trash/VoiceStudio-uninstalled.XXXXXXXX")
+            recovery=$(mktemp -d "$HOME/.Trash/Voiceym-uninstalled.XXXXXXXX")
             # lsregister may return -10814 even after removing a stale record.
             # Moving to Trash is still required to prevent rediscovery.
             lsregister -u "$target" || printf 'Warning: macOS could not refresh the old registration; moving the app to Trash.\n' >&2
         else
-            recovery=$(mktemp -d "$(dirname "$target")/.voicestudio-uninstalled.XXXXXXXX")
+            recovery=$(mktemp -d "$(dirname "$target")/.voiceym-uninstalled.XXXXXXXX")
         fi
         mv "$target" "$recovery/" || die "Could not remove $target; check permissions."
         printf 'Uninstalled: %s\nRecoverable copy: %s\n' "$target" "$recovery"
     }
-    printf 'Quit VoiceStudio before uninstalling.\n'
-    if [ -n "${VOICESTUDIO_INSTALL_DIR:-}" ]; then
-        case "$VOICESTUDIO_INSTALL_DIR" in /*) ;; *) die 'Install directory must be absolute';; esac
-        if [ "$OS" = mac ]; then remove_app "$VOICESTUDIO_INSTALL_DIR/VoiceStudio.app";
-        else remove_app "$VOICESTUDIO_INSTALL_DIR/VoiceStudio"; fi
+    printf 'Quit Voiceym before uninstalling.\n'
+    if [ -n "${VOICEYM_INSTALL_DIR:-}" ]; then
+        case "$VOICEYM_INSTALL_DIR" in /*) ;; *) die 'Install directory must be absolute';; esac
+        if [ "$OS" = mac ]; then remove_app "$VOICEYM_INSTALL_DIR/Voiceym.app";
+        else remove_app "$VOICEYM_INSTALL_DIR/Voiceym"; fi
     elif [ "$OS" = mac ]; then
-        remove_app /Applications/VoiceStudio.app
-        remove_app "$HOME/Applications/VoiceStudio.app"
+        remove_app /Applications/Voiceym.app
+        remove_app "$HOME/Applications/Voiceym.app"
     else
-        remove_app "$HOME/.local/bin/VoiceStudio"
+        remove_app "$HOME/.local/bin/Voiceym"
     fi
     printf 'Uninstall complete. Settings, models and projects are preserved.\n'
     exit 0
@@ -120,7 +120,7 @@ if [ "$OS" = mac ] && [ "$ARCH" = x64 ] && [ "$(sysctl -in hw.optional.arm64 2>/
 fi
 [ "$OS-$ARCH" != linux-arm64 ] || die 'Linux arm64 Electron packages are not supported yet.'
 
-WORK=$(mktemp -d "${TMPDIR:-/tmp}/voicestudio-install.XXXXXXXX")
+WORK=$(mktemp -d "${TMPDIR:-/tmp}/voiceym-install.XXXXXXXX")
 MOUNT=
 STAGED=
 BACKUP=
@@ -139,18 +139,18 @@ download() { curl --proto '=https' --proto-redir '=https' --connect-timeout 30 -
 install_app() {
     require_closed
     if [ "$OS" = mac ]; then
-        DEST_DIR=${VOICESTUDIO_INSTALL_DIR:-/Applications}
+        DEST_DIR=${VOICEYM_INSTALL_DIR:-/Applications}
         if [ ! -w "$DEST_DIR" ]; then DEST_DIR="$HOME/Applications"; mkdir -p "$DEST_DIR"; fi
-        DEST="$DEST_DIR/VoiceStudio.app"
-        STAGED=$(mktemp -d "$DEST_DIR/.voicestudio-install.XXXXXXXX")
+        DEST="$DEST_DIR/Voiceym.app"
+        STAGED=$(mktemp -d "$DEST_DIR/.voiceym-install.XXXXXXXX")
         # Copy and validate first, retaining the prior app until the copy succeeds.
-        ditto "$1" "$STAGED/VoiceStudio.app"
-        [ -f "$STAGED/VoiceStudio.app/Contents/Info.plist" ] || die 'Invalid application bundle.'
+        ditto "$1" "$STAGED/Voiceym.app"
+        [ -f "$STAGED/Voiceym.app/Contents/Info.plist" ] || die 'Invalid application bundle.'
         if [ -e "$DEST" ]; then
             BACKUP="$STAGED/previous.app"
             mv "$DEST" "$BACKUP"
         fi
-        mv "$STAGED/VoiceStudio.app" "$DEST"
+        mv "$STAGED/Voiceym.app" "$DEST"
         # Releases without a Developer ID are only ad-hoc signed, and some were
         # shipped with a bundle signature that no longer matches (#2763, #2829,
         # #2681), which macOS reports as "damaged". Clear any quarantine flag and
@@ -164,16 +164,16 @@ install_app() {
         fi
         lsregister -f "$DEST" || printf 'Warning: macOS registration failed; open the installed app directly.\n' >&2
     else
-        DEST_DIR=${VOICESTUDIO_INSTALL_DIR:-"$HOME/.local/bin"}
+        DEST_DIR=${VOICEYM_INSTALL_DIR:-"$HOME/.local/bin"}
         mkdir -p "$DEST_DIR"
-        DEST="$DEST_DIR/VoiceStudio"
-        STAGED=$(mktemp -d "$DEST_DIR/.voicestudio-install.XXXXXXXX")
-        cp "$1" "$STAGED/VoiceStudio"
-        chmod +x "$STAGED/VoiceStudio"
-        mv -f "$STAGED/VoiceStudio" "$DEST"
+        DEST="$DEST_DIR/Voiceym"
+        STAGED=$(mktemp -d "$DEST_DIR/.voiceym-install.XXXXXXXX")
+        cp "$1" "$STAGED/Voiceym"
+        chmod +x "$STAGED/Voiceym"
+        mv -f "$STAGED/Voiceym" "$DEST"
     fi
     printf 'Installed Electron: %s\n' "$DEST"
-    printf 'Open VoiceStudio to configure its local backend and choose models. Existing data is preserved.\n'
+    printf 'Open Voiceym to configure its local backend and choose models. Existing data is preserved.\n'
     if [ "$OS" = mac ]; then printf 'Launch the installed app: open "%s"\n' "$DEST"; fi
     if [ "$OS" = mac ] && [ "$ARCH" = x64 ]; then
         printf 'Note: this is an Intel Mac. The app UI runs, but the local backend needs Apple Silicon; connect to a backend on another machine (docs/install/macos.md).\n'
@@ -188,7 +188,7 @@ if [ "$MODE" = main ]; then
     node -e 'if (Number(process.versions.node.split(".")[0]) < 22) process.exit(1)' || die 'Node.js 22 or newer is required.'
     printf 'Building and installing Electron from main (this may take several minutes).\n'
     # Never pull into, reset, or build from an existing user checkout.
-    git clone --depth 1 --branch main --single-branch https://github.com/debpalash/VoiceStudio.git "$WORK/source"
+    git clone --depth 1 --branch main --single-branch https://github.com/mnikhilsrikar2512/voiceym.git "$WORK/source"
     (
         cd "$WORK/source"
         printf 'Source commit: '; git rev-parse HEAD
@@ -210,7 +210,7 @@ if [ "$MODE" = main ]; then
     valid_version "$VS_VERSION" || die 'Invalid version in source checkout.'
     PACKAGE_DIR="$WORK/source/electron/release"
 else
-    RELEASES=https://github.com/debpalash/VoiceStudio/releases
+    RELEASES=https://github.com/mnikhilsrikar2512/voiceym/releases
     if [ -z "$VS_VERSION" ]; then
         # latest.json is the frozen Tauri feed. Resolve the release tag instead.
         URL=$(curl --proto '=https' --proto-redir '=https' --connect-timeout 30 --max-time 60 -fLsS --retry 3 -o /dev/null -w '%{url_effective}' "$RELEASES/latest")
@@ -220,8 +220,8 @@ else
     PACKAGE_DIR="$WORK"
 fi
 case "$OS" in
-    mac) ASSET="VoiceStudio-Electron-$VS_VERSION-mac-$ARCH.dmg" ;;
-    linux) ASSET="VoiceStudio-Electron-$VS_VERSION-linux-x64.AppImage" ;;
+    mac) ASSET="Voiceym-Electron-$VS_VERSION-mac-$ARCH.dmg" ;;
+    linux) ASSET="Voiceym-Electron-$VS_VERSION-linux-x64.AppImage" ;;
 esac
 PACKAGE="$PACKAGE_DIR/$ASSET"
 if [ "$MODE" = binary ]; then
@@ -242,8 +242,8 @@ if [ "$OS" = mac ]; then
     MOUNT="$WORK/mount"
     mkdir "$MOUNT"
     hdiutil attach -readonly -nobrowse -mountpoint "$MOUNT" "$PACKAGE" >/dev/null || die "Could not open the disk image $ASSET (checksum was verified). Free some disk space and retry."
-    [ -d "$MOUNT/VoiceStudio.app" ] || die 'VoiceStudio.app is missing from the disk image.'
-    install_app "$MOUNT/VoiceStudio.app"
+    [ -d "$MOUNT/Voiceym.app" ] || die 'Voiceym.app is missing from the disk image.'
+    install_app "$MOUNT/Voiceym.app"
 else
     install_app "$PACKAGE"
 fi

@@ -10,7 +10,7 @@ import {
 } from './main-error-journal';
 
 function journalPath(): string {
-  return join(mkdtempSync(join(tmpdir(), 'voicestudio-main-errors-')), 'errors.json');
+  return join(mkdtempSync(join(tmpdir(), 'voiceym-main-errors-')), 'errors.json');
 }
 
 describe('MainErrorJournal', () => {

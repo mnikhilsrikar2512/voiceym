@@ -6,7 +6,7 @@ import { installSyncedStorage } from './synced-storage';
 import { useAccount } from './use-account';
 
 /** Virtual key: the dictation shortcut lives in main, reached through the capture bridge. */
-const SHORTCUT_KEY = 'voicestudio.shortcut.dictation';
+const SHORTCUT_KEY = 'voiceym.shortcut.dictation';
 
 type Api = <T>(path: string, init?: RequestInit) => Promise<T>;
 interface Capture {

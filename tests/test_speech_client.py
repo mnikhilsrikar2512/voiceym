@@ -113,18 +113,18 @@ def test_capabilities_reads_the_backend_discovery_document(monkeypatch, capsys):
         client, "_json_request", lambda method, url, payload=None: calls.append((method, url)) or {"ok": 1}
     )
     assert client.main(["--engine-url", "http://127.0.0.1:3912", "capabilities"]) == 0
-    assert calls == [("GET", "http://127.0.0.1:3912/.well-known/voicestudio-speech")]
+    assert calls == [("GET", "http://127.0.0.1:3912/.well-known/voiceym-speech")]
 
 
 @pytest.mark.parametrize("env,expected", [
     ({}, "http://127.0.0.1:3900"),
     ({"OMNIVOICE_PORT": "3912"}, "http://127.0.0.1:3912"),
     ({"OMNIVOICE_PORT": "nope"}, "http://127.0.0.1:3900"),
-    ({"OMNIVOICE_PORT": "3912", "VOICESTUDIO_URL": "http://gpu:4000"}, "http://gpu:4000"),
+    ({"OMNIVOICE_PORT": "3912", "VOICEYM_URL": "http://gpu:4000"}, "http://gpu:4000"),
 ])
 def test_engine_url_follows_the_backend_port(monkeypatch, env, expected):
     """A backend moved with OMNIVOICE_PORT (as Electron does) is found by default."""
-    for name in ("OMNIVOICE_PORT", "VOICESTUDIO_URL"):
+    for name in ("OMNIVOICE_PORT", "VOICEYM_URL"):
         monkeypatch.delenv(name, raising=False)
     for name, value in env.items():
         monkeypatch.setenv(name, value)

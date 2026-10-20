@@ -6,7 +6,7 @@ const browser = await chromium.launch({
   headless: true,
 });
 const page = await browser.newPage({ viewport: { width: 1280, height: 1000 } });
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 let changed = false;
 let currentTier = 'fast';
 let fail = false;
@@ -65,7 +65,7 @@ const profile = () => ({
   },
 });
 try {
-  await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.route('**/api/**', async (route) => {
     const request = route.request();
     const path = new URL(request.url()).pathname;

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 assert.equal(process.platform, 'win32');
-const profile = mkdtempSync(join(tmpdir(), 'voicestudio-global-check-'));
+const profile = mkdtempSync(join(tmpdir(), 'voiceym-global-check-'));
 const app = await electron.launch({
   executablePath: resolve('electron/node_modules/electron/dist/electron.exe'),
   args: [
@@ -35,10 +35,10 @@ finally:
   );
 try {
   const main = await app.firstWindow();
-  await main.waitForFunction(() => window.voicestudio?.capture);
-  await main.evaluate(() => localStorage.setItem('voicestudio.setup.complete.v1', 'true'));
+  await main.waitForFunction(() => window.voiceym?.capture);
+  await main.evaluate(() => localStorage.setItem('voiceym.setup.complete.v1', 'true'));
   await main.reload();
-  await main.waitForFunction(() => window.voicestudio?.capture);
+  await main.waitForFunction(() => window.voiceym?.capture);
   let sessions = 0;
   await app.context().routeWebSocket(/\/ws\/transcribe/, (peer) => {
     sessions++;
@@ -72,12 +72,12 @@ try {
   );
   await settings.getByRole('button', { name: 'Save', exact: true }).click();
   await main.waitForFunction(
-    async () => (await window.voicestudio.capture.getShortcut()).accelerator === 'Ctrl+Alt+F24',
+    async () => (await window.voiceym.capture.getShortcut()).accelerator === 'Ctrl+Alt+F24',
   );
   await main.evaluate(async () => {
-    await window.voicestudio.capture.syncPreferences({ enabled: true, mode: 'hold' });
+    await window.voiceym.capture.syncPreferences({ enabled: true, mode: 'hold' });
   });
-  assert((await main.evaluate(() => window.voicestudio.capture.getShortcut())).active);
+  assert((await main.evaluate(() => window.voiceym.capture.getShortcut())).active);
   assert.equal(
     JSON.parse(readFileSync(join(profile, 'dictation-shortcut.json'), 'utf8')).accelerator,
     'Ctrl+Alt+F24',
@@ -108,7 +108,7 @@ try {
   await widget.getByText('No speech detected', { exact: true }).waitFor();
   await widget.getByRole('button', { name: 'Cancel', exact: true }).click();
   await main.evaluate(() =>
-    window.voicestudio.capture.syncPreferences({ enabled: true, mode: 'toggle' }),
+    window.voiceym.capture.syncPreferences({ enabled: true, mode: 'toggle' }),
   );
   press();
   await widget.getByRole('button', { name: 'Stop', exact: true }).waitFor();
@@ -117,9 +117,9 @@ try {
   await widget.getByText('No speech detected', { exact: true }).waitFor();
   await widget.getByRole('button', { name: 'Cancel', exact: true }).click();
   await main.evaluate(() =>
-    window.voicestudio.capture.syncPreferences({ enabled: false, mode: 'toggle' }),
+    window.voiceym.capture.syncPreferences({ enabled: false, mode: 'toggle' }),
   );
-  assert.equal((await main.evaluate(() => window.voicestudio.capture.getShortcut())).active, false);
+  assert.equal((await main.evaluate(() => window.voiceym.capture.getShortcut())).active, false);
   console.log(
     'PASS: native shortcut opens recorder, hold capture completes, toggle waits for second press, disable unregisters',
   );

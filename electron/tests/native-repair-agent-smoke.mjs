@@ -20,26 +20,26 @@ const app = await electron.launch({
   executablePath: executable,
   args: [
     join(workspaceRoot, 'electron/out/main/index.js'),
-    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voicestudio-repair-')),
+    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voiceym-repair-')),
   ],
   env: {
     ...launchEnvironment,
     ELECTRON_RENDERER_URL: '',
-    VOICESTUDIO_ELECTRON_PROXY_PORT: '49303',
-    VOICESTUDIO_SKIP_BACKEND: '1',
-    VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: '1',
+    VOICEYM_ELECTRON_PROXY_PORT: '49303',
+    VOICEYM_SKIP_BACKEND: '1',
+    VOICEYM_ALLOW_MULTIPLE_INSTANCES: '1',
   },
 });
 
 try {
   const page = await app.firstWindow();
   page.setDefaultTimeout(15000);
-  await page.waitForFunction(() => Boolean(window.voicestudio?.repair));
-  const state = await page.evaluate(() => window.voicestudio.repair.getState());
+  await page.waitForFunction(() => Boolean(window.voiceym?.repair));
+  const state = await page.evaluate(() => window.voiceym.repair.getState());
   assert.equal(state.workspaceAvailable, true);
-  assert.ok(state.workspacePath?.endsWith('VoiceStudio'));
+  assert.ok(state.workspacePath?.endsWith('Voiceym'));
 
-  const agents = await page.evaluate(() => window.voicestudio.repair.list());
+  const agents = await page.evaluate(() => window.voiceym.repair.list());
   assert.deepEqual(
     agents.map(({ id }) => id),
     ['codex', 'claude', 'opencode', 'pi'],
@@ -49,7 +49,7 @@ try {
   await page.evaluate(() => {
     window.location.hash = '/settings/updates';
   });
-  const launcher = page.getByRole('button', { name: 'Ask VoiceStudio Agent' });
+  const launcher = page.getByRole('button', { name: 'Ask Voiceym Agent' });
   const launcherBounds = await launcher.boundingBox();
   const viewport = await page.evaluate(() => ({
     width: window.innerWidth,
@@ -60,7 +60,7 @@ try {
   assert.ok(viewport.width - launcherBounds.x - launcherBounds.width >= 12);
   assert.ok(viewport.width - launcherBounds.x - launcherBounds.width <= 20);
   await launcher.click();
-  await page.getByRole('region', { name: 'Ask VoiceStudio Agent' }).waitFor();
+  await page.getByRole('region', { name: 'Ask Voiceym Agent' }).waitFor();
   for (const agent of agents) {
     const choice = page.getByRole('button', { name: agent.label, exact: true });
     await choice.waitFor();
@@ -71,8 +71,8 @@ try {
   await page.getByRole('button', { name: 'Audiobook', exact: true }).click();
   assert.ok((await page.getByRole('textbox').inputValue()).includes('Audiobook'));
   assert.equal(await page.getByRole('button', { name: 'Send', exact: true }).isEnabled(), true);
-  if (process.env.VOICESTUDIO_AGENT_SCREENSHOT) await page.screenshot({ path: process.env.VOICESTUDIO_AGENT_SCREENSHOT });
-  await page.evaluate(() => localStorage.setItem('voicestudio.locale', 'fr'));
+  if (process.env.VOICEYM_AGENT_SCREENSHOT) await page.screenshot({ path: process.env.VOICEYM_AGENT_SCREENSHOT });
+  await page.evaluate(() => localStorage.setItem('voiceym.locale', 'fr'));
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.getByText('Canal de mise à jour', { exact: true }).first().waitFor();
   await page.getByRole('button', { name: 'Aperçu', exact: true }).waitFor();

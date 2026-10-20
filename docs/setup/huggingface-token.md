@@ -1,19 +1,19 @@
 # Hugging Face Token Setup
 
-VoiceStudio uses a single HF token for every model download, license-gate
-check, and an explicit **Test now** action. This page covers the three places VoiceStudio will
+Voiceym uses a single HF token for every model download, license-gate
+check, and an explicit **Test now** action. This page covers the three places Voiceym will
 look for a token and the recommended path for v0.3+.
 
 ## Three sources (cascade)
 
-VoiceStudio resolves the active HF token by walking three sources in priority
+Voiceym resolves the active HF token by walking three sources in priority
 order — the first source that has a token *and* survives a live `whoami`
 call wins:
 
-1. **App** — encrypted in VoiceStudio's SQLite settings store.
+1. **App** — encrypted in Voiceym's SQLite settings store.
    Set via the in-app **Settings → API Keys** panel.
 2. **Env** — `HF_TOKEN` (or the legacy `HUGGING_FACE_HUB_TOKEN`) environment
-   variable visible to the VoiceStudio process.
+   variable visible to the Voiceym process.
 3. **HF CLI** — the local `HF_TOKEN_PATH` file (normally `~/.cache/huggingface/token`) written by
    `huggingface-cli login`.
 
@@ -46,7 +46,7 @@ check for valid sources, with an **Active** badge on the highest-priority valid 
 
 ## Setting via environment variable (power users)
 
-If you launch VoiceStudio from a terminal or CI and prefer env-var management,
+If you launch Voiceym from a terminal or CI and prefer env-var management,
 export `HF_TOKEN` from your shell's startup file:
 
 ```bash
@@ -81,7 +81,7 @@ huggingface-cli login
 # paste token at the prompt
 ```
 
-That normally writes to `~/.cache/huggingface/token`. VoiceStudio reads the
+That normally writes to `~/.cache/huggingface/token`. Voiceym reads the
 selected local token file directly — you'll see the
 **HF CLI** row in **Settings → API Keys** flip to "set".
 
@@ -99,7 +99,7 @@ downloads work. Visit each page while signed in with the same HF account:
   access conditions on Hugging Face, then use a token from the same account.
 
 After clicking **"Agree and access repository"** on each page, restart any
-in-flight VoiceStudio job (the gated check is cached for the lifetime of the
+in-flight Voiceym job (the gated check is cached for the lifetime of the
 process).
 
 ## Troubleshooting
@@ -119,7 +119,7 @@ process).
 Opening onboarding or Settings only reads local token presence and masked previews; it does not contact Hugging Face. Untested tokens are shown as **Not tested**, and onboarding reports where a token was found without claiming it is valid. **Test now** explicitly contacts Hugging Face. Replacing a saved token does not revoke the previous token on Hugging Face.
 
 
-Windows automatically shortens the model cache path while keeping the normal CLI token location. If only a previous VoiceStudio short-cache token exists, the app continues using that file. An existing normal CLI token takes priority; explicit token or cache overrides remain authoritative. Credentials are never copied between these locations.
+Windows automatically shortens the model cache path while keeping the normal CLI token location. If only a previous Voiceym short-cache token exists, the app continues using that file. An existing normal CLI token takes priority; explicit token or cache overrides remain authoritative. Credentials are never copied between these locations.
 
 The CLI row reads only the selected local file, without OAuth refresh or environment-token fallback. **Also clear saved HuggingFace CLI token files** removes both active and stored-token files at recognized automatic locations, so an older app token cannot reappear on restart. Explicit overrides limit clearing to their selected location. Clearing only the app token preserves CLI files; neither action revokes tokens on Hugging Face or changes Git credentials. A file permission failure is reported instead of claiming the files were cleared.
 

@@ -1,4 +1,4 @@
-# VoiceStudio — FunASR (SenseVoice) Engine
+# Voiceym — FunASR (SenseVoice) Engine
 
 FunASR drives Alibaba's SenseVoiceSmall with FSMN-VAD: an all-in-one
 multilingual pipeline — transcription with punctuation and inverse text

@@ -6,7 +6,7 @@ import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 assert.equal(process.platform, 'win32', 'This foreground-ownership smoke requires Windows');
 const executablePath = resolve('electron/node_modules/electron/dist/electron.exe');
-const profile = mkdtempSync(join(tmpdir(), 'voicestudio-insertion-check-'));
+const profile = mkdtempSync(join(tmpdir(), 'voiceym-insertion-check-'));
 const app = await electron.launch({
   executablePath,
   args: [
@@ -21,7 +21,7 @@ const app = await electron.launch({
 let target;
 try {
   const main = await app.firstWindow();
-  await main.waitForFunction(() => window.voicestudio?.capture);
+  await main.waitForFunction(() => window.voiceym?.capture);
   await app.evaluate(({ Tray }) => {
     const original = Tray.prototype.setContextMenu;
     Tray.prototype.setContextMenu = function (menu) {
@@ -31,8 +31,8 @@ try {
     };
   });
   await main.evaluate(() =>
-    window.voicestudio.capture.labels({
-      show: 'Show VoiceStudio',
+    window.voiceym.capture.labels({
+      show: 'Show Voiceym',
       start: 'Start dictation',
       stop: 'Stop',
       settings: 'Settings',
@@ -61,7 +61,7 @@ try {
           ),
       ),
     );
-    await clipboard.writeText('VoiceStudio isolated clipboard verification');
+    await clipboard.writeText('Voiceym isolated clipboard verification');
   });
   await target.evaluate(({ BrowserWindow }) => {
     const win = BrowserWindow.getAllWindows()[0];
@@ -145,7 +145,7 @@ print(u.GetForegroundWindow())`,
     });
   const restored = await target.evaluate(async ({ clipboard }) => {
     for (let i = 0; i < 100; i++) {
-      if ((await clipboard.readText()) === 'VoiceStudio isolated clipboard verification')
+      if ((await clipboard.readText()) === 'Voiceym isolated clipboard verification')
         return true;
       await new Promise((resolve) => setTimeout(resolve, 30));
     }

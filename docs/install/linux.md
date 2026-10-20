@@ -1,6 +1,6 @@
-# VoiceStudio — Install on Linux
+# Voiceym — Install on Linux
 
-VoiceStudio's Linux desktop app is built with Electron. The archived Tauri app
+Voiceym's Linux desktop app is built with Electron. The archived Tauri app
 is no longer maintained; if you still run it, follow the
 [migration guide](../electron-migration.md).
 
@@ -24,29 +24,29 @@ override them or update yt-dlp.
 <a id="install-appimage"></a>
 
 Download a package from the
-[Releases page](https://github.com/debpalash/VoiceStudio/releases/latest):
+[Releases page](https://github.com/mnikhilsrikar2512/voiceym/releases/latest):
 
 | Package | File |
 |---|---|
-| AppImage (any distribution) | `VoiceStudio-Electron-<version>-linux-x64.AppImage` |
-| Debian / Ubuntu package | `VoiceStudio-Electron-<version>-linux-x64.deb` |
+| AppImage (any distribution) | `Voiceym-Electron-<version>-linux-x64.AppImage` |
+| Debian / Ubuntu package | `Voiceym-Electron-<version>-linux-x64.deb` |
 
 **AppImage:**
 
 ```bash
-chmod +x VoiceStudio-Electron-*-linux-x64.AppImage
-./VoiceStudio-Electron-*-linux-x64.AppImage
+chmod +x Voiceym-Electron-*-linux-x64.AppImage
+./Voiceym-Electron-*-linux-x64.AppImage
 ```
 
 The AppImage uses the static AppImage runtime, so it does not need `libfuse2`.
-The [shell installer](script.md) (`curl -fsSL https://voicestudio.sh/install | sh`)
+The [shell installer](script.md) (`curl -fsSL https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.sh | sh`)
 downloads the latest AppImage, verifies it against the release's
-`SHA256SUMS.txt`, and installs it as `~/.local/bin/VoiceStudio`.
+`SHA256SUMS.txt`, and installs it as `~/.local/bin/Voiceym`.
 
 **.deb:**
 
 ```bash
-sudo apt install ./VoiceStudio-Electron-<version>-linux-x64.deb
+sudo apt install ./Voiceym-Electron-<version>-linux-x64.deb
 ```
 
 The in-app updater's Linux feed carries the AppImage. Update a `.deb`
@@ -108,8 +108,8 @@ Prerequisites:
 Then, from a clone of the repository:
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api   # create the Python environment with uv
 bun run dev         # Electron with hot reload; it starts and supervises the backend
@@ -131,17 +131,17 @@ a model.
 ### Arch Linux (AUR)
 
 ```bash
-yay -S voicestudio-bin   # or paru -S voicestudio-bin
+yay -S voiceym-bin   # or paru -S voiceym-bin
 ```
 
-`voicestudio-bin` is a community-maintained AUR package that installs the
+`voiceym-bin` is a community-maintained AUR package that installs the
 release `.deb`; report packaging problems on its AUR page. Package-managed
-installs should set `VOICESTUDIO_DISABLE_UPDATER=1` so `pacman` handles
+installs should set `VOICEYM_DISABLE_UPDATER=1` so `pacman` handles
 updates instead of the in-app updater.
 
 ## ChromeOS, iPad and other devices
 
-There is no native ChromeOS or iPadOS app, and VoiceStudio does not run
+There is no native ChromeOS or iPadOS app, and Voiceym does not run
 inside the browser alone: the models need a real backend.
 
 - **Chromebook with Linux development environment on x86-64:** install the
@@ -149,7 +149,7 @@ inside the browser alone: the models need a real backend.
   generation (the container has no GPU access on most devices) and enough RAM
   for the model you pick. ARM Chromebooks are not supported: the Linux builds
   are x86-64 only.
-- **Any browser, including ChromeOS, iPad and phones:** run VoiceStudio on a
+- **Any browser, including ChromeOS, iPad and phones:** run Voiceym on a
   PC, Mac or server and open its web interface from the device. On the same
   network turn on **Network** sharing and scan the QR code; from anywhere, use
   Tailscale. See [Sharing & Remote Access](../sharing.md); for a headless host
@@ -160,26 +160,26 @@ inside the browser alone: the models need a real backend.
 System-wide dictation on Wayland uses the standard
 `org.freedesktop.portal.GlobalShortcuts` interface. Your desktop must run
 `xdg-desktop-portal` and a portal backend that implements that interface. The
-desktop owns the consent dialog and may let you replace VoiceStudio's preferred
+desktop owns the consent dialog and may let you replace Voiceym's preferred
 key combination.
 
-VoiceStudio binds the replacement before saving a changed shortcut. If consent
+Voiceym binds the replacement before saving a changed shortcut. If consent
 is declined or the portal is unavailable, Settings keeps the previous shortcut
 and reports the registration failure. The configured shortcut still works while
-the VoiceStudio window is focused.
+the Voiceym window is focused.
 
-While a dictation is running, VoiceStudio shows a small always-on-top capsule.
+While a dictation is running, Voiceym shows a small always-on-top capsule.
 It sits near the bottom of the screen your pointer is on — except on Wayland,
 where the protocol gives applications no say in their own placement and the
 compositor decides where it appears. The capsule works the same either way; only
 its position is out of the app's hands there.
 
 Wayland does not expose a portable identity for the app focused at shortcut
-down, so VoiceStudio safely leaves the complete transcript on the clipboard and
+down, so Voiceym safely leaves the complete transcript on the clipboard and
 the pill says **Copied** instead of risking insertion into a different app.
 
 Advanced users can opt into current-focus insertion with
-`VOICESTUDIO_WAYLAND_UNTARGETED_INSERT=1`. wlroots compositors such as Sway and
+`VOICEYM_WAYLAND_UNTARGETED_INSERT=1`. wlroots compositors such as Sway and
 Hyprland use `wtype`; KDE Plasma and GNOME can use `dotool` or `ydotool` to
 paste the Unicode clipboard payload. The
 opt-in targets whichever client owns keyboard focus when transcription
@@ -187,7 +187,7 @@ finishes, not necessarily the app where dictation started. Tray-started
 dictation remains copy-only. `dotool` needs direct write access to
 `/dev/uinput` (normally through a distribution udev rule/group). `ydotool`
 1.0+ needs the `ydotoold` daemon running with that access and its socket
-available to the desktop user. VoiceStudio skips either helper when its
+available to the desktop user. Voiceym skips either helper when its
 readiness check fails.
 
 If the global shortcut stops working, restart your desktop's portal service,
@@ -208,7 +208,7 @@ AppImage no longer apply. If the window stays blank or the terminal shows GPU
 process errors, start the app once with Chromium's GPU acceleration disabled:
 
 ```bash
-./VoiceStudio-Electron-*-linux-x64.AppImage --disable-gpu
+./Voiceym-Electron-*-linux-x64.AppImage --disable-gpu
 ```
 
 On Wayland sessions you can also try forcing X11 (XWayland) with
@@ -258,22 +258,22 @@ network budget automatically; set these to force a specific mirror, or before
 
 ROCm support is **Linux-only and opt-in**. The **default install ships the
 CUDA build** of PyTorch (the `pytorch-cuda` index in `pyproject.toml`), so on
-an AMD-only machine `torch.cuda.is_available()` is `False` and VoiceStudio runs
+an AMD-only machine `torch.cuda.is_available()` is `False` and Voiceym runs
 on CPU until you opt into the ROCm variant.
 
 > **Running in Docker or Podman instead?** There's a prebuilt ROCm image —
-> `ghcr.io/debpalash/voicestudio:stable-rocm` — with GPU acceleration out of the
+> `ghcr.io/mnikhilsrikar2512/voiceym:stable-rocm` — with GPU acceleration out of the
 > box; see [docker.md](docker.md#pull-and-run-amd-gpu--rocm). The rest of this
-> section is about source/desktop installs. (VoiceStudio has no ROCm path on
+> section is about source/desktop installs. (Voiceym has no ROCm path on
 Windows; see [windows.md](windows.md#gpu-support) for what a Radeon card can
 do there.)
 
 Ways to opt in, in order of preference:
 
 **1. Packaged app (environment variable).** Install the ROCm userspace
-(`/opt/rocm` or `rocminfo` on PATH), then launch VoiceStudio once with
+(`/opt/rocm` or `rocminfo` on PATH), then launch Voiceym once with
 `OMNIVOICE_TORCH_VARIANT=rocm` set, for example
-`OMNIVOICE_TORCH_VARIANT=rocm ./VoiceStudio-Electron-*-linux-x64.AppImage`.
+`OMNIVOICE_TORCH_VARIANT=rocm ./Voiceym-Electron-*-linux-x64.AppImage`.
 Runtime setup then reinstalls `torch`/`torchaudio` from the ROCm wheel index
 (`https://download.pytorch.org/whl/rocm6.4` by default) right after the
 dependency sync, matched to the app's pinned `torch==2.8.0` (the rocm6.2 index
@@ -296,14 +296,14 @@ uv pip install --reinstall torch==2.8.0 torchaudio==2.8.0 \
 ```
 run that manually if you want a specific ROCm point release; the
 `OMNIVOICE_TORCH_INDEX` env var only accepts a PEP 503 index URL, not a
-find-links page. If the reinstall fails (network, unsupported card), VoiceStudio
+find-links page. If the reinstall fails (network, unsupported card), Voiceym
 keeps the default torch build and warns instead of breaking the install.
 
 **3. Manual wheel swap (fallback).** Replace torch with the ROCm wheel
 **after** the first-run install populates the venv:
 
 ```bash
-# From the project directory (source install), into VoiceStudio's uv venv.
+# From the project directory (source install), into Voiceym's uv venv.
 # Matches the app's torch==2.8.0 pin — a different ROCm point release
 # (e.g. rocm6.2, rocm7.x) may not carry that exact torch build.
 uv pip install --reinstall torch torchaudio \
@@ -312,7 +312,7 @@ uv pip install --reinstall torch torchaudio \
 
 Once a ROCm build of PyTorch is in the venv, detection is automatic —
 `get_best_device()` returns the GPU (ROCm-built PyTorch reports through
-`torch.cuda.is_available()`), and VoiceStudio auto-sets
+`torch.cuda.is_available()`), and Voiceym auto-sets
 `HSA_OVERRIDE_GFX_VERSION` for consumer cards whose GFX ID isn't in the
 official ROCm support matrix. Relaunch and **Settings → Performance → GPU acceleration** should
 report the GPU device instead of `cpu`. Verify the wheel sees your card:

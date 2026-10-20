@@ -56,9 +56,9 @@
     "no_harness": "Installiere Codex, Claude Code, OpenCode oder Pi und melde dich dort an."
   },
   "repairAgent": {
-    "title": "VoiceStudio Agent fragen",
+    "title": "Voiceym Agent fragen",
     "notInstalled": "Nicht installiert",
-    "noSource": "Öffnen Sie eine beschreibbare VoiceStudio-Quelle zum Auschecken, damit ein Agent sie reparieren kann.",
+    "noSource": "Öffnen Sie eine beschreibbare Voiceym-Quelle zum Auschecken, damit ein Agent sie reparieren kann.",
     "ready": "Bereit",
     "placeholder": "Was ist schiefgelaufen? Ergänze Schritte, sichtbare Fehler oder das erwartete Verhalten.",
     "diagnose": "Diagnose",
@@ -68,7 +68,7 @@
   },
   "siteBrowser": {
     "return_studio": "Zurück zum Studio",
-    "preview": "Schnellvorschau der offiziellen Website, direkt in VoiceStudio",
+    "preview": "Schnellvorschau der offiziellen Website, direkt in Voiceym",
     "open_in": "Im Browser öffnen",
     "back": "Zurück",
     "forward": "Vorwärts",
@@ -99,7 +99,7 @@
     "brand_by": "{{brand}} von",
     "all": "Alle",
     "allContributors": "Alle Mitwirkenden",
-    "title": "VoiceStudio.sh Open Source",
+    "title": "voiceym.example Open Source",
     "design": "Entwirf eine Stimme anhand einer Beschreibung.",
     "dub": "Übersetze und synchronisiere Audio oder Video.",
     "stories": "Erstelle Szenen mit mehreren Stimmen.",
@@ -110,17 +110,17 @@
   },
   "longformPersistence": {
     "storage_unavailable_title": "Projekte konnten nicht geladen werden",
-    "storage_unavailable_body": "VoiceStudio konnte den lokalen Projektspeicher nicht lesen. Deine Daten wurden nicht verändert. Versuche es erneut, um sie sicher zu öffnen.",
+    "storage_unavailable_body": "Voiceym konnte den lokalen Projektspeicher nicht lesen. Deine Daten wurden nicht verändert. Versuche es erneut, um sie sicher zu öffnen.",
     "clear_projects": "Gespeicherte Projekte löschen",
-    "clear_confirm": "Dadurch werden alle gespeicherten Story- und Hörbuchprojekte sowie jeder nicht gespeicherte Entwurf dauerhaft gelöscht, damit VoiceStudio wieder geöffnet werden kann. Dies kann nicht rückgängig gemacht werden. Fortfahren?"
+    "clear_confirm": "Dadurch werden alle gespeicherten Story- und Hörbuchprojekte sowie jeder nicht gespeicherte Entwurf dauerhaft gelöscht, damit Voiceym wieder geöffnet werden kann. Dies kann nicht rückgängig gemacht werden. Fortfahren?"
   },
   "backendUnreachable": {
     "contact_recent": "Es hat vor {{ago}} noch geantwortet und reagiert seitdem nicht mehr, und es wurde kein Absturz aufgezeichnet — es läuft also möglicherweise noch, hängt aber an einer aufwendigen Aufgabe, die die Engine blockiert.",
     "contact_never": "Es hat in dieser Sitzung überhaupt nicht geantwortet — möglicherweise ist es nie gestartet.",
-    "dev": "Der lokale VoiceStudio-Dienst ist nicht erreichbar. {{contact}} Bei `bun run dev` läuft das Backend mit Auto-Reload: jede Dateiänderung — auch ein Speichern während einer laufenden Anfrage — startet es neu und bricht die Verbindung ab. Wiederholen Sie die Aktion zuerst; war es ein Reload, funktioniert es einfach. Bleibt es fehlerhaft, prüfen Sie das Terminal mit `bun run dev` auf einen Python-Traceback oder eine Exit-Meldung und omnivoice.log in Ihrem VoiceStudio-Datenordner.",
-    "server": "Der VoiceStudio-Backend-Server ist nicht erreichbar. {{contact}} Prüfe die Server-Logs auf die Ursache (z. B. `docker logs <container>` oder `journalctl`) — und beachte: Wenn Docker diese Seite ausliefert, kann die Seite selbst zusammen mit dem Backend ausfallen.",
-    "misrouted": "Der Server, der {{url}} beantwortet, ist kein VoiceStudio-Backend — er hat seine eigene 404-Seite zurückgegeben. Die API-Anfragen landen beim falschen Host: Prüfe die Backend-URL unter Einstellungen → Freigabe oder, falls ein Reverse-Proxy diese Oberfläche ausliefert, dessen Route für API-Pfade.",
-    "desktop": "Der lokale VoiceStudio-Dienst ist nicht erreichbar. {{contact}} Öffne die Absturzmeldung, falls eine erschienen ist, oder Einstellungen → Logs → Backend für das Letzte, was er protokolliert hat — „{{retry}}“ startet ihn neu, „{{cleanRetry}}“ baut seine Umgebung neu auf, falls er nicht zurückkommt."
+    "dev": "Der lokale Voiceym-Dienst ist nicht erreichbar. {{contact}} Bei `bun run dev` läuft das Backend mit Auto-Reload: jede Dateiänderung — auch ein Speichern während einer laufenden Anfrage — startet es neu und bricht die Verbindung ab. Wiederholen Sie die Aktion zuerst; war es ein Reload, funktioniert es einfach. Bleibt es fehlerhaft, prüfen Sie das Terminal mit `bun run dev` auf einen Python-Traceback oder eine Exit-Meldung und omnivoice.log in Ihrem Voiceym-Datenordner.",
+    "server": "Der Voiceym-Backend-Server ist nicht erreichbar. {{contact}} Prüfe die Server-Logs auf die Ursache (z. B. `docker logs <container>` oder `journalctl`) — und beachte: Wenn Docker diese Seite ausliefert, kann die Seite selbst zusammen mit dem Backend ausfallen.",
+    "misrouted": "Der Server, der {{url}} beantwortet, ist kein Voiceym-Backend — er hat seine eigene 404-Seite zurückgegeben. Die API-Anfragen landen beim falschen Host: Prüfe die Backend-URL unter Einstellungen → Freigabe oder, falls ein Reverse-Proxy diese Oberfläche ausliefert, dessen Route für API-Pfade.",
+    "desktop": "Der lokale Voiceym-Dienst ist nicht erreichbar. {{contact}} Öffne die Absturzmeldung, falls eine erschienen ist, oder Einstellungen → Logs → Backend für das Letzte, was er protokolliert hat — „{{retry}}“ startet ihn neu, „{{cleanRetry}}“ baut seine Umgebung neu auf, falls er nicht zurückkommt."
   },
   "nav": {
     "clone": "Klonen",
@@ -159,13 +159,13 @@
     "remote_backend_recovery_title": "Remote-Backend nicht erreichbar",
     "remote_backend_recovery_hint": "Du kannst das Remote-Backend später unter Einstellungen → Freigabe ändern.",
     "remote_backend_use_local": "Lokales Backend verwenden",
-    "remote_backend_error_tls": "Die sichere Verbindung konnte nicht überprüft werden. Prüfe das Zertifikat und verwende den HTTP-API-Port von VoiceStudio.",
+    "remote_backend_error_tls": "Die sichere Verbindung konnte nicht überprüft werden. Prüfe das Zertifikat und verwende den HTTP-API-Port von Voiceym.",
     "remote_backend_error_cors": "Das Remote-Backend hat diese App blockiert. Erlaube den Ursprung der App in den CORS-Einstellungen.",
     "remote_backend_error_network": "Das Remote-Backend ist nicht erreichbar. Prüfe Adresse, Netzwerk und Firewall.",
     "remote_backend_error_timeout": "Das Remote-Backend hat nicht rechtzeitig geantwortet.",
     "remote_backend_error_http": "Das Remote-Backend hat HTTP {{status}} zurückgegeben.",
-    "remote_backend_error_wrong_port": "Dies scheint nicht die VoiceStudio-HTTP-API zu sein. Port 7443 ist normalerweise der Steuerport des Remote-Workers; versuche Port 3900.",
-    "openapi": "VoiceStudio-API",
+    "remote_backend_error_wrong_port": "Dies scheint nicht die Voiceym-HTTP-API zu sein. Port 7443 ist normalerweise der Steuerport des Remote-Workers; versuche Port 3900.",
+    "openapi": "Voiceym-API",
     "general": "Allgemein",
     "theme": "Theme",
     "language": "Sprache",
@@ -205,7 +205,7 @@
     "llmp_test_ok": "OK — {{model}} · {{ms}} ms",
     "llmp_active_env_pin": "Die LLM-Auswahl ist durch LLM_DEFAULT_PROVIDER oder OMNIVOICE_LLM_BACKEND festgelegt.",
     "llmp_connect": "Verbinden und aktivieren",
-    "llmp_setup_hint": "Wähle einen Anbieter, starte seinen Server oder füge seinen API-Schlüssel hinzu und verbinde dich. VoiceStudio prüft eine Modellantwort, bevor LLM-Funktionen aktiviert werden.",
+    "llmp_setup_hint": "Wähle einen Anbieter, starte seinen Server oder füge seinen API-Schlüssel hinzu und verbinde dich. Voiceym prüft eine Modellantwort, bevor LLM-Funktionen aktiviert werden.",
     "llmp_disable": "LLM ausschalten",
     "llmp_optional_key": "API-Schlüssel (optional)",
     "llmp_err_config": "Vervollständige die Anbietereinstellungen: Basis-URL, Modell und gegebenenfalls API-Schlüssel oder Konto-ID.",
@@ -274,7 +274,7 @@
     "shortcut_register_failed": "Konnte nicht registriert werden: {{message}}",
     "shortcut_reset": "Auf Standard zurücksetzen",
     "shortcut_reset_failed": "Zurücksetzen fehlgeschlagen: {{message}}",
-    "reset_longform_failed": "VoiceStudio konnte die gespeicherten Projekte nicht sicher löschen. Deine Projektdaten wurden nicht verändert; gib Speicherplatz frei oder starte die App neu und versuche es erneut.",
+    "reset_longform_failed": "Voiceym konnte die gespeicherten Projekte nicht sicher löschen. Deine Projektdaten wurden nicht verändert; gib Speicherplatz frei oder starte die App neu und versuche es erneut.",
     "cancel": "Abbrechen",
     "hf_token_also_clear": "Auch gespeicherte HuggingFace-CLI-Tokendateien löschen",
     "hf_token_clear_btn": "Token löschen",
@@ -327,7 +327,7 @@
     "nav_style_desc": "Wechseln Sie Arbeitsbereiche über eine Symbolleiste am Fensterrand oder über Tabs in der Titelleiste.",
     "nav_style_rail": "Seitenleiste",
     "nav_style_tabs": "Tabs in der Titelleiste",
-    "storage_desc": "Wo VoiceStudio Ihre Daten und Ausgaben speichert.",
+    "storage_desc": "Wo Voiceym Ihre Daten und Ausgaben speichert.",
     "history_retention": "Generierungsverlauf",
     "history_retention_desc": "Wie viele Takes behalten werden, bevor die ältesten aufgeräumt werden.",
     "history_retention_help": "Nach jeder Generierung werden die ältesten nicht markierten Takes über diesem Limit samt Audiodateien entfernt. Markierte Takes bleiben immer erhalten. 0 = alles behalten.",
@@ -344,7 +344,7 @@
     "models_dir_effective": "Derzeit verwendet",
     "models_dir_configured": "Konfiguriert",
     "models_dir_default": "Standard wird verwendet",
-    "models_dir_restart": "↻ Starte VoiceStudio neu, um den neuen Speicherort zu verwenden.",
+    "models_dir_restart": "↻ Starte Voiceym neu, um den neuen Speicherort zu verwenden.",
     "compute_device": "Rechengerät",
     "compute_device_title": "Rechengerät",
     "compute_device_desc": "Auf welchem Gerät das Backend Modelle ausführt. Auto ist für fast alle richtig.",
@@ -369,12 +369,12 @@
     "generate_timeout_cpu": "CPU-Budget",
     "generate_timeout_cpu_note": "Wird verwendet, wenn die Generierung auf der CPU läuft. Einmal hier gespeichert, bestimmt dieser Wert immer die CPU-Generierung — unabhängig vom beschleunigten Budget oben.",
     "generate_timeout_invalid": "Gib eine Sekundenzahl größer als 0 und höchstens {{max}} ein.",
-    "generate_timeout_saved": "Gespeichert. Starte VoiceStudio neu, damit das neue Budget wirksam wird.",
+    "generate_timeout_saved": "Gespeichert. Starte Voiceym neu, damit das neue Budget wirksam wird.",
     "generate_timeout_shadowed_badge": "Extern überschrieben",
-    "generate_timeout_shadowed_note": "Eine Umgebungsvariable außerhalb von VoiceStudio (Shell, .env-Datei oder Container) legt diesen Wert derzeit fest — der hier gespeicherte Wert wird ignoriert, bis diese Variable entfernt wird.",
-    "generate_timeout_shadowed_toast": "Gespeichert, aber eine Umgebungsvariable außerhalb von VoiceStudio legt diesen Wert derzeit fest — sie wird weiter verwendet, bis diese Variable entfernt wird.",
+    "generate_timeout_shadowed_note": "Eine Umgebungsvariable außerhalb von Voiceym (Shell, .env-Datei oder Container) legt diesen Wert derzeit fest — der hier gespeicherte Wert wird ignoriert, bis diese Variable entfernt wird.",
+    "generate_timeout_shadowed_toast": "Gespeichert, aber eine Umgebungsvariable außerhalb von Voiceym legt diesen Wert derzeit fest — sie wird weiter verwendet, bis diese Variable entfernt wird.",
     "hf_token_not_checked": "Nicht getestet",
-    "hf_source_app_label": "VoiceStudio (verschlüsselt, empfohlen)",
+    "hf_source_app_label": "Voiceym (verschlüsselt, empfohlen)",
     "hf_source_cli_label": "HuggingFace CLI",
     "hf_source_env_label": "Umgebungsvariable",
     "theme_auto": "System-Standard",
@@ -389,7 +389,7 @@
     "llmp_cli_auth": "CLI-Kontozugriff wurde abgelehnt. Anmeldung, Abonnement und gewähltes Modell prüfen."
   },
   "bootstrap": {
-    "title": "VoiceStudio",
+    "title": "Voiceym",
     "checking": "Umgebung wird überprüft…",
     "downloading_uv": "uv (Python Paket-Manager) wird heruntergeladen…",
     "creating_venv": "Virtuelle Python-Umgebung wird erstellt…",
@@ -424,10 +424,10 @@
     "hint_uv_sync": "Installation der Abhängigkeiten fehlgeschlagen. „Bereinigen & Wiederholen“ löscht das zwischengespeicherte venv und startet neu.",
     "hint_build_backend": "Fehler im Python-Build-Backend. „Bereinigen & Wiederholen“ entfernt das defekte venv, sodass es von Grund auf neu aufgebaut wird.",
     "hint_ffmpeg": "ffmpeg-Download fehlgeschlagen. Das ist nicht kritisch — erneut versuchen oder ffmpeg manuell installieren.",
-    "hint_port": "Port 3900 wird bereits verwendet. Schließen Sie andere VoiceStudio-Instanzen oder Programme, die diesen Port nutzen.",
+    "hint_port": "Port 3900 wird bereits verwendet. Schließen Sie andere Voiceym-Instanzen oder Programme, die diesen Port nutzen.",
     "hint_silent_crash": "Das Backend ist ohne Fehlermeldung abgestürzt. „Bereinigen & Wiederholen“ behebt oft Probleme mit einem beschädigten venv.",
     "hint_github_blocked": "Ihr Netzwerk blockiert möglicherweise GitHub. Installieren Sie Python 3.11+ von python.org (zu PATH hinzufügen) und starten Sie neu, oder setzen Sie UV_PYTHON_INSTALL_MIRROR — siehe docs/install/troubleshooting.md.",
-    "hint_intel_mac": "Dieser Mac hat einen Intel-Prozessor, und PyTorch liefert keine Intel-Mac-Builds mehr — das lokale KI-Backend kann nicht installiert werden, und ein erneuter Versuch ändert daran nichts. Sie können die App weiterhin mit einem Remote-Backend auf einem anderen Rechner verbinden (Einstellungen → Freigabe → Remote-Backend) oder VoiceStudio auf einem Apple-Silicon-Mac, Windows oder Linux nutzen. Details: docs/install/macos.md.",
+    "hint_intel_mac": "Dieser Mac hat einen Intel-Prozessor, und PyTorch liefert keine Intel-Mac-Builds mehr — das lokale KI-Backend kann nicht installiert werden, und ein erneuter Versuch ändert daran nichts. Sie können die App weiterhin mit einem Remote-Backend auf einem anderen Rechner verbinden (Einstellungen → Freigabe → Remote-Backend) oder Voiceym auf einem Apple-Silicon-Mac, Windows oder Linux nutzen. Details: docs/install/macos.md.",
     "hint_default": "Versuchen Sie zuerst „Wiederholen“. Schlägt es erneut fehl, baut „Bereinigen & Wiederholen“ die Umgebung von Grund auf neu.",
     "hint_stuck": "Das Backend wurde nicht vollständig gestartet. Führen Sie von der Quelle aus zuerst „uv sync“ aus und stellen Sie sicher, dass sich „uv“ und Python in Ihrem PATH befinden, und versuchen Sie es dann erneut. Überprüfen Sie das Protokoll unten (oder Einstellungen → Protokolle → Backend), um den genauen Stall-Punkt zu erfahren."
   },
@@ -723,7 +723,7 @@
     "downloading": "Herunterladen…",
     "check_updates": "Suchen Sie nach Updates",
     "copy_diagnostics": "Diagnose kopieren",
-    "github": "VoiceStudio auf GitHub",
+    "github": "Voiceym auf GitHub",
     "commercial_license": "Kommerzielle Lizenz",
     "update_channel": "Update-Kanal",
     "channel_stable": "Stabil",
@@ -762,9 +762,9 @@
     "watermark_failed": "Die Wasserzeichen-Einstellung konnte nicht geändert werden."
   },
   "consent": {
-    "title": "VoiceStudio verbessern helfen?",
+    "title": "Voiceym verbessern helfen?",
     "desc": "Anonyme, inhaltsfreie Nutzungsstatistiken, die uns helfen, Fehler schneller zu beheben — völlig optional und standardmäßig deaktiviert.",
-    "step_label": "VoiceStudio verbessern",
+    "step_label": "Voiceym verbessern",
     "body": "Anonyme, inhaltsfreie Nutzungsstatistiken: welche Engines verwendet werden, wie lange Generierungen dauern und die Art von Fehlern. Niemals Ihr Text, Ihr Audio, Ihre Dateien oder etwas, das Sie identifiziert. Es wird nichts gesendet, solange Sie nicht zustimmen — und Sie können Ihre Entscheidung jederzeit unter Einstellungen → Datenschutz ändern.",
     "learn_more": "Was genau wird gesendet?",
     "yes": "Ja, anonyme Statistiken teilen",
@@ -772,7 +772,7 @@
     "dismiss": "Schließen (Analytik bleibt aus)"
   },
   "langPrompt": {
-    "offer": "VoiceStudio wurde auf {{language}} geöffnet. Lieber Englisch?",
+    "offer": "Voiceym wurde auf {{language}} geöffnet. Lieber Englisch?",
     "switch": "Zu Englisch wechseln",
     "keep": "Bei {{language}} bleiben"
   },
@@ -833,7 +833,7 @@
     "diskTemporary": "Temporärer freier Speicher",
     "diskDestination": "Ziel",
     "diskDestination_hf_model_cache": "Hugging-Face-Modellcache-Laufwerk",
-    "diskDestination_engine_data": "VoiceStudio-Engine-Datenlaufwerk",
+    "diskDestination_engine_data": "Voiceym-Engine-Datenlaufwerk",
     "diskActualModel": "Tatsächliches Modell",
     "diskActualEnvironment": "Tatsächliche Umgebung",
     "diskActualCache": "Tatsächlicher gemeinsamer Cache",
@@ -882,7 +882,7 @@
   },
   "capture": {
     "desc": "Globale Hotkeys funktionieren nur in der Desktop-App. Die Web-Benutzeroberfläche verwendet eine In-Page-Verknüpfung <1>Strg+Umschalt+Leertaste</1>, während das Fenster den Fokus hat.",
-    "desc_detail": "Der Hotkey funktioniert systemweit, während VoiceStudio ausgeführt wird – er fokussiert das Fenster und startet das Diktieren. Vermeiden Sie Kombinationen, die bereits vom Betriebssystem beansprucht werden (unter macOS ist <1>⌘+Leertaste</1> Spotlight und <2>⌘+⇧+Leertaste</2> wechselt die Eingabequellen). Wenn die Registrierung fehlschlägt, wählen Sie eine andere Kombination.",
+    "desc_detail": "Der Hotkey funktioniert systemweit, während Voiceym ausgeführt wird – er fokussiert das Fenster und startet das Diktieren. Vermeiden Sie Kombinationen, die bereits vom Betriebssystem beansprucht werden (unter macOS ist <1>⌘+Leertaste</1> Spotlight und <2>⌘+⇧+Leertaste</2> wechselt die Eingabequellen). Wenn die Registrierung fehlschlägt, wählen Sie eine andere Kombination.",
     "active_shortcut": "Aktive Verknüpfung",
     "new_shortcut": "Neue Verknüpfung",
     "press_key": "Drücken Sie eine Tastenkombination…",
@@ -900,8 +900,8 @@
     "no_speech": "Keine Sprache erkannt",
     "mic_denied": "Mikrofonzugriff verweigert",
     "mic_denied_toast": "Mikrofonzugriff verweigert. {{hint}}",
-    "mic_hint_mac": "macOS: Öffnen Sie Systemeinstellungen → Datenschutz und Sicherheit → Mikrofon und aktivieren Sie VoiceStudio.",
-    "mic_hint_windows": "Windows: Öffnen Sie Einstellungen → Datenschutz und Sicherheit → Mikrofon, aktivieren Sie 'Mikrofonzugriff' und 'Desktop-Apps den Zugriff auf Ihr Mikrofon erlauben' und erlauben Sie VoiceStudio.",
+    "mic_hint_mac": "macOS: Öffnen Sie Systemeinstellungen → Datenschutz und Sicherheit → Mikrofon und aktivieren Sie Voiceym.",
+    "mic_hint_windows": "Windows: Öffnen Sie Einstellungen → Datenschutz und Sicherheit → Mikrofon, aktivieren Sie 'Mikrofonzugriff' und 'Desktop-Apps den Zugriff auf Ihr Mikrofon erlauben' und erlauben Sie Voiceym.",
     "mic_hint_linux": "Linux: Überprüfen Sie, ob sich Ihr Benutzer in der Audiogruppe befindet und WebView Zugriff auf das Mikrofon hat.",
     "transcription_failed": "Transkription fehlgeschlagen: {{message}}",
     "mic_not_found": "Kein Mikrofon gefunden. Schließen Sie ein Mikrofon an oder aktivieren Sie eines und versuchen Sie es erneut.",
@@ -1000,7 +1000,7 @@
     "persona_include_ref_hint": "Fügen Sie den rohen Referenzclip ein. Aus = nur eine mit Wasserzeichen versehene Vorschau teilen (empfohlen).",
     "consent_title": "Sprachbesitz",
     "consent_explain": "Nehmen Sie auf, wie Sie die folgende Aussage lesen, um sicherzustellen, dass es sich um Ihre eigene Stimme handelt. Für Agentenfunktionen und Community-Sharing ist eine Verifizierung erforderlich – niemals für die lokale Synthese.",
-    "consent_statement": "Ich bestätige, dass es sich bei diesem Stimmprofil um meine eigene Stimme handelt, und stimme zu, dass VoiceStudio es in meinem Namen klont.",
+    "consent_statement": "Ich bestätige, dass es sich bei diesem Stimmprofil um meine eigene Stimme handelt, und stimme zu, dass Voiceym es in meinem Namen klont.",
     "consent_record": "Einverständniserklärung aufzeichnen",
     "consent_stop": "Stoppen Sie die Aufnahme",
     "consent_saved": "Sprachbesitz bestätigt",
@@ -1464,7 +1464,7 @@
     "watch_start_failed": "Die Überwachung dieses Ordners konnte nicht gestartet werden — wähle ihn erneut aus, um es noch einmal zu versuchen."
   },
   "gallery": {
-    "title": "VoiceStudio Galerie",
+    "title": "Voiceym Galerie",
     "download_hint": "Suchen Sie oben, um Clips herunterzuladen",
     "saving": "Sparen…",
     "trim": "Trimmen",
@@ -1573,22 +1573,22 @@
   "donate": {
     "title": "Unterstützung",
     "desc": "Wenn Ihnen dieses Projekt gefällt, denken Sie über eine Spende nach, um unsere Entwicklung zu unterstützen.",
-    "hero_title": "Spende für das VoiceStudio-Projekt",
-    "hero_desc": "VoiceStudio ist kostenlos, Open Source und läuft vollständig auf Ihrer Hardware. Wenn es Ihren Arbeitsablauf bereichert, sollten Sie darüber nachdenken, das Kernteam zu unterstützen.",
+    "hero_title": "Spende für das Voiceym-Projekt",
+    "hero_desc": "Voiceym ist kostenlos, Open Source und läuft vollständig auf Ihrer Hardware. Wenn es Ihren Arbeitsablauf bereichert, sollten Sie darüber nachdenken, das Kernteam zu unterstützen.",
     "github_desc": "Wiederkehrend oder einmalig – direkt über GitHub.",
     "coffee_desc": "Laden Sie dem Team einen Kaffee ein. Kein Konto erforderlich.",
     "paypal_desc": "Schnell einmalig oder wiederkehrend per PayPal.",
     "platforms": "Plattformen",
     "footer": "Jeder Beitrag trägt dazu bei, die Grenzen der lokalen KI zu erweitern.",
     "back": "Zurück zum Studio",
-    "pill": "Unterstützen Sie VoiceStudio",
+    "pill": "Unterstützen Sie Voiceym",
     "suggested_title": "Wählen Sie einen Betrag",
     "most_common": "am häufigsten",
     "custom": "Benutzerdefiniert",
     "choose_method": "Wählen Sie, wie Sie geben möchten",
     "choose_method_amount": "Weiter mit ${{amount}}",
     "goal": {
-      "title": "Unterstütze die Entwicklung von VoiceStudio",
+      "title": "Unterstütze die Entwicklung von Voiceym",
       "of": "von",
       "per_month": "/ Monat",
       "aria": "{{raised}} von {{goal}} Monatsziel",
@@ -1597,7 +1597,7 @@
       "social_proof": "Schließen Sie sich den Unterstützern von {{count}} an, die lokale KI finanzieren"
     },
     "postcard": {
-      "title": "Unterstütze die Entwicklung von VoiceStudio",
+      "title": "Unterstütze die Entwicklung von Voiceym",
       "later": "Vielleicht später"
     }
   },
@@ -1607,11 +1607,11 @@
     "back": "Zurück zum Studio",
     "badge": "Kommerzielle Lizenz",
     "hero_title": "Versenden Sie KI-Stimmen in der Produktion",
-    "hero_desc": "VoiceStudio ist freie Open-Source-Software unter der GNU Affero General Public License v3 (AGPL-3.0) — kostenlos nutzbar, auch für kommerzielle und interne geschäftliche Zwecke. Eine kommerzielle Lizenz benötigen Sie nur, wenn Sie VoiceStudio ohne die Copyleft-Pflichten der AGPL-3.0 in ein Closed-Source- oder proprietäres Produkt oder einen entsprechenden Dienst einbetten möchten. Unsere Lizenz gilt für den Code von VoiceStudio. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
+    "hero_desc": "Voiceym ist freie Open-Source-Software unter der GNU Affero General Public License v3 (AGPL-3.0) — kostenlos nutzbar, auch für kommerzielle und interne geschäftliche Zwecke. Eine kommerzielle Lizenz benötigen Sie nur, wenn Sie Voiceym ohne die Copyleft-Pflichten der AGPL-3.0 in ein Closed-Source- oder proprietäres Produkt oder einen entsprechenden Dienst einbetten möchten. Unsere Lizenz gilt für den Code von Voiceym. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
     "pricing_desc": "Stufen und Preise werden noch finalisiert.",
     "request_quote": "Fordern Sie ein Angebot an",
     "benefit_ip": "Anwendungslizenz",
-    "benefit_ip_desc": "Unsere Lizenz gilt für den Code von VoiceStudio. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
+    "benefit_ip_desc": "Unsere Lizenz gilt für den Code von Voiceym. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
     "benefit_cost": "Null Kosten pro Minute",
     "benefit_cost_desc": "Keine API-Rechnungen, keine überraschenden Überschreitungen. Läuft vom ersten Tag an auf Ihrer eigenen Hardware.",
     "benefit_team_desc": "Eine Lizenz deckt eine unbegrenzte Anzahl von Benutzern innerhalb Ihrer Organisation ab.",
@@ -1619,7 +1619,7 @@
     "benefit_support_desc": "Vorrangiger E-Mail- und Videoanruf-Support durch das Kern-Engineering-Team.",
     "benefit_source_desc": "Volle Sicht auf den Stapel. Prüfen, forken und anpassen Sie innerhalb der Lizenzbedingungen.",
     "benefit_lang_desc": "Transkribieren, übersetzen und synchronisieren Sie in 646 Sprachen mit menschlicher Qualität.",
-    "hero_simple": "VoiceStudio ist kostenlos und Open Source gemäß AGPL-3.0 – auch für die kommerzielle und interne Geschäftsnutzung. Sie benötigen lediglich eine kommerzielle Lizenz, um es in ein Closed-Source-Produkt einzubetten, ohne die Copyleft-Verpflichtungen von AGPL. Unsere Lizenz gilt für den Code von VoiceStudio. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen."
+    "hero_simple": "Voiceym ist kostenlos und Open Source gemäß AGPL-3.0 – auch für die kommerzielle und interne Geschäftsnutzung. Sie benötigen lediglich eine kommerzielle Lizenz, um es in ein Closed-Source-Produkt einzubetten, ohne die Copyleft-Verpflichtungen von AGPL. Unsere Lizenz gilt für den Code von Voiceym. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen."
   },
   "exportModal": {
     "export": "Exportieren",
@@ -1682,7 +1682,7 @@
     "pkg_audio_body_one": "Wechseln Sie zur Registerkarte „Audio“, um Dubs pro Sprache in WAV oder MP3 zu exportieren ({{count}} Dub verfügbar).",
     "pkg_audio_body_other": "Wechseln Sie zur Registerkarte „Audio“, um Dubs pro Sprache in WAV oder MP3 zu exportieren ({{count}} Dubs verfügbar).",
     "pkg_audio_cta": "Öffnen Sie die Registerkarte „Audio“.",
-    "license_text": "Unsere Lizenz gilt für den Code von VoiceStudio. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
+    "license_text": "Unsere Lizenz gilt für den Code von Voiceym. Rechte an Modellen und erzeugten Ausgaben richten sich nach den ausgewählten Modellen und deren Bedingungen.",
     "license_link": "Anwendungslizenz",
     "output": "AUSGANG",
     "nothing_selected": "Nichts ausgewählt oder Titel nicht verfügbar",
@@ -1750,14 +1750,14 @@
     "desc": "Keine Sorge – der Rest der App funktioniert weiterhin. Sie können die Registerkarten wechseln oder es unten noch einmal versuchen.",
     "tryAgain": "Versuchen Sie es erneut",
     "openDocs": "Öffnen Sie die Dokumentation zu diesem Fehler",
-    "crash_port_in_use": "Der Backend-Dienst konnte nicht starten, weil Port 3900 bereits belegt ist — eine andere VoiceStudio-Instanz (oder eine App, die den Port beansprucht hat) hält ihn. Beenden Sie die andere Instanz und starten Sie neu; wenn nichts sichtbar läuft, hält ein verwaistes Backend aus einer früheren Sitzung den Port.",
+    "crash_port_in_use": "Der Backend-Dienst konnte nicht starten, weil Port 3900 bereits belegt ist — eine andere Voiceym-Instanz (oder eine App, die den Port beansprucht hat) hält ihn. Beenden Sie die andere Instanz und starten Sie neu; wenn nichts sichtbar läuft, hält ein verwaistes Backend aus einer früheren Sitzung den Port.",
     "crash_oom_kill": "Er wurde zwangsbeendet (Signal 9), was in der Regel bedeutet, dass dem Betriebssystem der Arbeitsspeicher (RAM) ausging. Schließen Sie speicherintensive Apps, wählen Sie unter Einstellungen → Modelle ein kleineres ASR-Modell, oder entladen Sie das TTS-Modell vor der Transkription.",
-    "crash_native_fault": "Der Absturz erfolgte innerhalb des Compute-Stacks und nicht wegen Speichermangels — das deutet auf einen GPU-Treiber hin, der nicht zur mitgelieferten CUDA-Laufzeit passt, oder auf eine unvollständig heruntergeladene Modelldatei. Aktualisieren Sie den GPU-Treiber und laden Sie das Modell unter Einstellungen → Modelle erneut (ein unvollständiger Download wird dabei repariert). Wenn es weiterhin auftritt, wechseln Sie unter Einstellungen → Engines zu einer absturzisolierten Engine — „VoiceStudio (subprocess)“ für die Synthese, „Faster-Whisper (crash-isolated subprocess)“ für die Transkription. Diese führen das Modell in einem eigenen Prozess aus, sodass ein solcher Absturz nur diesen Prozess beendet statt des gesamten Backends.",
+    "crash_native_fault": "Der Absturz erfolgte innerhalb des Compute-Stacks und nicht wegen Speichermangels — das deutet auf einen GPU-Treiber hin, der nicht zur mitgelieferten CUDA-Laufzeit passt, oder auf eine unvollständig heruntergeladene Modelldatei. Aktualisieren Sie den GPU-Treiber und laden Sie das Modell unter Einstellungen → Modelle erneut (ein unvollständiger Download wird dabei repariert). Wenn es weiterhin auftritt, wechseln Sie unter Einstellungen → Engines zu einer absturzisolierten Engine — „Voiceym (subprocess)“ für die Synthese, „Faster-Whisper (crash-isolated subprocess)“ für die Transkription. Diese führen das Modell in einem eigenen Prozess aus, sodass ein solcher Absturz nur diesen Prozess beendet statt des gesamten Backends.",
     "report": "Diesen Fehler melden",
     "report_failed": "Der Fehlerbericht konnte nicht geöffnet werden. Versuche es erneut oder kopiere die obigen Details in ein neues Issue.",
     "searchIssues": "Ähnliche Probleme suchen",
     "unexpected": "Unerwarteter Fehler: {{message}}",
-    "backend_shutting_down": "VoiceStudio wird beendet. Öffnen Sie die App erneut und versuchen Sie es noch einmal.",
+    "backend_shutting_down": "Voiceym wird beendet. Öffnen Sie die App erneut und versuchen Sie es noch einmal.",
     "crash_broken_env": "Er ist beim Laden seiner eigenen Python-Abhängigkeiten gestorben — es geht also weder um Speicher noch um Ihre GPU, sondern um eine unvollständige oder halb aktualisierte Umgebung. Nutzen Sie „Bereinigen & Wiederholen“ unter Einstellungen → Logs → Backend: Das baut sie von Grund auf neu und repariert sie an Ort und Stelle, ohne Ihre Stimmen oder Projekte anzurühren. Schlägt es danach weiter fehl, nennen die Absturzdetails das Paket, das sich nicht importieren ließ.",
     "crash_vram_default": "Auf kleineren GPUs ist die übliche Ursache, dass beim Laden des ASR-Modells zusätzlich zum TTS-Modell der VRAM ausgeht: Entladen Sie zuerst das TTS-Modell, oder wählen Sie unter Modellkatalog → Modelle ein kleineres ASR-Modell.",
     "stream_cut_backend_alive": "Der Stream endete vorzeitig, aber das Backend läuft noch — es ist also nicht abgestürzt. In einem Server- oder Container-Setup liegt das meist an einem Reverse-Proxy oder Load-Balancer, der die Verbindung puffert oder per Timeout beendet: Deaktivieren Sie das Response-Buffering für diese Route (nginx: proxy_buffering off; X-Accel-Buffering: no) und erhöhen Sie das Lese-Timeout. Wenn Sie die Desktop-App direkt oder auf localhost ohne Proxy ausführen, lässt sich das bestätigen.",
@@ -1801,7 +1801,7 @@
     "network": "Netzwerk",
     "local": "Lokal",
     "share_confirm_title": "In Ihrem Netzwerk teilen?",
-    "share_confirm_hint": "Andere Geräte in Ihrem WLAN/Ethernet können VoiceStudio über die angezeigte Zugangs-PIN erreichen, sobald es eingeschaltet ist.",
+    "share_confirm_hint": "Andere Geräte in Ihrem WLAN/Ethernet können Voiceym über die angezeigte Zugangs-PIN erreichen, sobald es eingeschaltet ist.",
     "enabling": "Aktivieren…",
     "enable": "Aktivieren",
     "shared_title": "In Ihrem Netzwerk geteilt",
@@ -1842,7 +1842,7 @@
     "model_heading": "Modellgewichte · OpenRAIL-M",
     "model_desc": "Die Supertonic-3-Modellgewichte werden unter der OpenRAIL-M-Lizenz veröffentlicht. Diese Lizenz beschränkt die Nutzung auf nicht böswillige Zwecke. Den vollständigen Satz nutzungsbasierter Einschränkungen finden Sie in der verlinkten Lizenz.",
     "read_openrail": "Lesen Sie die OpenRAIL-M-Lizenz →",
-    "footer": "Wenn Sie auf „Akzeptieren“ klicken, wird Ihre Zustimmung in den lokalen Einstellungen von VoiceStudio erfasst und die Engine aktiviert. Ihre Zustimmung wird nur auf diesem Gerät gespeichert – keine Meldung an Supertone Inc. oder Dritte.",
+    "footer": "Wenn Sie auf „Akzeptieren“ klicken, wird Ihre Zustimmung in den lokalen Einstellungen von Voiceym erfasst und die Engine aktiviert. Ihre Zustimmung wird nur auf diesem Gerät gespeichert – keine Meldung an Supertone Inc. oder Dritte.",
     "saving": "Sparen…",
     "accept": "Akzeptiere",
     "accepted_toast": "Supertonic-3-Lizenz akzeptiert.",
@@ -1857,7 +1857,7 @@
     "gate_desc": "Die Gewichte sind auf Hugging Face zugangsbeschränkt. Vor dem ersten Download benötigen Sie ein kostenloses Konto, müssen Ihre Kontaktdaten teilen und den Zugangsbedingungen zustimmen.",
     "pockettts_conditions_desc": "Die Zugangsbedingungen verbieten rechtswidrige, schädliche, täuschende, betrügerische, unbefugte oder nicht einvernehmliche Stimmnutzung. Lesen Sie vor dem Fortfahren die vollständigen Bedingungen.",
     "review_access_conditions": "Zugangsbedingungen prüfen",
-    "pockettts_footer": "Mit „Akzeptieren“ wird Ihre Bestätigung nur lokal in den VoiceStudio-Einstellungen gespeichert und die Engine aktiviert. Modellzugriff und Downloads erfolgen über Hugging Face, das die üblichen Anfrage- und Kontodaten erhält.",
+    "pockettts_footer": "Mit „Akzeptieren“ wird Ihre Bestätigung nur lokal in den Voiceym-Einstellungen gespeichert und die Engine aktiviert. Modellzugriff und Downloads erfolgen über Hugging Face, das die üblichen Anfrage- und Kontodaten erhält.",
     "pockettts_accepted_toast": "PocketTTS-Bedingungen akzeptiert."
   },
   "voicePreview": {
@@ -2161,19 +2161,19 @@
     "ref_audio_too_long": "Eine Referenz darf mit Transkript höchstens 20 Sekunden, ohne Transkript höchstens 75 Sekunden lang sein. Kürze sie auf eine klare Sprachpassage von 3–10 Sekunden; bei mitgeliefertem Text muss das Transkript denselben Abschnitt abdecken.",
     "ref_audio_no_speech": "Die automatische Spracherkennung hat keine gesprochenen Wörter gefunden. Kürze die Referenz auf eine klare Sprachpassage von 3–10 Sekunden oder gib ein passendes Transkript an.",
     "gpu_arch_unsupported": "Diese PyTorch-Version unterstützt deine GPU nicht. Wähle CPU unter Einstellungen → Leistung & Gerät oder installiere eine kompatible PyTorch-Version.",
-    "windows_app_control_blocked": "Die Windows-Anwendungssteuerung hat eine benötigte Datei blockiert. Bitte deinen Administrator, die vertrauenswürdige VoiceStudio-Laufzeit zuzulassen, und starte die App neu.",
+    "windows_app_control_blocked": "Die Windows-Anwendungssteuerung hat eine benötigte Datei blockiert. Bitte deinen Administrator, die vertrauenswürdige Voiceym-Laufzeit zuzulassen, und starte die App neu.",
     "audio_io_failed": "Die Audiodatei konnte nicht gelesen oder gespeichert werden. Prüfe Dateiformat, freien Speicherplatz und Dateiberechtigungen. Überprüfe den Ordner unter Einstellungen → Speicher.",
     "no_audio_track": "Diese Datei hat keine Tonspur, daher gibt es keine Sprache zum Transkribieren, Synchronisieren oder Klonen. Wähle eine Video- oder Audiodatei mit Ton.",
-    "transcription_media_tool": "Für die Transkription wird ffmpeg benötigt, das VoiceStudio nicht finden oder ausführen konnte. Öffne Einstellungen → Audiotools und nutze Herunterladen/Reparieren, oder installiere ffmpeg (macOS: brew install ffmpeg; Windows: winget install Gyan.FFmpeg; Linux: dein Paketmanager) und starte VoiceStudio neu. Alternativ kannst du FFMPEG_PATH auf eine ffmpeg-Datei setzen.",
-    "transcription_pipe_lost": "Das Backend hat während der Transkription seine Ausgabe-Pipe zur App verloren (Broken Pipe). Starte VoiceStudio neu und versuche es erneut."
+    "transcription_media_tool": "Für die Transkription wird ffmpeg benötigt, das Voiceym nicht finden oder ausführen konnte. Öffne Einstellungen → Audiotools und nutze Herunterladen/Reparieren, oder installiere ffmpeg (macOS: brew install ffmpeg; Windows: winget install Gyan.FFmpeg; Linux: dein Paketmanager) und starte Voiceym neu. Alternativ kannst du FFMPEG_PATH auf eine ffmpeg-Datei setzen.",
+    "transcription_pipe_lost": "Das Backend hat während der Transkription seine Ausgabe-Pipe zur App verloren (Broken Pipe). Starte Voiceym neu und versuche es erneut."
   },
   "sharing": {
     "title": "Teilen und Fernzugriff",
-    "help": "Stellen Sie diese laufende VoiceStudio-Instanz Ihren anderen Computern zur Verfügung, ohne sie neu zu starten. „Nur Loopback“ ist die Standardeinstellung – es wird nichts geteilt, bis Sie es hier aktivieren.",
+    "help": "Stellen Sie diese laufende Voiceym-Instanz Ihren anderen Computern zur Verfügung, ohne sie neu zu starten. „Nur Loopback“ ist die Standardeinstellung – es wird nichts geteilt, bis Sie es hier aktivieren.",
     "local_network": "Lokales Netzwerk",
     "local_help": "Teilen Sie mit einer einmaligen Zugangs-PIN über Ihr WLAN/Ethernet. Andere Geräte scannen den QR-Code oder öffnen den Link.",
     "ports_title": "Häfen",
-    "ports_help": "Diese werden über Umgebungsvariablen festgelegt, die beim Start gelesen werden. Ändern Sie den Backend- oder UI-Port, indem Sie die Variable festlegen und VoiceStudio neu starten.",
+    "ports_help": "Diese werden über Umgebungsvariablen festgelegt, die beim Start gelesen werden. Ändern Sie den Backend- oder UI-Port, indem Sie die Variable festlegen und Voiceym neu starten.",
     "backend_port": "Backend-Port",
     "ui_port": "UI-Port",
     "lan_share_port": "LAN-Freigabeport",
@@ -2184,9 +2184,9 @@
     "ports_note": "Backend- und UI-Ports werden beim Neustart angewendet. Der LAN-Freigabeport wird angewendet, wenn Sie das nächste Mal die Freigabe aktivieren.",
     "tailscale_title": "Tailscale (privater Fernzugriff)",
     "tailscale_checking": "Suche nach Tailscale…",
-    "tailscale_absent": "Tailscale nicht erkannt. Installieren Sie es, um von überall in Ihrem privaten Tailnet sicher auf VoiceStudio zuzugreifen.",
+    "tailscale_absent": "Tailscale nicht erkannt. Installieren Sie es, um von überall in Ihrem privaten Tailnet sicher auf Voiceym zuzugreifen.",
     "tailscale_install": "Tailscale installieren",
-    "tailscale_running": "Tailscale läuft. Bedienen Sie VoiceStudio über Ihr privates Tailnet.",
+    "tailscale_running": "Tailscale läuft. Bedienen Sie Voiceym über Ihr privates Tailnet.",
     "tailscale_not_logged_in": "Tailscale ist installiert, aber nicht angemeldet. Starten Sie zunächst Tailscale und melden Sie sich an.",
     "tailscale_enabled": "Tailscale-Aufschlag aktiviert",
     "tailscale_enable_failed": "Tailscale konnte nicht aktiviert werden",
@@ -2208,7 +2208,7 @@
     "label": "Melden Sie einen Fehler",
     "title": "Öffnet eine vorab ausgefüllte GitHub-Problemseite in Ihrem Browser. Es wird nichts gesendet, bis Sie auf „Senden“ klicken.",
     "staleTitle": "Update verfügbar",
-    "staleMessage": "Sie verwenden VoiceStudio {{current}}, aber {{latest}} ist bereits erschienen – dieser Fehler ist dort möglicherweise schon behoben. Vor dem Melden die neueste Version ansehen?",
+    "staleMessage": "Sie verwenden Voiceym {{current}}, aber {{latest}} ist bereits erschienen – dieser Fehler ist dort möglicherweise schon behoben. Vor dem Melden die neueste Version ansehen?",
     "staleView": "Update ansehen",
     "staleFileAnyway": "Trotzdem melden"
   },
@@ -2236,7 +2236,7 @@
     "failed": "Update fehlgeschlagen",
     "retry": "Versuchen Sie es noch einmal",
     "dismiss": "Schließen",
-    "toast_available": "VoiceStudio {{version}} ist verfügbar",
+    "toast_available": "Voiceym {{version}} ist verfügbar",
     "toast_install": "Installieren und neu starten",
     "toast_whats_new": "Neuerungen",
     "toast_later": "Später"
@@ -2280,9 +2280,9 @@
     "retry_load": "Versuchen Sie es noch einmal"
   },
   "firstrun": {
-    "backend_stop_failed": "VoiceStudio konnte das vorherige Backend nicht sicher beenden. Schließe alle anderen VoiceStudio-Fenster oder -Prozesse und versuche es erneut.",
+    "backend_stop_failed": "Voiceym konnte das vorherige Backend nicht sicher beenden. Schließe alle anderen Voiceym-Fenster oder -Prozesse und versuche es erneut.",
     "loading": "Einrichtung wird vorbereitet…",
-    "title": "VoiceStudio einrichten",
+    "title": "Voiceym einrichten",
     "subtitle": "Noch ist nichts installiert – prüfe, wo alles gespeichert wird, und starte dann. Später in den Einstellungen änderbar.",
     "language": "Sprache",
     "mode_title": "Installationsmodus",
@@ -2384,7 +2384,7 @@
     "load_config": "Konfiguration laden"
   },
   "openapi": {
-    "title": "VoiceStudio-API",
+    "title": "Voiceym-API",
     "loading": "API-Spezifikation wird geladen…",
     "unreachable_title": "Backend-Spezifikation nicht verfügbar",
     "unreachable_body": "Die OpenAPI-Spezifikation des lokalen Backends unter {{url}} ist nicht erreichbar. Stelle sicher, dass das Backend läuft, und versuche es erneut.",
@@ -2537,7 +2537,7 @@
     "lex_add": "Wort hinzufügen",
     "lex_remove": "Entfernen",
     "markup_help": "Markup-Referenz",
-    "markup_hint": "# Kapiteltitel · [voice:NAME] Stimme wechseln · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · Reaktionen (VoiceStudio): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
+    "markup_hint": "# Kapiteltitel · [voice:NAME] Stimme wechseln · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · Reaktionen (Voiceym): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
     "language": "Sprache",
     "expressive": "Produktionsübersteuerungen",
     "reset": "Zurücksetzen",
@@ -2640,7 +2640,7 @@
   },
   "remote_gate": {
     "title": "Zugangs-PIN eingeben",
-    "body": "Diese VoiceStudio-Instanz wird im Netzwerk freigegeben. Geben Sie die auf dem Host angezeigte PIN ein.",
+    "body": "Diese Voiceym-Instanz wird im Netzwerk freigegeben. Geben Sie die auf dem Host angezeigte PIN ein.",
     "label": "Zugangs-PIN",
     "connect": "Verbinden"
   },
@@ -2664,7 +2664,7 @@
   },
   "permissions": {
     "title": "Berechtigungen",
-    "desc": "VoiceStudio läuft vollständig auf Ihrem Gerät — diese Systemberechtigungen werden nur für die hier aufgeführten Funktionen genutzt, Audio verlässt Ihren Rechner nie.",
+    "desc": "Voiceym läuft vollständig auf Ihrem Gerät — diese Systemberechtigungen werden nur für die hier aufgeführten Funktionen genutzt, Audio verlässt Ihren Rechner nie.",
     "microphone": "Mikrofon",
     "microphone_why": "Wird für Diktat und Sprachaufnahmen genutzt. Audio wird lokal verarbeitet.",
     "accessibility": "Bedienungshilfen",
@@ -2695,7 +2695,7 @@
     "failed": "Download konnte nicht gestartet werden: {{message}}"
   },
   "backend_start_failure": {
-    "notice": "Das VoiceStudio-Backend konnte nicht starten — bis dahin funktioniert nichts.",
+    "notice": "Das Voiceym-Backend konnte nicht starten — bis dahin funktioniert nichts.",
     "view": "Ursache anzeigen",
     "title": "Das Backend konnte nicht starten",
     "intro": "Die App hat dies beim Startversuch des Backends aufgezeichnet. Diese Ausgabe in einem Bericht hilft uns bei der Behebung.",
@@ -2704,7 +2704,7 @@
   },
   "crash": {
     "notice_unclean": "Die vorherige Sitzung wurde vor {{ago}} nicht sauber beendet. Das ist oft harmlos — Ruhezustand, erzwungenes Beenden oder eine gestoppte VM/Container.",
-    "details_intro_unclean": "Die Abschlussmarkierung des vorherigen Laufs wurde vor {{ago}} nicht gelöscht. VoiceStudio kann nicht erkennen, ob es ein Absturz oder nur eine Unterbrechung war — Ruhezustand, erzwungenes Beenden oder das Stoppen einer VM/eines Containers hinterlassen dieselbe Spur. Wenn jetzt alles funktioniert, ist nichts zu tun.",
+    "details_intro_unclean": "Die Abschlussmarkierung des vorherigen Laufs wurde vor {{ago}} nicht gelöscht. Voiceym kann nicht erkennen, ob es ein Absturz oder nur eine Unterbrechung war — Ruhezustand, erzwungenes Beenden oder das Stoppen einer VM/eines Containers hinterlassen dieselbe Spur. Wenn jetzt alles funktioniert, ist nichts zu tun.",
     "report_needs_log": "Für dieses Ereignis wurde keine Fehlerausgabe erfasst, ein Ein-Klick-Report wäre leer. Falls wirklich etwas nicht stimmt, hängen Sie bitte die letzten Zeilen aus Einstellungen → Protokolle → Backend an ein neues Issue an."
   },
   "voices": {
@@ -2772,7 +2772,7 @@
     "title": "Integrationen",
     "featured": "Hervorgehoben",
     "description": "Entdecke Integrationen und hervorgehobene Partner.",
-    "n8nHint": "Importiere diesen Workflow in n8n, bearbeite die Anfrage und führe ihn aus. Lass VoiceStudio laufen. Docker und entfernte n8n-Instanzen benötigen eine erreichbare Backend-Adresse und gegebenenfalls Zugangsdaten."
+    "n8nHint": "Importiere diesen Workflow in n8n, bearbeite die Anfrage und führe ihn aus. Lass Voiceym laufen. Docker und entfernte n8n-Instanzen benötigen eine erreichbare Backend-Adresse und gegebenenfalls Zugangsdaten."
   },
   "directoryExamples": {
     "example": "Verzeichnisbeispiel"

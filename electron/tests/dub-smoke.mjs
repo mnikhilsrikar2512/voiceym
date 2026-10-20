@@ -29,8 +29,8 @@ try {
       { index, text },
     );
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
-    localStorage.setItem('voicestudio.locale', 'en');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.locale', 'en');
     globalThis.__dubAgentRequests = [];
     globalThis.__nativeSaveRequests = [];
     const bridge = {
@@ -66,17 +66,17 @@ try {
         },
       },
     };
-    Object.defineProperty(window, 'voicestudio', {
+    Object.defineProperty(window, 'voiceym', {
       configurable: true,
       value: bridge,
     });
-    if (sessionStorage.getItem('voicestudio.test.reset-dub') === '1') {
-      localStorage.removeItem('voicestudio.dub.session.v1');
-      sessionStorage.removeItem('voicestudio.test.reset-dub');
+    if (sessionStorage.getItem('voiceym.test.reset-dub') === '1') {
+      localStorage.removeItem('voiceym.dub.session.v1');
+      sessionStorage.removeItem('voiceym.test.reset-dub');
     }
   });
-  const video = process.env.VOICESTUDIO_TEST_VIDEO
-    ? readFileSync(process.env.VOICESTUDIO_TEST_VIDEO)
+  const video = process.env.VOICEYM_TEST_VIDEO
+    ? readFileSync(process.env.VOICEYM_TEST_VIDEO)
     : null;
   const errors = [];
   const vidstackWarnings = [];
@@ -136,7 +136,7 @@ try {
     route.fulfill({ json: { pairs: [] } }),
   );
   await page.route('**/api/glossary/fixture', (route) =>
-    route.fulfill({ json: [{ source: 'VoiceStudio', target: 'VoiceStudio' }] }),
+    route.fulfill({ json: [{ source: 'Voiceym', target: 'Voiceym' }] }),
   );
   await page.route('**/api/settings/llm-skills', (route) =>
     route.fulfill({
@@ -228,7 +228,7 @@ try {
     }),
   );
   await page.goto(
-    new URL('/#/dub', process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902').href,
+    new URL('/#/dub', process.env.VOICEYM_UI_URL || 'http://localhost:3902').href,
   );
   await page.locator('summary').filter({ hasText: 'Spoken language' }).click();
   const analysis = page
@@ -360,7 +360,7 @@ try {
   assert.equal(agentRequest.purpose, 'translate');
   assert.equal(agentRequest.sourceLanguage, 'en');
   assert.equal(agentRequest.targetLanguage, 'Spanish');
-  assert.deepEqual(agentRequest.glossary, [{ source: 'VoiceStudio', target: 'VoiceStudio' }]);
+  assert.deepEqual(agentRequest.glossary, [{ source: 'Voiceym', target: 'Voiceym' }]);
   assert.deepEqual(agentRequest.segments, [
     {
       id: '1',
@@ -629,8 +629,8 @@ try {
   assert.deepEqual(errors, []);
   assert.deepEqual(vidstackWarnings, []);
   if (video) assert.equal(mediaHeadRequests, 0);
-  if (process.env.VOICESTUDIO_SCREENSHOT)
-    await page.screenshot({ path: process.env.VOICESTUDIO_SCREENSHOT });
+  if (process.env.VOICEYM_SCREENSHOT)
+    await page.screenshot({ path: process.env.VOICEYM_SCREENSHOT });
   console.log(
     'PASS: dub upload, streamed transcription, subtitle import, translate, edit, reload recovery, generate, export readiness and URL import',
   );

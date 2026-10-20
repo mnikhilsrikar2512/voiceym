@@ -15,7 +15,7 @@ try {
   const page = await browser.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
   await page.goto(base + '/#/transcriptions');
   await page.getByRole('button', { name: 'Dictation', exact: true }).click();
   await page.getByText('Listening\u2026', { exact: true }).waitFor({ timeout: 30000 });

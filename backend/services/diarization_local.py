@@ -31,7 +31,7 @@ def local_pipeline_config():
         if params.get(key) != repo:
             raise ValueError(f"Unexpected diarisation {key} repository; repair the installed pipeline")
         params[key] = cached(repo, "pytorch_model.bin")
-    with TemporaryDirectory(prefix="voicestudio-pyannote-") as directory:
+    with TemporaryDirectory(prefix="voiceym-pyannote-") as directory:
         path = Path(directory) / "config.yaml"
         path.write_text(yaml.safe_dump(config), encoding="utf-8")
         yield str(path)

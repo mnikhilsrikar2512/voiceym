@@ -57,7 +57,7 @@ export function installWatchFolders(
         window.isDestroyed()
       )
         return null;
-      const name = 'voicestudio-desktop-bridge' + (process.platform === 'win32' ? '.exe' : '');
+      const name = 'voiceym-desktop-bridge' + (process.platform === 'win32' ? '.exe' : '');
       client = new DictationOutputClient(
         app.isPackaged
           ? join(process.resourcesPath, 'native', name)

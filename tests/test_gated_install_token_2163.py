@@ -7,7 +7,7 @@ through, and neither consumer complains:
 
 * ``build_hf_headers`` ignores a non-``str`` token and falls back to
   huggingface_hub's own ambient discovery, so a token held only in
-  VoiceStudio's Settings produces **no** ``Authorization`` header at all and
+  Voiceym's Settings produces **no** ``Authorization`` header at all and
   every gated file 401s;
 * ``segmented_download`` interpolates it into ``f"Bearer {token}"``, sending a
   malformed header that also inlines the raw secret into the request.

@@ -1,4 +1,4 @@
-# VoiceStudio — PyTorch Whisper Engine
+# Voiceym — PyTorch Whisper Engine
 
 Whisper through the plain `transformers` pipeline, riding torch itself. No
 extra install — transformers ships with the app — and because it runs on

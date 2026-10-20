@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
-const api = process.env.VOICESTUDIO_API_URL || 'http://127.0.0.1:3900';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
+const api = process.env.VOICEYM_API_URL || 'http://127.0.0.1:3900';
 const browser = await chromium.launch({
   channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge',
   headless: true,
 });
 const page = await browser.newPage();
-await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
 
 const engines = async () => {
   const response = await page.request.get(api + '/engines');

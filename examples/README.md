@@ -1,7 +1,7 @@
-# VoiceStudio Examples
+# Voiceym Examples
 
 This directory contains integration examples plus scripts and configs for
-training, fine-tuning, and evaluating VoiceStudio.
+training, fine-tuning, and evaluating Voiceym.
 
 | Use Case | Script | Description |
 |---|---|---|

@@ -28,13 +28,13 @@ The Google AI default is `gemini-3.8-flash`; the former `gemini-2.0-flash` defau
 has been retired ([Google's deprecation schedule](https://ai.google.dev/gemini-api/docs/deprecations)).
 Explicitly saved model choices remain unchanged.
 
-CLI completions reuse Electron's **Ask VoiceStudio Agent** discovery, process
+CLI completions reuse Electron's **Ask Voiceym Agent** discovery, process
 runner, output parser, timeout and shutdown cleanup. They run in a temporary
 directory with restricted tools, without the repair API capability. A private
 loopback bridge lets backend LLM skills call that runner; its credential never
 reaches renderer JavaScript or the CLI child. Standalone web/backend deployments
 do not advertise desktop CLI providers as configured. Install/sign in to a CLI
-outside the app, then restart VoiceStudio to refresh discovery. CLI startup can
+outside the app, then restart Voiceym to refresh discovery. CLI startup can
 exceed dictation's short latency budget; Ollama or a direct API is preferable for
 live cleanup. Existing batch agent dubbing remains available in the Dubbing tab.
 

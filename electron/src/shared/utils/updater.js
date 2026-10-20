@@ -19,12 +19,12 @@ import { normalizeChannel } from './updateChannel';
 import { flushApplicationPersistence } from './persistenceLifecycle';
 
 export function isTauri() {
-  return typeof window !== 'undefined' && !!window.voicestudio;
+  return typeof window !== 'undefined' && !!window.voiceym;
 }
 
 async function currentChannel() {
   try {
-    return normalizeChannel((await window.voicestudio.updates.getState()).channel);
+    return normalizeChannel((await window.voiceym.updates.getState()).channel);
   } catch {
     return 'stable';
   }
@@ -48,8 +48,8 @@ export async function checkForUpdate(store) {
   try {
     store.setUpdateChecking();
     const channel = await currentChannel();
-    await window.voicestudio.updates.setChannel(channel);
-    const update = await window.voicestudio.updates.check();
+    await window.voiceym.updates.setChannel(channel);
+    const update = await window.voiceym.updates.check();
     if (update.status === 'available' && update.availableVersion) {
       store.setUpdateAvailable(update.availableVersion, update.notes || null);
       // Announce it where the user is looking. The footer's version dot stays
@@ -80,9 +80,9 @@ export async function installUpdate(store) {
   if (!isTauri()) return;
   try {
     const channel = await currentChannel();
-    await window.voicestudio.updates.setChannel(channel);
+    await window.voiceym.updates.setChannel(channel);
     store.setUpdateProgress(0);
-    await window.voicestudio.updates.download();
+    await window.voiceym.updates.download();
     store.setUpdateReady();
     try {
       await flushApplicationPersistence();
@@ -91,7 +91,7 @@ export async function installUpdate(store) {
       // that successful state as an install error or strand the relaunch.
       console.warn('[persistence] installed-update flush failed', error);
     }
-    await window.voicestudio.updates.install();
+    await window.voiceym.updates.install();
   } catch (e) {
     console.warn('Update install failed:', e);
     store.setUpdateError((e && e.message) || String(e) || 'Update failed');
@@ -103,12 +103,12 @@ export async function installUpdate(store) {
 /** Fetch the project's releases (changelog/history) via the Rust command. [] outside Tauri / on error. */
 export async function listReleases(channel) {
   if (!isTauri()) return [];
-  const data = await window.voicestudio.updates.listReleases(normalizeChannel(channel));
+  const data = await window.voiceym.updates.listReleases(normalizeChannel(channel));
   return Array.isArray(data) ? data : [];
 }
 
 /** Current app version via Tauri, or null outside a packaged build. */
 export async function fetchAppVersion() {
   if (!isTauri()) return null;
-  return window.voicestudio.app.version;
+  return window.voiceym.app.version;
 }

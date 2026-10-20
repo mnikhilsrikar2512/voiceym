@@ -1,9 +1,9 @@
-# VoiceStudio — Sherpa-ONNX Engine
+# Voiceym — Sherpa-ONNX Engine
 
 Sherpa-ONNX (k2-fsa/sherpa-onnx) is a unified C++ ONNX runtime that wraps
 20+ TTS model families (VITS, MeloTTS, Piper, Kokoro, Matcha, and more)
 behind one API, with pre-built wheels for Linux, Windows, and macOS (x86 and
-ARM). You bring the model: point VoiceStudio at any downloaded sherpa-onnx
+ARM). You bring the model: point Voiceym at any downloaded sherpa-onnx
 TTS model directory.
 
 ## When to pick it
@@ -24,7 +24,7 @@ TTS model directory.
    [sherpa-onnx releases](https://github.com/k2-fsa/sherpa-onnx/releases)
    and unpack it somewhere permanent.
 
-3. Point VoiceStudio at the model directory and restart:
+3. Point Voiceym at the model directory and restart:
 
    ```bash
    export OMNIVOICE_SHERPA_MODEL=/path/to/model-dir

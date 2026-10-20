@@ -46,8 +46,8 @@ def _os_version() -> str:
 
 
 def _device_name() -> str:
-    name = (socket.gethostname() or "VoiceStudio").split(".")[0].strip()
-    return (name or "VoiceStudio")[:64]
+    name = (socket.gethostname() or "Voiceym").split(".")[0].strip()
+    return (name or "Voiceym")[:64]
 
 
 def clean_choices(raw: Any) -> dict:

@@ -3,10 +3,10 @@ import { engineDisplayName } from './engineDisplayName';
 
 describe('engineDisplayName', () => {
   it('uses the model name for legacy engine and resident labels', () => {
-    expect(engineDisplayName('VoiceStudio (k2-fsa/OmniVoice, 600+ languages)')).toBe(
+    expect(engineDisplayName('Voiceym (k2-fsa/OmniVoice, 600+ languages)')).toBe(
       'OmniVoice (k2-fsa/OmniVoice, 600+ languages)',
     );
-    expect(engineDisplayName('VoiceStudio TTS')).toBe('OmniVoice TTS');
+    expect(engineDisplayName('Voiceym TTS')).toBe('OmniVoice TTS');
     expect(engineDisplayName('KittenTTS (English)')).toBe('KittenTTS (English)');
   });
 });

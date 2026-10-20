@@ -6,7 +6,7 @@ Branch: `feat/mac-app-store`
 
 Final commit: record when the platform branch is ready for review.
 
-Bundle identifier: `com.voicestudio.desktop`
+Bundle identifier: `com.voiceym.desktop`
 
 The manual `mac-app-store.yml` workflow prepares private, signed MAS packages
 for arm64 and x64. It has read-only repository permissions, never uploads to App
@@ -52,14 +52,14 @@ Local checks that do not require Apple credentials:
 ```bash
 node scripts/validate_store_foundation.mjs --distribution=mac-app-store
 bun run --cwd electron typecheck
-VOICESTUDIO_DISTRIBUTION=mac-app-store node electron/tests/packaging-contract.mjs
+VOICEYM_DISTRIBUTION=mac-app-store node electron/tests/packaging-contract.mjs
 uv run pytest tests/test_mac_app_store_workflow.py -q
 ```
 
 The first command is expected to fail while the bundled-runtime ledger remains
 unresolved. A successful signed workflow must retain:
 
-- `VoiceStudio-MacAppStore-<version>-mac-<arch>.pkg`;
+- `Voiceym-MacAppStore-<version>-mac-<arch>.pkg`;
 - `apple-signing-darwin-<arch>.json`;
 - `store-artifact-manifest-darwin-<arch>.json`.
 

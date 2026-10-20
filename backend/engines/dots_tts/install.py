@@ -22,6 +22,6 @@ def compatible_constraints(source: Path) -> Path:
         )
     if patched == text:
         return source
-    destination = source.with_name(".voicestudio-compatible.txt")
+    destination = source.with_name(".voiceym-compatible.txt")
     destination.write_text(patched, encoding="utf-8")
     return destination

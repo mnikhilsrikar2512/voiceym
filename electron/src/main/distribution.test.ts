@@ -18,12 +18,12 @@ describe('distribution contract', () => {
     expect(resolveDistributionTarget('')).toBe('direct');
     expect(resolveDistributionTarget(' snap-store ')).toBe('snap-store');
     expect(() => resolveDistributionTarget('unknown')).toThrow(
-      'Unsupported VoiceStudio distribution',
+      'Unsupported Voiceym distribution',
     );
   });
 
   test('uses the build environment only when no target is passed', () => {
-    vi.stubEnv('VOICESTUDIO_DISTRIBUTION', 'snap-store');
+    vi.stubEnv('VOICEYM_DISTRIBUTION', 'snap-store');
     try {
       expect(resolveDistributionTarget()).toBe('snap-store');
       expect(resolveDistributionTarget('direct')).toBe('direct');

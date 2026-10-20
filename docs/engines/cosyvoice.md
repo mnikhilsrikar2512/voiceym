@@ -1,4 +1,4 @@
-# VoiceStudio: CosyVoice Engine
+# Voiceym: CosyVoice Engine
 
 CosyVoice is an optional multilingual TTS backend for zero-shot voice cloning
 and instructed speech. A one-click install runs it in its own
@@ -10,11 +10,11 @@ running in-process.
 The Model Catalogue tracks model weights separately from engine runtime
 availability. A downloaded
 `FunAudioLLM/Fun-CosyVoice3-0.5B-2512` cache means the model files reached the
-machine. It does not prove that the VoiceStudio backend can import and run
+machine. It does not prove that the Voiceym backend can import and run
 CosyVoice.
 
 For an existing source installation, the same Python interpreter that runs
-the VoiceStudio backend must import:
+the Voiceym backend must import:
 
 ```python
 from cosyvoice.cli.cosyvoice import AutoModel
@@ -26,7 +26,7 @@ model directory, not only the parent Hugging Face cache directory.
 
 ## One-click install
 
-Click **Install** in **Model Catalogue → Engines → CosyVoice**. VoiceStudio
+Click **Install** in **Model Catalogue → Engines → CosyVoice**. Voiceym
 gives CosyVoice its own folder under the data directory and its own Python
 3.10 environment, and runs it there in a separate process. The install:
 
@@ -56,7 +56,7 @@ It differs from upstream's own setup:
 - **Only the weights CosyVoice 3 loads.** Not the RL and TensorRT variants
   that share its repository.
 
-Nothing it installs touches VoiceStudio itself or any other engine, and
+Nothing it installs touches Voiceym itself or any other engine, and
 **Uninstall** in the same row removes only that folder. An existing source
 installation keeps working as it is. The button is not offered on Intel
 Macs, where PyTorch 2.7.0 has no build.
@@ -68,12 +68,12 @@ voice of upstream's own sample prompt.
 
 The upstream CosyVoice project recommends its own Python 3.10 Conda environment
 and SoX. The one-click install above gives CosyVoice that separate
-environment. Installing upstream dependency pins into VoiceStudio's
+environment. Installing upstream dependency pins into Voiceym's
 shared backend environment can also conflict with other engines.
 
-Existing source installations remain usable when the VoiceStudio backend's
+Existing source installations remain usable when the Voiceym backend's
 interpreter can already import `cosyvoice.cli.cosyvoice.AutoModel`. Keep a
-working installation in place. Before starting VoiceStudio, set
+working installation in place. Before starting Voiceym, set
 `OMNIVOICE_COSYVOICE_MODEL` to its usable model directory through the source
 checkout's environment or project `.env` file.
 
@@ -86,7 +86,7 @@ one-click installer above for the Electron app.
 
 Include these facts in a support question or bug report:
 
-1. The exact VoiceStudio version.
+1. The exact Voiceym version.
 2. The full reason under **Model Catalogue > Engines > CosyVoice** after
    selecting **Re-check**.
 3. The CosyVoice lines from **Settings > Logs > Backend** immediately after
@@ -98,7 +98,7 @@ missing SoX executable, or incorrect model directory. Do not delete a model
 cache or reinstall dependencies until the log identifies which state failed.
 
 The public report that exposed the misleading installed state is
-[Discussion 1631](https://github.com/debpalash/VoiceStudio/discussions/1631).
+[Discussion 1631](https://github.com/mnikhilsrikar2512/voiceym/discussions/1631).
 
 
 On hosts without CUDA, the managed sidecar normalizes the LLM, flow and vocoder

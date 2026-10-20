@@ -29,7 +29,7 @@ const REPEAT_RE = /^\s*\[Previous line repeated (\d+) more times?\]\s*$/;
 const ELIDED_RE = /^\s*… (\d+) more frames?\s*$/;
 /** Innermost frames always kept, whatever code they belong to. */
 const INNER_FRAMES = 3;
-/** Frames kept when a thread has no VoiceStudio frame to anchor on. */
+/** Frames kept when a thread has no Voiceym frame to anchor on. */
 const LIBRARY_ONLY_FRAMES = 6;
 
 /** A frame path shortened to what identifies it, and whether it is library
@@ -119,9 +119,9 @@ function renderSection(section, keep) {
 /** Python's native-fault dump puts the failing frame FIRST, unlike a regular
  *  traceback. The excerpt leads with the faulting thread and keeps what
  *  identifies the crash inside the report's size cap (#2382): its innermost
- *  frames, every VoiceStudio frame (which load or job was running), deep
+ *  frames, every Voiceym frame (which load or job was running), deep
  *  recursion collapsed to one line, and, for each other thread, its innermost
- *  and first VoiceStudio frame, because a native fault is often two threads
+ *  and first Voiceym frame, because a native fault is often two threads
  *  touching the same model. Extension-module lists are dropped. */
 export function nativeCrashExcerpt(text) {
   const dump = parseNativeDump(text);

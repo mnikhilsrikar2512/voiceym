@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-store';
 import { debounce } from '@tanstack/react-pacer';
 import { onStorageKey } from '@/lib/storage-events';
 
-export const CLONE_SETTINGS_STORAGE_KEY = 'voicestudio.clone.settings.v1';
+export const CLONE_SETTINGS_STORAGE_KEY = 'voiceym.clone.settings.v1';
 const PERSIST_DEBOUNCE_MS = 250;
 
 export interface CloneSettings {

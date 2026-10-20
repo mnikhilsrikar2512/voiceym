@@ -1,13 +1,13 @@
-# VoiceStudio for iOS — M1 companion
+# Voiceym for iOS — M1 companion
 
-Native SwiftUI companion for a paired VoiceStudio desktop/server. iOS 17+, iPhone and iPad. No inference, accounts, telemetry transmission, push services, third-party packages, or app requests to services other than the paired host.
+Native SwiftUI companion for a paired Voiceym desktop/server. iOS 17+, iPhone and iPad. No inference, accounts, telemetry transmission, push services, third-party packages, or app requests to services other than the paired host.
 
 ## Prerequisites
 
 - Swift 6 / Swift 6.2.3 Command Line Tools for the macOS package checks; Python 3 for resource generation and the real loopback mock-server test.
 - XcodeGen 2.46 (`brew install xcodegen`).
 - Full Xcode with the iOS SDK and an iOS 17+ simulator/device to compile/run the app and UI tests. Signing requires your own development team for a device.
-- A running VoiceStudio host with Network sharing, Tailscale, or an HTTPS URL enabled. The phone never enables host sharing or downloads models. Install required models and accept their licenses on the host.
+- A running Voiceym host with Network sharing, Tailscale, or an HTTPS URL enabled. The phone never enables host sharing or downloads models. Install required models and accept their licenses on the host.
 
 Run these from the repository root:
 
@@ -15,38 +15,38 @@ Run these from the repository root:
 mobile/ios/scripts/check-swift.sh build
 mobile/ios/scripts/check-swift.sh test
 mobile/ios/scripts/check-platform.sh
-xcodegen generate --spec mobile/ios/VoiceStudio/project.yml
+xcodegen generate --spec mobile/ios/Voiceym/project.yml
 python3 mobile/ios/scripts/prepare_resources.py \
   --output mobile/ios/.generated/bundle \
   --info-output mobile/ios/.generated/Info.plist
-swiftc -frontend -parse mobile/ios/VoiceStudio/App/*.swift \
-  mobile/ios/VoiceStudio/Features/*.swift mobile/ios/VoiceStudio/Platform/*.swift \
-  mobile/ios/VoiceStudioUITests/*.swift
+swiftc -frontend -parse mobile/ios/Voiceym/App/*.swift \
+  mobile/ios/Voiceym/Features/*.swift mobile/ios/Voiceym/Platform/*.swift \
+  mobile/ios/VoiceymUITests/*.swift
 ```
 
-`check-swift.sh` runs `swift build` / `swift test` with package and scratch paths under `mobile/ios/`, redirects module caches there, and disables SwiftPM's nested sandbox for restricted development environments. For CLT installations, it supplies the installed `Testing.framework` search/link/rpath flags, disables the missing optional `_Testing_Foundation` cross-import overlay, and selects Swift Testing without XCTest; no test dependency download is necessary. On ordinary Xcode installations, `cd mobile/ios/VoiceStudioKit && swift build && swift test` also works.
+`check-swift.sh` runs `swift build` / `swift test` with package and scratch paths under `mobile/ios/`, redirects module caches there, and disables SwiftPM's nested sandbox for restricted development environments. For CLT installations, it supplies the installed `Testing.framework` search/link/rpath flags, disables the missing optional `_Testing_Foundation` cross-import overlay, and selects Swift Testing without XCTest; no test dependency download is necessary. On ordinary Xcode installations, `cd mobile/ios/VoiceymKit && swift build && swift test` also works.
 
 With full Xcode:
 
 ```sh
-open mobile/ios/VoiceStudio/VoiceStudio.xcodeproj
-xcodebuild -project mobile/ios/VoiceStudio/VoiceStudio.xcodeproj \
-  -scheme VoiceStudio -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+open mobile/ios/Voiceym/Voiceym.xcodeproj
+xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj \
+  -scheme Voiceym -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
   CODE_SIGNING_ALLOWED=NO build
-xcodebuild -project mobile/ios/VoiceStudio/VoiceStudio.xcodeproj \
-  -scheme VoiceStudio -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj \
+  -scheme Voiceym -destination 'platform=iOS Simulator,name=iPhone 16' test
 ```
 
-Choose an installed simulator name (`xcrun simctl list devices available`). Run the VoiceStudio scheme, decline or accept the local analytics preference, then scan the desktop Network QR or enter the host URL/PIN/API key. API keys are exchanged once for an administrator session and never saved. A PIN authorizes HTTP consumption, not remote dictation; dictation needs a session or a host-configured trusted network.
+Choose an installed simulator name (`xcrun simctl list devices available`). Run the Voiceym scheme, decline or accept the local analytics preference, then scan the desktop Network QR or enter the host URL/PIN/API key. API keys are exchanged once for an administrator session and never saved. A PIN authorizes HTTP consumption, not remote dictation; dictation needs a session or a host-configured trusted network.
 
 ## Layout
 
-- `VoiceStudioKit/`: Swift 6 package, iOS 17 and macOS 14. Typed HTTP client/models, redirect and cleartext policy, pairing parser, Keychain vault, observable session store, localization, theme resolution, dictation WebSocket, background upload/delegate/receipts, and persisted dub workflow.
-- `VoiceStudioKit/Tests/`: Swift Testing contract tests, mock-transport integration tests, and a real Python loopback HTTP server exercising URLSession.
-- `VoiceStudio/App/`: app lifecycle, Observation model, token-based native theme, consent and navigation.
-- `VoiceStudio/Features/`: Connect, Speak, Voices/clone, Dub, Dictate, Settings/Privacy/About/licenses.
-- `VoiceStudio/Platform/`: AVFoundation recording, PCM streaming, AVPlayer authenticated range loading and waveform extraction, AVCaptureSession QR, deterministic UI-smoke transport.
-- `VoiceStudioUITests/`: launch → consent → mocked pairing → generate a valid WAV → play; consent choices/swipe dismissal, editor labeling, search sizing/empty states, shared Dub copy, one Dictate control, palette choices, compact history actions, and immediate tab content during delayed host inventory. ScreenshotTour captures the screens and picker sheets for visual review. `--ui-smoke` selects a transport that opens no sockets.
+- `VoiceymKit/`: Swift 6 package, iOS 17 and macOS 14. Typed HTTP client/models, redirect and cleartext policy, pairing parser, Keychain vault, observable session store, localization, theme resolution, dictation WebSocket, background upload/delegate/receipts, and persisted dub workflow.
+- `VoiceymKit/Tests/`: Swift Testing contract tests, mock-transport integration tests, and a real Python loopback HTTP server exercising URLSession.
+- `Voiceym/App/`: app lifecycle, Observation model, token-based native theme, consent and navigation.
+- `Voiceym/Features/`: Connect, Speak, Voices/clone, Dub, Dictate, Settings/Privacy/About/licenses.
+- `Voiceym/Platform/`: AVFoundation recording, PCM streaming, AVPlayer authenticated range loading and waveform extraction, AVCaptureSession QR, deterministic UI-smoke transport.
+- `VoiceymUITests/`: launch → consent → mocked pairing → generate a valid WAV → play; consent choices/swipe dismissal, editor labeling, search sizing/empty states, shared Dub copy, one Dictate control, palette choices, compact history actions, and immediate tab content during delayed host inventory. ScreenshotTour captures the screens and picker sheets for visual review. `--ui-smoke` selects a transport that opens no sockets.
 - `scripts/prepare_resources.py`: build-phase resource and version generation.
 
 Consent is a dismissible sheet with the desktop consent title/body and the same local-only explanation as Android. Its title is a heading; Yes and No have the same style and width. Swiping, Escape, and the accessibility escape action record No. Speak shows the shared “Type what you want to hear…” placeholder only while its editor is empty, and uses that copy as the editor's accessibility label. It includes backend engine/language and profile choices, playback, waveform/seeking, system share/save, history star/delete. Voices includes search, previews, consent-gated microphone/file cloning, rename/delete. Dub supports device media or host URL ingest, multiple target tracks, an explicit engine-preset or saved-profile voice choice, persisted job/event polling, abort/history/download/share. The picked file's original name is used in the source row, staged multipart filename, pending upload and job title. Remove deselects a picked source and its accessibility label names the file; it does not delete it. The target-language row shows Choose until a language is selected. Dub history uses the shared mobile.dub.history_meta template with language and a minute:second duration, without a date, in compact rows with icon actions for Save to Files and system sharing. Missing language uses the same completed-stage fallback as Android; missing duration is 0:00. Picker labels keep their intrinsic width; current values fill the remaining width, align right and truncate to one line. At accessibility text sizes the value moves below its label. Every searchable list uses one token-styled search container around an icon and a plain text field, and shows a localized no-match message. Pages render their forms immediately and show inline loading feedback while host data arrives.
@@ -57,7 +57,7 @@ Permissions are requested at first use. InfoPlist localization uses the mobile p
 
 ## Shared inputs and version
 
-Do not edit `VoiceStudioKit/Sources/VoiceStudioKit/Theme/Tokens.generated.swift`.
+Do not edit `VoiceymKit/Sources/VoiceymKit/Theme/Tokens.generated.swift`.
 
 The maintainer regenerates shared inputs from the repository root:
 
@@ -70,7 +70,7 @@ Those commands update shared files and both platforms; they are intentionally no
 
 Each app build copies the actual `electron/src/renderer/src/i18n/locales/*.json`, `mobile/contract/strings*.en.json`, and `electron/src/shared/languages.json` into `Catalogs/`; no catalog copies are committed. It also extracts the desktop `LANG_CODES` mapping from `electron/src/shared/utils/languages.js` into a derived `language-codes.json`. The same script creates localized permission descriptions and reads root `package.json` into the derived Info.plist `CFBundleShortVersionString`. There is no mobile version mirror. Existing translations use locale → language → English → key fallback. Chinese script/region tags select the desktop zh-CN or zh-TW catalog first; an explicit Hans/Hant script takes precedence over region. Catalogs are parsed once when the app model is created and reused for progress updates and notifications. New mobile strings fall back to the contract English until the maintainer merges translations into desktop catalogs. iOS additions live only in `mobile/contract/strings.ios-additions.en.json`.
 
-InterVariable.ttf is from the official [Inter 4.1 release](https://github.com/rsms/inter/releases/tag/v4.1). Its SIL OFL is bundled as `Resources/Licenses/OFL.txt`; VoiceStudio's AGPL license is bundled alongside it and both appear in About.
+InterVariable.ttf is from the official [Inter 4.1 release](https://github.com/rsms/inter/releases/tag/v4.1). Its SIL OFL is bundled as `Resources/Licenses/OFL.txt`; Voiceym's AGPL license is bundled alongside it and both appear in About.
 
 ## Verification and remaining device checks
 

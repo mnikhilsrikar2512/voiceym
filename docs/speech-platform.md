@@ -1,6 +1,6 @@
 # Local speech platform
 
-VoiceStudio is both a desktop dictation app and a headless local speech
+Voiceym is both a desktop dictation app and a headless local speech
 service. The desktop app owns microphone capture, the dictation shortcut and
 native insertion; the Python backend keeps ASR models warm and exposes the
 audio data plane to any other interface.
@@ -24,10 +24,10 @@ Claude Code / Codex / Pi / agents ── MCP HTTP/stdio ───> MCP :3900
 ## Discover capabilities
 
 ```bash
-curl http://127.0.0.1:3900/.well-known/voicestudio-speech
+curl http://127.0.0.1:3900/.well-known/voiceym-speech
 ```
 
-The document returns `voicestudio.speech.v1` with relative URLs, so it also
+The document returns `voiceym.speech.v1` with relative URLs, so it also
 works behind Tailscale or a reverse proxy. `features.native_dictation_control`
 remains in the schema and is always `false`.
 
@@ -38,7 +38,7 @@ python -m backend.speech_client capabilities
 python -m backend.speech_client transcribe recording.wav
 ```
 
-It targets `VOICESTUDIO_URL`, else the loopback backend on `OMNIVOICE_PORT`
+It targets `VOICEYM_URL`, else the loopback backend on `OMNIVOICE_PORT`
 (default 3900), and sends `OMNIVOICE_API_KEY` as a bearer key when set. The
 former `status`, `start`, `stop`, `toggle` and `transcribe --insert` commands
 exit with an explanation.
@@ -62,7 +62,7 @@ Send binary WebM/Opus frames by default. For raw signed 16-bit mono PCM, use
 Every response carries `protocol` and `session_id`:
 
 ```json
-{"type":"session.started","protocol":"voicestudio.speech.v1","session_id":"..."}
+{"type":"session.started","protocol":"voiceym.speech.v1","session_id":"..."}
 {"type":"partial","text":"hello wor...","session_id":"..."}
 {"type":"final","final_kind":"summary","text":"Hello world.","session_id":"..."}
 ```

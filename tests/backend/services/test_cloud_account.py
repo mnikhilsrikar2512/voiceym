@@ -39,11 +39,11 @@ def test_bridge_env_is_removed_from_os_environ(monkeypatch):
     import importlib
     import os
 
-    monkeypatch.setenv("VOICESTUDIO_ACCOUNT_BRIDGE_URL", "http://127.0.0.1:1")
-    monkeypatch.setenv("VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN", "cap")
+    monkeypatch.setenv("VOICEYM_ACCOUNT_BRIDGE_URL", "http://127.0.0.1:1")
+    monkeypatch.setenv("VOICEYM_ACCOUNT_BRIDGE_TOKEN", "cap")
     importlib.reload(cloud_account)
-    assert "VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN" not in os.environ
-    assert "VOICESTUDIO_ACCOUNT_BRIDGE_URL" not in os.environ
+    assert "VOICEYM_ACCOUNT_BRIDGE_TOKEN" not in os.environ
+    assert "VOICEYM_ACCOUNT_BRIDGE_URL" not in os.environ
     cloud_account._configure("", "")
 
 
@@ -85,7 +85,7 @@ def test_refuses_a_non_loopback_bridge():
 
 
 SESSION = {"signed_in": True, "access_token": "acc", "expires_at": 1,
-           "organization_id": "Or5tG7hJ9kL1zX3c", "sync_api": "https://appapi.voicestudio.sh/v1/sync"}
+           "organization_id": "Or5tG7hJ9kL1zX3c", "sync_api": "https://appapi.voiceym.example/v1/sync"}
 
 
 def test_session_carries_the_organization_and_sync_endpoint(bridge):
@@ -93,7 +93,7 @@ def test_session_carries_the_organization_and_sync_endpoint(bridge):
     answer["body"] = dict(SESSION)
     assert cloud_account.session() == {
         "access_token": "acc", "organization_id": "Or5tG7hJ9kL1zX3c",
-        "sync_api": "https://appapi.voicestudio.sh/v1/sync",
+        "sync_api": "https://appapi.voiceym.example/v1/sync",
     }
 
 

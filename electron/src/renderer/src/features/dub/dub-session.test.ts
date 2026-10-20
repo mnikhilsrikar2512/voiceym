@@ -57,7 +57,7 @@ it('translates the current dubbing segments with an installed local CLI agent', 
       ],
     };
   });
-  Object.defineProperty(window, 'voicestudio', {
+  Object.defineProperty(window, 'voiceym', {
     configurable: true,
     value: {
       repair: {
@@ -68,11 +68,11 @@ it('translates the current dubbing segments with an installed local CLI agent', 
           return unsubscribe;
         },
       },
-    } as unknown as Window['voicestudio'],
+    } as unknown as Window['voiceym'],
   });
   vi.mocked(apiJson).mockReset();
   vi.mocked(apiJson).mockResolvedValueOnce([
-    { source: 'VoiceStudio', target: 'VoiceStudio', note: '' },
+    { source: 'Voiceym', target: 'Voiceym', note: '' },
   ]);
   dubSession.setState((current) => ({
     ...current,
@@ -121,7 +121,7 @@ it('translates the current dubbing segments with an installed local CLI agent', 
   ]);
   dubSession.setState((current) => ({ ...current, quality: 'fast', agentCli: undefined }));
   vi.clearAllMocks();
-  delete (window as Partial<Window>).voicestudio;
+  delete (window as Partial<Window>).voiceym;
 });
 
 it('keeps timing-fit provenance for every agent-translated target language', async () => {
@@ -134,11 +134,11 @@ it('keeps timing-fit provenance for every agent-translated target language', asy
       })),
     }),
   );
-  Object.defineProperty(window, 'voicestudio', {
+  Object.defineProperty(window, 'voiceym', {
     configurable: true,
     value: {
       repair: { translate, stopTranslation: vi.fn().mockResolvedValue(undefined) },
-    } as unknown as Window['voicestudio'],
+    } as unknown as Window['voiceym'],
   });
   vi.mocked(apiJson).mockReset().mockResolvedValue([]);
   dubSession.setState((current) => ({
@@ -181,7 +181,7 @@ it('keeps timing-fit provenance for every agent-translated target language', asy
   expect(dubSession.state.segments[0].agent_generated_lang).toBeUndefined();
   dubSession.setState((current) => ({ ...current, quality: 'fast', agentCli: undefined }));
   vi.clearAllMocks();
-  delete (window as Partial<Window>).voicestudio;
+  delete (window as Partial<Window>).voiceym;
 });
 
 it('supports reversible insert, delete, merge, and split edits without losing speaker attribution', () => {
@@ -625,12 +625,12 @@ it('sets and clears Smart Fit speed limits, keeping the rest of the overrides', 
 });
 
 it('does not recreate a cleared draft from a pending write or pagehide', async () => {
-  localStorage.setItem('voicestudio.dub.session.v1', 'old');
+  localStorage.setItem('voiceym.dub.session.v1', 'old');
   dubSession.setState((current) => ({ ...current, speed: 1.1 }));
   clearDubDraftForReset();
   window.dispatchEvent(new Event('pagehide'));
   await new Promise((resolve) => setTimeout(resolve, 300));
-  expect(localStorage.getItem('voicestudio.dub.session.v1')).toBeNull();
+  expect(localStorage.getItem('voiceym.dub.session.v1')).toBeNull();
 });
 
 it('does not generate-ready an Agent Fit translation that fell back without an LLM', async () => {

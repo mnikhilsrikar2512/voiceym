@@ -16,8 +16,8 @@ not establish identical generation requests or processing.
 | Supplied file | Reported version | WAV format | Duration | Bytes | Loudness |
 | --- | --- | --- | ---: | ---: | ---: |
 | `4619c980.wav` | approximately OmniVoice 0.2.7, reporter uncertain | mono 24 kHz, 32-bit float | 7.64 s | 733,520 | -18.5 LUFS |
-| `3ff95c1d.wav` | VoiceStudio 0.5.3 | mono 24 kHz, 16-bit PCM | 7.57 s | 363,404 | -19.2 LUFS |
-| `voicestudio-43577f3a.wav` | VoiceStudio 0.5.6 | mono 24 kHz, 16-bit PCM | 7.73 s | 371,084 | -18.5 LUFS |
+| `3ff95c1d.wav` | Voiceym 0.5.3 | mono 24 kHz, 16-bit PCM | 7.57 s | 363,404 | -19.2 LUFS |
+| `voiceym-43577f3a.wav` | Voiceym 0.5.6 | mono 24 kHz, 16-bit PCM | 7.73 s | 371,084 | -18.5 LUFS |
 
 All are uncompressed WAVs. At 24 kHz mono, 16-bit samples carry 384 kbps and
 32-bit samples carry 768 kbps, excluding headers. This explains the approximate
@@ -128,13 +128,13 @@ labels include `20260929`; those labels do not establish the experiment date.
 The WAVs are **local only**, not attached to this PR. Transfer privately if
 needed; obtain permission before publishing any reporter recordings.
 
-- Source Mac Downloads: `VoiceStudio-bit-depth-comparison-20260929/` contains
+- Source Mac Downloads: `Voiceym-bit-depth-comparison-20260929/` contains
   `sample-16bit.wav`, `sample-32bit-float.wav`, and `comparison.json`.
-- Source Mac Downloads: `VoiceStudio-clean-quality-20260929/` contains
+- Source Mac Downloads: `Voiceym-clean-quality-20260929/` contains
   `clean-32step-float.wav` and `settings.json`.
 - Original three supplied WAVs are in that Mac's Downloads folder.
 - Temporary one-off generation harnesses on that Mac:
-  `/tmp/voicestudio-bit-depth-ab.py` and `/tmp/voicestudio-clean-quality.py`.
+  `/tmp/voiceym-bit-depth-ab.py` and `/tmp/voiceym-clean-quality.py`.
   They contain machine-specific paths and are not repository dependencies.
 - Separately pushed branch `fix/desktop-packs-audio-quality-polish`, commit
   `30c814a0`, contains `scripts/compare_generation_quality.py`,

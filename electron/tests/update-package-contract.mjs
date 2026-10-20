@@ -45,11 +45,11 @@ const platform = option('platform', process.platform);
 const arch = option('arch', process.arch);
 const channel = option(
   'channel',
-  process.env.VOICESTUDIO_UPDATE_CHANNEL || `electron-stable-${platform}-${arch}`,
+  process.env.VOICEYM_UPDATE_CHANNEL || `electron-stable-${platform}-${arch}`,
 );
 const releaseDir = resolve(electronRoot, option('release', 'release'));
 const expectedChannel =
-  process.env.VOICESTUDIO_DISTRIBUTION === 'microsoft-store'
+  process.env.VOICEYM_DISTRIBUTION === 'microsoft-store'
     ? `electron-microsoft-store-stable-${platform}-${arch}`
     : `electron-stable-${platform}-${arch}`;
 assert.equal(channel, expectedChannel, 'Distribution uses its dedicated stable update channel');
@@ -103,9 +103,9 @@ assert.equal(hashes.sha512, fileSha, 'Update metadata SHA-512 matches artifact b
 
 const osToken = platform === 'win32' ? 'win' : platform === 'darwin' ? 'mac' : 'linux';
 const artifactBrand =
-  process.env.VOICESTUDIO_DISTRIBUTION === 'microsoft-store'
-    ? 'VoiceStudio-MicrosoftStore'
-    : 'VoiceStudio-Electron';
+  process.env.VOICEYM_DISTRIBUTION === 'microsoft-store'
+    ? 'Voiceym-MicrosoftStore'
+    : 'Voiceym-Electron';
 assert(
   fileUrl.startsWith(`${artifactBrand}-${expectedVersion}-${osToken}-${arch}.`),
   'Update artifact preserves the branded version/platform/architecture name',
@@ -131,7 +131,7 @@ if (platform === 'win32') {
   }).trim();
   assert.equal(
     updateInfo,
-    'gh-releases-zsync|debpalash|VoiceStudio|latest|VoiceStudio-Electron-*-linux-x64.AppImage.zsync',
+    'gh-releases-zsync|debpalash|Voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync',
     'External AppImage updaters follow the stable Linux release feed',
   );
   const control = `${artifactPath}.zsync`;
@@ -139,7 +139,7 @@ if (platform === 'win32') {
   const header = readFileSync(control).subarray(0, 4096).toString('utf8');
   assert(
     header.includes(
-      `URL: https://github.com/debpalash/VoiceStudio/releases/download/v${expectedVersion}/${fileUrl}\n`,
+      `URL: https://github.com/mnikhilsrikar2512/voiceym/releases/download/v${expectedVersion}/${fileUrl}\n`,
     ),
     'zsync downloads the matching release artifact',
   );

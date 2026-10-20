@@ -1,23 +1,23 @@
 <div align="center">
-  <img src="docs/logo.png" alt="VoiceStudio Logo" width="96" height="96" />
-  <h1>Sponsor VoiceStudio</h1>
+  <img src="docs/logo.png" alt="Voiceym Logo" width="96" height="96" />
+  <h1>Sponsor Voiceym</h1>
   <p><b>Keep the open-source ElevenLabs alternative free, local, and shipping.</b></p>
-  <p><a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="Sponsor on GitHub Sponsors" /></a></p>
+  <p><a href="https://github.com/mnikhilsrikar2512/voiceym"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="Sponsor on GitHub Sponsors" /></a></p>
 </div>
 
 ---
 
 ## Why sponsor?
 
-VoiceStudio is built by one developer, in the open, using Claude Code and AI agents — and the agent bills are real. Over the last few months I've spent thousands of dollars on Claude subscriptions to keep features shipping, bugs fixed, and your issues answered.
+Voiceym is built by one developer, in the open, using Claude Code and AI agents — and the agent bills are real. Over the last few months I've spent thousands of dollars on Claude subscriptions to keep features shipping, bugs fixed, and your issues answered.
 
-VoiceStudio is **free**, **fully local**, and **AGPL-3.0**. There's no paid tier, no accounts, no cloud, and no SaaS revenue — nothing runs on a server we bill you for, because nothing runs on a server at all. That's the whole point, and it's also why there's no recurring revenue to fund development. Sponsorship is what makes continued full-time work possible.
+Voiceym is **free**, **fully local**, and **AGPL-3.0**. There's no paid tier, no accounts, no cloud, and no SaaS revenue — nothing runs on a server we bill you for, because nothing runs on a server at all. That's the whole point, and it's also why there's no recurring revenue to fund development. Sponsorship is what makes continued full-time work possible.
 
-If VoiceStudio has created value for you or your company, sponsoring means the next release keeps coming — and you get a thank-you (and, at most tiers, a logo slot) in return.
+If Voiceym has created value for you or your company, sponsoring means the next release keeps coming — and you get a thank-you (and, at most tiers, a logo slot) in return.
 
 ### Where your money goes
 
-Every dollar goes to the cost of building VoiceStudio — chiefly the **AI agent bills that keep it shipping** (Claude subscriptions and API usage), plus the occasional signing certificate, test hardware, and model-hosting costs. It is not a salary top-up; it's what keeps the lights on for continuous development.
+Every dollar goes to the cost of building Voiceym — chiefly the **AI agent bills that keep it shipping** (Claude subscriptions and API usage), plus the occasional signing certificate, test hardware, and model-hosting costs. It is not a salary top-up; it's what keeps the lights on for continuous development.
 
 ---
 
@@ -42,13 +42,11 @@ Placements marked "as that page ships" (the in-app Sponsors page and the project
 
 **1. Open a sponsorship inquiry (recommended).** This opens a short GitHub form (name/org, logo, tier, contact) so we can get you set up:
 
-> **[→ Open a sponsorship inquiry](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)**
+> **[→ Open a sponsorship inquiry](https://github.com/mnikhilsrikar2512/voiceym/issues/new?template=sponsor.yml)**
 
 **2. Or start recurring support directly:**
 
-- **GitHub Sponsors (monthly or one-time, recommended):** [github.com/sponsors/debpalash](https://github.com/sponsors/debpalash) — credited with a sponsor badge on your GitHub profile
-- **Ko-fi (recurring or one-time):** [ko-fi.com/debpalash](https://ko-fi.com/debpalash)
-- **PayPal (one-time):** [paypal.me/palashCoder](https://paypal.me/palashCoder)
+- Donation links are not set up yet. <!-- OWNER: add your GitHub Sponsors / Ko-fi / PayPal links -->
 
 If you sponsor via GitHub Sponsors, Ko-fi or PayPal and want a logo slot, still open an inquiry (or drop a note there) so we know who to credit and where to link.
 
@@ -72,16 +70,16 @@ To make your logo look sharp everywhere (README on GitHub, the in-app page, the 
 
 **How your logo gets added:**
 
-- **Easiest:** attach the asset and link in your [sponsorship inquiry](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml) — the maintainer places it.
+- **Easiest:** attach the asset and link in your [sponsorship inquiry](https://github.com/mnikhilsrikar2512/voiceym/issues/new?template=sponsor.yml) — the maintainer places it.
 - **Or open a PR:** add your asset under `docs/sponsors/` and an entry to the tables in this file. Silver/Gold logos are also wired into the app's in-app Sponsors page (via the `sponsors.js` manifest) and the project website as those surfaces ship.
 
-By sponsoring you confirm you have the right to use the submitted logo and grant VoiceStudio permission to display it in the contexts above. We won't alter your logo beyond scaling, and we'll remove it promptly on request.
+By sponsoring you confirm you have the right to use the submitted logo and grant Voiceym permission to display it in the contexts above. We won't alter your logo beyond scaling, and we'll remove it promptly on request.
 
 ---
 
 ## Current sponsors
 
-VoiceStudio doesn't have any sponsors yet — **you could be the first.** These slots fill in as sponsors come aboard.
+Voiceym doesn't have any sponsors yet — **you could be the first.** These slots fill in as sponsors come aboard.
 
 ### 🥇 Gold
 
@@ -109,13 +107,13 @@ _Open — [become a Backer](#how-to-become-a-sponsor)._
 
 Sponsorship is a **thank-you, never a paywall.**
 
-Every feature of VoiceStudio is and will remain **free** and **open-source under [AGPL-3.0](LICENSE)**. Sponsors do **not** get private builds, gated features, license exceptions, or anything that degrades the experience for people who don't (or can't) pay. What sponsors get is **visibility and our gratitude** — and the knowledge that they're directly funding the next release.
+Every feature of Voiceym is and will remain **free** and **open-source under [AGPL-3.0](LICENSE)**. Sponsors do **not** get private builds, gated features, license exceptions, or anything that degrades the experience for people who don't (or can't) pay. What sponsors get is **visibility and our gratitude** — and the knowledge that they're directly funding the next release.
 
-VoiceStudio stays local-first and fully functional with zero dollars spent. Sponsoring just helps it keep getting better, faster.
+Voiceym stays local-first and fully functional with zero dollars spent. Sponsoring just helps it keep getting better, faster.
 
 ---
 
 <div align="center">
 <sub>Thank you for keeping local-first voice AI alive and free. ❤️</sub><br/>
-<sub>Questions? <a href="https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml">Open an inquiry</a> · <a href="https://discord.gg/bzQavDfVV9">Discord</a></sub>
+<sub>Questions? <a href="https://github.com/mnikhilsrikar2512/voiceym/issues/new?template=sponsor.yml">Open an inquiry</a> · <a href="https://discord.gg/bzQavDfVV9">Discord</a></sub>
 </div>

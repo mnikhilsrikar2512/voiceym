@@ -18,7 +18,7 @@ vi.mock('../api/external', () => ({ openExternal }));
 import { ContactSections } from '../pages/ContactPage';
 import { useAppStore } from '../store';
 
-const REPO = 'https://github.com/debpalash/VoiceStudio';
+const REPO = 'https://github.com/mnikhilsrikar2512/voiceym';
 
 beforeEach(() => {
   openExternal.mockClear();
@@ -51,7 +51,7 @@ describe('contact sections', () => {
     expect(href('Join the Discord')).toBe('https://discord.gg/bzQavDfVV9');
     expect(href('Follow on X')).toBe('https://x.com/idebpalash');
     expect(href('Report privately')).toBe(`${REPO}/security/advisories/new`);
-    expect(href(/licensing/i)).toBe(`mailto:hi@voicestudio.sh`);
+    expect(href(/licensing/i)).toBe(`mailto:hi@voiceym.example`);
     expect(href(/more about the project/i)).toBe('https://palash.dev');
   });
 

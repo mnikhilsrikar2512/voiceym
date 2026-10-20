@@ -1,5 +1,5 @@
 /**
- * Wire types for the VoiceStudio backend (FastAPI, loopback 127.0.0.1:3900).
+ * Wire types for the Voiceym backend (FastAPI, loopback 127.0.0.1:3900).
  *
  * Mirrors the backend pydantic / DB row shapes the clone page consumes. Keep
  * close to the wire: when the backend adds a field, add it here first so the

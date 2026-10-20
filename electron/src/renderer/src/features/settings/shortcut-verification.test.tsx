@@ -19,7 +19,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 it('verifies only the current registered shortcut and removes its listener on departure', async () => {
-  Object.defineProperty(window, 'voicestudio', {
+  Object.defineProperty(window, 'voiceym', {
     configurable: true,
     value: {
       capture: {
@@ -52,5 +52,5 @@ it('verifies only the current registered shortcut and removes its listener on de
   await screen.findByText('demo.dictation_status_warn');
   view.unmount();
   expect(mock.unsubscribe).toHaveBeenCalledTimes(1);
-  Reflect.deleteProperty(window, 'voicestudio');
+  Reflect.deleteProperty(window, 'voiceym');
 });

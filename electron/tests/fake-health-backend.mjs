@@ -86,7 +86,7 @@ export const DEFAULT_FIXTURES = {
     models: [
       {
         repo_id: 'k2-fsa/OmniVoice',
-        label: 'VoiceStudio TTS',
+        label: 'Voiceym TTS',
         role: 'TTS',
         size_gb: 2.4,
         required: true,

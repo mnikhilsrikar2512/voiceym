@@ -12,7 +12,7 @@ afterEach(cleanup);
 
 it("preserves and opens the backend's exact contextual documentation URL", () => {
   const docsUrl =
-    'https://github.com/debpalash/VoiceStudio/blob/main/docs/features/diarization.md#troubleshooting';
+    'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/features/diarization.md#troubleshooting';
   const failure = publicFailureFromEvent(
     {
       reason: 'The installed diarisation runtime failed to load',
@@ -37,7 +37,7 @@ it('rejects a non-web documentation URL and uses the shared safe fallback', () =
 
   expect(screen.getByRole('link', { name: /dub.open_docs/ })).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/blob/main/docs/install/troubleshooting.md',
+    'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/troubleshooting.md',
   );
 });
 

@@ -139,7 +139,7 @@ export async function probeRemoteBackend(
     try {
       body = JSON.parse(payload);
     } catch {
-      // A healthy VoiceStudio API always returns a small JSON object.
+      // A healthy Voiceym API always returns a small JSON object.
     }
     if (
       !body ||

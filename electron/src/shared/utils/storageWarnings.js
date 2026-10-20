@@ -8,7 +8,7 @@ export function warningText(t, w) {
   if (w.kind === 'low_disk' && w.severity === 'critical') {
     return t('settings.storage_warn_critical', {
       defaultValue:
-        'Critically low disk space: {{free}} GB free on {{path}} — VoiceStudio needs at least {{min}} GB. Generation and model downloads may fail.',
+        'Critically low disk space: {{free}} GB free on {{path}} — Voiceym needs at least {{min}} GB. Generation and model downloads may fail.',
       ...vars,
     });
   }

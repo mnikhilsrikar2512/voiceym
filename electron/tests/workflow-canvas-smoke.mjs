@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 
-const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const browser = await chromium.launch({
   ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
   headless: true,
@@ -66,7 +66,7 @@ page.on('dialog', async (dialog) => {
 });
 
 try {
-  await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.goto(`${base}/#/calls`, { waitUntil: 'domcontentloaded' });
   try {
     await page.getByRole('heading', { name: 'Design a voice workflow' }).waitFor({ timeout: 5000 });
@@ -88,14 +88,14 @@ try {
   const node = page.locator('.react-flow__node').first();
   const before = await page.evaluate(
     () =>
-      JSON.parse(localStorage.getItem('voicestudio.workflows.v1')).documents[0].steps[0].position.x,
+      JSON.parse(localStorage.getItem('voiceym.workflows.v1')).documents[0].steps[0].position.x,
   );
   await node.click();
   await node.focus();
   await node.press('ArrowRight');
   await page.waitForFunction(
     (before) =>
-      JSON.parse(localStorage.getItem('voicestudio.workflows.v1')).documents[0].steps[0].position
+      JSON.parse(localStorage.getItem('voiceym.workflows.v1')).documents[0].steps[0].position
         .x > before,
     before,
   );
@@ -104,7 +104,7 @@ try {
   assert(
     (await page.evaluate(
       () =>
-        JSON.parse(localStorage.getItem('voicestudio.workflows.v1')).documents[0].steps[0].position
+        JSON.parse(localStorage.getItem('voiceym.workflows.v1')).documents[0].steps[0].position
           .x,
     )) > before,
   );
@@ -115,7 +115,7 @@ try {
   await page.getByLabel('Phone number').fill('+15550100199');
   await page.getByLabel('What should it do?').fill('Ask about opening hours');
   const stored = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem('voicestudio.workflows.v1')),
+    JSON.parse(localStorage.getItem('voiceym.workflows.v1')),
   );
   assert(
     stored.documents[0].steps.some(
@@ -132,7 +132,7 @@ try {
   await deleteDialog.waitFor();
   await page.waitForTimeout(180);
   await page.screenshot({
-    path: join(tmpdir(), 'voicestudio-workflow-delete.png'),
+    path: join(tmpdir(), 'voiceym-workflow-delete.png'),
     fullPage: true,
   });
   await deleteDialog.getByRole('button', { name: 'Cancel' }).click();
@@ -163,7 +163,7 @@ try {
   await page.getByRole('heading', { name: 'Design a voice workflow' }).waitFor();
   assert.equal(await page.locator('.react-flow__node').count(), 3);
   await page.screenshot({
-    path: join(tmpdir(), 'voicestudio-workflow-canvas.png'),
+    path: join(tmpdir(), 'voiceym-workflow-canvas.png'),
     fullPage: true,
   });
   await page.setViewportSize({ width: 1440, height: 1500 });
@@ -172,7 +172,7 @@ try {
     tallNode && tallNode.y < 450 && tallNode.width >= 240,
     'the call stays readable near the top of a tall canvas',
   );
-  await page.screenshot({ path: join(tmpdir(), 'voicestudio-workflow-tall.png'), fullPage: true });
+  await page.screenshot({ path: join(tmpdir(), 'voiceym-workflow-tall.png'), fullPage: true });
   await page.setViewportSize({ width: 640, height: 720 });
   const mobileWidth = await page.evaluate(() => ({
     scroll: document.documentElement.scrollWidth,
@@ -180,7 +180,7 @@ try {
   }));
   assert(mobileWidth.scroll <= mobileWidth.client, 'workflow canvas overflows a narrow window');
   await page.screenshot({
-    path: join(tmpdir(), 'voicestudio-workflow-mobile.png'),
+    path: join(tmpdir(), 'voiceym-workflow-mobile.png'),
     fullPage: true,
   });
   assert.deepEqual(errors, []);
@@ -188,14 +188,14 @@ try {
   const localized = await browser.newPage({ viewport: { width: 1280, height: 800 } });
   await mockBackend(localized);
   await localized.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
-    localStorage.setItem('voicestudio.locale', 'de');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.locale', 'de');
     localStorage.setItem(
-      'voicestudio.theme.v2',
+      'voiceym.theme.v2',
       JSON.stringify({ mode: 'light', light: 'default', dark: 'default' }),
     );
     localStorage.setItem(
-      'voicestudio.workflows.v1',
+      'voiceym.workflows.v1',
       JSON.stringify({
         version: 1,
         activeId: 'legacy',
@@ -226,7 +226,7 @@ try {
   assert.equal(await localized.getByRole('complementary', { name: 'Schrittdetails' }).count(), 0);
   assert.equal(await localized.getByText('workflows.untitled').count(), 0);
   await localized.screenshot({
-    path: join(tmpdir(), 'voicestudio-workflow-light.png'),
+    path: join(tmpdir(), 'voiceym-workflow-light.png'),
     fullPage: true,
   });
   await localized.close();

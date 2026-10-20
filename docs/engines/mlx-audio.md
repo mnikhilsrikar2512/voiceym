@@ -1,4 +1,4 @@
-# VoiceStudio — MLX-Audio Engine (Apple Silicon)
+# Voiceym — MLX-Audio Engine (Apple Silicon)
 
 MLX-Audio (Blaizzy/mlx-audio) wraps 14+ TTS engines — Kokoro, CSM, Dia,
 Qwen3-TTS, Chatterbox, MeloTTS, OuteTTS, and more — behind a single adapter
@@ -19,7 +19,7 @@ platforms never reports as available
 pip install mlx-audio
 ```
 
-Install the package into the Python environment that runs VoiceStudio's
+Install the package into the Python environment that runs Voiceym's
 backend. This installs the MLX-Audio adapter, **not the weights for every
 curated model**. An available engine does not mean CSM is downloaded.
 
@@ -113,7 +113,7 @@ the reason.
 ## Troubleshooting
 
 - Unavailable on an M-series Mac: `pip install mlx-audio` into
-  VoiceStudio's Python environment; in a packaged app build, MLX's native
+  Voiceym's Python environment; in a packaged app build, MLX's native
   libraries may fail to load — the engine reports unavailable rather than
   crashing.
 - Other issues: [install/troubleshooting.md](../install/troubleshooting.md).

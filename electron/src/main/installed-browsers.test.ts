@@ -46,8 +46,8 @@ it('lists only installed browsers, deduplicates them, and hides executable paths
 });
 
 it('always supports the default browser and rejects arbitrary executables and schemes', async () => {
-  await openInBrowser('default', 'https://voicestudio.sh');
-  expect(mocks.external).toHaveBeenCalledWith('https://voicestudio.sh/');
+  await openInBrowser('default', 'https://voiceym.example');
+  expect(mocks.external).toHaveBeenCalledWith('https://voiceym.example/');
   await expect(openInBrowser('cmd.exe', 'https://example.com')).rejects.toThrow();
   await expect(openInBrowser('default', 'file:///private')).rejects.toThrow();
   expect(mocks.spawn).not.toHaveBeenCalled();

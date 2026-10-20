@@ -28,18 +28,18 @@ import { startHealthBackend } from './fake-health-backend.mjs';
  * Run it against `smoke:server` like the renderer smokes; with OMNIVOICE_PORT set it serves that
  * port from the shared fake backend itself.
  *
- * Env: VOICESTUDIO_UI_URL, VOICESTUDIO_CRAWL_MODES (comma list), VOICESTUDIO_CRAWL_ROUTES
- * (comma list of path substrings), VOICESTUDIO_CRAWL_SHARD (`i/n`: every n-th route from the
- * i-th, for parallel CI jobs), VOICESTUDIO_CRAWL_VERBOSE=1 to log every click.
+ * Env: VOICEYM_UI_URL, VOICEYM_CRAWL_MODES (comma list), VOICEYM_CRAWL_ROUTES
+ * (comma list of path substrings), VOICEYM_CRAWL_SHARD (`i/n`: every n-th route from the
+ * i-th, for parallel CI jobs), VOICEYM_CRAWL_VERBOSE=1 to log every click.
  */
 
-const BASE = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const BASE = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const MODES = ['fixture', 'http-500', 'network-error', 'bad-json'];
-const modes = (process.env.VOICESTUDIO_CRAWL_MODES || MODES.join(',')).split(',').filter(Boolean);
-const routeFilter = (process.env.VOICESTUDIO_CRAWL_ROUTES || '').split(',').filter(Boolean);
-const [shard, shards] = (process.env.VOICESTUDIO_CRAWL_SHARD || '1/1').split('/').map(Number);
-assert.ok(shard >= 1 && shard <= shards, 'VOICESTUDIO_CRAWL_SHARD must look like 1/3');
-const verbose = process.env.VOICESTUDIO_CRAWL_VERBOSE === '1';
+const modes = (process.env.VOICEYM_CRAWL_MODES || MODES.join(',')).split(',').filter(Boolean);
+const routeFilter = (process.env.VOICEYM_CRAWL_ROUTES || '').split(',').filter(Boolean);
+const [shard, shards] = (process.env.VOICEYM_CRAWL_SHARD || '1/1').split('/').map(Number);
+assert.ok(shard >= 1 && shard <= shards, 'VOICEYM_CRAWL_SHARD must look like 1/3');
+const verbose = process.env.VOICEYM_CRAWL_VERBOSE === '1';
 
 /** Longest a click's API traffic may stay in flight before the button is judged stuck. */
 const REQUEST_BUDGET_MS = 8_000;
@@ -85,7 +85,7 @@ async function openSession(browser, mode) {
     });
     // Popups and sandboxed frames have an opaque origin where localStorage throws.
     try {
-      localStorage.setItem('voicestudio.setup.complete.v1', '1');
+      localStorage.setItem('voiceym.setup.complete.v1', '1');
     } catch {}
   });
   const state = { faulting: false, failedWrites: 0, inflight: new Set(), events: [] };
@@ -460,7 +460,7 @@ const browser = await chromium.launch({
 try {
   await canary(browser);
   const probe = await browser.newPage();
-  await probe.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await probe.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await probe.goto(`${BASE}/#/settings/usage`);
   await probe.locator('main').first().waitFor();
   const routes = [

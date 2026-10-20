@@ -27,7 +27,7 @@ it('preserves the workspace DOM, draft and keyboard focus when browsing and retu
   const draft = screen.getByRole('textbox', { name: 'Draft' });
   fireEvent.change(draft, { target: { value: 'My unsaved voice script' } });
   draft.focus();
-  await act(async () => update({ url: 'https://voicestudio.sh' }));
+  await act(async () => update({ url: 'https://voiceym.example' }));
   expect(screen.getByTestId('embedded-browser')).toBeVisible();
   expect(draft.parentElement).toHaveAttribute('inert');
   act(() => update(null));

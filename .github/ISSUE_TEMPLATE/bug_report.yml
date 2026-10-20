@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping improve VoiceStudio! 🎙️
+        Thanks for helping improve Voiceym! 🎙️
 
         **Fastest path to a fix:** **Settings → About → "Save diagnostic bundle"** makes a
         zip (self-check + recent errors + scrubbed log tails) — drag it onto this issue and
@@ -17,7 +17,7 @@ body:
     attributes:
       label: Before filing
       options:
-        - label: I searched [existing issues](https://github.com/debpalash/VoiceStudio/issues?q=is%3Aissue) and this isn't a duplicate.
+        - label: I searched [existing issues](https://github.com/mnikhilsrikar2512/voiceym/issues?q=is%3Aissue) and this isn't a duplicate.
           required: true
         - label: I'm on the latest release (or `main`) — older builds may already be fixed.
           required: false

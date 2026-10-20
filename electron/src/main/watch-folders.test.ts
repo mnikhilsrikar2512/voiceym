@@ -24,7 +24,7 @@ vi.mock('./dictation-output', () => ({
 }));
 import { installWatchFolders } from './watch-folders';
 function fixture(baseUrl = 'http://127.0.0.1:3900', headers: Record<string, string> = {}) {
-  const frame = { url: 'app://voicestudio/index.html' };
+  const frame = { url: 'app://voiceym/index.html' };
   const contents = Object.assign(new EventEmitter(), { mainFrame: frame });
   const window = { webContents: contents, isDestroyed: () => false };
   const event = { sender: contents, senderFrame: frame };

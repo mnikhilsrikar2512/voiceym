@@ -86,7 +86,7 @@ def connect_twiml(stream_url: str, parameters: dict[str, str]) -> str:
     """``<Connect><Stream>`` a bidirectional media stream, then hang up.
 
     Twilio moves on to the next verb once the stream's WebSocket closes, so the
-    trailing ``<Hangup/>`` ends the call when VoiceStudio finishes speaking.
+    trailing ``<Hangup/>`` ends the call when Voiceym finishes speaking.
     """
     params = "".join(
         f"<Parameter name={_attr(k)} value={_attr(v)}/>" for k, v in parameters.items()

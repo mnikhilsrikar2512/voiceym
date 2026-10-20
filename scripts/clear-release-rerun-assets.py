@@ -13,15 +13,15 @@ def matching_assets(names, version, target):
         suffix = r"x64(?:_[A-Za-z-]+\.msi(?:\.zip)?|-setup\.(?:exe|nsis\.zip))(?:\.sig)?"
     elif target == "aarch64-apple-darwin":
         suffix = r"aarch64\.dmg(?:\.sig)?"
-        updater = re.compile(r"VoiceStudio_aarch64\.app\.tar\.gz(?:\.sig)?")
+        updater = re.compile(r"Voiceym_aarch64\.app\.tar\.gz(?:\.sig)?")
     elif target == "x86_64-apple-darwin":
         suffix = r"x64\.dmg(?:\.sig)?"
-        updater = re.compile(r"VoiceStudio_x64\.app\.tar\.gz(?:\.sig)?")
+        updater = re.compile(r"Voiceym_x64\.app\.tar\.gz(?:\.sig)?")
     elif target == "x86_64-unknown-linux-gnu":
         suffix = r"amd64\.(?:AppImage(?:\.tar\.gz)?|deb)(?:\.sig)?"
     else:
         raise ValueError(f"Unsupported release target: {target}")
-    pattern = re.compile(r"VoiceStudio_(?:" + "|".join(map(re.escape, versions)) + ")_" + suffix)
+    pattern = re.compile(r"Voiceym_(?:" + "|".join(map(re.escape, versions)) + ")_" + suffix)
     # macOS updater archives have no version in their names. The release tag
     # scopes their version; only this target's architecture may be replaced.
     return [name for name in names if pattern.fullmatch(name) or (updater and updater.fullmatch(name))]

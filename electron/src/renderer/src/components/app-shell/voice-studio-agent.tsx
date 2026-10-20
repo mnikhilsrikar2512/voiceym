@@ -66,7 +66,7 @@ function savedAgent(): RepairAgentId {
   return 'codex';
 }
 
-export function VoiceStudioAgent() {
+export function VoiceymAgent() {
   const { t } = useTranslation();
   const bridge = getBridge();
   const backend = useBackendStatus();
@@ -267,7 +267,7 @@ export function VoiceStudioAgent() {
       label={t('repairAgent.title')}
       className="agent-workspace"
       resizable
-      resizeStorageKey="voicestudio.agent-workspace-height"
+      resizeStorageKey="voiceym.agent-workspace-height"
     >
       <header className="agent-workspace-header">
         <BotIcon className="size-5 text-primary" />

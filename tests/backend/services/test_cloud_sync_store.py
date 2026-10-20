@@ -115,11 +115,11 @@ def test_page_items_and_cursor_are_saved_together(store):
 
 
 def test_renderer_mirror_reports_only_values_applied_from_sync(store):
-    store.set_local("voicestudio.locale", "en", origin="renderer")
+    store.set_local("voiceym.locale", "en", origin="renderer")
     seq = store.local_seq()
-    store.set_local("voicestudio.locale", "de", origin="sync")
-    assert store.get_local("voicestudio.locale") == "de"
-    assert store.local_since(seq) == [(seq + 1, "voicestudio.locale", "de")]
+    store.set_local("voiceym.locale", "de", origin="sync")
+    assert store.get_local("voiceym.locale") == "de"
+    assert store.local_since(seq) == [(seq + 1, "voiceym.locale", "de")]
     assert store.local_since(seq + 1) == []
 
 

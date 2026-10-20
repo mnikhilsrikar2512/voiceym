@@ -1,10 +1,10 @@
-# VoiceStudio: OpenAI-Compatible ASR
+# Voiceym: OpenAI-Compatible ASR
 
 Point transcription at **any** server exposing an OpenAI-compatible
 `POST /v1/audio/transcriptions` endpoint: gigastt, LM Studio, or a
 llama.cpp-style server on the same machine; a self-hosted
 Qwen3-ASR/FunASR/SenseVoice box on your network; Groq; or OpenAI's Whisper
-API. VoiceStudio is a pure client in this mode, so the configured server owns
+API. Voiceym is a pure client in this mode, so the configured server owns
 model installation and compute.
 
 ## Setup
@@ -32,7 +32,7 @@ Everything lives on one screen — **Model Catalogue**, **ASR** tab:
    always wins over the Settings pick.
 
 Config changes apply on the next transcription — no restart needed. The
-engine is never active by default: VoiceStudio's ASR auto-detect only ever
+engine is never active by default: Voiceym's ASR auto-detect only ever
 picks local engines, and the app works fully with this engine unconfigured.
 
 ## Examples
@@ -48,7 +48,7 @@ picks local engines, and the app works fully with this engine unconfigured.
 | OpenAI | `https://api.openai.com/v1` | `whisper-1` | required |
 
 Plain HTTP is accepted only for exact loopback hosts such as `localhost`,
-`127.0.0.1`, and `::1`. Every non-loopback endpoint must use HTTPS. VoiceStudio
+`127.0.0.1`, and `::1`. Every non-loopback endpoint must use HTTPS. Voiceym
 does not follow redirects from transcription or connection-probe requests.
 
 Local servers vary in which endpoints they implement — if **Test
@@ -63,7 +63,7 @@ timestamps (OpenAI's API and most compatible servers support it) and falls
 back to plain text automatically if your server rejects that format. Neither
 path returns word-level timestamps — that's not part of this API.
 
-When this engine serves VoiceStudio's own `/v1/audio/transcriptions`, the
+When this engine serves Voiceym's own `/v1/audio/transcriptions`, the
 caller's `language`, `prompt` and `temperature` are forwarded to your server,
 and `/v1/audio/translations` calls your server's `/audio/translations`.
 

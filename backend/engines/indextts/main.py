@@ -2,7 +2,7 @@
 
 Runs inside ``engines/indextts/.venv`` (or the user's existing
 ``${OMNIVOICE_INDEXTTS_DIR}/.venv``) with ``transformers<5``, isolated
-from the VoiceStudio parent process which pins ``transformers>=5.3``.
+from the Voiceym parent process which pins ``transformers>=5.3``.
 Closes issue #42 — the canonical ``OffloadedCache`` ImportError that
 results from running both libraries inside one Python interpreter.
 
@@ -50,7 +50,7 @@ Op flow expected by the parent:
 Restrictions:
 
   * NO imports from ``backend.services``, ``backend.engines`` (other
-    than this package), or any VoiceStudio parent code. The sidecar runs
+    than this package), or any Voiceym parent code. The sidecar runs
     under a venv where those modules may not resolve.
   * NO logging of ``os.environ`` contents or env-var values. Defense in
     depth against accidental token-bytes-on-stderr (T-02-08); the
@@ -303,7 +303,7 @@ def _torch_bf16_supported() -> bool:
 
 
 #: Model-config filenames to look for, most-preferred first, per version.
-#: IndexTeam/IndexTTS-2.5 ships ``config.yaml``; VoiceStudio used to demand
+#: IndexTeam/IndexTTS-2.5 ships ``config.yaml``; Voiceym used to demand
 #: ``config_v2_5.yaml``, a name that exists in no upstream revision, so the
 #: install failed until the user hand-renamed the file (#1611). Both names are
 #: accepted now — the hand-renamed installs must keep working untouched — and
@@ -514,7 +514,7 @@ def _handle_synthesize(msg: dict, stdout) -> None:
 
 
 def _build_infer_kwargs(msg: dict, ref_audio: str, *, is_v25: bool) -> dict:
-    """Translate the stable VoiceStudio wire payload to either upstream API."""
+    """Translate the stable Voiceym wire payload to either upstream API."""
     infer_kw: dict = {
         "spk_audio_prompt": ref_audio,
         "text": msg.get("text"),

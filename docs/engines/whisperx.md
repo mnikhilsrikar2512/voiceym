@@ -1,4 +1,4 @@
-# VoiceStudio — WhisperX Engine
+# Voiceym — WhisperX Engine
 
 WhisperX is the default ASR engine on CUDA and plain-CPU hosts: faster-whisper
 (CTranslate2) transcription plus a **wav2vec2 forced-alignment** pass that
@@ -64,7 +64,7 @@ Two more fallback chains run at load time:
   own cuDNN 9 ([#1371](https://github.com/debpalash/VoiceStudio/issues/1371)).
 - On Linux kernels that refuse an executable stack, CTranslate2's native
   library (4.4.0 and older — what whisperx 3.4.5 pins on Python 3.11) is
-  rejected with "cannot enable executable stack". VoiceStudio now clears that
+  rejected with "cannot enable executable stack". Voiceym now clears that
   one ELF flag in place on first probe and the engine loads normally; if the
   library cannot be written (a read-only bundle), the engine reports itself
   unavailable with the repair command instead of crashing
@@ -74,7 +74,7 @@ Two more fallback chains run at load time:
   lightning_fabric). The engine is then reported unavailable with a repair
   hint — reinstall, or `uv sync --reinstall` on a source checkout
   ([#1185](https://github.com/debpalash/VoiceStudio/issues/1185)).
-- Audio is decoded through VoiceStudio's validated ffmpeg, not a bare `ffmpeg`
+- Audio is decoded through Voiceym's validated ffmpeg, not a bare `ffmpeg`
   PATH lookup ([#479](https://github.com/debpalash/VoiceStudio/issues/479)).
 - Transcribes are time-bounded: each dub chunk by
   `OMNIVOICE_TRANSCRIBE_CHUNK_TIMEOUT_S` (default 120 s), whole files by

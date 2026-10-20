@@ -51,8 +51,8 @@ def test_load_model_skips_pytorch_whisper_by_default(model_manager, monkeypatch)
     loaded = model_manager._load_model_sync()
 
     assert loaded.llm is not None
-    assert loaded._voicestudio_checkpoint == "test/checkpoint"
-    assert loaded._voicestudio_loaded_at.endswith("Z")
+    assert loaded._voiceym_checkpoint == "test/checkpoint"
+    assert loaded._voiceym_loaded_at.endswith("Z")
     assert calls == [
         (
             ("test/checkpoint",),

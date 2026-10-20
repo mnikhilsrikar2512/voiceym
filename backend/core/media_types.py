@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 
 # Every container the app's file pickers can offer (they accept ``audio/*`` and
-# ``video/*``) and ffmpeg can demux — including VoiceStudio's own ``.m4b``
+# ``video/*``) and ffmpeg can demux — including Voiceym's own ``.m4b``
 # audiobook export. The point is to keep configuration and script files out of
 # the data directory, not to second-guess real media; ffmpeg checks content.
 AUDIO_EXTS = frozenset({

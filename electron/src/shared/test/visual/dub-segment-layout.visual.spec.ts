@@ -10,7 +10,7 @@ for (const width of [620, 360]) {
     await page.screenshot({ path: `/tmp/dub-selection-${width}.png` });
     await page.getByRole('button', { name: 'Set voice…' }).click();
     const menu = page.getByRole('listbox');
-    await expect(menu.getByRole('option', { name: 'VoiceStudio Demo Voice' })).toBeVisible();
+    await expect(menu.getByRole('option', { name: 'Voiceym Demo Voice' })).toBeVisible();
     expect(await menu.evaluate((el) => el.parentElement === document.body)).toBe(true);
     await page.screenshot({ path: `/tmp/dub-selection-voices-${width}.png` });
     await menu.getByRole('textbox').fill('Speaker 2');

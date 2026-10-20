@@ -9,11 +9,11 @@ shift "$(( $# > 0 ? 1 : 0 ))"
 DEVELOPER_DIR_PATH=$(xcode-select -p)
 FRAMEWORKS="$DEVELOPER_DIR_PATH/Library/Developer/Frameworks"
 if [ "$ACTION" = test ] && [ -d "$FRAMEWORKS/Testing.framework" ]; then
-    swift test --disable-xctest --disable-sandbox --package-path "$IOS_DIR/VoiceStudioKit" --scratch-path "$IOS_DIR/.build" \
+    swift test --disable-xctest --disable-sandbox --package-path "$IOS_DIR/VoiceymKit" --scratch-path "$IOS_DIR/.build" \
         -Xswiftc -F -Xswiftc "$FRAMEWORKS" \
         -Xswiftc -Xfrontend -Xswiftc -disable-cross-import-overlays \
         -Xlinker -F -Xlinker "$FRAMEWORKS" \
         -Xlinker -rpath -Xlinker "$FRAMEWORKS" "$@"
 else
-    swift "$ACTION" --disable-sandbox --package-path "$IOS_DIR/VoiceStudioKit" --scratch-path "$IOS_DIR/.build" "$@"
+    swift "$ACTION" --disable-sandbox --package-path "$IOS_DIR/VoiceymKit" --scratch-path "$IOS_DIR/.build" "$@"
 fi

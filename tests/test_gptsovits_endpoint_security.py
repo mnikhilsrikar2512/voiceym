@@ -376,7 +376,7 @@ def test_gptsovits_generate_wraps_request_errors_with_server_url(
 ):
     """The user-facing error names the configured server URL, not the path.
 
-    VoiceStudio users typically reach the engine through Settings, where
+    Voiceym users typically reach the engine through Settings, where
     the URL is configurable; without the URL in the error they have to
     dig through Settings to find out which one failed. The legacy adapter
     included the URL on the success path but not on the failure path.

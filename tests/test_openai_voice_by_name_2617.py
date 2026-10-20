@@ -1,7 +1,7 @@
 """#2617: /v1/audio/speech accepts a voice-profile NAME as ``voice``.
 
 OpenAI-protocol clients (Open WebUI, n8n, Home Assistant, …) take a free-text
-voice field; before this, VoiceStudio only resolved a profile by its UUID, so
+voice field; before this, Voiceym only resolved a profile by its UUID, so
 typing the name the user sees in the app silently fell through to an engine
 preset (the engine's default voice). Contract pinned here:
 

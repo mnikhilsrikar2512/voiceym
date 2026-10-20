@@ -5,7 +5,7 @@ stage ``extract`` with ffmpeg's raw dump — "FFmpeg exited with code 234 …
 Output file does not contain any stream … Error opening output files: Invalid
 argument". Every audio-extract site (dub ingest, batch, ASR decode, transcribe
 uploads, clone references, gallery imports) now raises ``NoAudioTrackError``
-with a VoiceStudio sentence and the ``NO_AUDIO_TRACK`` failure class instead.
+with a Voiceym sentence and the ``NO_AUDIO_TRACK`` failure class instead.
 """
 from __future__ import annotations
 

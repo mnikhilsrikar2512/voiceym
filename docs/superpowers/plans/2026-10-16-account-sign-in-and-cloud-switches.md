@@ -2,24 +2,24 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Let a VoiceStudio user sign in to VoiceStudio Cloud from the desktop app with browser-based OAuth (Authorization Code + PKCE, loopback redirect). The user can turn account features and cloud sync off during first-run setup or at any time, and turning one off stops all Cloud activity at once.
+**Goal:** Let a Voiceym user sign in to Voiceym Cloud from the desktop app with browser-based OAuth (Authorization Code + PKCE, loopback redirect). The user can turn account features and cloud sync off during first-run setup or at any time, and turning one off stops all Cloud activity at once.
 
-**Architecture:** Every VoiceStudio Cloud call lives in Electron main, under `electron/src/main/account/`. One gate, `CloudActivity`, owns every request and timer and refuses all of them while the persisted switches say off. The refresh token is kept only in main, encrypted with `safeStorage`. The renderer sees a token-free `AccountPublicState` over IPC. The Python backend can get a short-lived access token over a loopback bridge, the same pattern as `llm-agent-bridge.ts`. It gets one only when sync is on and the backend is local. The whole feature is hidden behind a `__CLOUD_ACCOUNTS__` build flag until the `vssaas` production API launches.
+**Architecture:** Every Voiceym Cloud call lives in Electron main, under `electron/src/main/account/`. One gate, `CloudActivity`, owns every request and timer and refuses all of them while the persisted switches say off. The refresh token is kept only in main, encrypted with `safeStorage`. The renderer sees a token-free `AccountPublicState` over IPC. The Python backend can get a short-lived access token over a loopback bridge, the same pattern as `llm-agent-bridge.ts`. It gets one only when sync is on and the backend is local. The whole feature is hidden behind a `__CLOUD_ACCOUNTS__` build flag until the `vssaas` production API launches.
 
 **Tech Stack:** Electron main (TypeScript, `node:http`, `node:crypto`, `safeStorage`, global `fetch`), React renderer with i18next and TanStack Query, Vitest via `vp test`, Python 3 FastAPI backend with pytest.
 
 **Spec:** `account_login/HANDOFF.md` plus `account_login/desktop-app-guide.md` §1–2, 10, 11, and `account_login/desktop-account-client.md`. The folder is git-ignored. The canonical copies are in the `vssaas` repo at `b91dd08`.
 
-**Out of scope (later plans):** S1 settings sync (allowlist, change hooks, sync tables, merge, SSE, "Choose what to sync" UI), S2 voice-sync prep (`sync_id` on voices, consent capture, `VSB1`), and every VoiceStudioPro task (S0-11, S0-12, S1-29). Each gets its own plan once this one lands, because they all consume the interfaces defined here.
+**Out of scope (later plans):** S1 settings sync (allowlist, change hooks, sync tables, merge, SSE, "Choose what to sync" UI), S2 voice-sync prep (`sync_id` on voices, consent capture, `VSB1`), and every VoiceymPro task (S0-11, S0-12, S1-29). Each gets its own plan once this one lands, because they all consume the interfaces defined here.
 
 ## Global Constraints
 
-- `client_id` is `voicestudio-desktop-oss`. It is a public client with no secret.
+- `client_id` is `voiceym-desktop-oss`. It is a public client with no secret.
 - Environments (guide §1):
-  - prod: issuer `https://voicestudio.sh/identity/realms/vssaas`, account `https://appapi.voicestudio.sh/v1/account`, sync `https://appapi.voicestudio.sh/v1/sync`, signed-in page `https://app.voicestudio.sh/app/desktop-signed-in`.
-  - dev: `https://dev.voicestudio.sh/identity/realms/vssaas`, `https://dev-appapi.voicestudio.sh/v1/account`, `https://dev-appapi.voicestudio.sh/v1/sync`, `https://dev-app.voicestudio.sh/app/desktop-signed-in`.
+  - prod: issuer `https://voiceym.example/identity/realms/vssaas`, account `https://appapi.voiceym.example/v1/account`, sync `https://appapi.voiceym.example/v1/sync`, signed-in page `https://app.voiceym.example/app/desktop-signed-in`.
+  - dev: `https://dev.voiceym.example/identity/realms/vssaas`, `https://dev-appapi.voiceym.example/v1/account`, `https://dev-appapi.voiceym.example/v1/sync`, `https://dev-app.voiceym.example/app/desktop-signed-in`.
   - local: `http://127.0.0.1:3000/identity/realms/vssaas`, `http://127.0.0.1:8080/v1/account`, `http://127.0.0.1:8090/v1/sync`, `http://127.0.0.1:3000/app/desktop-signed-in`.
-- Only a non-packaged build may read `VOICESTUDIO_CLOUD_ENV=local|dev|prod`. A packaged build is locked to prod.
+- Only a non-packaged build may read `VOICEYM_CLOUD_ENV=local|dev|prod`. A packaged build is locked to prod.
 - The loopback listener binds `127.0.0.1` on port `0`, never `localhost`, `0.0.0.0` or `::`. It accepts one `/callback` within 5 minutes.
 - `state` is base64url(32 random bytes), `code_verifier` is base64url(64 random bytes), and `code_challenge` is base64url(SHA-256(verifier)) with `S256`. The scope is `openid offline_access`, and the token response's `scope` must contain `offline_access`.
 - Refresh when `expires_at - now < 60 s` or after a `401`. Refresh is single-flight, and the returned `refresh_token` always replaces the stored one.
@@ -28,12 +28,12 @@
 - The renderer only ever sees `{signedIn, email, displayName, avatarUrl, organizations}` plus switch and UI state. It never sees a token.
 - Never log a token, code, verifier, or URL with a query string.
 - Each `PATCH /v1/account` sends an `Idempotency-Key` of 16–128 characters, which is reused when the same change is retried.
-- **Off switches (owner decision 2026-10-16):** two switches, `accountEnabled` and `syncEnabled`. Both are set in first-run setup and in Settings → Account. They are never on by default, and skipping setup means off. `syncEnabled` implies `accountEnabled`. Turning either off takes effect at once, with no restart, and persists. Local data is never deleted. With account features off, the app makes no VoiceStudio Cloud calls. The only exception is the one best-effort revocation of the stored refresh token that the user's own "off" triggers.
+- **Off switches (owner decision 2026-10-16):** two switches, `accountEnabled` and `syncEnabled`. Both are set in first-run setup and in Settings → Account. They are never on by default, and skipping setup means off. `syncEnabled` implies `accountEnabled`. Turning either off takes effect at once, with no restart, and persists. Local data is never deleted. With account features off, the app makes no Voiceym Cloud calls. The only exception is the one best-effort revocation of the stored refresh token that the user's own "off" triggers.
 - In remote-backend mode, main never hands an account token to any backend.
 - Localization: every user-facing string goes through `t()`, and every new key goes into all 21 files in `electron/src/renderer/src/i18n/locales/` (`bun run locale:check`).
 - Cross-platform parity: this must behave the same on macOS, Windows and Linux. The one contract-mandated difference: a Linux machine without a keyring (`basic_text`) keeps the session in memory only, and the UI tells the user (`account.not_remembered`).
 - Before landing: `cd electron && bun run test && bun run typecheck && bun run lint`, plus `uv run pytest tests/test_cloud_account_bridge.py`. Follow CLAUDE.md's keep-main-green, docs-sync, changelog and attribution rules. Commits must not carry AI trailers.
-- **Owner approval gate:** VoiceStudio Cloud joins the sanctioned-outbound-calls list (`.github/CONTRIBUTING.md` and CLAUDE.md, Local-first), which "needs owner approval". Task 11 edits the list. Do not merge until the owner has approved that wording.
+- **Owner approval gate:** Voiceym Cloud joins the sanctioned-outbound-calls list (`.github/CONTRIBUTING.md` and CLAUDE.md, Local-first), which "needs owner approval". Task 11 edits the list. Do not merge until the owner has approved that wording.
 
 ## Review Focus
 
@@ -90,7 +90,7 @@ it('packaged builds are locked to production whatever the env var says', () => {
   expect(resolveCloudEnvironment({ packaged: true, requested: 'local' }).name).toBe('prod');
 });
 
-it('developer builds honour VOICESTUDIO_CLOUD_ENV and default to dev', () => {
+it('developer builds honour VOICEYM_CLOUD_ENV and default to dev', () => {
   expect(resolveCloudEnvironment({ packaged: false, requested: 'local' }).issuer).toBe(
     'http://127.0.0.1:3000/identity/realms/vssaas',
   );
@@ -101,14 +101,14 @@ it('developer builds honour VOICESTUDIO_CLOUD_ENV and default to dev', () => {
 it('uses the open-source public client everywhere', () => {
   for (const requested of ['prod', 'dev', 'local'])
     expect(resolveCloudEnvironment({ packaged: false, requested }).clientId).toBe(
-      'voicestudio-desktop-oss',
+      'voiceym-desktop-oss',
     );
 });
 
 it('lists exactly the origins the app may contact', () => {
   expect([...cloudOrigins(resolveCloudEnvironment({ packaged: true }))].sort()).toEqual([
-    'https://appapi.voicestudio.sh',
-    'https://voicestudio.sh',
+    'https://appapi.voiceym.example',
+    'https://voiceym.example',
   ]);
 });
 ```
@@ -122,7 +122,7 @@ Expected: FAIL, "Failed to resolve import ./cloud-config".
 
 ```ts
 // electron/src/main/account/cloud-config.ts
-/** VoiceStudio Cloud endpoints (vssaas desktop-app-guide §1). One block per environment. */
+/** Voiceym Cloud endpoints (vssaas desktop-app-guide §1). One block per environment. */
 export type CloudEnvName = 'prod' | 'dev' | 'local';
 
 export interface CloudEnvironment {
@@ -134,20 +134,20 @@ export interface CloudEnvironment {
   clientId: string;
 }
 
-const CLIENT_ID = 'voicestudio-desktop-oss';
+const CLIENT_ID = 'voiceym-desktop-oss';
 
 const ENVIRONMENTS: Record<CloudEnvName, Omit<CloudEnvironment, 'name' | 'clientId'>> = {
   prod: {
-    issuer: 'https://voicestudio.sh/identity/realms/vssaas',
-    accountApi: 'https://appapi.voicestudio.sh/v1/account',
-    syncApi: 'https://appapi.voicestudio.sh/v1/sync',
-    signedInPage: 'https://app.voicestudio.sh/app/desktop-signed-in',
+    issuer: 'https://voiceym.example/identity/realms/vssaas',
+    accountApi: 'https://appapi.voiceym.example/v1/account',
+    syncApi: 'https://appapi.voiceym.example/v1/sync',
+    signedInPage: 'https://app.voiceym.example/app/desktop-signed-in',
   },
   dev: {
-    issuer: 'https://dev.voicestudio.sh/identity/realms/vssaas',
-    accountApi: 'https://dev-appapi.voicestudio.sh/v1/account',
-    syncApi: 'https://dev-appapi.voicestudio.sh/v1/sync',
-    signedInPage: 'https://dev-app.voicestudio.sh/app/desktop-signed-in',
+    issuer: 'https://dev.voiceym.example/identity/realms/vssaas',
+    accountApi: 'https://dev-appapi.voiceym.example/v1/account',
+    syncApi: 'https://dev-appapi.voiceym.example/v1/sync',
+    signedInPage: 'https://dev-app.voiceym.example/app/desktop-signed-in',
   },
   local: {
     issuer: 'http://127.0.0.1:3000/identity/realms/vssaas',
@@ -184,9 +184,9 @@ export function cloudAccountsAvailable(): boolean {
 Add `declare const __CLOUD_ACCOUNTS__: boolean;` to `electron/src/main/env.d.ts`. In the `define` block of `electron/electron.vite.config.ts`, add:
 
 ```ts
-  // VoiceStudio Cloud sign-in ships dark until the vssaas production API is live.
+  // Voiceym Cloud sign-in ships dark until the vssaas production API is live.
   __CLOUD_ACCOUNTS__: JSON.stringify(
-    process.env.VOICESTUDIO_CLOUD_ACCOUNTS === '1' || process.env.NODE_ENV === 'development',
+    process.env.VOICEYM_CLOUD_ACCOUNTS === '1' || process.env.NODE_ENV === 'development',
   ),
 ```
 
@@ -281,12 +281,12 @@ it('notifies subscribers with the previous value', () => {
 import { expect, it, vi } from 'vitest';
 import { CloudActivity, CloudDisabledError } from './cloud-activity';
 
-const origins = new Set(['https://voicestudio.sh']);
+const origins = new Set(['https://voiceym.example']);
 
 it('refuses every request while switched off, without touching the network', async () => {
   const fetchImpl = vi.fn();
   const activity = new CloudActivity({ isAllowed: () => false, origins, fetchImpl });
-  await expect(activity.fetch('https://voicestudio.sh/x')).rejects.toBeInstanceOf(
+  await expect(activity.fetch('https://voiceym.example/x')).rejects.toBeInstanceOf(
     CloudDisabledError,
   );
   expect(fetchImpl).not.toHaveBeenCalled();
@@ -314,7 +314,7 @@ it('stopAll aborts in-flight requests, cancels timers and runs stop hooks', asyn
   vi.useFakeTimers();
   activity.setTimeout(timer, 1000);
   activity.onStop(hook);
-  const pending = activity.fetch('https://voicestudio.sh/x');
+  const pending = activity.fetch('https://voiceym.example/x');
   activity.stopAll();
   await expect(pending).rejects.toBeTruthy();
   vi.advanceTimersByTime(5000);
@@ -330,9 +330,9 @@ it('allows exactly one final call after stopAll (the revocation)', async () => {
   const activity = new CloudActivity({ isAllowed: () => allowed, origins, fetchImpl });
   allowed = false;
   activity.stopAll();
-  await activity.fetch('https://voicestudio.sh/revoke', {}, { final: true });
+  await activity.fetch('https://voiceym.example/revoke', {}, { final: true });
   await expect(
-    activity.fetch('https://voicestudio.sh/revoke', {}, { final: true }),
+    activity.fetch('https://voiceym.example/revoke', {}, { final: true }),
   ).rejects.toBeInstanceOf(CloudDisabledError);
   expect(fetchImpl).toHaveBeenCalledOnce();
 });
@@ -340,7 +340,7 @@ it('allows exactly one final call after stopAll (the revocation)', async () => {
 it('never follows redirects', async () => {
   const fetchImpl = vi.fn(async () => new Response('{}'));
   const activity = new CloudActivity({ isAllowed: () => true, origins, fetchImpl });
-  await activity.fetch('https://voicestudio.sh/x');
+  await activity.fetch('https://voiceym.example/x');
   expect(fetchImpl.mock.calls[0][1]).toMatchObject({ redirect: 'error' });
 });
 ```
@@ -416,12 +416,12 @@ The listener fires after the write. If `writeFileSync` throws (disk full), the i
 ```ts
 // electron/src/main/account/cloud-activity.ts
 /**
- * The only door to VoiceStudio Cloud. Every request and timer goes through here,
+ * The only door to Voiceym Cloud. Every request and timer goes through here,
  * so turning a switch off can stop all of them at once (owner rule 2026-10-16).
  */
 export class CloudDisabledError extends Error {
   constructor() {
-    super('VoiceStudio Cloud is switched off');
+    super('Voiceym Cloud is switched off');
     this.name = 'CloudDisabledError';
   }
 }
@@ -449,7 +449,7 @@ export class CloudActivity {
       this.finalAvailable = false;
     }
     if (!this.opts.origins.has(new URL(url).origin))
-      throw new Error('Refusing a request outside the VoiceStudio Cloud origin');
+      throw new Error('Refusing a request outside the Voiceym Cloud origin');
     const controller = new AbortController();
     this.controllers.add(controller);
     const timeout = setTimeout(() => controller.abort(new Error('timeout')), opts.timeoutMs ?? 30_000);
@@ -577,7 +577,7 @@ it('builds the authorize URL from the contract', () => {
     }),
   );
   expect(Object.fromEntries(url.searchParams)).toEqual({
-    client_id: 'voicestudio-desktop-oss',
+    client_id: 'voiceym-desktop-oss',
     response_type: 'code',
     redirect_uri: 'http://127.0.0.1:5000/callback',
     scope: 'openid offline_access',
@@ -617,7 +617,7 @@ it('sends form-encoded refresh with the public client id and no secret', async (
   const body = new URLSearchParams(String(fetchImpl.mock.calls[1][1]!.body));
   expect(Object.fromEntries(body)).toEqual({
     grant_type: 'refresh_token',
-    client_id: 'voicestudio-desktop-oss',
+    client_id: 'voiceym-desktop-oss',
     refresh_token: 'r1',
   });
 });
@@ -651,14 +651,14 @@ export interface TokenResponse {
 
 export class InvalidGrantError extends Error {
   constructor() {
-    super('The VoiceStudio Cloud session ended');
+    super('The Voiceym Cloud session ended');
     this.name = 'InvalidGrantError';
   }
 }
 
 export class TransientAuthError extends Error {
   constructor(status?: number) {
-    super(`VoiceStudio Cloud sign-in is unavailable${status ? ` (${status})` : ''}`);
+    super(`Voiceym Cloud sign-in is unavailable${status ? ` (${status})` : ''}`);
     this.name = 'TransientAuthError';
   }
 }
@@ -800,7 +800,7 @@ The contract docs disagree on a wrong `state`. The guide (§2 step 3) says answe
 import { expect, it } from 'vitest';
 import { LoopbackError, startLoopback } from './loopback';
 
-const page = 'https://app.voicestudio.sh/app/desktop-signed-in';
+const page = 'https://app.voiceym.example/app/desktop-signed-in';
 const hit = (uri: string, query: string) =>
   fetch(uri + query, { redirect: 'manual' }).then((r) => ({ status: r.status, location: r.headers.get('location') }));
 
@@ -1111,15 +1111,15 @@ function harness(over: Partial<Record<string, unknown>> = {}) {
   const store = new RefreshTokenStore(join(dir, 'account.json'), memorySafe);
   const activity = new CloudActivity({
     isAllowed: () => switches.get().accountEnabled,
-    origins: new Set(['https://voicestudio.sh']),
+    origins: new Set(['https://voiceym.example']),
     fetchImpl: vi.fn(),
   });
   const tokens = (refresh: string) => ({
     access_token: `a-${refresh}`, refresh_token: refresh, expires_in: 300, scope: 'openid offline_access',
   });
   const oidc = {
-    discover: vi.fn(async () => ({ authorization_endpoint: 'https://voicestudio.sh/auth', token_endpoint: '', revocation_endpoint: '' })),
-    authorizeUrl: vi.fn(() => 'https://voicestudio.sh/auth?x'),
+    discover: vi.fn(async () => ({ authorization_endpoint: 'https://voiceym.example/auth', token_endpoint: '', revocation_endpoint: '' })),
+    authorizeUrl: vi.fn(() => 'https://voiceym.example/auth?x'),
     exchangeCode: vi.fn(async () => tokens('r1')),
     refresh: vi.fn(async () => tokens('r2')),
     revoke: vi.fn(async () => {}),
@@ -1132,7 +1132,7 @@ function harness(over: Partial<Record<string, unknown>> = {}) {
     oidc: oidc as never, store, activity, switches,
     openExternal,
     startLoopback: vi.fn(async () => loopback) as never,
-    signedInPage: 'https://app.voicestudio.sh/app/desktop-signed-in',
+    signedInPage: 'https://app.voiceym.example/app/desktop-signed-in',
     now: () => t,
     ...over,
   });
@@ -1442,7 +1442,7 @@ it('maps the account to the renderer-safe profile', async () => {
     email: 'ana@example.com', displayName: 'Ana', avatarUrl: null,
     organizations: [{ id: 'Or5tG7hJ9kL1zX3c', slug: 'ana', displayName: 'Ana', role: 'owner', kind: 'personal' }],
   });
-  expect(fetchImpl.mock.calls[0][0]).toBe('https://appapi.voicestudio.sh/v1/account');
+  expect(fetchImpl.mock.calls[0][0]).toBe('https://appapi.voiceym.example/v1/account');
   expect((fetchImpl.mock.calls[0][1] as RequestInit).headers).toMatchObject({ authorization: 'Bearer tok' });
 });
 
@@ -1578,7 +1578,7 @@ git commit -m "feat(account): GET/PATCH /v1/account with refresh-once on 401"
   - `registerAccountIpc(ctl: AccountController, session: AccountSession, getMainWindow: () => BrowserWindow | null): () => void`
   - `class AccountController { constructor(parts: { available: boolean; switches: CloudSwitchStore; session: AccountSession; api: AccountApi; remembered: boolean }); publicState(refreshProfile?: boolean): Promise<AccountPublicState>; setSwitches(raw: unknown): Promise<AccountPublicState>; updateProfile(raw: unknown): Promise<AccountPublicState> }`. It lives in `account-ipc.ts`.
   - `startAccount(opts: { getMainWindow: () => BrowserWindow | null; isRemoteBackend: () => boolean }): Promise<() => void>` (the returned function closes everything). It lives in `account/index.ts`.
-  - Renderer bridge: `window.voicestudio.account = { get(): Promise<AccountPublicState>; signIn(): Promise<void>; cancelSignIn(): Promise<void>; signOut(): Promise<void>; setSwitches(p: { accountEnabled?: boolean; syncEnabled?: boolean }): Promise<AccountPublicState>; updateProfile(p: { display_name?: string }): Promise<AccountPublicState>; onState(cb): () => void }`
+  - Renderer bridge: `window.voiceym.account = { get(): Promise<AccountPublicState>; signIn(): Promise<void>; cancelSignIn(): Promise<void>; signOut(): Promise<void>; setSwitches(p: { accountEnabled?: boolean; syncEnabled?: boolean }): Promise<AccountPublicState>; updateProfile(p: { display_name?: string }): Promise<AccountPublicState>; onState(cb): () => void }`
 
 - [ ] **Step 1: Write the failing test** (no token ever reaches the renderer, and an unavailable build answers inert)
 
@@ -1766,13 +1766,13 @@ import { startLoopback } from './loopback';
 import { OidcClient } from './oidc';
 import { RefreshTokenStore } from './token-store';
 
-/** Wires VoiceStudio Cloud sign-in. Must run before the backend starts (bridge env). */
+/** Wires Voiceym Cloud sign-in. Must run before the backend starts (bridge env). */
 export async function startAccount(opts: {
   getMainWindow: () => BrowserWindow | null;
   isRemoteBackend: () => boolean;
 }): Promise<() => void> {
   const available = cloudAccountsAvailable();
-  const env = resolveCloudEnvironment({ packaged: app.isPackaged, requested: process.env.VOICESTUDIO_CLOUD_ENV });
+  const env = resolveCloudEnvironment({ packaged: app.isPackaged, requested: process.env.VOICEYM_CLOUD_ENV });
   const switches = new CloudSwitchStore(join(app.getPath('userData'), 'cloud-switches.json'));
   const allowed = () => available && switches.get().accountEnabled;
   const activity = new CloudActivity({ isAllowed: allowed, origins: cloudOrigins(env) });
@@ -1791,14 +1791,14 @@ export async function startAccount(opts: {
     isSyncAllowed: () => available && switches.get().syncEnabled,
     isRemoteBackend: opts.isRemoteBackend,
   });
-  process.env.VOICESTUDIO_ACCOUNT_BRIDGE_URL = bridge.url;
-  process.env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN = bridge.token;
+  process.env.VOICEYM_ACCOUNT_BRIDGE_URL = bridge.url;
+  process.env.VOICEYM_ACCOUNT_BRIDGE_TOKEN = bridge.token;
   return () => {
     closeIpc();
     activity.stopAll();
     bridge.close();
-    delete process.env.VOICESTUDIO_ACCOUNT_BRIDGE_URL;
-    delete process.env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN;
+    delete process.env.VOICEYM_ACCOUNT_BRIDGE_URL;
+    delete process.env.VOICEYM_ACCOUNT_BRIDGE_TOKEN;
   };
 }
 ```
@@ -1852,7 +1852,7 @@ export interface AccountPublicState {
 }
 ```
 
-Then add an `account` member with the bridge signature above to `VoiceStudioBridge`.
+Then add an `account` member with the bridge signature above to `VoiceymBridge`.
 
 - [ ] **Step 4: Run the test to confirm it passes**
 
@@ -1873,7 +1873,7 @@ git commit -m "feat(account): token-free IPC state and main-process wiring"
 **Files:**
 - Create: `electron/src/main/account/account-token-bridge.ts`, `account-token-bridge.test.ts`
 - Modify: `electron/src/main/repair-agents.ts:868-869` and `:1021-1022` (strip the new vars too)
-- Modify: `electron/src/main/repair-agents.test.ts` (or the closest existing env test; grep `VOICESTUDIO_LLM_AGENT_TOKEN: undefined` in tests)
+- Modify: `electron/src/main/repair-agents.test.ts` (or the closest existing env test; grep `VOICEYM_LLM_AGENT_TOKEN: undefined` in tests)
 - Create: `backend/services/cloud_account.py`
 - Modify: `backend/main.py` (import `backend.services.cloud_account` before any engine or tool subprocess is spawned, next to the earliest `backend.services` import)
 - Test: `tests/test_cloud_account_bridge.py`
@@ -1942,7 +1942,7 @@ it('a transient refresh failure reads as temporarily signed out, not an error pa
 });
 ```
 
-Add to the repair-agents env test (find the test that asserts `VOICESTUDIO_LLM_AGENT_TOKEN` is stripped, and extend it). If none exists, add a test named `repair agent env strips account bridge vars`. It should spawn through the module's existing test seam with `process.env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN = 'x'` and assert that the captured `spawn` env has `VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN` and `VOICESTUDIO_ACCOUNT_BRIDGE_URL` set to `undefined`.
+Add to the repair-agents env test (find the test that asserts `VOICEYM_LLM_AGENT_TOKEN` is stripped, and extend it). If none exists, add a test named `repair agent env strips account bridge vars`. It should spawn through the module's existing test seam with `process.env.VOICEYM_ACCOUNT_BRIDGE_TOKEN = 'x'` and assert that the captured `spawn` env has `VOICEYM_ACCOUNT_BRIDGE_TOKEN` and `VOICEYM_ACCOUNT_BRIDGE_URL` set to `undefined`.
 
 ```python
 # tests/test_cloud_account_bridge.py
@@ -1985,11 +1985,11 @@ def test_bridge_env_is_removed_from_os_environ(monkeypatch):
     import importlib
     import os
 
-    monkeypatch.setenv("VOICESTUDIO_ACCOUNT_BRIDGE_URL", "http://127.0.0.1:1")
-    monkeypatch.setenv("VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN", "cap")
+    monkeypatch.setenv("VOICEYM_ACCOUNT_BRIDGE_URL", "http://127.0.0.1:1")
+    monkeypatch.setenv("VOICEYM_ACCOUNT_BRIDGE_TOKEN", "cap")
     importlib.reload(cloud_account)
-    assert "VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN" not in os.environ
-    assert "VOICESTUDIO_ACCOUNT_BRIDGE_URL" not in os.environ
+    assert "VOICEYM_ACCOUNT_BRIDGE_TOKEN" not in os.environ
+    assert "VOICEYM_ACCOUNT_BRIDGE_URL" not in os.environ
     cloud_account._configure("", "")
 
 
@@ -2080,13 +2080,13 @@ export async function startAccountTokenBridge(deps: {
 In `repair-agents.ts`, at both env blocks (lines 868-869 and 1021-1022), add next to the LLM vars:
 
 ```ts
-          VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN: undefined,
-          VOICESTUDIO_ACCOUNT_BRIDGE_URL: undefined,
+          VOICEYM_ACCOUNT_BRIDGE_TOKEN: undefined,
+          VOICEYM_ACCOUNT_BRIDGE_URL: undefined,
 ```
 
 ```python
 # backend/services/cloud_account.py
-"""Short-lived VoiceStudio Cloud access tokens from Electron main.
+"""Short-lived Voiceym Cloud access tokens from Electron main.
 
 The refresh token never leaves Electron main. Main answers {"signed_in": false}
 whenever account features or sync are switched off, or the backend is remote,
@@ -2104,8 +2104,8 @@ from typing import Optional
 from urllib.parse import urlsplit
 
 _lock = threading.Lock()
-_url = os.environ.pop("VOICESTUDIO_ACCOUNT_BRIDGE_URL", "")
-_capability = os.environ.pop("VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN", "")
+_url = os.environ.pop("VOICEYM_ACCOUNT_BRIDGE_URL", "")
+_capability = os.environ.pop("VOICEYM_ACCOUNT_BRIDGE_TOKEN", "")
 _cached: Optional[tuple[str, float]] = None
 
 
@@ -2179,19 +2179,19 @@ git commit -m "feat(account): loopback token bridge for the local backend"
 - Modify: all 21 `electron/src/renderer/src/i18n/locales/*.json`
 
 **Interfaces:**
-- Consumes: `window.voicestudio.account` and `AccountPublicState` (Task 8), via `getBridge()` from `components/bridge`.
+- Consumes: `window.voiceym.account` and `AccountPublicState` (Task 8), via `getBridge()` from `components/bridge`.
 - Produces: `useAccount(): { state: AccountPublicState | undefined; setSwitches; signIn; cancelSignIn; signOut }`; `<AccountConsent onRequirementChange?: (required: boolean) => void />`; `<AccountSettings />`.
 
 English strings. Add them to `en.json` as a top-level `"account"` object. Translate them properly into the other 20 locales (not copied English), then run `bun run locale:check`.
 
 ```json
 "account": {
-  "title": "VoiceStudio account",
-  "setup_body": "Optional. Sign in to a free VoiceStudio account to sync settings between your devices. Everything works without one, and nothing is sent unless you turn this on. You can change this anytime in Settings → Account.",
+  "title": "Voiceym account",
+  "setup_body": "Optional. Sign in to a free Voiceym account to sync settings between your devices. Everything works without one, and nothing is sent unless you turn this on. You can change this anytime in Settings → Account.",
   "use_yes": "Turn on account features",
   "use_no": "Keep everything local",
   "features": "Account features",
-  "features_desc": "Off means the app never contacts VoiceStudio Cloud.",
+  "features_desc": "Off means the app never contacts Voiceym Cloud.",
   "sync": "Cloud sync",
   "sync_desc": "Off stops all syncing at once. Nothing on this device is deleted.",
   "sign_in": "Sign in",
@@ -2202,7 +2202,7 @@ English strings. Add them to `en.json` as a top-level `"account"` object. Transl
   "signed_out_expired": "You were signed out. Sign in to keep syncing.",
   "sign_in_failed": "Sign-in was cancelled or failed",
   "offline": "Offline: changes will sync later",
-  "not_remembered": "Your system keyring is unavailable, so you will need to sign in again after VoiceStudio restarts."
+  "not_remembered": "Your system keyring is unavailable, so you will need to sign in again after Voiceym restarts."
 }
 ```
 
@@ -2528,10 +2528,10 @@ git commit -m "feat(account): first-run account choice and Settings → Account"
 - [ ] **Step 1: Add the sanctioned call** (wording needs owner approval before merge). In `.github/CONTRIBUTING.md`, after the yt-dlp bullet:
 
 ```markdown
-  - **VoiceStudio Cloud account features, only after the user turns them on**
+  - **Voiceym Cloud account features, only after the user turns them on**
     (first-run setup or Settings → Account; off by default, skipping = off):
-    browser sign-in against `voicestudio.sh/identity` and the account API at
-    `appapi.voicestudio.sh`, made only from Electron main
+    browser sign-in against `voiceym.example/identity` and the account API at
+    `appapi.voiceym.example`, made only from Electron main
     (`electron/src/main/account/`). Turning account features off stops every
     request at once and sends one best-effort token revocation.
 ```
@@ -2543,7 +2543,7 @@ Mirror the same sentence into CLAUDE.md's Local-first "Sanctioned calls" list, a
 - [ ] **Step 3: Changelog.** Under `## [Unreleased]` → `### Added`, add one line:
 
 ```markdown
-- Optional VoiceStudio account sign-in groundwork (off by default, hidden in release builds until VoiceStudio Cloud launches); account features and cloud sync can be switched off at setup or anytime
+- Optional Voiceym account sign-in groundwork (off by default, hidden in release builds until Voiceym Cloud launches); account features and cloud sync can be switched off at setup or anytime
 ```
 
 - [ ] **Step 4: Record the contract discrepancies for vssaas.** In `account_login/HANDOFF.md` → "Open items for the owner", add:
@@ -2552,7 +2552,7 @@ Mirror the same sentence into CLAUDE.md's Local-first "Sanctioned calls" list, a
 - Contract mismatches to fix in `vssaas`: a wrong callback `state` (guide
   §2 step 3 "keep waiting" vs `desktop-account-client.md` step 4 "stop
   listening"; the app keeps waiting), and the account API host
-  (`appapi.voicestudio.sh/v1/account` in the guide vs `voicestudio.sh/v1/account`
+  (`appapi.voiceym.example/v1/account` in the guide vs `voiceym.example/v1/account`
   in `desktop-account-client.md`; the app uses `appapi`).
 ```
 
@@ -2565,8 +2565,8 @@ cd .. && uv run pytest tests/test_cloud_account_bridge.py tests/test_no_hardcode
 bun install --frozen-lockfile
 ```
 
-- [ ] **Step 6: Manual check against real Keycloak.** Use a developer build with `VOICESTUDIO_CLOUD_ENV=dev`, or `local` with `vssaas` `make dev`.
-  1. Fresh profile → setup privacy step shows the account choice. "Keep everything local" → Settings → Account shows features off. Confirm in the devtools Network panel and with `lsof -i -P | grep -i electron` that no connection goes to `voicestudio.sh`.
+- [ ] **Step 6: Manual check against real Keycloak.** Use a developer build with `VOICEYM_CLOUD_ENV=dev`, or `local` with `vssaas` `make dev`.
+  1. Fresh profile → setup privacy step shows the account choice. "Keep everything local" → Settings → Account shows features off. Confirm in the devtools Network panel and with `lsof -i -P | grep -i electron` that no connection goes to `voiceym.example`.
   2. Turn features on → Sign in → the browser opens → finish sign-in → the "You can return" page appears, and the app shows "Signed in as …".
   3. Restart → still signed in. On Linux without a keyring, the `not_remembered` note shows instead.
   4. Start a sign-in, then turn features off before finishing → the browser's callback fails to connect, and the app is signed out.
@@ -2577,7 +2577,7 @@ bun install --frozen-lockfile
 
 ```bash
 git add .github/CONTRIBUTING.md CLAUDE.md AGENTS.md CHANGELOG.md README.md docs
-git commit -m "docs(account): sanction opt-in VoiceStudio Cloud calls and note the account switches"
+git commit -m "docs(account): sanction opt-in Voiceym Cloud calls and note the account switches"
 ```
 
 ---
@@ -2586,4 +2586,4 @@ git commit -m "docs(account): sanction opt-in VoiceStudio Cloud calls and note t
 
 1. **S1 settings sync:** `sync_allowlist`, change hooks (`prefs.set`, `settings_store.set`, `syncedStorage`), alembic `sync_state`/`sync_items`/`sync_outbox`, Base62 IDs, `merge3`, the pull/push loop against the Prism mock (`npx @stoplight/prism-cli@5.12.0 mock account_login/sync-v1.yaml --port 8090`), an SSE client, and "Choose what to sync". The sync engine gets its token only from `cloud_account.access_token()`, which already returns `None` when sync is off. S1 adds a main→backend "sync stopped" push, so that the backend also closes its SSE stream and outbox at once when the switch flips.
 2. **S2 prep:** `sync_id` on `voice_profiles`, consent capture in the voice UI, and `VSB1` encrypt/decrypt with tests.
-3. **VoiceStudioPro:** port this plan with `voicestudio-desktop-pro`, then "Sign in to activate" (S0-12) and the Cloud transport in `data_sync` (S1-29).
+3. **VoiceymPro:** port this plan with `voiceym-desktop-pro`, then "Sign in to activate" (S0-12) and the Cloud transport in `data_sync` (S1-29).

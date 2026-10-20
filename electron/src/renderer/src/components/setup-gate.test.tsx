@@ -72,7 +72,7 @@ function mount() {
   return client;
 }
 it('bypasses onboarding for a backend with required models present', async () => {
-  localStorage.setItem('voicestudio.setup.complete.v1', '1');
+  localStorage.setItem('voiceym.setup.complete.v1', '1');
   mount();
   await screen.findByText('Studio');
   expect(screen.queryByText('Preflight')).not.toBeInTheDocument();
@@ -138,7 +138,7 @@ it('requires passing preflight and installed models before completion', async ()
         : Promise.resolve(),
     );
   const handoff = vi.fn();
-  window.addEventListener('voicestudio:first-sound', handoff);
+  window.addEventListener('voiceym:first-sound', handoff);
   fireEvent.click(screen.getByRole('button', { name: 'setup.enter_studio' }));
   await waitFor(() =>
     expect(screen.getByRole('button', { name: 'setup.enter_studio' })).toBeDisabled(),
@@ -150,7 +150,7 @@ it('requires passing preflight and installed models before completion', async ()
   await waitFor(() => expect(handoff).toHaveBeenCalledOnce());
   expect(invalidate).toHaveBeenCalledWith({ queryKey: ['model-catalogue'] });
   expect(invalidate).toHaveBeenCalledWith({ queryKey: ['engines'] });
-  window.removeEventListener('voicestudio:first-sound', handoff);
+  window.removeEventListener('voiceym:first-sound', handoff);
 });
 
 it('the privacy step also waits for the account choice when accounts are offered', async () => {

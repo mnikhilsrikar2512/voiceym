@@ -31,7 +31,7 @@ vi.mock('@/hooks/use-backend-status', () => ({
 const toast = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
 vi.mock('sonner', () => ({ toast }));
 vi.mock('./twilio-setup', () => ({
-  TWILIO_DOCS: 'https://github.com/debpalash/VoiceStudio/blob/main/docs/integrations/twilio.md',
+  TWILIO_DOCS: 'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/integrations/twilio.md',
   TwilioSetup: ({
     hero,
     rail,
@@ -54,7 +54,7 @@ it('copies the shown live configuration only after the user requests it', async 
   expect(copy).not.toHaveBeenCalled();
   fireEvent.click(screen.getByRole('button', { name: 'Copy' }));
   await waitFor(() => expect(toast.success).toHaveBeenCalled());
-  expect(JSON.parse(copy.mock.calls[0][0]).mcpServers.voicestudio.url).toBe(
+  expect(JSON.parse(copy.mock.calls[0][0]).mcpServers.voiceym.url).toBe(
     'http://127.0.0.1:3912/mcp/',
   );
 });
@@ -67,7 +67,7 @@ it('exports the n8n workflow only on request and handles canceled saves', async 
   expect(save).not.toHaveBeenCalled();
   fireEvent.click(screen.getByRole('button', { name: 'Save as…' }));
   await waitFor(() => expect(save).toHaveBeenCalledTimes(1));
-  expect(save.mock.calls[0][1]).toBe('voicestudio-n8n.json');
+  expect(save.mock.calls[0][1]).toBe('voiceym-n8n.json');
   expect(toast.success).not.toHaveBeenCalled();
   await waitFor(() => expect(screen.getByRole('button', { name: 'Save as…' })).toBeEnabled());
   save.mockRejectedValue(new Error('disk full'));
@@ -80,12 +80,12 @@ it('exports the n8n workflow only on request and handles canceled saves', async 
 it('shows the Codex TOML export and one heading per panel', () => {
   route.slug = 'codex-cli';
   render(<IntegrationDetailPage />);
-  expect(screen.getByText(/\[mcp_servers\.voicestudio\]/)).toBeInTheDocument();
+  expect(screen.getByText(/\[mcp_servers\.voiceym\]/)).toBeInTheDocument();
   expect(screen.getByText(/Merge this configuration into/)).toHaveTextContent(
     '~/.codex/config.toml',
   );
   expect(screen.getByRole('heading', { name: 'Set up Codex CLI' })).toBeInTheDocument();
-  expect(screen.getByText('Works with VoiceStudio')).toBeInTheDocument();
+  expect(screen.getByText('Works with Voiceym')).toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: 'Details' })).toBeNull();
 });
 
@@ -93,12 +93,12 @@ it('does not expose detail pages for entries without completed wiring', () => {
   route.slug = 'zapier';
   render(<IntegrationDetailPage />);
   expect(screen.queryByRole('button', { name: 'Copy' })).toBeNull();
-  expect(screen.queryByText('Works with VoiceStudio')).toBeNull();
+  expect(screen.queryByText('Works with Voiceym')).toBeNull();
   expect(screen.getByText('No matches')).toBeInTheDocument();
 });
 
 it('offers copyable API snippets for the current backend', () => {
-  route.slug = 'voicestudio-api';
+  route.slug = 'voiceym-api';
   render(<IntegrationDetailPage />);
   expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(4);
   expect(
@@ -112,7 +112,7 @@ it('shows the OpenAI Agents snippet for the live backend', async () => {
   Object.defineProperty(navigator, 'clipboard', { value: { writeText: copy }, configurable: true });
   render(<IntegrationDetailPage />);
   expect(screen.getByText(/Point the OpenAI Agents SDK voice pipeline/)).toBeInTheDocument();
-  expect(screen.getByText('Works with VoiceStudio')).toBeInTheDocument();
+  expect(screen.getByText('Works with Voiceym')).toBeInTheDocument();
   expect(screen.getByText('Local language model')).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Copy' }));
   await waitFor(() => expect(copy).toHaveBeenCalledTimes(1));
@@ -125,7 +125,7 @@ it('renders Twilio from the registry as a working connector with its setup panel
   render(<IntegrationDetailPage />);
   expect(screen.getByRole('heading', { name: 'Twilio', level: 2 })).toBeInTheDocument();
   expect(screen.getByText('Twilio phone setup panel')).toBeInTheDocument();
-  expect(screen.getByText('Works with VoiceStudio')).toBeInTheDocument();
+  expect(screen.getByText('Works with Voiceym')).toBeInTheDocument();
   expect(screen.getByText('Phone calls')).toBeInTheDocument();
   expect(screen.queryByText(/Directory examples only/)).toBeNull();
   expect(screen.queryByText(/Setup is unavailable/)).toBeNull();

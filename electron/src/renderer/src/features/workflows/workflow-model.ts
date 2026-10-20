@@ -1,4 +1,4 @@
-export const WORKFLOW_STORAGE_KEY = 'voicestudio.workflows.v1';
+export const WORKFLOW_STORAGE_KEY = 'voiceym.workflows.v1';
 
 export type StepKind = 'start' | 'agent' | 'speak' | 'condition' | 'call' | 'normalize' | 'audio' | 'transcribe' | 'translate' | 'convert' | 'end';
 export const STEP_KINDS: StepKind[] = ['start', 'agent', 'speak', 'condition', 'call', 'normalize', 'audio', 'transcribe', 'translate', 'convert', 'end'];

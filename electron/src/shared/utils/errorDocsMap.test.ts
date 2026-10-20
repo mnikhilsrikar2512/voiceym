@@ -66,7 +66,7 @@ describe('errorDocsMap', () => {
   });
 
   it('every URL resolves under the project repo blob', () => {
-    const base = 'https://github.com/debpalash/VoiceStudio/blob/main';
+    const base = 'https://github.com/mnikhilsrikar2512/voiceym/blob/main';
     for (const [key, url] of Object.entries(ERROR_DOCS)) {
       expect(url.startsWith(base), `${key} not under ${base}: ${url}`).toBe(true);
     }
@@ -110,8 +110,8 @@ describe('errorDocsMap', () => {
     expect(classifyError(new Error('Gatekeeper blocked the launch'))).toBe('GATEKEEPER_QUARANTINE');
     // Issue #72: macOS reports "app is damaged" in English and "已损坏" in
     // localized Chinese builds — both should land on the same docs page.
-    expect(classifyError(new Error('VoiceStudio is damaged'))).toBe('GATEKEEPER_QUARANTINE');
-    expect(classifyError(new Error('VoiceStudio已损坏，无法打开'))).toBe('GATEKEEPER_QUARANTINE');
+    expect(classifyError(new Error('Voiceym is damaged'))).toBe('GATEKEEPER_QUARANTINE');
+    expect(classifyError(new Error('Voiceym已损坏，无法打开'))).toBe('GATEKEEPER_QUARANTINE');
   });
 
   it('classifyError returns null on unknown messages', () => {

@@ -16,7 +16,7 @@ def validate_sunset(manifest, tag):
         raise ValueError("Missing Tauri platforms")
     for entry in manifest["platforms"].values():
         url = urlparse(entry.get("url", ""))
-        prefix = f"/debpalash/VoiceStudio/releases/download/{tag}/"
+        prefix = f"/mnikhilsrikar2512/voiceym/releases/download/{tag}/"
         if url.scheme != "https" or url.netloc != "github.com" or not url.path.startswith(prefix):
             raise ValueError("Tauri URLs must point to immutable sunset assets")
         if not entry.get("signature"):
@@ -40,7 +40,7 @@ def prepare(assets, tag, sunset_tag=None):
         if actual != expected:
             raise ValueError("Updater payload checksum mismatch")
     for suffix in ("mac-arm64.dmg", "mac-x64.dmg", "linux-x64.deb"):
-        if not (assets / f"VoiceStudio-Electron-{version}-{suffix}").is_file():
+        if not (assets / f"Voiceym-Electron-{version}-{suffix}").is_file():
             raise ValueError(f"Missing installer: {suffix}")
     if sunset_tag:
         for name in ("latest.json", "latest-user.json"):

@@ -25,7 +25,7 @@ const engines = (available = true): EnginesResponse => ({
     backends: [
       {
         id: 'omnivoice',
-        display_name: 'VoiceStudio',
+        display_name: 'Voiceym',
         available,
         reason: available ? null : 'Model missing',
       },

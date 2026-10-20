@@ -3,7 +3,7 @@ import { expect, it } from 'vitest';
 import { join } from 'node:path';
 import { scopedStorage, scopedStorageEnv } from './storage-scope';
 
-const root = join('E:', 'VoiceStudio');
+const root = join('E:', 'Voiceym');
 
 it('puts data, models and every temp variable under the chosen location (#2971)', () => {
   const s = scopedStorage(root);

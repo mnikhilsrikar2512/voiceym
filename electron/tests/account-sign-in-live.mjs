@@ -1,5 +1,5 @@
-// Live smoke for VoiceStudio Cloud sign-in against the dev realm. Needs a built app
-// (`bun run build`), a display (xvfb-run on Linux) and network access to dev-app.voicestudio.sh.
+// Live smoke for Voiceym Cloud sign-in against the dev realm. Needs a built app
+// (`bun run build`), a display (xvfb-run on Linux) and network access to dev-app.voiceym.example.
 // It stops at the Keycloak login page: finishing sign-in needs a dev test account.
 import { _electron as electron } from "playwright";
 import { mkdtempSync } from "node:fs";
@@ -9,7 +9,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 
-const ISSUER = "https://dev-app.voicestudio.sh/identity/realms/vssaas";
+const ISSUER = "https://dev-app.voiceym.example/identity/realms/vssaas";
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const executable =
   process.platform === "win32"
@@ -38,15 +38,15 @@ const app = await electron.launch({
   executablePath: executable,
   args: [
     join(workspaceRoot, "electron/out/main/index.js"),
-    "--user-data-dir=" + mkdtempSync(join(tmpdir(), "voicestudio-account-")),
+    "--user-data-dir=" + mkdtempSync(join(tmpdir(), "voiceym-account-")),
   ],
   env: {
     ...launchEnvironment,
     ELECTRON_RENDERER_URL: "",
-    VOICESTUDIO_CLOUD_ENV: "dev",
-    VOICESTUDIO_ELECTRON_PROXY_PORT: "49305",
-    VOICESTUDIO_SKIP_BACKEND: "1",
-    VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: "1",
+    VOICEYM_CLOUD_ENV: "dev",
+    VOICEYM_ELECTRON_PROXY_PORT: "49305",
+    VOICEYM_SKIP_BACKEND: "1",
+    VOICEYM_ALLOW_MULTIPLE_INSTANCES: "1",
   },
 });
 
@@ -60,9 +60,9 @@ try {
 
   const page = await app.firstWindow();
   page.setDefaultTimeout(20000);
-  await page.waitForFunction(() => Boolean(window.voicestudio?.account));
+  await page.waitForFunction(() => Boolean(window.voiceym?.account));
   const account = (fn, arg) =>
-    page.evaluate(([f, a]) => window.voicestudio.account[f](a), [fn, arg]);
+    page.evaluate(([f, a]) => window.voiceym.account[f](a), [fn, arg]);
 
   // Off by default: nothing in the corner, sign-in refuses to start.
   let state = await account("get");
@@ -112,7 +112,7 @@ try {
   // Sign in: discovery against the dev realm, then a PKCE authorize URL to a loopback redirect.
   await signIn.click();
   await page.waitForFunction(
-    async () => (await window.voicestudio.account.get()).signingIn,
+    async () => (await window.voiceym.account.get()).signingIn,
   );
   await assert.doesNotReject(async () => {
     for (let i = 0; i < 100 && !(await opened()).length; i++)
@@ -125,7 +125,7 @@ try {
     `${url.origin}${url.pathname}`,
     `${ISSUER}/protocol/openid-connect/auth`,
   );
-  assert.equal(url.searchParams.get("client_id"), "voicestudio-desktop-oss");
+  assert.equal(url.searchParams.get("client_id"), "voiceym-desktop-oss");
   assert.equal(url.searchParams.get("response_type"), "code");
   assert.equal(url.searchParams.get("code_challenge_method"), "S256");
   assert.match(

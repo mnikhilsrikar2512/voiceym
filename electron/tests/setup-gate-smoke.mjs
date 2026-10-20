@@ -101,7 +101,7 @@ try {
   await next.waitFor();
   assert.ok(await next.isDisabled());
   await page.getByRole('button', { name: 'Re-check', exact: true }).waitFor();
-  assert.ok(await page.getByRole('heading', { name: 'VoiceStudio', exact: true }).isVisible());
+  assert.ok(await page.getByRole('heading', { name: 'Voiceym', exact: true }).isVisible());
   partialPreflight = false;
   await page.getByRole('button', { name: 'Re-check', exact: true }).click();
   await page.getByText('Fixture memory result').waitFor();
@@ -114,7 +114,7 @@ try {
   assert.equal(await page.getByRole('heading', { name: 'Required model', exact: true }).count(), 0);
   await page.setViewportSize({ width: 640, height: 800 });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
-  await page.screenshot({ path: '/tmp/voicestudio-onboarding-packs.png' });
+  await page.screenshot({ path: '/tmp/voiceym-onboarding-packs.png' });
   await page.getByRole('button', { name: 'Advanced', exact: true }).click();
   await page.getByRole('heading', { name: 'Required model', exact: true }).waitFor();
   assert.ok(
@@ -145,7 +145,7 @@ try {
     .getByRole('button', { name: 'Enter studio', exact: true })
     .waitFor({ state: 'hidden' });
   assert.equal(
-    await page.evaluate(() => localStorage.getItem('voicestudio.setup.complete.v1')),
+    await page.evaluate(() => localStorage.getItem('voiceym.setup.complete.v1')),
     '1',
   );
   assert.equal(installs, 0);

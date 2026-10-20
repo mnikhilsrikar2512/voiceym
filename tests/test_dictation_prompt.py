@@ -22,7 +22,7 @@ os.environ.setdefault("OMNIVOICE_DISABLE_FILE_LOG", "1")
 
 pytestmark = pytest.mark.usefixtures("asr_model_installed")
 
-PROMPT = "VoiceStudio, Breeze-ASR-25, Kubernetes"
+PROMPT = "Voiceym, Breeze-ASR-25, Kubernetes"
 
 
 class _WhisperLike:

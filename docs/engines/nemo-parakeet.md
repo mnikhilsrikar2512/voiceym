@@ -1,4 +1,4 @@
-# VoiceStudio — Parakeet TDT (NVIDIA NeMo) Engine
+# Voiceym — Parakeet TDT (NVIDIA NeMo) Engine
 
 NVIDIA's Parakeet TDT via the NeMo toolkit: a FastConformer encoder with a
 Token-and-Duration Transducer decoder. It beats Whisper large-v3 on English
@@ -10,7 +10,7 @@ faster-whisper large-v3 int8 on the same host.
 ## Do not install NeMo into the app venv
 
 `nemo_toolkit`'s ASR extras pin `transformers>=4.57,<4.58`, which conflicts
-with VoiceStudio's own `transformers>=5.3` requirement and **will break the
+with Voiceym's own `transformers>=5.3` requirement and **will break the
 backend** (ImportError on startup) if installed into the shared venv. There
 is currently no safe in-app install path for this engine; in-app isolation
 is tracked separately.

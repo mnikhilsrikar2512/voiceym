@@ -1,4 +1,4 @@
-# VoiceStudio — License Notice
+# Voiceym — License Notice
 
 ## Abbreviation
 
@@ -6,39 +6,34 @@ AGPL-3.0-only
 
 ## Notice
 
+Voiceym is a modified version of **VoiceStudio**
+(<https://github.com/debpalash/VoiceStudio>), forked at upstream commit
+`73df166` on 2026-10-20 and renamed. Changes since the fork are recorded in
+this repository's git history.
+
 Copyright 2024-present Palash Debnath and VoiceStudio contributors.
+Modifications copyright 2026-present the Voiceym contributors.
 
-VoiceStudio is **free and open-source software, licensed under the GNU
-Affero General Public License, Version 3 (AGPL-3.0)**. You are free to use,
-copy, modify, and redistribute it. That **includes commercial and internal
-business use** of the application itself. Model weights, tokenizers, and other
-third-party assets retain their own terms; this application license does not
-grant or summarize rights under those separate terms.
+Voiceym is **free and open-source software, licensed under the GNU Affero
+General Public License, Version 3 (AGPL-3.0)**, the same license as the
+upstream project. You are free to use, copy, modify, and redistribute it,
+including for commercial and internal business use.
 
-Because this is the **Affero** GPL, one additional obligation applies: if you
-modify VoiceStudio and make that modified version available to others over
-a network, you must also offer those users the complete corresponding source
-code of your modified version under these same AGPL-3.0 terms. See the full
-text in [`LICENSE`](LICENSE).
+Because this is the **Affero** GPL, if you modify Voiceym and make that
+modified version available to others over a network, you must also offer
+those users the complete corresponding source code of your modified version
+under these same AGPL-3.0 terms. See the full text in [`LICENSE`](LICENSE).
 
-Commercial use under the AGPL-3.0 is free. What is paid is a **commercial
-license** for organizations that want to embed VoiceStudio in a closed-source or
-proprietary product or service without the AGPL-3.0 copyleft obligations, and
-the VoiceStudio Pro features. See the plans at <https://voicestudio.sh/pro>; for
-other inquiries contact `hi@voicestudio.sh`.
-
-Contributors license their contributions to Yupcha Softwares Private Limited,
-the company that maintains VoiceStudio, under the
-[Contributor License Agreement](.github/CLA-1.0.md). While a contribution is
-in the public repository, it stays available there under the AGPL-3.0 or
-another OSI-approved licence (CLA section 4).
+Model weights, tokenizers, and other third-party assets retain their own
+terms; this application license does not grant or summarize rights under
+those separate terms.
 
 (This Notice is a plain-language summary; the binding terms are the full GNU
 AGPL-3.0 text in [`LICENSE`](LICENSE).)
 
 ### Scope
 
-These terms cover the VoiceStudio application — the Electron desktop and web
+These terms cover the Voiceym application — the Electron desktop and web
 app (`electron/`), its native desktop helper (`native/`), the FastAPI backend
 (`backend/`), and supporting build / packaging files (`scripts/`, `deploy/`,
 `.github/`). Electron components adapted from T3 Code keep their MIT notice in
@@ -49,11 +44,10 @@ is **separately licensed under Apache License 2.0** by its upstream authors and
 is not relicensed here. Apache License 2.0 is compatible with, and may be
 combined under, the GNU AGPL-3.0. See `pyproject.toml`.
 
-Downloaded model weights are not relicensed by VoiceStudio. The default
+Downloaded model weights are not relicensed by Voiceym. The default
 `k2-fsa/OmniVoice` model card identifies its code as Apache-2.0 and pretrained
 weights as CC-BY-NC. Its `audio_tokenizer/LICENSE` contains separate Boson
-Higgs Audio 2 and Meta Llama community terms. A commercial license for
-VoiceStudio-owned code does not replace any of those terms.
+Higgs Audio 2 and Meta Llama community terms. 
 
 The maintained About panel displays selected model credits and required literal
 Higgs Audio and Llama attribution text. See [model credit sources](docs/model-credits.md)

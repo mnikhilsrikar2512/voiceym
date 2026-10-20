@@ -48,27 +48,27 @@ jobs:
         run: |
           if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
             # Exercise the PR source as main before its installer changes are merged.
-            git init --bare -q --initial-branch=main "$RUNNER_TEMP/voicestudio-main.git"
-            git --git-dir "$RUNNER_TEMP/voicestudio-main.git" config receive.shallowUpdate true
-            git push "$RUNNER_TEMP/voicestudio-main.git" HEAD:refs/heads/main
+            git init --bare -q --initial-branch=main "$RUNNER_TEMP/voiceym-main.git"
+            git --git-dir "$RUNNER_TEMP/voiceym-main.git" config receive.shallowUpdate true
+            git push "$RUNNER_TEMP/voiceym-main.git" HEAD:refs/heads/main
             export GIT_CONFIG_COUNT=1
-            export GIT_CONFIG_KEY_0="url.file://$RUNNER_TEMP/voicestudio-main.git.insteadOf"
-            export GIT_CONFIG_VALUE_0=https://github.com/debpalash/VoiceStudio.git
+            export GIT_CONFIG_KEY_0="url.file://$RUNNER_TEMP/voiceym-main.git.insteadOf"
+            export GIT_CONFIG_VALUE_0=https://github.com/mnikhilsrikar2512/voiceym.git
           fi
           sh scripts/install.sh --main
       - name: Verify and uninstall Electron (macOS/Linux)
         if: runner.os != 'Windows'
         run: |
           if [ "$(uname)" = Darwin ]; then
-            test -f /Applications/VoiceStudio.app/Contents/Resources/app.asar
+            test -f /Applications/Voiceym.app/Contents/Resources/app.asar
           else
-            test -x "$HOME/.local/bin/VoiceStudio"
+            test -x "$HOME/.local/bin/Voiceym"
           fi
           sh scripts/install.sh --uninstall
           if [ "$(uname)" = Darwin ]; then
-            test ! -e /Applications/VoiceStudio.app
+            test ! -e /Applications/Voiceym.app
           else
-            test ! -e "$HOME/.local/bin/VoiceStudio"
+            test ! -e "$HOME/.local/bin/Voiceym"
           fi
       - name: Install latest release (Windows)
         if: runner.os == 'Windows'
@@ -79,22 +79,22 @@ jobs:
         shell: pwsh
         run: |
           $keys = @('HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*')
-          $entry = Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^VoiceStudio(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall VoiceStudio.exe' } | Select-Object -First 1
+          $entry = Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^Voiceym(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall Voiceym.exe' } | Select-Object -First 1
           if (-not $entry) { throw 'Electron NSIS product not registered' }
           & ./scripts/install.ps1 -Uninstall -Silent
-          if (Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^VoiceStudio(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall VoiceStudio.exe' }) { throw 'Electron remains registered after uninstall' }
+          if (Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^Voiceym(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall Voiceym.exe' }) { throw 'Electron remains registered after uninstall' }
       - name: Build and install main (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           if ($env:GITHUB_EVENT_NAME -eq 'pull_request') {
             # Exercise the PR source as main before its installer changes are merged.
-            $bare = Join-Path $env:RUNNER_TEMP 'voicestudio-main.git'
+            $bare = Join-Path $env:RUNNER_TEMP 'voiceym-main.git'
             git init --bare -q --initial-branch=main $bare
             git --git-dir $bare config receive.shallowUpdate true
             git push $bare HEAD:refs/heads/main
             $env:GIT_CONFIG_COUNT = '1'
-            $env:GIT_CONFIG_VALUE_0 = 'https://github.com/debpalash/VoiceStudio.git'
+            $env:GIT_CONFIG_VALUE_0 = 'https://github.com/mnikhilsrikar2512/voiceym.git'
             $env:GIT_CONFIG_KEY_0 = "url.file:///$($bare.Replace('\', '/')).insteadOf"
           }
           ./scripts/install.ps1 -Main -Silent
@@ -103,7 +103,7 @@ jobs:
         shell: pwsh
         run: |
           $keys = @('HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*')
-          $entry = Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^VoiceStudio(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall VoiceStudio.exe' } | Select-Object -First 1
+          $entry = Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^Voiceym(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall Voiceym.exe' } | Select-Object -First 1
           if (-not $entry) { throw 'Electron NSIS product not registered' }
           & ./scripts/install.ps1 -Uninstall -Silent
-          if (Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^VoiceStudio(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall VoiceStudio.exe' }) { throw 'Electron remains registered after uninstall' }
+          if (Get-ItemProperty $keys -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match '^Voiceym(?: \d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?)?$' -and $_.UninstallString -match 'Uninstall Voiceym.exe' }) { throw 'Electron remains registered after uninstall' }

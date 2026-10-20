@@ -1,4 +1,4 @@
-"""Short-lived VoiceStudio Cloud access tokens from Electron main.
+"""Short-lived Voiceym Cloud access tokens from Electron main.
 
 The refresh token never leaves Electron main. Main answers {"signed_in": false}
 whenever account features or sync are switched off, or the backend is remote,
@@ -15,8 +15,8 @@ import urllib.request
 from typing import Optional
 from urllib.parse import urlsplit
 
-_url = os.environ.pop("VOICESTUDIO_ACCOUNT_BRIDGE_URL", "")
-_capability = os.environ.pop("VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN", "")
+_url = os.environ.pop("VOICEYM_ACCOUNT_BRIDGE_URL", "")
+_capability = os.environ.pop("VOICEYM_ACCOUNT_BRIDGE_TOKEN", "")
 
 
 def _configure(url: str, capability: str) -> None:

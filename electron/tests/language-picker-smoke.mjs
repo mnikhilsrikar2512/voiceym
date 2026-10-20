@@ -7,7 +7,7 @@ const browser = await chromium.launch({
   headless: true,
   ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}),
 });
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3927';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3927';
 const timings = [];
 try {
   for (const [platform, locale, width, columns] of [
@@ -26,9 +26,9 @@ try {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.addInitScript(
       ({ platform, locale }) => {
-        localStorage.setItem('voicestudio.setup.complete.v1', '1');
-        localStorage.setItem('voicestudio.locale', locale);
-        window.voicestudio = {
+        localStorage.setItem('voiceym.setup.complete.v1', '1');
+        localStorage.setItem('voiceym.locale', locale);
+        window.voiceym = {
           app: {
             version: 'test',
             platform,

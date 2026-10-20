@@ -109,7 +109,7 @@ def test_every_personality_instruct_is_accepted_by_resolve_instruct():
 
 
 def test_resolve_instruct_tolerates_object_object_sentinel():
-    """A pre-fix Voice Studio build persisted the literal "[object Object]" into
+    """A pre-fix Voiceym build persisted the literal "[object Object]" into
     voice_profiles.instruct (#550 et al). _resolve_instruct must DROP that
     sentinel and not 400 the whole generation, while still rejecting a genuine
     unsupported token."""

@@ -1,4 +1,4 @@
-# VoiceStudio — Parakeet TDT v3 (MLX) Engine
+# Voiceym — Parakeet TDT v3 (MLX) Engine
 
 NVIDIA's Parakeet TDT v3 on the Apple Silicon GPU, via the small pure-Python
 `parakeet-mlx` package. It gives Macs the Parakeet tier CUDA/CPU users get

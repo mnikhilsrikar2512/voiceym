@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "productName": "VoiceStudio",
-    "applicationId": "com.voicestudio.desktop",
-    "publisherLegalName": "Yupcha Softwares Private Limited",
+    "productName": "Voiceym",
+    "applicationId": "com.voiceym.desktop",
+    "publisherLegalName": "Voiceym",
     "license": "AGPL-3.0-only",
     "defaultLocale": "en-US"
   },
   "listing": {
-    "title": "VoiceStudio",
+    "title": "Voiceym",
     "shortDescription": "Local voice cloning, voice design, dubbing and dictation on your computer.",
-    "description": "VoiceStudio is a local-first desktop studio for voice cloning, voice design, video dubbing, transcription and real-time dictation. Audio and projects remain on the user's computer by default, with no account or API key required. Models and the managed runtime are installed only through explicit setup or model-install actions.",
+    "description": "Voiceym is a local-first desktop studio for voice cloning, voice design, video dubbing, transcription and real-time dictation. Audio and projects remain on the user's computer by default, with no account or API key required. Models and the managed runtime are installed only through explicit setup or model-install actions.",
     "keywords": [
       "voice cloning",
       "text to speech",
@@ -21,10 +21,10 @@
     ]
   },
   "urls": {
-    "website": "https://voicestudio.sh",
-    "privacyPolicy": "https://voicestudio.sh/privacy",
-    "support": "https://github.com/debpalash/VoiceStudio/issues",
-    "source": "https://github.com/debpalash/VoiceStudio"
+    "website": "https://voiceym.example",
+    "privacyPolicy": "https://voiceym.example/privacy",
+    "support": "https://github.com/mnikhilsrikar2512/voiceym/issues",
+    "source": "https://github.com/mnikhilsrikar2512/voiceym"
   },
   "requirements": {
     "diskGib": 10,

@@ -1,9 +1,9 @@
 # Authenticating the local API
 
-For an application backend consuming a pinned, private VoiceStudio deployment,
+For an application backend consuming a pinned, private Voiceym deployment,
 start with the [production private API pattern](production-private-api.md).
 
-VoiceStudio's backend is **loopback-only and unauthenticated by default** — a
+Voiceym's backend is **loopback-only and unauthenticated by default** — a
 script running on the same machine as `http://localhost:3900` needs no key, no
 PIN, no header. Everything on this page only matters once you reach the backend
 from **another device** (a phone on your LAN, a laptop over Tailscale, a client
@@ -21,7 +21,7 @@ env var that exempts trusted callers:
 Loopback traffic (`127.0.0.1`, `::1`, `localhost`) is **never** gated — local
 tools keep working unchanged whichever gate is set.
 
-> VoiceStudio separates **consumption** (TTS, dictation, voices) from
+> Voiceym separates **consumption** (TTS, dictation, voices) from
 > **administration** (`/system/*`, `/api/settings/*` — RCE-class). The PIN and
 > trusted networks are *consumption* credentials; the **admin surface is only
 > ever reached from loopback or with the API key**. Host-path capabilities stay
@@ -199,7 +199,7 @@ is always evaluated and clears the failure window, so an attacker cannot lock
 an operator out by deliberately exhausting the limit.
 
 Cookie-authenticated mutations require both an exact allowed `Origin` and
-`X-VoiceStudio-CSRF: 1`. Side-effectful GET actions additionally require the
+`X-Voiceym-CSRF: 1`. Side-effectful GET actions additionally require the
 browser's `Sec-Fetch-Site: same-origin`. Bearer/header clients are not subject
 to the ambient-cookie CSRF check.
 
@@ -328,7 +328,7 @@ Everything above gates *authentication*. A **browser** frontend served from a
 different origin than the backend hits a separate wall first: CORS. The
 backend's allow-list defaults to loopback + the desktop origin only
 (`http://localhost:<ui-port>`, `http://127.0.0.1:<ui-port>`,
-`app://voicestudio`), so opening a dev/source UI via
+`app://voiceym`), so opening a dev/source UI via
 a LAN IP (e.g. `http://192.168.1.159:3901` talking to `…:3900`) blocks every
 request with *"Missing Header: Access-Control-Allow-Origin"* — regardless of
 `OMNIVOICE_SERVER_MODE` or `OMNIVOICE_TRUSTED_NETWORKS`, neither of which
@@ -337,17 +337,17 @@ touches CORS (#1348).
 Add the exact origin the browser shows in its address bar:
 
 ```bash
-export OMNIVOICE_ALLOWED_ORIGINS="http://192.168.1.159:3901,http://localhost:3901,http://127.0.0.1:3901,app://voicestudio"
+export OMNIVOICE_ALLOWED_ORIGINS="http://192.168.1.159:3901,http://localhost:3901,http://127.0.0.1:3901,app://voiceym"
 ```
 
 Each entry must be a bare origin — `scheme://host:port`, exactly what the
 browser sends in its `Origin` header — with no path and no trailing slash
 (`http://192.168.1.159:3901/` would never match). The variable **replaces**
-the default list, so restate the loopback and `app://voicestudio` origins
+the default list, so restate the loopback and `app://voiceym` origins
 alongside your own. (The in-app LAN share and Tailscale flows in
 [docs/sharing.md](sharing.md) don't need this — they serve UI and API from the
 same origin.) If you only moved the Vite dev server's port, set
-`OMNIVOICE_UI_PORT` (the older `VOICESTUDIO_UI_PORT` name is still accepted)
+`OMNIVOICE_UI_PORT` (the older `VOICEYM_UI_PORT` name is still accepted)
 instead; both Vite and the default list follow it.
 
 CORS wraps both authentication gates: credentialless browser preflights are
@@ -359,7 +359,7 @@ TLS-terminating proxies must establish the effective scheme at the ASGI server
 boundary. Uvicorn's proxy-header handling trusts loopback by default, which
 covers Tailscale Serve; a custom proxy on another address must be listed with
 `--forwarded-allow-ips=<proxy-ip>` (and proxy headers must remain enabled).
-VoiceStudio deliberately does not trust a raw `X-Forwarded-Proto` header inside
+Voiceym deliberately does not trust a raw `X-Forwarded-Proto` header inside
 the application: once Uvicorn accepts a trusted proxy, the resolved ASGI scheme
 drives exact-Origin checks and the session cookie's `Secure` attribute.
 For a public path prefix such as `/studio`, either strip that prefix before
@@ -389,7 +389,7 @@ traffic in **every** configuration, loopback included:
   lists, Tailscale status, engine health and disk-usage checks, and
   diagnostics. Ordinary navigation to the UI is unaffected.
   Allowed origins are this backend's own
-  origin, `app://voicestudio` and the `OMNIVOICE_ALLOWED_ORIGINS` list
+  origin, `app://voiceym` and the `OMNIVOICE_ALLOWED_ORIGINS` list
   (see [CORS](#browsers-from-another-origin-cors)). Clients that send no
   `Origin` and no `Sec-Fetch-Site` — scripts, curl, SDKs, MCP clients, the
   desktop app's own process — are not affected.
@@ -421,7 +421,7 @@ The packaged desktop app has no Settings field for this. Add the same line
 without `export` (`OMNIVOICE_ALLOWED_HOSTS=nas.lan`) to the user env file —
 `~/.config/omnivoice/env` on macOS and Linux,
 `%USERPROFILE%\.config\omnivoice\env` on Windows, or the file named by
-`OMNIVOICE_ENV_FILE` — and restart VoiceStudio. Docker takes it as
+`OMNIVOICE_ENV_FILE` — and restart Voiceym. Docker takes it as
 `-e OMNIVOICE_ALLOWED_HOSTS=...`.
 
 `OMNIVOICE_ALLOWED_HOSTS=*` turns the host check off; use it only behind a
@@ -434,7 +434,7 @@ call the API directly need their origin in `OMNIVOICE_ALLOWED_ORIGINS`.
 |---|---|---|
 | **401** | Consumption auth failed — `{"detail": "PIN required"}` or `{"detail": "API key required"}`. | Supply the PIN / key (header, cookie, or query param above). A WebSocket surfaces this as close code **1008**. |
 | **403** | Authorization failed: the request came from another website or used an unrecognized host name ([details](#requests-from-other-websites-and-host-names)), loopback/native access was required, cookie Origin/CSRF validation failed, a server-mode mutation lacked an admin credential, or a native path capability was invalid/expired. | A PIN cannot grant admin or filesystem access. Re-authenticate the UI; scripts should use the API-key header; run native operations from the desktop app. The admin gate names the key only when one can satisfy it: server mode with `OMNIVOICE_API_KEY` configured answers `{"detail": "loopback origin or admin API key required"}` (the bundled UI routes it to the API-key login form); PIN-only/no-key server mode and the desktop build answer `{"detail": "loopback origin required"}` (only loopback can satisfy the gate). |
-| **429** | A failed administrator-session exchange exceeded its per-client limit, the GPU pool is saturated, or a model download is rate-limited. Ships with `Retry-After`; workload throttles also carry `X-VoiceStudio-Retryable: true`. | Back off for `Retry-After` seconds. For authentication, verify the master before retrying; a correct master is never locked out. |
+| **429** | A failed administrator-session exchange exceeded its per-client limit, the GPU pool is saturated, or a model download is rate-limited. Ships with `Retry-After`; workload throttles also carry `X-Voiceym-Retryable: true`. | Back off for `Retry-After` seconds. For authentication, verify the master before retrying; a correct master is never locked out. |
 
 ---
 
@@ -444,5 +444,5 @@ call the API directly need their origin in `OMNIVOICE_ALLOWED_ORIGINS`.
   Tailscale, with the API key.
 - [docs/sharing.md](sharing.md) — the in-app LAN share + PIN flow.
 - [docs/agentic-voice.md](agentic-voice.md) — pointing OpenAI-compatible agent
-  frameworks at VoiceStudio.
+  frameworks at Voiceym.
 - [docs/mcp.md](mcp.md) — the MCP server for AI agents.

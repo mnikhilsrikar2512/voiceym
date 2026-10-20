@@ -23,30 +23,30 @@ it('opens only the explicit destination and applies selected amounts only to Pay
   render(<SupportSettings />);
   expect(mock.open).not.toHaveBeenCalled();
   const paypal = screen.getByRole('link', { name: 'PayPal' });
-  expect(paypal).toHaveAttribute('href', 'https://paypal.me/palashCoder');
+  expect(paypal).toHaveAttribute('href', 'https://github.com/mnikhilsrikar2512/voiceym');
   fireEvent.click(screen.getByRole('button', { name: '$20' }));
-  expect(paypal).toHaveAttribute('href', 'https://paypal.me/palashCoder/20');
+  expect(paypal).toHaveAttribute('href', 'https://github.com/mnikhilsrikar2512/voiceym/20');
   expect(screen.getByRole('link', { name: 'Ko-fi' })).toHaveAttribute(
     'href',
-    'https://ko-fi.com/debpalash',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
   const sponsors = screen.getAllByRole('link', { name: 'GitHub Sponsors' });
   expect(sponsors).toHaveLength(2);
   for (const link of sponsors)
-    expect(link).toHaveAttribute('href', 'https://github.com/sponsors/debpalash');
+    expect(link).toHaveAttribute('href', 'https://github.com/mnikhilsrikar2512/voiceym');
   expect(
     within(screen.getByRole('group', { name: 'donate.choose_method' })).getAllByRole('link')[0],
   ).toBe(sponsors[0]);
   fireEvent.click(paypal);
   expect(mock.open).toHaveBeenCalledOnce();
-  expect(mock.open).toHaveBeenCalledWith('https://paypal.me/palashCoder/20');
+  expect(mock.open).toHaveBeenCalledWith('https://github.com/mnikhilsrikar2512/voiceym/20');
   expect(screen.getByRole('link', { name: 'contact.security_cta' })).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/security/advisories/new',
+    'https://github.com/mnikhilsrikar2512/voiceym/security/advisories/new',
   );
   expect(screen.getByRole('link', { name: 'support.sponsors_become' })).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml',
+    'https://github.com/mnikhilsrikar2512/voiceym/issues/new?template=sponsor.yml',
   );
   fireEvent.click(screen.getByRole('button', { name: 'supportPlans.get_pro' }));
   expect(mock.navigate).toHaveBeenCalledWith({ to: '/pro' });
@@ -67,11 +67,11 @@ it('keeps contact and Pro actions visible and lets the donor clear an amount', (
   expect(amount).toHaveAttribute('aria-pressed', 'false');
   expect(screen.getByRole('link', { name: 'PayPal' })).toHaveAttribute(
     'href',
-    'https://paypal.me/palashCoder',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
   fireEvent.click(screen.getByRole('button', { name: 'donate.custom' }));
   expect(screen.getByRole('link', { name: 'PayPal' })).toHaveAttribute(
     'href',
-    'https://paypal.me/palashCoder',
+    'https://github.com/mnikhilsrikar2512/voiceym',
   );
 });

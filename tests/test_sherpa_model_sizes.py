@@ -208,7 +208,7 @@ def test_declared_sizes_match_the_published_repos(sd, model_id):
         f"https://huggingface.co/api/models/{spec.repo_id}"
         f"/tree/main?recursive=1"
     )
-    req = urllib.request.Request(url, headers={"User-Agent": "voicestudio-tests"})
+    req = urllib.request.Request(url, headers={"User-Agent": "voiceym-tests"})
     with urllib.request.urlopen(req, timeout=30) as resp:
         entries = {e["path"]: e for e in json.load(resp) if e["type"] == "file"}
 

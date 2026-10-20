@@ -88,10 +88,10 @@ function expectedAgentPipeClose(error: unknown): boolean {
  * agent CLIs must never inherit them; every agent spawn builds its env here.
  */
 const BACKEND_ONLY_ENV = [
-  'VOICESTUDIO_LLM_AGENT_URL',
-  'VOICESTUDIO_LLM_AGENT_TOKEN',
-  'VOICESTUDIO_ACCOUNT_BRIDGE_URL',
-  'VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN',
+  'VOICEYM_LLM_AGENT_URL',
+  'VOICEYM_LLM_AGENT_TOKEN',
+  'VOICEYM_ACCOUNT_BRIDGE_URL',
+  'VOICEYM_ACCOUNT_BRIDGE_TOKEN',
 ] as const;
 
 export function agentChildEnv(extra: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
@@ -283,9 +283,9 @@ export function launchArgs(
         '--mcp-config',
         mcpConfigFile,
         '--tools',
-        'mcp__voicestudio__api_request',
+        'mcp__voiceym__api_request',
         '--allowedTools',
-        'mcp__voicestudio__api_request',
+        'mcp__voiceym__api_request',
         '--permission-mode',
         'dontAsk',
         '--no-session-persistence',
@@ -313,10 +313,10 @@ export function launchArgs(
 
 export function openCodePromptArgs(promptFile: string): string[] {
   // OpenCode's --file option is variadic, so the positional message must come first.
-  return ['Follow the attached VoiceStudio repair request.', '--file', promptFile];
+  return ['Follow the attached Voiceym repair request.', '--file', promptFile];
 }
 
-function isVoiceStudioCheckout(path: string): boolean {
+function isVoiceymCheckout(path: string): boolean {
   const complete = [
     '.git',
     'AGENTS.md',
@@ -341,7 +341,7 @@ function savedWorkspace(): string | null {
     ) as { path?: unknown };
     if (typeof parsed.path !== 'string') return null;
     const path = resolve(parsed.path);
-    return isVoiceStudioCheckout(path) ? path : null;
+    return isVoiceymCheckout(path) ? path : null;
   } catch {
     return null;
   }
@@ -473,7 +473,7 @@ export function dubTranslationPrompt(request: DubAgentTranslationRequest): strin
       ? { measuredSeconds: Number(segment.measuredSeconds.toFixed(3)) }
       : {}),
   }));
-  return `You are VoiceStudio's local dubbing translation agent. ${purpose}
+  return `You are Voiceym's local dubbing translation agent. ${purpose}
 ${request.dialect ? `Use the ${request.dialect} dialect consistently.` : ''}
 ${request.translationInstructions?.trim() ? `User translation style brief (apply to tone and wording, while retaining meaning, timing and the required output format): ${JSON.stringify(request.translationInstructions.trim())}` : ''}
 ${request.glossary?.length ? `Use this glossary exactly where applicable: ${JSON.stringify(request.glossary)}` : ''}
@@ -678,11 +678,11 @@ export function requestPrompt(
   validateAgentWorkspace(request);
   const task =
     request.report.trim().slice(0, MAX_REPORT) ||
-    'Find the current VoiceStudio failure from the supplied diagnostics and recent logs.';
+    'Find the current Voiceym failure from the supplied diagnostics and recent logs.';
   const session = sourceAttached
-    ? `You are the local VoiceStudio repair agent running inside its source checkout.
+    ? `You are the local Voiceym repair agent running inside its source checkout.
 Read AGENTS.md first, then CLAUDE.md and CONTEXT.md. Follow repository skills and rules.`
-    : `You are VoiceStudio Agent, a local app operator running in a temporary session. No source checkout is attached. Do not search for or edit application source or other user files. Complete the user's current request through VoiceStudio's app API bridge. For missing essential input such as source text, an audio file or a target language, ask a short question instead of inventing input.`;
+    : `You are Voiceym Agent, a local app operator running in a temporary session. No source checkout is attached. Do not search for or edit application source or other user files. Complete the user's current request through Voiceym's app API bridge. For missing essential input such as source text, an audio file or a target language, ask a short question instead of inventing input.`;
   const mode = sourceAttached
     ? request.mode === 'fix'
       ? 'Reproduce it, fix the root cause with the smallest cross-platform change, and run targeted tests.'
@@ -695,19 +695,19 @@ Read AGENTS.md first, then CLAUDE.md and CONTEXT.md. Follow repository skills an
     ? ''
     : `${
         mcpOnly
-          ? 'Your only available tool is the VoiceStudio MCP API tool, named voicestudio_api_request (some clients display it as mcp__voicestudio__api_request). Its server already owns the session credential: do not inspect environment variables, run shell commands, or read files. Call it with GET /openapi.json first, then use only the routes it describes.'
-          : 'Read the JSON file named by VOICESTUDIO_REPAIR_CONTEXT_FILE and use its baseUrl and headers for direct API requests. Never print, quote, copy, or persist its capability header.'
+          ? 'Your only available tool is the Voiceym MCP API tool, named voiceym_api_request (some clients display it as mcp__voiceym__api_request). Its server already owns the session credential: do not inspect environment variables, run shell commands, or read files. Call it with GET /openapi.json first, then use only the routes it describes.'
+          : 'Read the JSON file named by VOICEYM_REPAIR_CONTEXT_FILE and use its baseUrl and headers for direct API requests. Never print, quote, copy, or persist its capability header.'
       } Resolve ordinary setup choices yourself from live hardware, installed models, recommendations and current preferences. An explicit setup or restore request authorizes required model downloads and engine selection. Do not ask the user to repeat actions the API can perform. Never accept a license, change privacy or telemetry consent, enter credentials, delete user data, or connect a remote device for the user; stop and name that single required user decision if one blocks completion.`;
   const finish = sourceAttached
     ? `Do not open a GitHub issue, push, publish, merge, or create a pull request. If the fix and targeted tests pass, end by saying the branch is ready for the user to review and propose as a PR.`
     : `Do not open a GitHub issue, edit source, or propose a pull request. End by stating whether the requested app state was verified and what, if anything, still needs the user's input.`;
   return `${session} ${mode}
-When the report begins ACTION_REQUEST and source is attached, complete the requested setup or recovery through VoiceStudio's supported UI, API, or CLI first; edit source only when a reproducible defect prevents that operation.
-VoiceStudio has exposed its currently attached backend through a session-scoped API bridge. The capability expires when this repair run stops. Diagnose mode permits only read requests; Fix mode permits app operations. Authentication endpoints are unavailable. Electron status, backend restart, and resumable runtime setup controls remain available when the Python backend is down. Use them to restore the backend before calling backend APIs, then poll Electron status and verify the requested app state. Clean reinstall is deliberately unavailable to agents and requires the user to choose Clean Retry.
+When the report begins ACTION_REQUEST and source is attached, complete the requested setup or recovery through Voiceym's supported UI, API, or CLI first; edit source only when a reproducible defect prevents that operation.
+Voiceym has exposed its currently attached backend through a session-scoped API bridge. The capability expires when this repair run stops. Diagnose mode permits only read requests; Fix mode permits app operations. Authentication endpoints are unavailable. Electron status, backend restart, and resumable runtime setup controls remain available when the Python backend is down. Use them to restore the backend before calling backend APIs, then poll Electron status and verify the requested app state. Clean reinstall is deliberately unavailable to agents and requires the user to choose Clean Retry.
 ${appOperationRules}
 ${finish}
 
-## Selected VoiceStudio features
+## Selected Voiceym features
 ${request.features?.map(feature => `${feature}: ${featureGuidance[feature]}`).join('\n') || 'Discover available features using GET /openapi.json.'}
 Feature selection supplies task context, not authorization to perform unrelated operations. Never claim a generation or repair succeeded without verifying the output or live state. Keep the conversation concise and readable; report generated project IDs or output paths so later turns can continue the work.
 
@@ -736,7 +736,7 @@ export async function registerRepairAgents(
   let translationTemp: string | null = null;
   let promptFile: string | null = null;
   let apiBridge: RepairApiBridge | null = null;
-  let workspaceRoot = isVoiceStudioCheckout(initialRoot) ? resolve(initialRoot) : savedWorkspace();
+  let workspaceRoot = isVoiceymCheckout(initialRoot) ? resolve(initialRoot) : savedWorkspace();
   let state: RepairAgentState = {
     status: 'idle',
     output: '',
@@ -795,7 +795,7 @@ export async function registerRepairAgents(
     });
     if (picked.canceled || !picked.filePaths[0]) return state;
     const selected = resolve(picked.filePaths[0]);
-    if (!isVoiceStudioCheckout(selected)) throw new Error('invalid_source_checkout');
+    if (!isVoiceymCheckout(selected)) throw new Error('invalid_source_checkout');
     workspaceRoot = selected;
     persistWorkspace(selected);
     state = { ...state, workspaceAvailable: true, workspacePath: selected };
@@ -805,7 +805,7 @@ export async function registerRepairAgents(
   ipcMain.handle(REPAIR_CHANNELS.start, async (event, request: RepairAgentRunRequest) => {
     trusted(event, getMainWindow());
     if (busy()) throw Object.assign(new Error('An agent is already running'), { name: 'AgentRateLimitError' });
-    if (workspaceRoot && !isVoiceStudioCheckout(workspaceRoot)) {
+    if (workspaceRoot && !isVoiceymCheckout(workspaceRoot)) {
       workspaceRoot = null;
       state = { ...state, workspaceAvailable: false, workspacePath: undefined };
     }
@@ -819,7 +819,7 @@ export async function registerRepairAgents(
     const appOperationOnly = agentUsesAppWorkspace(request, Boolean(workspaceRoot));
     const sourceRoot = appOperationOnly ? null : workspaceRoot;
     if (!sourceRoot && !appOperationOnly)
-      throw new Error('A writable VoiceStudio source checkout is required');
+      throw new Error('A writable Voiceym source checkout is required');
 
     // The session is pending from here, before any await: a stop or disposal
     // while the CLI is still being located must prevent the spawn.
@@ -871,7 +871,7 @@ export async function registerRepairAgents(
         ...launchArgs(request.agent, request.mode, appOperationOnly, apiBridge.mcpConfigFile),
       ];
       if (request.agent === 'opencode') {
-        promptFile = join(app.getPath('temp'), `voicestudio-repair-${sessionId}.md`);
+        promptFile = join(app.getPath('temp'), `voiceym-repair-${sessionId}.md`);
         writeFileSync(promptFile, prompt, 'utf8');
         args.push(...openCodePromptArgs(promptFile));
       }
@@ -880,7 +880,7 @@ export async function registerRepairAgents(
         env: agentChildEnv({
           NO_COLOR: '1',
           FORCE_COLOR: '0',
-          VOICESTUDIO_REPAIR_CONTEXT_FILE: apiBridge.contextFile,
+          VOICEYM_REPAIR_CONTEXT_FILE: apiBridge.contextFile,
           ...(command.prefix.length ? { ELECTRON_RUN_AS_NODE: '1' } : {}),
           ...(request.agent === 'opencode' && apiBridge.openCodeConfigFile
             ? { OPENCODE_CONFIG: apiBridge.openCodeConfigFile }
@@ -966,7 +966,7 @@ export async function registerRepairAgents(
 
     const prompt = promptOverride ?? dubTranslationPrompt(request);
     const sessionId = randomUUID();
-    translationTemp = mkdtempSync(join(app.getPath('temp'), 'voicestudio-dub-agent-'));
+    translationTemp = mkdtempSync(join(app.getPath('temp'), 'voiceym-dub-agent-'));
     const promptPath = join(translationTemp, `${sessionId}.md`);
     const openCodeConfigPath = join(translationTemp, 'opencode.json');
     const args = [...command.prefix, ...translationLaunchArgs(request.agent)];
@@ -1094,11 +1094,11 @@ export async function registerRepairAgents(
     );
     return result.translations[0].text;
   });
-  process.env.VOICESTUDIO_LLM_AGENT_URL = llmBridge.url;
-  process.env.VOICESTUDIO_LLM_AGENT_TOKEN = llmBridge.token;
+  process.env.VOICEYM_LLM_AGENT_URL = llmBridge.url;
+  process.env.VOICEYM_LLM_AGENT_TOKEN = llmBridge.token;
   // Locate only (no --version probes), in parallel, before the backend reads it.
   const installed = await Promise.all(DEFINITIONS.map((item) => locate(item.command)));
-  process.env.VOICESTUDIO_LLM_AGENTS = JSON.stringify(
+  process.env.VOICEYM_LLM_AGENTS = JSON.stringify(
     DEFINITIONS.filter((_item, index) => installed[index]).map((item) => item.id),
   );
   ipcMain.handle(REPAIR_CHANNELS.stopTranslation, (event) => {
@@ -1112,9 +1112,9 @@ export async function registerRepairAgents(
     if (preparing) state = { ...state, status: 'stopped' };
     if (translationLaunch) translationLaunch.cancelled = true;
     llmBridge.close();
-    delete process.env.VOICESTUDIO_LLM_AGENT_URL;
-    delete process.env.VOICESTUDIO_LLM_AGENT_TOKEN;
-    delete process.env.VOICESTUDIO_LLM_AGENTS;
+    delete process.env.VOICEYM_LLM_AGENT_URL;
+    delete process.env.VOICEYM_LLM_AGENT_TOKEN;
+    delete process.env.VOICEYM_LLM_AGENTS;
     if (child) terminateAgentProcess(child);
     if (translationChild) terminateAgentProcess(translationChild);
     if (promptFile) rmSync(promptFile, { force: true });

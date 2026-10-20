@@ -1,12 +1,12 @@
 /**
- * The only door to VoiceStudio Cloud. Every request and timer goes through here,
+ * The only door to Voiceym Cloud. Every request and timer goes through here,
  * so turning a switch off can stop all of them at once (owner rule 2026-10-16).
  */
 export type FetchImpl = (url: string, init?: RequestInit) => Promise<Response>;
 
 export class CloudDisabledError extends Error {
   constructor() {
-    super('VoiceStudio Cloud is switched off');
+    super('Voiceym Cloud is switched off');
     this.name = 'CloudDisabledError';
   }
 }
@@ -43,7 +43,7 @@ export class CloudActivity {
       if (target.protocol !== 'https:')
         throw new Error('Refusing a server-issued link that is not https');
     } else if (!this.opts.origins.has(target.origin))
-      throw new Error('Refusing a request outside the VoiceStudio Cloud origin');
+      throw new Error('Refusing a request outside the Voiceym Cloud origin');
     const controller = new AbortController();
     this.controllers.add(controller);
     const timeout = setTimeout(

@@ -395,7 +395,7 @@ def _process_store() -> AdminSessionStore:
     anchor = sys.modules.get(_ANCHOR_MODULE_NAME)
     if not isinstance(anchor, ModuleType):
         anchor = ModuleType(_ANCHOR_MODULE_NAME)
-        anchor.__doc__ = "Process-global anchor for the VoiceStudio admin-session store."
+        anchor.__doc__ = "Process-global anchor for the Voiceym admin-session store."
         sys.modules[_ANCHOR_MODULE_NAME] = anchor
     store = getattr(anchor, "admin_session_store", None)
     if store is None:

@@ -1,1 +1,1 @@
-﻿export { VoiceStudioAgent as RepairAgentDock } from './voice-studio-agent';
+﻿export { VoiceymAgent as RepairAgentDock } from './voice-studio-agent';

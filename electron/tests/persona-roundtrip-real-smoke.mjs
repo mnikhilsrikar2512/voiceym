@@ -5,19 +5,19 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
-const api = process.env.VOICESTUDIO_API_URL || 'http://127.0.0.1:3900';
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
+const api = process.env.VOICEYM_API_URL || 'http://127.0.0.1:3900';
 const browser = await chromium.launch({
   channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge',
   headless: true,
 });
 const page = await browser.newPage();
-await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
 const profiles = new Set();
 let voice;
 const name = 'Persona verification ' + Date.now();
 const tempRoot = resolve(tmpdir());
-const folder = mkdtempSync(join(tempRoot, 'voicestudio-persona-check-'));
+const folder = mkdtempSync(join(tempRoot, 'voiceym-persona-check-'));
 try {
   const response = await page.request.post(api + '/gallery/upload', {
     multipart: {
@@ -89,7 +89,7 @@ try {
   const resolvedFolder = resolve(folder);
   if (
     dirname(resolvedFolder) !== tempRoot ||
-    !basename(resolvedFolder).startsWith('voicestudio-persona-check-')
+    !basename(resolvedFolder).startsWith('voiceym-persona-check-')
   ) {
     throw new Error(`Refusing to remove unexpected smoke directory: ${resolvedFolder}`);
   }

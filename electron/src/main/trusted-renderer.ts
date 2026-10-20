@@ -2,7 +2,7 @@
 export function isTrustedRenderer(raw: string, dev?: string): boolean {
   try {
     const url = new URL(raw);
-    return ['app://voicestudio', ...(dev ? [dev] : [])].some((value) => {
+    return ['app://voiceym', ...(dev ? [dev] : [])].some((value) => {
       const allowed = new URL(value);
       return (
         url.protocol === allowed.protocol &&

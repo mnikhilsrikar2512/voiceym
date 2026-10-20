@@ -39,7 +39,7 @@ test or hardware results below is claimed for that head.
   stable-only desktop updates. Retire old finding R11 (legacy install guides);
   do not propose restoring Preview or blanket uninstall-script changes
 - [#2557][pr2557]: package-managed installations can disable in-app updating via
-  `VOICESTUDIO_DISABLE_UPDATER=1`; the Linux guide covers the community AUR package
+  `VOICEYM_DISABLE_UPDATER=1`; the Linux guide covers the community AUR package
 
 These merged changes do not establish native acceptance for this review.
 
@@ -183,24 +183,24 @@ explicitly separate from platform acceptance.
 [pr2600]: https://github.com/debpalash/VoiceStudio/pull/2600
 [pr2605]: https://github.com/debpalash/VoiceStudio/pull/2605
 [pr2607]: https://github.com/debpalash/VoiceStudio/pull/2607
-[cpu-selector]: https://github.com/debpalash/VoiceStudio/blob/441673e1ff5423e6713aef834ec0b1b62dc6c703/electron/scripts/torch-variant.mjs#L65-L88
-[cpu-launcher]: https://github.com/debpalash/VoiceStudio/blob/441673e1ff5423e6713aef834ec0b1b62dc6c703/scripts/setup-api.mjs#L18-L32
-[rocm-setup]: https://github.com/Pates2004/VoiceStudio/blob/265295e7e1b1687308314aefe27e219c5994e95f/scripts/setup.py#L163-L172
-[rocm-source]: https://github.com/Pates2004/VoiceStudio/blob/265295e7e1b1687308314aefe27e219c5994e95f/docs/install/windows-rocm-source.md
-[setup-status]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/wizard.py#L41-L58
-[is-cached]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L497-L517
-[catalogue]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L650-L670
-[setup-gate]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/components/setup-gate.tsx
-[pack-ui]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/model-library.tsx#L133-L314
-[model-jobs]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/download.py#L400-L456
-[sidecar-jobs]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L988-L1029
-[pack-resolver]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/performance-model-packs.ts
-[model-plan]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/download.py#L658-L725
-[runtime]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/main/runtime-project.ts
-[disk-guard]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L230-L275
-[sidecar-disk]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L938-L985
-[sidecar-uninstall]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L1231-L1271
-[setup-progress]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/lib/setup-progress.ts
-[preflight-ui]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/system-preflight.tsx
-[consent]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/components/analytics-consent.tsx#L76-L129
-[readme]: https://github.com/debpalash/VoiceStudio/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/README.md
+[cpu-selector]: https://github.com/mnikhilsrikar2512/voiceym/blob/441673e1ff5423e6713aef834ec0b1b62dc6c703/electron/scripts/torch-variant.mjs#L65-L88
+[cpu-launcher]: https://github.com/mnikhilsrikar2512/voiceym/blob/441673e1ff5423e6713aef834ec0b1b62dc6c703/scripts/setup-api.mjs#L18-L32
+[rocm-setup]: https://github.com/Pates2004/Voiceym/blob/265295e7e1b1687308314aefe27e219c5994e95f/scripts/setup.py#L163-L172
+[rocm-source]: https://github.com/Pates2004/Voiceym/blob/265295e7e1b1687308314aefe27e219c5994e95f/docs/install/windows-rocm-source.md
+[setup-status]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/wizard.py#L41-L58
+[is-cached]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L497-L517
+[catalogue]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L650-L670
+[setup-gate]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/components/setup-gate.tsx
+[pack-ui]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/model-library.tsx#L133-L314
+[model-jobs]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/download.py#L400-L456
+[sidecar-jobs]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L988-L1029
+[pack-resolver]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/performance-model-packs.ts
+[model-plan]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/download.py#L658-L725
+[runtime]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/main/runtime-project.ts
+[disk-guard]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/api/routers/setup/models.py#L230-L275
+[sidecar-disk]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L938-L985
+[sidecar-uninstall]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/backend/services/sidecar_install.py#L1231-L1271
+[setup-progress]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/lib/setup-progress.ts
+[preflight-ui]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/features/settings/system-preflight.tsx
+[consent]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/electron/src/renderer/src/components/analytics-consent.tsx#L76-L129
+[readme]: https://github.com/mnikhilsrikar2512/voiceym/blob/fb9a960c88744edc36daf2cf38d48df0971ee713/README.md

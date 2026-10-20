@@ -50,7 +50,7 @@ afterAll(() => {
 
 function call(lines: string[]): Promise<Array<Record<string, any>>> {
   const child = spawn(process.execPath, [join(dir, 'server.mjs')], {
-    env: { ...process.env, VOICESTUDIO_REPAIR_CONTEXT_FILE: join(dir, 'context.json') },
+    env: { ...process.env, VOICEYM_REPAIR_CONTEXT_FILE: join(dir, 'context.json') },
     stdio: ['pipe', 'pipe', 'ignore'],
   });
   const expected = lines.length;

@@ -7,7 +7,7 @@ import test from 'node:test';
 import { createSnapStoreAssets } from '../../scripts/create_snap_store_assets.mjs';
 
 test('derives a bounded Snap Store media set from canonical listing assets', () => {
-  const outputDir = mkdtempSync(join(tmpdir(), 'voicestudio-snap-assets-'));
+  const outputDir = mkdtempSync(join(tmpdir(), 'voiceym-snap-assets-'));
   const manifest = createSnapStoreAssets({ outputDir });
 
   assert.equal(manifest.canonicalSource, 'store/assets.json');

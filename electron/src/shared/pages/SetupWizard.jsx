@@ -303,7 +303,7 @@ export default function SetupWizard({ onReady }) {
   const STEP_LABELS = {
     system: t('setup.system_check'),
     models: t('firstrun.stage_models', 'Models & engines'),
-    consent: t('consent.step_label', 'Improve VoiceStudio'),
+    consent: t('consent.step_label', 'Improve Voiceym'),
     dictation: t('setup.dictation_step_label', 'Dictation'),
   };
 
@@ -339,7 +339,7 @@ export default function SetupWizard({ onReady }) {
                   className="m-0 font-serif text-[clamp(1.6rem,3vw,2.2rem)] font-semibold leading-tight tracking-tight"
                   data-tauri-drag-region
                 >
-                  VoiceStudio
+                  Voiceym
                 </h1>
                 {/* Same identity mark as the install splash footer. */}
                 <span

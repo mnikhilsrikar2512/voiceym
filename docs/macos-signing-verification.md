@@ -17,9 +17,9 @@ credentials unless the owner explicitly sets `allow_unsigned=true`, and before
 publication it runs:
 
 ```bash
-codesign --verify --deep --strict "VoiceStudio.app"
-spctl --assess --type execute --verbose=2 "VoiceStudio.app"
-xcrun stapler validate "VoiceStudio.app"
+codesign --verify --deep --strict "Voiceym.app"
+spctl --assess --type execute --verbose=2 "Voiceym.app"
+xcrun stapler validate "Voiceym.app"
 ```
 
 Without credentials (artifact rehearsals, local `bun run dist`), packages keep
@@ -59,11 +59,11 @@ FAIL:
 scripts/verify-macos-signing.sh
 
 # A specific bundle or DMG (for example from electron/release/):
-scripts/verify-macos-signing.sh "path/to/VoiceStudio.app"
-scripts/verify-macos-signing.sh ~/Downloads/VoiceStudio-Electron-*.dmg
+scripts/verify-macos-signing.sh "path/to/Voiceym.app"
+scripts/verify-macos-signing.sh ~/Downloads/Voiceym-Electron-*.dmg
 
 # Release gate — fail on any unsigned or un-notarized component:
-scripts/verify-macos-signing.sh "VoiceStudio.app" --require-signed
+scripts/verify-macos-signing.sh "Voiceym.app" --require-signed
 ```
 
 `xcrun notarytool history` runs when credentials are present in the environment
@@ -76,7 +76,7 @@ For **local test artifacts only**, remove the quarantine attribute so an
 unsigned build launches without the right-click → Open step:
 
 ```bash
-scripts/macos-dev-unquarantine.sh "path/to/VoiceStudio.app"
+scripts/macos-dev-unquarantine.sh "path/to/Voiceym.app"
 ```
 
 This is never a substitute for Developer ID signing and notarization of

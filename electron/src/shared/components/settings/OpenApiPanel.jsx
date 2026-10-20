@@ -11,7 +11,7 @@ import { SettingsSection } from './primitives';
 import { Button } from '../../ui';
 
 /**
- * Settings → OpenAPI — an embedded, interactive reference for VoiceStudio's own
+ * Settings → OpenAPI — an embedded, interactive reference for Voiceym's own
  * local backend REST API (FastAPI, live spec at `<backend>/openapi.json`).
  *
  * The spec is fetched here (from the resolved backend base — same helper every
@@ -138,7 +138,7 @@ export default function OpenApiPanel() {
   const loadingLabel = t('openapi.loading', { defaultValue: 'Loading API spec…' });
 
   return (
-    <SettingsSection icon={Braces} title={t('openapi.title', { defaultValue: 'VoiceStudio API' })}>
+    <SettingsSection icon={Braces} title={t('openapi.title', { defaultValue: 'Voiceym API' })}>
       {/* Spec URL + copy / open-raw affordances — useful whether the embed
           loaded or not, so shown in every phase. */}
       <div className="mb-[var(--space-3)] flex flex-wrap items-center gap-[var(--space-2)]">

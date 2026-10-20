@@ -1,4 +1,4 @@
-# VoiceStudio — KittenTTS Engine
+# Voiceym — KittenTTS Engine
 
 KittenTTS (KittenML) is the lightweight English "flash" tier: a 25–80 MB
 ONNX model with 8 preset voices that runs realtime on any CPU — no torch, no
@@ -54,7 +54,7 @@ flaky connection). See [downloading-models.md](../downloading-models.md).
 - **Long-input hardening
   ([#1173](https://github.com/debpalash/VoiceStudio/issues/1173)):** the
   shipped ONNX graph has a hard 512-token cap, and phonemization can expand
-  text massively (digits especially). VoiceStudio pre-measures every chunk
+  text massively (digits especially). Voiceym pre-measures every chunk
   with the model's own tokenizer and splits oversized chunks at word
   boundaries, so long or digit-heavy inputs no longer abort inside
   onnxruntime with an opaque "invalid expand shape" error.
@@ -67,7 +67,7 @@ flaky connection). See [downloading-models.md](../downloading-models.md).
 
 ## Troubleshooting
 
-- Engine unavailable: `pip install kittentts` into VoiceStudio's Python
+- Engine unavailable: `pip install kittentts` into Voiceym's Python
   environment and restart.
 - Other issues: [install/troubleshooting.md](../install/troubleshooting.md).
 

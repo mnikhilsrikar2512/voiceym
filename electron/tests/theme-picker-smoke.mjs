@@ -7,7 +7,7 @@ const browser = await chromium.launch({
 });
 try {
   const page = await browser.newPage({ viewport: { width: 1200, height: 800 } });
-  await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.route(
     (url) => url.pathname.startsWith('/api/'),
     (route) => {
@@ -26,10 +26,10 @@ try {
     },
   );
   await page.goto(
-    (process.env.VOICESTUDIO_UI_URL || 'http://localhost:3928') + '/#/settings/appearance',
+    (process.env.VOICEYM_UI_URL || 'http://localhost:3928') + '/#/settings/appearance',
   );
   const dark = page.getByRole('group', { name: 'Dark', exact: true });
-  const original = dark.getByRole('button', { name: 'VoiceStudio Original', exact: true });
+  const original = dark.getByRole('button', { name: 'Voiceym Original', exact: true });
   assert.equal(
     await dark.getByRole('button', { name: 'Studio', exact: true }).getAttribute('aria-pressed'),
     'true',
@@ -45,7 +45,7 @@ try {
   let state = await page.evaluate(() => ({
     dark: document.documentElement.classList.contains('dark'),
     palette: document.documentElement.dataset.themeId ?? null,
-    saved: JSON.parse(localStorage.getItem('voicestudio.theme.v2') || '{}'),
+    saved: JSON.parse(localStorage.getItem('voiceym.theme.v2') || '{}'),
   }));
   assert.equal(state.dark, true);
   assert.equal(state.palette, null);
@@ -70,7 +70,7 @@ try {
   state = await page.evaluate(() => ({
     dark: document.documentElement.classList.contains('dark'),
     palette: document.documentElement.dataset.themeId ?? null,
-    saved: JSON.parse(localStorage.getItem('voicestudio.theme.v2') || '{}'),
+    saved: JSON.parse(localStorage.getItem('voiceym.theme.v2') || '{}'),
   }));
   assert.equal(state.dark, false);
   assert.equal(state.palette, null);

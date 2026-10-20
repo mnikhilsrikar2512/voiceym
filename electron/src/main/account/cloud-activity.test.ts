@@ -1,12 +1,12 @@
 import { expect, it, vi } from 'vitest';
 import { CloudActivity, CloudDisabledError, type FetchImpl } from './cloud-activity';
 
-const origins = new Set(['https://voicestudio.sh']);
+const origins = new Set(['https://voiceym.example']);
 
 it('refuses every request while switched off, without touching the network', async () => {
   const fetchImpl = vi.fn();
   const activity = new CloudActivity({ isAllowed: () => false, origins, fetchImpl });
-  await expect(activity.fetch('https://voicestudio.sh/x')).rejects.toBeInstanceOf(
+  await expect(activity.fetch('https://voiceym.example/x')).rejects.toBeInstanceOf(
     CloudDisabledError,
   );
   expect(fetchImpl).not.toHaveBeenCalled();
@@ -34,7 +34,7 @@ it('stopAll aborts in-flight requests, cancels timers and runs stop hooks', asyn
   vi.useFakeTimers();
   activity.setTimeout(timer, 1000);
   activity.onStop(hook);
-  const pending = activity.fetch('https://voicestudio.sh/x');
+  const pending = activity.fetch('https://voiceym.example/x');
   activity.stopAll();
   await expect(pending).rejects.toBeTruthy();
   vi.advanceTimersByTime(5000);
@@ -50,9 +50,9 @@ it('allows exactly one final call after stopAll (the revocation)', async () => {
   const activity = new CloudActivity({ isAllowed: () => allowed, origins, fetchImpl });
   allowed = false;
   activity.stopAll();
-  await activity.fetch('https://voicestudio.sh/revoke', {}, { final: true });
+  await activity.fetch('https://voiceym.example/revoke', {}, { final: true });
   await expect(
-    activity.fetch('https://voicestudio.sh/revoke', {}, { final: true }),
+    activity.fetch('https://voiceym.example/revoke', {}, { final: true }),
   ).rejects.toBeInstanceOf(CloudDisabledError);
   expect(fetchImpl).toHaveBeenCalledOnce();
 });
@@ -60,7 +60,7 @@ it('allows exactly one final call after stopAll (the revocation)', async () => {
 it('never follows redirects', async () => {
   const fetchImpl = vi.fn<FetchImpl>(async () => new Response('{}'));
   const activity = new CloudActivity({ isAllowed: () => true, origins, fetchImpl });
-  await activity.fetch('https://voicestudio.sh/x');
+  await activity.fetch('https://voiceym.example/x');
   expect(fetchImpl.mock.calls[0][1]).toMatchObject({ redirect: 'error' });
 });
 
@@ -68,14 +68,14 @@ it('a server-issued HTTPS link (the profile photo) may leave the API origin, not
   const fetchImpl = vi.fn<FetchImpl>(async () => new Response('x'));
   let allowed = true;
   const activity = new CloudActivity({ isAllowed: () => allowed, origins, fetchImpl });
-  await activity.fetch('https://app-s3.voicestudio.sh/a.png?sig=1', {}, { serverIssued: true });
+  await activity.fetch('https://app-s3.voiceym.example/a.png?sig=1', {}, { serverIssued: true });
   await expect(
-    activity.fetch('http://app-s3.voicestudio.sh/a.png', {}, { serverIssued: true }),
+    activity.fetch('http://app-s3.voiceym.example/a.png', {}, { serverIssued: true }),
   ).rejects.toThrow(/https/);
-  await expect(activity.fetch('https://app-s3.voicestudio.sh/a.png')).rejects.toThrow(/origin/);
+  await expect(activity.fetch('https://app-s3.voiceym.example/a.png')).rejects.toThrow(/origin/);
   allowed = false;
   await expect(
-    activity.fetch('https://app-s3.voicestudio.sh/a.png', {}, { serverIssued: true }),
+    activity.fetch('https://app-s3.voiceym.example/a.png', {}, { serverIssued: true }),
   ).rejects.toBeInstanceOf(CloudDisabledError);
   expect(fetchImpl).toHaveBeenCalledTimes(1);
 });
@@ -92,7 +92,7 @@ it('switching off also stops a response body that is still downloading', async (
     return new Response(body, { headers: { 'content-type': 'application/json' } });
   });
   const activity = new CloudActivity({ isAllowed: () => true, origins, fetchImpl });
-  const res = await activity.fetch('https://voicestudio.sh/token');
+  const res = await activity.fetch('https://voiceym.example/token');
   push('{"access_');
   const reading = res.text();
   activity.stopAll();
@@ -106,6 +106,6 @@ it('the timeout covers the whole response, not just its headers', async () => {
     return new Response(body);
   });
   const activity = new CloudActivity({ isAllowed: () => true, origins, fetchImpl });
-  const res = await activity.fetch('https://voicestudio.sh/x', {}, { timeoutMs: 30 });
+  const res = await activity.fetch('https://voiceym.example/x', {}, { timeoutMs: 30 });
   await expect(res.text()).rejects.toBeTruthy();
 });

@@ -62,7 +62,7 @@ def export_file(req: ExportRequest):
     src = _safe_source(req.source_filename)
     dest = _authorized_destination(req.authorization)
     try:
-        # Video exports: overlay VoiceStudio logo if visible watermark is enabled
+        # Video exports: overlay Voiceym logo if visible watermark is enabled
         if src.lower().endswith(".mp4"):
             from services.watermark import is_visible_video_enabled, get_ffmpeg_overlay_args
             from services.ffmpeg_utils import find_ffmpeg, local_inputs_only

@@ -137,7 +137,7 @@ describe('openWatchSource — Tauri backend', () => {
     expect(entries).toEqual([{ name: 'clip.mp4', size: 4, mtime: 1234 }]);
 
     const file = await source.readFile(entries[0]);
-    expect(file.__voiceStudioNativeWatchUpload).toBe(true);
+    expect(file.__voiceymNativeWatchUpload).toBe(true);
     expect(file.token).toBe(token);
     expect(file.name).toBe('clip.mp4');
     expect(file.size).toBe(4);
@@ -169,7 +169,7 @@ describe('openWatchSource — Tauri backend', () => {
     const size = 8 * 1024 * 1024 * 1024;
     const file = await source.readFile({ name: 'big.mp4', size, mtime: 7 });
     expect(file).toMatchObject({
-      __voiceStudioNativeWatchUpload: true,
+      __voiceymNativeWatchUpload: true,
       token,
       name: 'big.mp4',
       size,

@@ -9,7 +9,7 @@ its model, environment, shared cache, and app-owned total separately. These
 values come from `config/models.yaml` and the sidecar installer specification;
 the UI does not maintain its own size table.
 
-Most engines run in-process in VoiceStudio's main environment. A few
+Most engines run in-process in Voiceym's main environment. A few
 (**IndexTTS2**, **MOSS-TTS-v1.5**, **dots.tts**, and any engine whose
 dependencies conflict with the parent's `torch`/`transformers` pins) run in a
 **dedicated sidecar venv** so their pins can't break the rest of the app. Those
@@ -18,7 +18,7 @@ cost is kept down.
 
 ## Why a sidecar needs its own venv
 
-IndexTTS2 pins `transformers<5`, but VoiceStudio requires `transformers>=5.3`.
+IndexTTS2 pins `transformers<5`, but Voiceym requires `transformers>=5.3`.
 You can't have both in one environment, so IndexTTS2 gets its own venv created
 on first use (`uv venv` + `uv pip install`, see
 `backend/engines/indextts/bootstrap.py`). The cost is a second copy of the

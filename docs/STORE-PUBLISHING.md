@@ -30,7 +30,7 @@ to weaken the shared policy.
 
 | Worker  | Target            | Starting package         | Update owner  | First blocking work                                                                                           |
 | ------- | ----------------- | ------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------- |
-| Windows | `microsoft-store` | Existing signed NSIS EXE | VoiceStudio   | Run the signed package workflow, reserve Partner Center identity, submit privately and complete certification |
+| Windows | `microsoft-store` | Existing signed NSIS EXE | Voiceym   | Run the signed package workflow, reserve Partner Center identity, submit privately and complete certification |
 | Linux   | `snap-store`      | New confined Snap        | Snap Store    | Confinement interfaces, writable paths, runtime installation and store review                                 |
 | macOS   | `mac-app-store`   | New sandboxed MAS app    | Mac App Store | Entitlements, sandbox file access, bundled executable/runtime licensing and StoreKit receipt behavior         |
 

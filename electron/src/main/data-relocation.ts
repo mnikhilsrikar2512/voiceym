@@ -153,7 +153,7 @@ export async function prepareDataRelocation(
   const plan = await inspectDataRelocation(source, target);
   const sourceManifest = await manifest(plan.source);
   const parent = dirname(plan.target);
-  const staging = join(parent, `.${basename(plan.target)}.voicestudio-moving-${randomUUID()}`);
+  const staging = join(parent, `.${basename(plan.target)}.voiceym-moving-${randomUUID()}`);
   await mkdir(staging, { recursive: false });
   try {
     for (const entry of await readdir(plan.source)) {

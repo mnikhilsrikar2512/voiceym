@@ -1,4 +1,4 @@
-# VoiceStudio native desktop bridge
+# Voiceym native desktop bridge
 
 This internal helper compiles Tauri's existing `dictation_output.rs` directly. It shares session acceptance/rejection, focus targeting, clipboard ownership/restoration, live corrections and platform fallbacks. Its crate version is an internal placeholder, not an app release version.
 

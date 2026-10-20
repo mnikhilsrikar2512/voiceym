@@ -8,7 +8,7 @@ export interface ThemePreferences {
   light: PaletteId;
   dark: PaletteId;
 }
-export const THEME_STORAGE_KEY = 'voicestudio.theme.v2';
+export const THEME_STORAGE_KEY = 'voiceym.theme.v2';
 export function parseThemePreferences(
   raw: string | null,
   legacy: string | null = null,
@@ -26,7 +26,7 @@ export function parseThemePreferences(
     ocean: 'current',
     ember: 'hearth',
     iris: 'orchid',
-    'voicestudio-classic': 'heritage',
+    'voiceym-classic': 'heritage',
   };
   const palette = (value: unknown) => {
     const id = typeof value === 'string' ? (aliases[value] ?? value) : value;

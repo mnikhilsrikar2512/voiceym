@@ -17,8 +17,8 @@ def _env():
 
 def test_the_ghcr_paths_are_explicit_and_keep_the_legacy_alias():
     env = _env()
-    assert env["IMAGE_NAME"] == "debpalash/voicestudio"
-    assert env["LEGACY_IMAGE_NAME"] == "debpalash/omnivoice-studio"
+    assert env["IMAGE_NAME"] == "mnikhilsrikar2512/voiceym"
+    assert env["LEGACY_IMAGE_NAME"] == "mnikhilsrikar2512/voiceym-legacy"
     assert "github.repository" not in str(env)
 
 
@@ -57,7 +57,7 @@ def test_docker_hub_keeps_its_existing_coordinate():
 
 
 def test_active_templates_use_the_canonical_public_path():
-    canonical = "ghcr.io/debpalash/voicestudio"
+    canonical = "ghcr.io/mnikhilsrikar2512/voiceym"
     for rel in (
         "deploy/docker-compose.yml",
         "docs/integration-directory.md",

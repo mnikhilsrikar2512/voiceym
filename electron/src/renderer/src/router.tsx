@@ -2,7 +2,7 @@ import { createHashHistory, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routes';
 import { ErrorRecovery } from './components/error-boundary';
 
-// Hash history: production loads from app://voicestudio/index.html, where a
+// Hash history: production loads from app://voiceym/index.html, where a
 // path-based history would resolve routes against the custom scheme.
 export const router = createRouter({
   routeTree,
