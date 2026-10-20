@@ -115,18 +115,24 @@ class ThinkFilter:
 class VoiceAgentDeps:
     #: messages → async iterator of text deltas
     llm_stream: Callable[[list[dict]], AsyncIterator[str]]
-    #: (pcm16 at 16 kHz, language) → text
+    #: (pcm16 at 16 kHz, language[, multilingual=True]) → text
     transcribe: Callable[[np.ndarray, str], Awaitable[str]]
     #: (text, voice=, engine=, language=) → async iterator of PCM16 at 24 kHz
     render: Callable[..., AsyncIterator[np.ndarray]]
 
 
-async def _default_transcribe(pcm16k: np.ndarray, language: str) -> str:
-    from api.routers.capture_ws import _transcribe_buffer
+async def _default_transcribe(pcm16k: np.ndarray, language: str, *, multilingual: bool = False) -> str:
+    from api.routers.capture_ws import _transcribe_buffer, _transcribe_buffer_full
     from services.asr_backend import capture_lease
 
+    audio = [pcm16k.astype(np.int16).tobytes()]
     with capture_lease():
-        return await _transcribe_buffer([pcm16k.astype(np.int16).tobytes()], pcm_sr=INPUT_SAMPLE_RATE)
+        if multilingual:
+            # Skip the dictation model (often English/European-only) for the
+            # multilingual Whisper tier, which detects the spoken language.
+            result = await _transcribe_buffer_full(audio, pcm_sr=INPUT_SAMPLE_RATE, skip_sherpa=True)
+            return result.get("text", "")
+        return await _transcribe_buffer(audio, pcm_sr=INPUT_SAMPLE_RATE)
 
 
 def to_pcm16_24k(samples, sample_rate: int) -> np.ndarray:
@@ -182,15 +188,40 @@ deps_factory: Callable[[], VoiceAgentDeps] = default_deps
 FAST_VOICE_ENGINE = "kittentts"
 
 
-def fast_voice_engine() -> str:
-    """The fast engine's id when it is installed, else "" (use the active engine)."""
+#: Light multilingual engine for the built-in voice when a reply isn't English
+#: (KittenTTS speaks English only): quantized OmniVoice, 600+ languages.
+MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
+
+
+def _engine_if_available(engine_id: str) -> str:
     try:
         from services.tts_backend import get_backend_class
 
-        ok, _ = get_backend_class(FAST_VOICE_ENGINE).is_available()
+        ok, _ = get_backend_class(engine_id).is_available()
     except Exception:  # noqa: BLE001 — an unknown or broken engine just falls back
         return ""
-    return FAST_VOICE_ENGINE if ok else ""
+    return engine_id if ok else ""
+
+
+def fast_voice_engine() -> str:
+    """The fast engine's id when it is installed, else "" (use the active engine)."""
+    return _engine_if_available(FAST_VOICE_ENGINE)
+
+
+def multilingual_voice_engine() -> str:
+    """The light multilingual engine's id when it is installed, else ""."""
+    return _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
+
+
+_ENGLISH = {"", "en", "english"}
+
+
+def needs_multilingual_voice(sentence: str, language: str) -> bool:
+    """True when the English-only fast voice can't say this: a non-English
+    session language, or letters outside the Latin script (Devanagari, Tamil…)."""
+    if language.strip().lower() not in _ENGLISH:
+        return True
+    return any(ch.isalpha() and ord(ch) > 0x024F for ch in sentence)
 
 
 @dataclass
@@ -203,6 +234,10 @@ class SessionConfig:
     greet: bool = False
     #: Let caller speech interrupt the agent.
     barge_in: bool = True
+    #: Hear with the multilingual Whisper tier instead of the dictation model.
+    multilingual_asr: bool = False
+    #: Engine for sentences the fast built-in voice can't speak ("" = none).
+    multilingual_engine: str = ""
     extra: dict = field(default_factory=dict)
 
     @classmethod
@@ -214,8 +249,11 @@ class SessionConfig:
         voice, engine = _s("voice"), _s("engine")
         # A client may ask for the fast built-in voice when no cloned voice is
         # picked; a named voice or engine always wins.
+        multilingual_engine = ""
         if not voice and not engine and data.get("fast_default_voice") is True:
             engine = fast_voice_engine()
+            if engine:
+                multilingual_engine = multilingual_voice_engine()
         return cls(
             instructions=_s("instructions", MAX_INSTRUCTIONS_CHARS) or DEFAULT_INSTRUCTIONS,
             voice=voice,
@@ -223,6 +261,8 @@ class SessionConfig:
             language=_s("language", 40),
             greet=bool(data.get("greet", False)),
             barge_in=bool(data.get("barge_in", True)),
+            multilingual_asr=data.get("multilingual_asr") is True,
+            multilingual_engine=multilingual_engine,
         )
 
 
@@ -330,7 +370,11 @@ class VoiceAgentSession:
         while True:
             pcm = await self._asr_q.get()
             try:
-                text = (await self.deps.transcribe(pcm, self.config.language) or "").strip()
+                if self.config.multilingual_asr:
+                    heard = await self.deps.transcribe(pcm, self.config.language, multilingual=True)
+                else:
+                    heard = await self.deps.transcribe(pcm, self.config.language)
+                text = (heard or "").strip()
             except asyncio.CancelledError:
                 raise
             except Exception as exc:  # noqa: BLE001 — skip the utterance, keep listening
@@ -426,8 +470,11 @@ class VoiceAgentSession:
 
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
+        engine = self.config.engine
+        if self.config.multilingual_engine and needs_multilingual_voice(sentence, self.config.language):
+            engine = self.config.multilingual_engine
         async for pcm in self.deps.render(
-            sentence, voice=self.config.voice, engine=self.config.engine, language=self.config.language
+            sentence, voice=self.config.voice, engine=engine, language=self.config.language
         ):
             if pcm.size == 0:
                 continue

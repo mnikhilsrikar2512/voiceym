@@ -126,6 +126,9 @@ export class AgentClient {
           // The built-in voice uses the backend's light engine so a live
           // conversation stays responsive; a cloned voice keeps its engine.
           fast_default_voice: !settings.voice,
+          // Auto or any non-English language hears with the multilingual
+          // recogniser; the dictation model is often English/European-only.
+          multilingual_asr: !/^(en|english)$/i.test(settings.language.trim()),
           language: settings.language,
           barge_in: settings.bargeIn,
           greet: settings.greet,

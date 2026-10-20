@@ -31,6 +31,8 @@ class Fakes:
         self.replies: list[str] = []
         self.heard: list[str] = []
         self.rendered: list[str] = []
+        self.engines: list[str] = []
+        self.multilingual_calls: list[bool] = []
         self.llm_calls: list[list[dict]] = []
         self.render_gate: asyncio.Event | None = None
 
@@ -42,12 +44,14 @@ class Fakes:
                 yield reply[i:i + 5]
                 await asyncio.sleep(0)
 
-        async def transcribe(pcm, language):
+        async def transcribe(pcm, language, multilingual=False):
+            self.multilingual_calls.append(multilingual)
             assert pcm.dtype == np.int16 and pcm.size > 0
             return self.heard.pop(0) if self.heard else ""
 
         async def render(text, **kw):
             self.rendered.append(text)
+            self.engines.append(kw.get("engine", ""))
             if self.render_gate is not None:
                 await self.render_gate.wait()
             yield np.zeros(2400, dtype=np.int16)  # 100 ms at 24 kHz
@@ -112,6 +116,57 @@ def test_fast_default_voice_only_applies_without_a_chosen_voice(monkeypatch):
     assert pick({}).engine == ""
     monkeypatch.setattr(va, "fast_voice_engine", lambda: "")
     assert pick({"fast_default_voice": True}).engine == ""
+
+
+def test_fast_voice_pairs_with_the_multilingual_engine(monkeypatch):
+    monkeypatch.setattr(va, "fast_voice_engine", lambda: "kittentts")
+    monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-gguf")
+    pick = va.SessionConfig.from_message
+    assert pick({"fast_default_voice": True}).multilingual_engine == "omnivoice-gguf"
+    assert pick({"fast_default_voice": True, "voice": "p1"}).multilingual_engine == ""
+    assert pick({"multilingual_asr": True}).multilingual_asr is True
+    assert pick({"multilingual_asr": "yes"}).multilingual_asr is False
+
+
+def test_needs_multilingual_voice_by_script_or_language():
+    assert not va.needs_multilingual_voice("The capital is Paris.", "")
+    assert not va.needs_multilingual_voice("Café crème, s'il vous plaît.", "English")
+    assert va.needs_multilingual_voice("\u092d\u093e\u0930\u0924 \u0915\u0940 \u0930\u093e\u091c\u0927\u093e\u0928\u0940", "")
+    assert va.needs_multilingual_voice("Namaste, aap kaise hain?", "Hindi")
+
+
+def test_each_sentence_uses_the_voice_that_can_say_it():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = ["Hello there, it is lovely to meet you today. "
+                         "\u0928\u092e\u0938\u094d\u0924\u0947 \u0926\u094b\u0938\u094d\u0924, \u0906\u092a \u0915\u0948\u0938\u0947 \u0939\u0948\u0902?"]
+        config = va.SessionConfig(engine="kittentts", multilingual_engine="omnivoice-gguf")
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Say hi in two languages")
+        await _settle(session)
+        await session.close()
+        return fakes
+
+    fakes = asyncio.run(run())
+    assert len(fakes.rendered) == 2, fakes.rendered
+    assert fakes.engines == ["kittentts", "omnivoice-gguf"]
+
+
+def test_multilingual_hearing_asks_for_the_multilingual_recogniser():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.heard = ["namaste"]
+        session = va.VoiceAgentSession(va.SessionConfig(multilingual_asr=True), sink, fakes.deps())
+        await session.start()
+        audio = _tone(0.6) + _silence(1.0)
+        for i in range(0, len(audio), 999):
+            await session.push_audio(audio[i:i + 999])
+        await _settle(session)
+        await session.close()
+        return fakes
+
+    assert asyncio.run(run()).multilingual_calls == [True]
 
 
 def test_text_turn_streams_sentences_audio_and_transcripts():
