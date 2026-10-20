@@ -23,8 +23,11 @@ final class SmokeTests: XCTestCase {
         XCTAssertEqual(app.switches["settings.analytics"].value as? String, "1")
         app.terminate(); app.launch()
         XCTAssertTrue(app.buttons["consent.no"].waitForExistence(timeout: 10))
-        // Swipe the sheet down, as a person would.
-        app.staticTexts["consent.title"].swipeDown(velocity: .fast)
+        // Drag the sheet down by its grabber, as a person would. A swipe on the
+        // sheet's content can scroll it instead of dismissing the sheet.
+        let title = app.staticTexts["consent.title"]
+        let grabber = title.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: -2))
+        grabber.press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.98)))
         XCTAssertTrue(app.textFields["connect.url"].waitForExistence(timeout: 5))
         // The connect form sits behind the sheet, so wait for the sheet's own
         // buttons to leave rather than checking mid-animation.
