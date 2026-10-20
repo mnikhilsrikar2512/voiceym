@@ -5,30 +5,24 @@ const page = await browser.newPage({ viewport: { width: 1100, height: 760 } });
 try {
   await page.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3912') + '/#/settings/appearance');
   await page.getByRole('link', { name: 'Support', exact: true }).click();
-  await page.getByRole('heading', { name: 'Donate to Voiceym Project', exact: true }).waitFor();
-  await page.getByRole('progressbar').waitFor();
-  assert.equal(await page.getByRole('progressbar').getAttribute('aria-valuenow'), '5');
+  await page.getByRole('heading', { name: 'Support', exact: true }).first().waitFor();
+  const repo = 'https://github.com/mnikhilsrikar2512/voiceym';
   assert.equal(
-    await page.getByRole('link', { name: 'PayPal', exact: true }).getAttribute('href'),
-    'https://github.com/mnikhilsrikar2512/voiceym',
+    await page.getByRole('link', { name: 'Open GitHub Issues', exact: true }).getAttribute('href'),
+    repo + '/issues',
   );
-  assert.equal(
-    await page.getByRole('link', { name: 'GitHub Sponsors', exact: true }).first().getAttribute('href'),
-    'https://github.com/mnikhilsrikar2512/voiceym',
-  );
-  await page.getByRole('button', { name: '$50', exact: true }).click();
-  assert.equal(
-    await page.getByRole('link', { name: 'PayPal', exact: true }).getAttribute('href'),
-    'https://github.com/mnikhilsrikar2512/voiceym/50',
-  );
-  await page.getByRole('button', { name: 'Custom', exact: true }).click();
   assert.equal(
     await page.getByRole('link', { name: 'Report privately', exact: true }).getAttribute('href'),
-    'https://github.com/mnikhilsrikar2512/voiceym/security/advisories/new',
+    repo + '/security/advisories/new',
   );
-  console.log(
-    'Support navigation, amount selection and private security destination passed; no external page opened.',
+  assert.equal(
+    await page.getByRole('link', { name: 'github.com/mnikhilsrikar2512/voiceym', exact: true }).getAttribute('href'),
+    repo,
   );
+  // The donation page is gone: no amounts, goal bar or payment links remain.
+  assert.equal(await page.getByRole('progressbar').count(), 0);
+  assert.equal(await page.getByRole('link', { name: 'PayPal', exact: true }).count(), 0);
+  console.log('Support navigation, issue, private security and source destinations passed; no external page opened.');
 } finally {
   await browser.close();
 }

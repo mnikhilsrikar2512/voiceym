@@ -56,6 +56,13 @@ try {
     await page.setViewportSize(viewport);
     for (const route of routes) {
       await page.goto(`${base}/#${route}`, { waitUntil: 'domcontentloaded' });
+      // Audit the rendered route, not the cold-start blank: the first visit
+      // compiles lazy route chunks and can take longer than a fixed delay.
+      await page
+        .locator('main:not([role]),[role="main"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 20_000 })
+        .catch(() => {});
       await page.waitForTimeout(600);
       const routeFindings = await page.evaluate(() => {
         const issues = [];
