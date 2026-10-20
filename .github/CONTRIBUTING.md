@@ -6,7 +6,7 @@ Thanks for your interest in improving Voiceym! This guide covers everything you 
 
 | | |
 |---|---|
-| 💬 **Chat** | [Discord](https://discord.gg/bzQavDfVV9) |
+| 💬 **Chat** | [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) |
 | 🐛 **Bugs** | [GitHub Issues](https://github.com/mnikhilsrikar2512/voiceym/issues) |
 | 🏷️ **Good First Issues** | [Filtered list](https://github.com/mnikhilsrikar2512/voiceym/labels/good%20first%20issue) |
 | 📋 **Roadmap** | [docs/ROADMAP.md](../docs/ROADMAP.md) |
@@ -431,8 +431,8 @@ submitting the work is responsible for it.
 
 ## Need Help?
 
-- **Stuck on setup?** Ask in [Discord #help](https://discord.gg/bzQavDfVV9)
+- **Stuck on setup?** Ask in [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions)
 - **Not sure where to start?** Check [good first issues](https://github.com/mnikhilsrikar2512/voiceym/labels/good%20first%20issue)
-- **Want to discuss a big change?** Open a [discussion](https://github.com/mnikhilsrikar2512/voiceym/discussions) or Discord thread before coding
+- **Want to discuss a big change?** Open a [discussion](https://github.com/mnikhilsrikar2512/voiceym/discussions) before coding
 
 Thank you for contributing! 🎙️

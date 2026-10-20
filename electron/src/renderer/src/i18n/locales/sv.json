@@ -2207,7 +2207,8 @@
     "design": "Röstdesign",
     "clone": "Röstkloning",
     "primary": "Huvudnavigering",
-    "calls": "Samtal"
+    "calls": "Samtal",
+    "talk": "Prata"
   },
   "profiles": {
     "locked": "Rösten låst! Identiteten är nu konsekvent över alla generationer.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Ta bort den här genereringen? Det går inte att ångra.",
       "remove_file": "Ta bort",
       "no_matches": "Inga träffar för \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Prata",
+    "setup": "Ställ in agenten",
+    "conversation": "Samtal",
+    "transcript": "Transkript",
+    "empty": "Ditt samtal visas här.",
+    "you": "Du",
+    "agent": "Agent",
+    "hearing": "Lyssnar…",
+    "interrupted": "(avbruten)",
+    "type": "Skriv ett meddelande",
+    "send": "Skicka",
+    "mute": "Stäng av mikrofonen",
+    "unmute": "Slå på mikrofonen",
+    "start": "Börja prata",
+    "end": "Avsluta samtalet",
+    "setup_note": "Hur agenten beter sig och låter. Allt körs på den här datorn.",
+    "instructions": "Instruktioner",
+    "instructions_placeholder": "Du är en vänlig assistent. Svara kort.",
+    "voice": "Röst",
+    "voice_default": "Standardröst",
+    "add_voice": "Lägg till en röst",
+    "language": "Språk",
+    "barge_in": "Låt mig avbryta",
+    "barge_in_hint": "Pratar du i munnen på agenten slutar den.",
+    "greet": "Agenten börjar",
+    "greet_hint": "Den hälsar när samtalet startar.",
+    "applies_next": "Ändringar gäller från nästa samtal.",
+    "state": {
+      "idle": {
+        "title": "Redo när du är",
+        "hint": "Tryck på mikrofonen eller mellanslag och börja prata."
+      },
+      "connecting": {
+        "title": "Ansluter",
+        "hint": "Startar agenten på den här datorn."
+      },
+      "listening": {
+        "title": "Lyssnar",
+        "hint": "Prata naturligt. Pausa när du är klar."
+      },
+      "thinking": {
+        "title": "Tänker",
+        "hint": "Tar fram ett svar."
+      },
+      "speaking": {
+        "title": "Pratar",
+        "hint": "Prata när som helst för att avbryta."
+      },
+      "issue_microphone": {
+        "title": "Mikrofonen är inte tillgänglig",
+        "hint": "Tillåt mikrofonen eller skriv ett meddelande."
+      },
+      "issue_connection": {
+        "title": "Kunde inte nå agenten",
+        "hint": "Kontrollera att den lokala servern körs och försök igen."
+      },
+      "issue_turn": {
+        "title": "Svaret misslyckades",
+        "hint": "Försök säga det igen."
+      }
     }
   }
 }

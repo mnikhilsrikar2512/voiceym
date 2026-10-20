@@ -2209,7 +2209,8 @@
     "design": "Conception vocale",
     "clone": "Clonage vocal",
     "primary": "Navigation principale",
-    "calls": "Appels"
+    "calls": "Appels",
+    "talk": "Parler"
   },
   "profiles": {
     "locked": "Voix verrouillée ! L’identité est désormais cohérente à travers toutes les générations.",
@@ -3792,6 +3793,69 @@
       "delete_generation": "Supprimer cette génération ? Cette action est irréversible.",
       "remove_file": "Retirer",
       "no_matches": "Aucun résultat pour \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Parler",
+    "setup": "Configurer l'agent",
+    "conversation": "Conversation",
+    "transcript": "Transcription",
+    "empty": "Votre conversation s'affichera ici.",
+    "you": "Vous",
+    "agent": "Agent",
+    "hearing": "Écoute…",
+    "interrupted": "(interrompu)",
+    "type": "Écrire un message",
+    "send": "Envoyer",
+    "mute": "Couper le micro",
+    "unmute": "Réactiver le micro",
+    "start": "Commencer à parler",
+    "end": "Terminer la conversation",
+    "setup_note": "Comment l'agent se comporte et sonne. Tout fonctionne sur cet ordinateur.",
+    "instructions": "Instructions",
+    "instructions_placeholder": "Tu es un assistant aimable. Réponds brièvement.",
+    "voice": "Voix",
+    "voice_default": "Voix par défaut",
+    "add_voice": "Ajouter une voix",
+    "language": "Langue",
+    "barge_in": "Pouvoir l'interrompre",
+    "barge_in_hint": "Parler par-dessus l'agent l'arrête.",
+    "greet": "L'agent parle en premier",
+    "greet_hint": "Il vous salue au début de la conversation.",
+    "applies_next": "Les changements s'appliquent à la prochaine conversation.",
+    "state": {
+      "idle": {
+        "title": "Prêt quand vous l'êtes",
+        "hint": "Appuyez sur le micro ou la barre d'espace et parlez."
+      },
+      "connecting": {
+        "title": "Connexion",
+        "hint": "Démarrage de l'agent sur cet ordinateur."
+      },
+      "listening": {
+        "title": "À l'écoute",
+        "hint": "Parlez naturellement. Faites une pause quand vous avez fini."
+      },
+      "thinking": {
+        "title": "Réflexion",
+        "hint": "Préparation d'une réponse."
+      },
+      "speaking": {
+        "title": "Parle",
+        "hint": "Parlez par-dessus à tout moment pour l'interrompre."
+      },
+      "issue_microphone": {
+        "title": "Micro indisponible",
+        "hint": "Autorisez l'accès au micro ou écrivez un message."
+      },
+      "issue_connection": {
+        "title": "Agent injoignable",
+        "hint": "Vérifiez que le serveur local tourne, puis réessayez."
+      },
+      "issue_turn": {
+        "title": "Cette réponse a échoué",
+        "hint": "Essayez de le redire."
+      }
     }
   }
 }

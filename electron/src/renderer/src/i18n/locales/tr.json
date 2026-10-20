@@ -2207,7 +2207,8 @@
     "design": "Ses Tasarımı",
     "clone": "Ses klonlama",
     "primary": "Ana gezinme",
-    "calls": "Aramalar"
+    "calls": "Aramalar",
+    "talk": "Konuş"
   },
   "profiles": {
     "locked": "Ses kilitli! Kimlik artık tüm nesiller arasında tutarlıdır.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Bu çıktı silinsin mi? Bu işlem geri alınamaz.",
       "remove_file": "Kaldır",
       "no_matches": "\"{{query}}\" için eşleşme yok."
+    }
+  },
+  "talk": {
+    "title": "Konuş",
+    "setup": "Ajan ayarları",
+    "conversation": "Sohbet",
+    "transcript": "Döküm",
+    "empty": "Sohbetin burada görünecek.",
+    "you": "Sen",
+    "agent": "Ajan",
+    "hearing": "Dinliyor…",
+    "interrupted": "(kesildi)",
+    "type": "Bir mesaj yaz",
+    "send": "Gönder",
+    "mute": "Mikrofonu kapat",
+    "unmute": "Mikrofonu aç",
+    "start": "Konuşmaya başla",
+    "end": "Sohbeti bitir",
+    "setup_note": "Ajanın nasıl davrandığı ve sesi. Her şey bu bilgisayarda çalışır.",
+    "instructions": "Talimatlar",
+    "instructions_placeholder": "Sen samimi bir asistansın. Kısa yanıt ver.",
+    "voice": "Ses",
+    "voice_default": "Varsayılan ses",
+    "add_voice": "Ses ekle",
+    "language": "Dil",
+    "barge_in": "Sözünü kesebileyim",
+    "barge_in_hint": "Üstüne konuşunca ajan durur.",
+    "greet": "Önce ajan konuşsun",
+    "greet_hint": "Sohbet başlarken seni selamlar.",
+    "applies_next": "Değişiklikler bir sonraki sohbette geçerli olur.",
+    "state": {
+      "idle": {
+        "title": "Hazır olduğunda",
+        "hint": "Mikrofona ya da boşluk tuşuna bas ve konuşmaya başla."
+      },
+      "connecting": {
+        "title": "Bağlanıyor",
+        "hint": "Ajan bu bilgisayarda başlatılıyor."
+      },
+      "listening": {
+        "title": "Dinliyor",
+        "hint": "Doğal konuş. Bitince biraz dur."
+      },
+      "thinking": {
+        "title": "Düşünüyor",
+        "hint": "Bir yanıt hazırlanıyor."
+      },
+      "speaking": {
+        "title": "Konuşuyor",
+        "hint": "İstediğin an üstüne konuşarak kesebilirsin."
+      },
+      "issue_microphone": {
+        "title": "Mikrofon kullanılamıyor",
+        "hint": "Mikrofon izni ver ya da mesaj yaz."
+      },
+      "issue_connection": {
+        "title": "Ajana ulaşılamadı",
+        "hint": "Yerel sunucunun çalıştığından emin ol ve tekrar dene."
+      },
+      "issue_turn": {
+        "title": "Bu yanıt olmadı",
+        "hint": "Bir daha söylemeyi dene."
+      }
     }
   }
 }

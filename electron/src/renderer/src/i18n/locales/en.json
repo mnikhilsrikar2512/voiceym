@@ -305,7 +305,8 @@
     "gallery": "Gallery",
     "batch_dub": "Batch Dubbing",
     "transcribe": "Transcribe",
-    "calls": "Calls"
+    "calls": "Calls",
+    "talk": "Talk"
   },
   "backend": {
     "starting": "Starting the local engine…",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Delete this generation? This can't be undone.",
       "remove_file": "Remove",
       "no_matches": "No matches for \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Talk",
+    "setup": "Agent setup",
+    "conversation": "Conversation",
+    "transcript": "Transcript",
+    "empty": "Your conversation will appear here.",
+    "you": "You",
+    "agent": "Agent",
+    "hearing": "Listening…",
+    "interrupted": "(cut off)",
+    "type": "Type a message",
+    "send": "Send",
+    "mute": "Mute microphone",
+    "unmute": "Unmute microphone",
+    "start": "Start talking",
+    "end": "End conversation",
+    "setup_note": "How the agent behaves and sounds. Everything runs on this computer.",
+    "instructions": "Instructions",
+    "instructions_placeholder": "You are a friendly assistant. Keep answers short.",
+    "voice": "Voice",
+    "voice_default": "Default voice",
+    "add_voice": "Add a voice",
+    "language": "Language",
+    "barge_in": "Let me interrupt it",
+    "barge_in_hint": "Talking over the agent stops it.",
+    "greet": "Agent speaks first",
+    "greet_hint": "It greets you when the conversation starts.",
+    "applies_next": "Changes apply to your next conversation.",
+    "state": {
+      "idle": {
+        "title": "Ready when you are",
+        "hint": "Press the mic or the space bar and start talking."
+      },
+      "connecting": {
+        "title": "Connecting",
+        "hint": "Starting the agent on this computer."
+      },
+      "listening": {
+        "title": "Listening",
+        "hint": "Speak naturally. Pause when you're done."
+      },
+      "thinking": {
+        "title": "Thinking",
+        "hint": "Working out a reply."
+      },
+      "speaking": {
+        "title": "Speaking",
+        "hint": "Talk over it any time to interrupt."
+      },
+      "issue_microphone": {
+        "title": "Microphone unavailable",
+        "hint": "Allow microphone access, or type a message instead."
+      },
+      "issue_connection": {
+        "title": "Couldn't reach the agent",
+        "hint": "Make sure the local backend is running, then try again."
+      },
+      "issue_turn": {
+        "title": "That reply didn't work",
+        "hint": "Try saying it again."
+      }
     }
   }
 }

@@ -126,6 +126,23 @@ export default defineConfig({
             });
           },
         },
+        // The voice agent's socket lives outside /ws, so it needs its own upgrade rule.
+        '/api/v1/agent/ws': {
+          target: 'http://127.0.0.1:' + (process.env.OMNIVOICE_PORT || DEFAULT_BACKEND_PORT),
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/api/, ''),
+          ws: true,
+          configure(proxy) {
+            proxy.on('proxyReqWs', (outgoing, incoming) => {
+              const port = rendererPort;
+              const origin = incoming.headers.origin;
+              if (origin === `http://localhost:${port}` || origin === `http://127.0.0.1:${port}`) {
+                outgoing.removeHeader('origin');
+                outgoing.removeHeader('referer');
+              }
+            });
+          },
+        },
         '/api': {
           target:
             'http://127.0.0.1:' +

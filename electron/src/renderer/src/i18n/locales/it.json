@@ -2209,7 +2209,8 @@
     "design": "Progettazione vocale",
     "clone": "Clonazione vocale",
     "primary": "Navigazione principale",
-    "calls": "Chiamate"
+    "calls": "Chiamate",
+    "talk": "Parla"
   },
   "profiles": {
     "locked": "Voce bloccata! L’identità è ora coerente in tutte le generazioni.",
@@ -3792,6 +3793,69 @@
       "delete_generation": "Eliminare questa generazione? L'operazione non può essere annullata.",
       "remove_file": "Rimuovi",
       "no_matches": "Nessun risultato per \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Parla",
+    "setup": "Configura agente",
+    "conversation": "Conversazione",
+    "transcript": "Trascrizione",
+    "empty": "La conversazione apparirà qui.",
+    "you": "Tu",
+    "agent": "Agente",
+    "hearing": "In ascolto…",
+    "interrupted": "(interrotto)",
+    "type": "Scrivi un messaggio",
+    "send": "Invia",
+    "mute": "Disattiva microfono",
+    "unmute": "Riattiva microfono",
+    "start": "Inizia a parlare",
+    "end": "Termina conversazione",
+    "setup_note": "Come si comporta e suona l'agente. Tutto gira su questo computer.",
+    "instructions": "Istruzioni",
+    "instructions_placeholder": "Sei un assistente gentile. Rispondi in breve.",
+    "voice": "Voce",
+    "voice_default": "Voce predefinita",
+    "add_voice": "Aggiungi una voce",
+    "language": "Lingua",
+    "barge_in": "Permetti di interromperlo",
+    "barge_in_hint": "Se parli sopra, l'agente si ferma.",
+    "greet": "L'agente parla per primo",
+    "greet_hint": "Ti saluta all'inizio della conversazione.",
+    "applies_next": "Le modifiche valgono dalla prossima conversazione.",
+    "state": {
+      "idle": {
+        "title": "Pronto quando vuoi",
+        "hint": "Premi il microfono o la barra spaziatrice e parla."
+      },
+      "connecting": {
+        "title": "Connessione",
+        "hint": "Avvio dell'agente su questo computer."
+      },
+      "listening": {
+        "title": "In ascolto",
+        "hint": "Parla con naturalezza. Fai una pausa quando hai finito."
+      },
+      "thinking": {
+        "title": "Sta pensando",
+        "hint": "Preparo una risposta."
+      },
+      "speaking": {
+        "title": "Sta parlando",
+        "hint": "Parla sopra quando vuoi per interromperlo."
+      },
+      "issue_microphone": {
+        "title": "Microfono non disponibile",
+        "hint": "Consenti l'accesso al microfono o scrivi un messaggio."
+      },
+      "issue_connection": {
+        "title": "Impossibile raggiungere l'agente",
+        "hint": "Verifica che il backend locale sia attivo e riprova."
+      },
+      "issue_turn": {
+        "title": "Quella risposta non è riuscita",
+        "hint": "Prova a ripeterlo."
+      }
     }
   }
 }

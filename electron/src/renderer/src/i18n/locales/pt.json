@@ -2209,7 +2209,8 @@
     "design": "Design de voz",
     "clone": "Clonagem de voz",
     "primary": "Navegação principal",
-    "calls": "Chamadas"
+    "calls": "Chamadas",
+    "talk": "Conversar"
   },
   "profiles": {
     "locked": "Voz bloqueada! A identidade agora é consistente em todas as gerações.",
@@ -3792,6 +3793,69 @@
       "delete_generation": "Excluir esta geração? Esta ação não pode ser desfeita.",
       "remove_file": "Remover",
       "no_matches": "Nenhum resultado para \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Conversar",
+    "setup": "Configurar agente",
+    "conversation": "Conversa",
+    "transcript": "Transcrição",
+    "empty": "Sua conversa aparecerá aqui.",
+    "you": "Você",
+    "agent": "Agente",
+    "hearing": "Ouvindo…",
+    "interrupted": "(interrompido)",
+    "type": "Digite uma mensagem",
+    "send": "Enviar",
+    "mute": "Silenciar microfone",
+    "unmute": "Ativar microfone",
+    "start": "Começar a falar",
+    "end": "Encerrar conversa",
+    "setup_note": "Como o agente se comporta e soa. Tudo roda neste computador.",
+    "instructions": "Instruções",
+    "instructions_placeholder": "Você é um assistente simpático. Responda de forma curta.",
+    "voice": "Voz",
+    "voice_default": "Voz padrão",
+    "add_voice": "Adicionar voz",
+    "language": "Idioma",
+    "barge_in": "Permitir interromper",
+    "barge_in_hint": "Falar por cima faz o agente parar.",
+    "greet": "O agente fala primeiro",
+    "greet_hint": "Ele cumprimenta você no início da conversa.",
+    "applies_next": "As mudanças valem na próxima conversa.",
+    "state": {
+      "idle": {
+        "title": "Pronto quando você quiser",
+        "hint": "Toque no microfone ou na barra de espaço e comece a falar."
+      },
+      "connecting": {
+        "title": "Conectando",
+        "hint": "Iniciando o agente neste computador."
+      },
+      "listening": {
+        "title": "Ouvindo",
+        "hint": "Fale naturalmente. Faça uma pausa ao terminar."
+      },
+      "thinking": {
+        "title": "Pensando",
+        "hint": "Preparando uma resposta."
+      },
+      "speaking": {
+        "title": "Falando",
+        "hint": "Fale por cima a qualquer momento para interromper."
+      },
+      "issue_microphone": {
+        "title": "Microfone indisponível",
+        "hint": "Permita o acesso ao microfone ou digite uma mensagem."
+      },
+      "issue_connection": {
+        "title": "Não foi possível falar com o agente",
+        "hint": "Verifique se o backend local está rodando e tente de novo."
+      },
+      "issue_turn": {
+        "title": "Essa resposta falhou",
+        "hint": "Tente dizer de novo."
+      }
     }
   }
 }

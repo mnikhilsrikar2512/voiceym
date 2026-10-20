@@ -2207,7 +2207,8 @@
     "settings": "설정",
     "design": "음성 디자인",
     "primary": "기본 탐색",
-    "calls": "통화"
+    "calls": "통화",
+    "talk": "대화"
   },
   "profiles": {
     "locked": "음성이 잠겼습니다! 이제 모든 생성 결과에서 음성 정체성이 일관되게 유지됩니다.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "이 생성 항목을 삭제할까요? 이 작업은 되돌릴 수 없습니다.",
       "remove_file": "제거",
       "no_matches": "\"{{query}}\"에 대한 결과가 없습니다."
+    }
+  },
+  "talk": {
+    "title": "대화",
+    "setup": "에이전트 설정",
+    "conversation": "대화",
+    "transcript": "대화 기록",
+    "empty": "대화 내용이 여기에 표시됩니다.",
+    "you": "나",
+    "agent": "에이전트",
+    "hearing": "듣는 중…",
+    "interrupted": "(중단됨)",
+    "type": "메시지 입력",
+    "send": "보내기",
+    "mute": "마이크 끄기",
+    "unmute": "마이크 켜기",
+    "start": "말하기 시작",
+    "end": "대화 종료",
+    "setup_note": "에이전트의 행동과 목소리. 모든 것이 이 컴퓨터에서 실행됩니다.",
+    "instructions": "지침",
+    "instructions_placeholder": "당신은 친절한 비서입니다. 짧게 대답하세요.",
+    "voice": "목소리",
+    "voice_default": "기본 목소리",
+    "add_voice": "목소리 추가",
+    "language": "언어",
+    "barge_in": "끼어들기 허용",
+    "barge_in_hint": "에이전트가 말할 때 말하면 멈춥니다.",
+    "greet": "에이전트가 먼저 말하기",
+    "greet_hint": "대화가 시작되면 인사합니다.",
+    "applies_next": "변경 사항은 다음 대화부터 적용됩니다.",
+    "state": {
+      "idle": {
+        "title": "준비되면 시작하세요",
+        "hint": "마이크나 스페이스바를 누르고 말해 보세요."
+      },
+      "connecting": {
+        "title": "연결 중",
+        "hint": "이 컴퓨터에서 에이전트를 시작하고 있습니다."
+      },
+      "listening": {
+        "title": "듣는 중",
+        "hint": "자연스럽게 말하세요. 다 말하면 잠시 멈추세요."
+      },
+      "thinking": {
+        "title": "생각 중",
+        "hint": "답변을 준비하고 있습니다."
+      },
+      "speaking": {
+        "title": "말하는 중",
+        "hint": "언제든 끼어들어 멈출 수 있습니다."
+      },
+      "issue_microphone": {
+        "title": "마이크를 사용할 수 없음",
+        "hint": "마이크 접근을 허용하거나 메시지를 입력하세요."
+      },
+      "issue_connection": {
+        "title": "에이전트에 연결할 수 없음",
+        "hint": "로컬 백엔드가 실행 중인지 확인한 뒤 다시 시도하세요."
+      },
+      "issue_turn": {
+        "title": "답변에 실패했습니다",
+        "hint": "다시 말해 보세요."
+      }
     }
   }
 }

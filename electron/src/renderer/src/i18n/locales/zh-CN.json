@@ -2207,7 +2207,8 @@
     "design": "声音设计",
     "primary": "主导航",
     "dictation": "听写",
-    "calls": "通话"
+    "calls": "通话",
+    "talk": "对话"
   },
   "profiles": {
     "locked": "声音已锁定！现在每次生成的身份都一致。",
@@ -3790,6 +3791,69 @@
       "delete_generation": "要删除这条生成记录吗？此操作无法撤销。",
       "remove_file": "移除",
       "no_matches": "没有与“{{query}}”匹配的结果。"
+    }
+  },
+  "talk": {
+    "title": "对话",
+    "setup": "助手设置",
+    "conversation": "对话",
+    "transcript": "转写",
+    "empty": "你的对话会显示在这里。",
+    "you": "你",
+    "agent": "助手",
+    "hearing": "正在听…",
+    "interrupted": "(已打断)",
+    "type": "输入消息",
+    "send": "发送",
+    "mute": "静音麦克风",
+    "unmute": "取消静音",
+    "start": "开始说话",
+    "end": "结束对话",
+    "setup_note": "助手的行为和声音。一切都在这台电脑上运行。",
+    "instructions": "指令",
+    "instructions_placeholder": "你是一个友好的助手。回答要简短。",
+    "voice": "声音",
+    "voice_default": "默认声音",
+    "add_voice": "添加声音",
+    "language": "语言",
+    "barge_in": "允许打断",
+    "barge_in_hint": "在助手说话时开口会让它停下。",
+    "greet": "助手先说话",
+    "greet_hint": "对话开始时它会向你问好。",
+    "applies_next": "更改将在下一次对话中生效。",
+    "state": {
+      "idle": {
+        "title": "随时可以开始",
+        "hint": "按下麦克风或空格键，然后开始说话。"
+      },
+      "connecting": {
+        "title": "正在连接",
+        "hint": "正在这台电脑上启动助手。"
+      },
+      "listening": {
+        "title": "正在听",
+        "hint": "自然地说话，说完稍作停顿。"
+      },
+      "thinking": {
+        "title": "正在思考",
+        "hint": "正在准备回复。"
+      },
+      "speaking": {
+        "title": "正在说话",
+        "hint": "随时开口即可打断。"
+      },
+      "issue_microphone": {
+        "title": "麦克风不可用",
+        "hint": "请允许使用麦克风，或改为输入消息。"
+      },
+      "issue_connection": {
+        "title": "无法连接助手",
+        "hint": "请确认本地后端正在运行，然后重试。"
+      },
+      "issue_turn": {
+        "title": "这次回复失败了",
+        "hint": "请再说一遍。"
+      }
     }
   }
 }

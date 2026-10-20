@@ -1,4 +1,3 @@
-import { SupportShortcut } from './support-shortcut';
 import { SidebarToggle } from './sidebar-toggle';
 import type { ReactNode } from 'react';
 import { SearchIcon } from 'lucide-react';
@@ -19,7 +18,6 @@ export function WorkspaceHeader({ children }: { children: ReactNode }) {
       {!isMac() && <SidebarToggle />}
       {children}
       <div className="ml-auto flex shrink-0 items-center gap-1">
-        <SupportShortcut />
         <Button
           variant="ghost"
           size="sm"

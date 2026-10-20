@@ -1,12 +1,8 @@
 export const REPO_URL = 'https://github.com/mnikhilsrikar2512/voiceym';
 export const ISSUES_URL = `${REPO_URL}/issues`;
-export const DISCORD_URL = '';
 // GitHub Security Advisories = the private "report a vulnerability" flow that
 // SECURITY.md points at (never a public issue for security bugs).
 export const SECURITY_URL = `${REPO_URL}/security/advisories/new`;
-export const EMAIL = 'hi@voiceym.example';
-export const WEBSITE_URL = REPO_URL;
-export const X_URL = '';
 
 export const LICENSE_EMAIL = 'hi@voiceym.example';
 export const LICENSE_MAILTO =

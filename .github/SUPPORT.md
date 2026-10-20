@@ -4,7 +4,7 @@
 
 | Channel | Best for |
 |---|---|
-| [Discord](https://discord.gg/bzQavDfVV9) — `#help` | Setup problems, quick questions, sharing results |
+| [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) | Setup problems, quick questions, sharing results |
 | [GitHub Issues](https://github.com/mnikhilsrikar2512/voiceym/issues) | Bugs and feature requests — use the templates; attach the diagnostic bundle (Settings → About → "Save diagnostic bundle") |
 | [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) | Design questions, ideas, show & tell |
 | Security issues | **Never a public issue** — see [SECURITY.md](SECURITY.md) for private reporting |

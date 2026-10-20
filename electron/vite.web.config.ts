@@ -63,6 +63,13 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
         ws: true,
       },
+      // The voice agent's socket lives outside /ws, so it needs its own upgrade rule.
+      '/api/v1/agent/ws': {
+        target: `http://127.0.0.1:${backendPort}`,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        ws: true,
+      },
       '/api': {
         target: `http://127.0.0.1:${backendPort}`,
         changeOrigin: true,

@@ -5,11 +5,6 @@ import '@/i18n';
 import { IntegrationDetailPage } from './integration-detail-page';
 import { INTEGRATION_SETUPS } from './setup-registry';
 import en from '@/i18n/locales/en.json';
-vi.mock('@shared/config/sponsors', () => ({
-  SPONSORS: [
-    { name: 'Example sponsor', url: 'https://example.org', logoUrl: '/example.svg', tier: 'gold' },
-  ],
-}));
 const route = vi.hoisted(() => ({ slug: 'claude-code' }));
 const save = vi.hoisted(() => vi.fn());
 vi.mock('@/lib/local-export', () => ({ saveLocalFile: save }));

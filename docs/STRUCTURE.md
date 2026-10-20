@@ -10,7 +10,7 @@ Voiceym/
 ├── README.md                ⟵ user-facing overview
 ├── CHANGELOG.md                 ⟵ release history; Electron releases use the tagged section
 ├── CLAUDE.md / AGENTS.md        ⟵ the working contract for AI agents — keep the two in sync
-├── LICENSE, LICENSE-NOTICE.md, SPONSORS.md
+├── LICENSE, LICENSE-NOTICE.md
 │
 ├── pyproject.toml               ⟵ Python project manifest (+ pytest / lint config)
 ├── uv.lock                      ⟵ Python lockfile

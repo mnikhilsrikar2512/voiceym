@@ -2207,7 +2207,8 @@
     "clone": "Stemklonen",
     "primary": "Hoofdnavigatie",
     "dictation": "Dicteren",
-    "calls": "Oproepen"
+    "calls": "Oproepen",
+    "talk": "Praten"
   },
   "profiles": {
     "locked": "Stem vergrendeld! Identiteit is nu consistent voor alle generaties.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Deze generatie verwijderen? Dit kan niet ongedaan worden gemaakt.",
       "remove_file": "Verwijderen",
       "no_matches": "Geen resultaten voor \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Praten",
+    "setup": "Agent instellen",
+    "conversation": "Gesprek",
+    "transcript": "Transcript",
+    "empty": "Je gesprek verschijnt hier.",
+    "you": "Jij",
+    "agent": "Agent",
+    "hearing": "Luistert…",
+    "interrupted": "(onderbroken)",
+    "type": "Typ een bericht",
+    "send": "Versturen",
+    "mute": "Microfoon dempen",
+    "unmute": "Microfoon aanzetten",
+    "start": "Begin met praten",
+    "end": "Gesprek beëindigen",
+    "setup_note": "Hoe de agent zich gedraagt en klinkt. Alles draait op deze computer.",
+    "instructions": "Instructies",
+    "instructions_placeholder": "Je bent een vriendelijke assistent. Houd antwoorden kort.",
+    "voice": "Stem",
+    "voice_default": "Standaardstem",
+    "add_voice": "Stem toevoegen",
+    "language": "Taal",
+    "barge_in": "Onderbreken toestaan",
+    "barge_in_hint": "Door de agent heen praten stopt hem.",
+    "greet": "Agent begint",
+    "greet_hint": "Hij begroet je als het gesprek start.",
+    "applies_next": "Wijzigingen gelden voor je volgende gesprek.",
+    "state": {
+      "idle": {
+        "title": "Klaar wanneer jij het bent",
+        "hint": "Druk op de microfoon of de spatiebalk en begin te praten."
+      },
+      "connecting": {
+        "title": "Verbinden",
+        "hint": "De agent start op deze computer."
+      },
+      "listening": {
+        "title": "Luistert",
+        "hint": "Praat gewoon. Pauzeer als je klaar bent."
+      },
+      "thinking": {
+        "title": "Denkt na",
+        "hint": "Een antwoord wordt bedacht."
+      },
+      "speaking": {
+        "title": "Praat",
+        "hint": "Praat er op elk moment doorheen om te onderbreken."
+      },
+      "issue_microphone": {
+        "title": "Microfoon niet beschikbaar",
+        "hint": "Geef toegang tot de microfoon of typ een bericht."
+      },
+      "issue_connection": {
+        "title": "Agent niet bereikbaar",
+        "hint": "Controleer of de lokale backend draait en probeer het opnieuw."
+      },
+      "issue_turn": {
+        "title": "Dat antwoord lukte niet",
+        "hint": "Probeer het nog eens."
+      }
     }
   }
 }

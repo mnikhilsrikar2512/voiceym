@@ -12,6 +12,7 @@ import {
   FilmIcon,
   WandSparklesIcon,
   MicIcon,
+  MessagesSquareIcon,
   UsersRoundIcon,
   ChevronRightIcon,
   BlocksIcon,
@@ -25,6 +26,7 @@ import './workspace-menu.css';
 
 type Destination = readonly [
   to:
+    | '/'
     | '/clone'
     | '/stories'
     | '/audiobook'
@@ -44,6 +46,8 @@ type Destination = readonly [
 ];
 
 const openSaved = () => setWorkspace({ libraryOpen: true, libraryTab: 'voices' });
+
+const talkDestination: Destination = ['/', 'nav.talk', MessagesSquareIcon];
 
 const voiceDestinations: Destination[] = [
   ['/clone', 'nav.clone_short', FingerprintIcon, openSaved],
@@ -68,25 +72,8 @@ const laterDestinations: Destination[] = [
 ];
 
 const itemClass =
-  'workspace-nav-item group relative isolate flex h-8 min-w-0 items-center overflow-hidden rounded-md text-sm text-sidebar-foreground/80 outline-none transition-[color,background-color,box-shadow,backdrop-filter] duration-150 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-gradient-to-r before:from-white/[0.07] before:via-white/[0.025] before:to-transparent before:opacity-0 before:transition-opacity before:duration-150 hover:bg-sidebar-accent/65 hover:text-sidebar-foreground hover:backdrop-blur-xl hover:shadow-[inset_0_1px_0_rgb(255_255_255/9%),0_6px_18px_rgb(0_0_0/10%)] hover:ring-1 hover:ring-inset hover:ring-sidebar-border/60 hover:before:opacity-100 focus-visible:ring-2 focus-visible:ring-ring';
-const iconClass =
-  'workspace-nav-icon size-4 shrink-0 text-muted-foreground transition-[color,filter] duration-150';
-
-const iconMotion: Record<Destination[0], string> = {
-  '/clone': 'pulse',
-  '/design': 'tilt',
-  '/personas': 'nudge',
-  '/gallery': 'lift',
-  '/stories': 'wave',
-  '/audiobook': 'tilt',
-  '/dub': 'tilt',
-  '/batch': 'lift',
-  '/transcriptions': 'nudge',
-  '/calls': 'pulse',
-  '/projects': 'lift',
-  '/tools': 'tilt',
-  '/integrations': 'turn',
-};
+  'workspace-nav-item group relative flex h-9 min-w-0 items-center rounded-lg text-sm text-sidebar-foreground/80 outline-none transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-ring';
+const iconClass = 'workspace-nav-icon size-4 shrink-0 text-muted-foreground transition-colors duration-150';
 
 function NavigationLink({
   destination: [to, label, Icon, activate],
@@ -120,16 +107,14 @@ function NavigationLink({
               ? 'h-7 gap-2 px-2 text-xs'
               : 'gap-2.5 px-2.5',
       )}
+      activeOptions={{ exact: to === '/' }}
       activeProps={{
-        className:
-          'bg-sidebar-accent/80 text-sidebar-foreground shadow-sm ring-1 ring-inset ring-sidebar-border/60',
+        className: 'bg-sidebar-accent font-semibold text-sidebar-foreground',
         'aria-current': 'page',
       }}
     >
       <Icon
         className={cn(iconClass, nested && 'size-3.5')}
-        data-tone={to.slice(1)}
-        data-motion={iconMotion[to]}
         aria-hidden="true"
       />
       {!compact && <span className="truncate">{t(label)}</span>}
@@ -159,12 +144,6 @@ function NavigationGroup({
 }) {
   const { t } = useTranslation();
   const active = children.some(([to]) => pathname === to || pathname.startsWith(to + '/'));
-  const groupTone =
-    label === 'nav.stories'
-      ? 'stories-group'
-      : label === 'nav.dub'
-        ? 'dubbing-group'
-        : label.slice(4);
   const [expanded, setExpanded] = useState(active);
   const [popupOpen, setPopupOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -201,8 +180,7 @@ function NavigationGroup({
     itemClass,
     'w-full',
     compact ? 'h-10 justify-center' : 'gap-2.5 px-2.5 font-medium',
-    active &&
-      'bg-sidebar-accent/65 text-sidebar-foreground ring-1 ring-inset ring-sidebar-border/50',
+    active && 'text-sidebar-foreground',
   );
   if (compact)
     return (
@@ -248,8 +226,6 @@ function NavigationGroup({
         >
           <Icon
             className={iconClass}
-            data-tone={groupTone}
-            data-motion={label === 'nav.stories' ? 'wave' : 'pulse'}
             aria-hidden="true"
           />
         </PopoverTrigger>
@@ -297,8 +273,6 @@ function NavigationGroup({
       >
         <Icon
           className={iconClass}
-          data-tone={groupTone}
-          data-motion={label === 'nav.stories' ? 'wave' : 'pulse'}
           aria-hidden="true"
         />
         <span className="truncate">{t(label)}</span>
@@ -345,6 +319,7 @@ export function WorkspaceNavigation({ compact = false }: { compact?: boolean }) 
         compact ? 'space-y-0.5 px-1.5' : 'shrink-0 space-y-0.5 px-3',
       )}
     >
+      <NavigationLink destination={talkDestination} compact={compact} />
       <NavigationGroup
         label="nav.voice"
         icon={FingerprintIcon}

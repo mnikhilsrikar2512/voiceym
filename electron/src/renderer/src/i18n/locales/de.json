@@ -2207,7 +2207,8 @@
     "design": "Sprachdesign",
     "clone": "Stimmklonen",
     "primary": "Hauptnavigation",
-    "calls": "Anrufe"
+    "calls": "Anrufe",
+    "talk": "Sprechen"
   },
   "profiles": {
     "locked": "Stimme gesperrt! Die Identität ist nun über alle Generationen hinweg einheitlich.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Diese Generierung löschen? Das kann nicht rückgängig gemacht werden.",
       "remove_file": "Entfernen",
       "no_matches": "Keine Treffer für \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Sprechen",
+    "setup": "Agent einrichten",
+    "conversation": "Gespräch",
+    "transcript": "Verlauf",
+    "empty": "Dein Gespräch erscheint hier.",
+    "you": "Du",
+    "agent": "Agent",
+    "hearing": "Hört zu…",
+    "interrupted": "(unterbrochen)",
+    "type": "Nachricht eingeben",
+    "send": "Senden",
+    "mute": "Mikrofon stummschalten",
+    "unmute": "Mikrofon einschalten",
+    "start": "Gespräch starten",
+    "end": "Gespräch beenden",
+    "setup_note": "Wie der Agent sich verhält und klingt. Alles läuft auf diesem Computer.",
+    "instructions": "Anweisungen",
+    "instructions_placeholder": "Du bist ein freundlicher Assistent. Antworte kurz.",
+    "voice": "Stimme",
+    "voice_default": "Standardstimme",
+    "add_voice": "Stimme hinzufügen",
+    "language": "Sprache",
+    "barge_in": "Unterbrechen erlauben",
+    "barge_in_hint": "Wenn du dazwischensprichst, hört der Agent auf.",
+    "greet": "Agent spricht zuerst",
+    "greet_hint": "Er begrüßt dich zu Beginn des Gesprächs.",
+    "applies_next": "Änderungen gelten ab dem nächsten Gespräch.",
+    "state": {
+      "idle": {
+        "title": "Bereit, wenn du es bist",
+        "hint": "Tippe aufs Mikrofon oder drücke die Leertaste und sprich los."
+      },
+      "connecting": {
+        "title": "Verbinde",
+        "hint": "Der Agent startet auf diesem Computer."
+      },
+      "listening": {
+        "title": "Hört zu",
+        "hint": "Sprich ganz natürlich. Mach eine Pause, wenn du fertig bist."
+      },
+      "thinking": {
+        "title": "Denkt nach",
+        "hint": "Eine Antwort wird vorbereitet."
+      },
+      "speaking": {
+        "title": "Spricht",
+        "hint": "Sprich jederzeit dazwischen, um zu unterbrechen."
+      },
+      "issue_microphone": {
+        "title": "Mikrofon nicht verfügbar",
+        "hint": "Erlaube den Mikrofonzugriff oder schreib stattdessen."
+      },
+      "issue_connection": {
+        "title": "Agent nicht erreichbar",
+        "hint": "Prüfe, ob das lokale Backend läuft, und versuche es erneut."
+      },
+      "issue_turn": {
+        "title": "Diese Antwort hat nicht geklappt",
+        "hint": "Versuche es noch einmal."
+      }
     }
   }
 }

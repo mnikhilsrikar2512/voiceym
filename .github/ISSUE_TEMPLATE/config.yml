@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 💬 Discord — questions & quick help
-    url: https://discord.gg/bzQavDfVV9
-    about: Usage questions, setup help, and chat. Faster than an issue for "how do I…".
   - name: 🗣️ GitHub Discussions
     url: https://github.com/mnikhilsrikar2512/voiceym/discussions
     about: Ideas, show-and-tell, and open-ended Q&A that isn't a bug or a specific feature ask.

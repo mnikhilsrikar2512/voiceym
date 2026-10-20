@@ -2207,7 +2207,8 @@
     "clone": "聲音複製",
     "primary": "主要導覽",
     "dictation": "聽寫",
-    "calls": "通話"
+    "calls": "通話",
+    "talk": "對話"
   },
   "profiles": {
     "locked": "語音鎖定！現在，各代的身份都是一致的。",
@@ -3790,6 +3791,69 @@
       "delete_generation": "要刪除這筆產生紀錄嗎？此操作無法復原。",
       "remove_file": "移除",
       "no_matches": "找不到符合「{{query}}」的結果。"
+    }
+  },
+  "talk": {
+    "title": "對話",
+    "setup": "助理設定",
+    "conversation": "對話",
+    "transcript": "逐字稿",
+    "empty": "你的對話會顯示在這裡。",
+    "you": "你",
+    "agent": "助理",
+    "hearing": "正在聽…",
+    "interrupted": "(已打斷)",
+    "type": "輸入訊息",
+    "send": "傳送",
+    "mute": "將麥克風靜音",
+    "unmute": "取消靜音",
+    "start": "開始說話",
+    "end": "結束對話",
+    "setup_note": "助理的行為和聲音。一切都在這台電腦上執行。",
+    "instructions": "指示",
+    "instructions_placeholder": "你是一位友善的助理。回答要簡短。",
+    "voice": "聲音",
+    "voice_default": "預設聲音",
+    "add_voice": "新增聲音",
+    "language": "語言",
+    "barge_in": "允許打斷",
+    "barge_in_hint": "在助理說話時開口會讓它停下。",
+    "greet": "助理先說話",
+    "greet_hint": "對話開始時它會向你問好。",
+    "applies_next": "變更會在下一次對話生效。",
+    "state": {
+      "idle": {
+        "title": "隨時可以開始",
+        "hint": "按下麥克風或空白鍵，然後開始說話。"
+      },
+      "connecting": {
+        "title": "正在連線",
+        "hint": "正在這台電腦上啟動助理。"
+      },
+      "listening": {
+        "title": "正在聽",
+        "hint": "自然地說話，說完稍作停頓。"
+      },
+      "thinking": {
+        "title": "正在思考",
+        "hint": "正在準備回覆。"
+      },
+      "speaking": {
+        "title": "正在說話",
+        "hint": "隨時開口即可打斷。"
+      },
+      "issue_microphone": {
+        "title": "麥克風無法使用",
+        "hint": "請允許使用麥克風，或改為輸入訊息。"
+      },
+      "issue_connection": {
+        "title": "無法連線到助理",
+        "hint": "請確認本機後端正在執行，然後再試一次。"
+      },
+      "issue_turn": {
+        "title": "這次回覆失敗了",
+        "hint": "請再說一次。"
+      }
     }
   }
 }

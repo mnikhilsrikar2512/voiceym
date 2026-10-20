@@ -51,7 +51,7 @@ on your own machine: no accounts, no API keys, no cloud.
   (gender, age, accent, pitch, style) instead of cloning one — RTVC
   had no equivalent.
 * **Maintenance.** Active releases, an issue tracker that answers,
-  and a Discord that helps with setup.
+  and discussions that help with setup.
 
 ## What RTVC did that Voiceym doesn't
 
@@ -169,7 +169,7 @@ Engines** — the choice applies everywhere synthesis happens.
 ## Getting help
 
 Setup questions get answered in
-[Discord](https://discord.gg/bzQavDfVV9) (usually within hours), bugs
+[GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions), bugs
 go to
 [GitHub Issues](https://github.com/mnikhilsrikar2512/voiceym/issues)
 — see [SUPPORT.md](../../.github/SUPPORT.md) for what to include. Welcome

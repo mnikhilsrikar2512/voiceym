@@ -2207,7 +2207,8 @@
     "design": "Desain Suara",
     "clone": "Kloning suara",
     "primary": "Navigasi utama",
-    "calls": "Panggilan"
+    "calls": "Panggilan",
+    "talk": "Bicara"
   },
   "profiles": {
     "locked": "Suara terkunci! Identitas sekarang konsisten di semua generasi.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Hapus hasil ini? Tindakan ini tidak dapat dibatalkan.",
       "remove_file": "Hapus",
       "no_matches": "Tidak ada hasil untuk \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Bicara",
+    "setup": "Atur agen",
+    "conversation": "Percakapan",
+    "transcript": "Transkrip",
+    "empty": "Percakapanmu akan muncul di sini.",
+    "you": "Kamu",
+    "agent": "Agen",
+    "hearing": "Mendengarkan…",
+    "interrupted": "(terpotong)",
+    "type": "Ketik pesan",
+    "send": "Kirim",
+    "mute": "Matikan mikrofon",
+    "unmute": "Nyalakan mikrofon",
+    "start": "Mulai bicara",
+    "end": "Akhiri percakapan",
+    "setup_note": "Cara agen bersikap dan terdengar. Semuanya berjalan di komputer ini.",
+    "instructions": "Instruksi",
+    "instructions_placeholder": "Kamu asisten yang ramah. Jawab dengan singkat.",
+    "voice": "Suara",
+    "voice_default": "Suara bawaan",
+    "add_voice": "Tambah suara",
+    "language": "Bahasa",
+    "barge_in": "Boleh menyela",
+    "barge_in_hint": "Bicara saat agen bicara akan menghentikannya.",
+    "greet": "Agen bicara duluan",
+    "greet_hint": "Agen menyapa saat percakapan dimulai.",
+    "applies_next": "Perubahan berlaku di percakapan berikutnya.",
+    "state": {
+      "idle": {
+        "title": "Siap kapan pun",
+        "hint": "Tekan mikrofon atau spasi lalu mulai bicara."
+      },
+      "connecting": {
+        "title": "Menghubungkan",
+        "hint": "Menjalankan agen di komputer ini."
+      },
+      "listening": {
+        "title": "Mendengarkan",
+        "hint": "Bicaralah dengan wajar. Berhenti sejenak jika selesai."
+      },
+      "thinking": {
+        "title": "Berpikir",
+        "hint": "Menyiapkan jawaban."
+      },
+      "speaking": {
+        "title": "Berbicara",
+        "hint": "Sela kapan saja untuk menghentikan."
+      },
+      "issue_microphone": {
+        "title": "Mikrofon tidak tersedia",
+        "hint": "Izinkan akses mikrofon atau ketik pesan."
+      },
+      "issue_connection": {
+        "title": "Agen tidak terjangkau",
+        "hint": "Pastikan backend lokal berjalan, lalu coba lagi."
+      },
+      "issue_turn": {
+        "title": "Jawaban itu gagal",
+        "hint": "Coba katakan sekali lagi."
+      }
     }
   }
 }

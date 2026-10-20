@@ -1249,7 +1249,7 @@ export class BackendSupervisor extends EventEmitter<{
     return ['project', '.uv-cache', '.python', '.tmp', 'tmp'].map((name) => join(root, name));
   }
 
-  websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts'): Promise<string> {
+  websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts' | '/v1/agent/ws'): Promise<string> {
     return remoteWebSocketUrl(this.baseUrl, path, this.remoteUrl ? this.activeSession() : null);
   }
 

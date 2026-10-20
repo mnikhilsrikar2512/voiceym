@@ -27,26 +27,6 @@ _REPO = pathlib.Path(__file__).resolve().parent.parent
 # ── #46 — Discord link ──────────────────────────────────────────────────────
 
 OLD_DISCORD = "discord.gg/aRRdVj3de7"
-NEW_DISCORD = "discord.gg/bzQavDfVV9"
-
-# README.md no longer links upstream VoiceStudio's Discord.
-_LINK_FILES = [
-    ".github/CONTRIBUTING.md",
-    "electron/src/shared/pages/EnterprisePage.jsx",
-    "electron/src/shared/components/LogsFooter.jsx",
-]
-
-
-@pytest.mark.parametrize("relpath", _LINK_FILES)
-def test_discord_link_updated(relpath):
-    """Expired Discord invite must not appear anywhere we publish links."""
-    filepath = _REPO / relpath
-    if not filepath.exists():
-        pytest.skip(f"{relpath} not found")
-    content = filepath.read_text(encoding="utf-8")
-    assert OLD_DISCORD not in content, f"{relpath} still contains expired link {OLD_DISCORD}"
-    assert NEW_DISCORD in content, f"{relpath} missing new link {NEW_DISCORD}"
-
 
 def test_no_old_discord_link_anywhere():
     """Repo-wide sweep: no markdown or JSX file should reference the old link."""

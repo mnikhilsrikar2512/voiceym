@@ -2211,7 +2211,8 @@
     "clone": "Klonowanie głosu",
     "primary": "Nawigacja główna",
     "dictation": "Dyktowanie",
-    "calls": "Połączenia"
+    "calls": "Połączenia",
+    "talk": "Rozmowa"
   },
   "profiles": {
     "locked": "Głos zablokowany! Tożsamość jest teraz spójna we wszystkich pokoleniach.",
@@ -3794,6 +3795,69 @@
       "delete_generation": "Usunąć tę generację? Tej operacji nie można cofnąć.",
       "remove_file": "Usuń",
       "no_matches": "Brak wyników dla \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Rozmowa",
+    "setup": "Ustawienia agenta",
+    "conversation": "Rozmowa",
+    "transcript": "Transkrypcja",
+    "empty": "Tu pojawi się twoja rozmowa.",
+    "you": "Ty",
+    "agent": "Agent",
+    "hearing": "Słucham…",
+    "interrupted": "(przerwano)",
+    "type": "Napisz wiadomość",
+    "send": "Wyślij",
+    "mute": "Wycisz mikrofon",
+    "unmute": "Włącz mikrofon",
+    "start": "Zacznij mówić",
+    "end": "Zakończ rozmowę",
+    "setup_note": "Jak agent się zachowuje i brzmi. Wszystko działa na tym komputerze.",
+    "instructions": "Instrukcje",
+    "instructions_placeholder": "Jesteś życzliwym asystentem. Odpowiadaj krótko.",
+    "voice": "Głos",
+    "voice_default": "Głos domyślny",
+    "add_voice": "Dodaj głos",
+    "language": "Język",
+    "barge_in": "Pozwól przerywać",
+    "barge_in_hint": "Mówienie w trakcie zatrzymuje agenta.",
+    "greet": "Agent zaczyna",
+    "greet_hint": "Wita cię na początku rozmowy.",
+    "applies_next": "Zmiany obowiązują od następnej rozmowy.",
+    "state": {
+      "idle": {
+        "title": "Gotowy, gdy ty będziesz",
+        "hint": "Naciśnij mikrofon lub spację i zacznij mówić."
+      },
+      "connecting": {
+        "title": "Łączenie",
+        "hint": "Uruchamiam agenta na tym komputerze."
+      },
+      "listening": {
+        "title": "Słucha",
+        "hint": "Mów naturalnie. Zrób pauzę, gdy skończysz."
+      },
+      "thinking": {
+        "title": "Myśli",
+        "hint": "Przygotowuje odpowiedź."
+      },
+      "speaking": {
+        "title": "Mówi",
+        "hint": "Wejdź mu w słowo, aby przerwać."
+      },
+      "issue_microphone": {
+        "title": "Mikrofon niedostępny",
+        "hint": "Zezwól na dostęp do mikrofonu lub napisz wiadomość."
+      },
+      "issue_connection": {
+        "title": "Nie można połączyć się z agentem",
+        "hint": "Sprawdź, czy lokalny serwer działa, i spróbuj ponownie."
+      },
+      "issue_turn": {
+        "title": "Ta odpowiedź się nie udała",
+        "hint": "Spróbuj powiedzieć to jeszcze raz."
+      }
     }
   }
 }

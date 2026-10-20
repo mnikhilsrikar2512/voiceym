@@ -8,9 +8,8 @@ cloning, and cinematic video dubbing — fully local, with no cloud API keys or 
 [![Image Size](https://img.shields.io/docker/image-size/mnikhilsrikar2512/voiceym/latest?logo=docker&label=image%20size)](https://hub.docker.com/r/mnikhilsrikar2512/voiceym/tags)
 [![GitHub Stars](https://img.shields.io/github/stars/mnikhilsrikar2512/voiceym?logo=github&color=f59e0b)](https://github.com/mnikhilsrikar2512/voiceym)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](https://github.com/mnikhilsrikar2512/voiceym/blob/main/LICENSE)
-[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/bzQavDfVV9)
 
-[![mnikhilsrikar2512/voiceym on Trendshift](https://trendshift.io/api/badge/trendshift/repositories/28176/daily?language=Python)](https://trendshift.io/repositories/28176?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-28176)
+
 
 ![Voiceym — the open-source ElevenLabs alternative](https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/.github/assets/social-preview.png)
 
@@ -201,6 +200,6 @@ adds there are root-owned).
 - **Source & full install docs:** <https://github.com/mnikhilsrikar2512/voiceym>
 - **Docker guide:** <https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/docker.md>
 - **Troubleshooting:** <https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/install/troubleshooting.md>
-- **Community / support:** [Discord](https://discord.gg/bzQavDfVV9)
+- **Community / support:** [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions)
 
 Voiceym is in active beta and licensed under AGPL-3.0.

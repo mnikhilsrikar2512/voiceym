@@ -402,7 +402,7 @@ export interface VoiceymBridge {
     testRemote(input: { url: string; apiKey: string }): Promise<RemoteBackendProbe>;
     useRemote(input: { url: string; apiKey: string }): Promise<RemoteBackendProbe>;
     useLocal(): Promise<BackendConnection>;
-    websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts'): Promise<string>;
+    websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts' | '/v1/agent/ws'): Promise<string>;
   };
   capture: {
     phase(

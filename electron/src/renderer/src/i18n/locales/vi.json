@@ -2207,7 +2207,8 @@
     "clone": "Nhân bản giọng nói",
     "primary": "Điều hướng chính",
     "dictation": "Nhập liệu bằng giọng nói",
-    "calls": "Cuộc gọi"
+    "calls": "Cuộc gọi",
+    "talk": "Trò chuyện"
   },
   "profiles": {
     "locked": "Giọng nói bị khóa! Bản sắc bây giờ nhất quán qua tất cả các thế hệ.",
@@ -3790,6 +3791,69 @@
       "delete_generation": "Xóa bản tạo này? Không thể hoàn tác thao tác này.",
       "remove_file": "Xóa",
       "no_matches": "Không có kết quả cho \"{{query}}\"."
+    }
+  },
+  "talk": {
+    "title": "Trò chuyện",
+    "setup": "Thiết lập trợ lý",
+    "conversation": "Cuộc trò chuyện",
+    "transcript": "Bản ghi",
+    "empty": "Cuộc trò chuyện sẽ hiện ở đây.",
+    "you": "Bạn",
+    "agent": "Trợ lý",
+    "hearing": "Đang nghe…",
+    "interrupted": "(bị ngắt)",
+    "type": "Nhập tin nhắn",
+    "send": "Gửi",
+    "mute": "Tắt micro",
+    "unmute": "Bật micro",
+    "start": "Bắt đầu nói",
+    "end": "Kết thúc trò chuyện",
+    "setup_note": "Cách trợ lý cư xử và giọng nói. Mọi thứ chạy trên máy này.",
+    "instructions": "Hướng dẫn",
+    "instructions_placeholder": "Bạn là một trợ lý thân thiện. Trả lời ngắn gọn.",
+    "voice": "Giọng",
+    "voice_default": "Giọng mặc định",
+    "add_voice": "Thêm giọng",
+    "language": "Ngôn ngữ",
+    "barge_in": "Cho phép ngắt lời",
+    "barge_in_hint": "Nói chen vào sẽ khiến trợ lý dừng.",
+    "greet": "Trợ lý nói trước",
+    "greet_hint": "Trợ lý chào bạn khi bắt đầu.",
+    "applies_next": "Thay đổi áp dụng cho cuộc trò chuyện tiếp theo.",
+    "state": {
+      "idle": {
+        "title": "Sẵn sàng khi bạn muốn",
+        "hint": "Nhấn micro hoặc phím cách rồi bắt đầu nói."
+      },
+      "connecting": {
+        "title": "Đang kết nối",
+        "hint": "Đang khởi động trợ lý trên máy này."
+      },
+      "listening": {
+        "title": "Đang nghe",
+        "hint": "Hãy nói tự nhiên. Dừng lại khi nói xong."
+      },
+      "thinking": {
+        "title": "Đang suy nghĩ",
+        "hint": "Đang chuẩn bị câu trả lời."
+      },
+      "speaking": {
+        "title": "Đang nói",
+        "hint": "Nói chen vào bất cứ lúc nào để ngắt."
+      },
+      "issue_microphone": {
+        "title": "Không dùng được micro",
+        "hint": "Cho phép truy cập micro hoặc nhập tin nhắn."
+      },
+      "issue_connection": {
+        "title": "Không kết nối được trợ lý",
+        "hint": "Kiểm tra máy chủ cục bộ đang chạy rồi thử lại."
+      },
+      "issue_turn": {
+        "title": "Câu trả lời đó bị lỗi",
+        "hint": "Hãy thử nói lại."
+      }
     }
   }
 }
