@@ -24,7 +24,9 @@ The LLM, ASR and TTS are injected through :class:`VoiceAgentDeps` so tests
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
+import os
 import re
 import time
 from dataclasses import dataclass, field
@@ -51,6 +53,41 @@ DEFAULT_INSTRUCTIONS = (
 )
 
 Event = Union[dict, bytes]
+
+#: Languages the light setup (Parakeet, the English voice) can't handle. Talk
+#: hears them with multilingual Whisper and speaks them with OmniVoice.
+INDIAN_LANGUAGES = {
+    "hindi": "hi", "bengali": "bn", "tamil": "ta", "telugu": "te", "marathi": "mr",
+    "gujarati": "gu", "kannada": "kn", "malayalam": "ml", "panjabi": "pa", "punjabi": "pa",
+    "urdu": "ur", "odia": "or", "assamese": "as", "nepali": "ne",
+}
+#: Voice engines that speak Indian languages, lightest first: the GGUF build of
+#: OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice itself.
+MULTILINGUAL_ENGINES = ("omnivoice-gguf", "omnivoice")
+
+
+def multilingual_engine() -> str:
+    from services.tts_backend import get_backend_class
+
+    for engine in MULTILINGUAL_ENGINES[:-1]:
+        try:
+            if get_backend_class(engine).is_available()[0]:
+                return engine
+        except Exception:  # noqa: BLE001 -- an unbuilt engine just isn't picked
+            continue
+    return MULTILINGUAL_ENGINES[-1]
+
+
+def indian_language_code(language: str) -> str | None:
+    """``"Hindi"`` or ``"hi"`` → ``"hi"``; ``None`` for any other language."""
+    value = (language or "").strip().lower()
+    if value in INDIAN_LANGUAGES.values():
+        return value
+    return INDIAN_LANGUAGES.get(value)
+
+
+def is_indian_language(language: str) -> bool:
+    return indian_language_code(language) is not None
 
 
 def system_prompt(instructions: str, language: str) -> str:
@@ -128,7 +165,52 @@ async def _default_transcribe(pcm16k: np.ndarray, language: str) -> str:
     from services.asr_backend import capture_lease
 
     with capture_lease():
+        if is_indian_language(language):
+            return await _transcribe_multilingual(pcm16k, indian_language_code(language) or "")
         return await _transcribe_buffer([pcm16k.astype(np.int16).tobytes()], pcm_sr=INPUT_SAMPLE_RATE)
+
+
+_multilingual_asr_backend = None
+
+
+def _multilingual_asr():
+    """A Whisper backend that takes a ``language`` (the dictation pick may be
+    an English/European-only model such as Parakeet)."""
+    global _multilingual_asr_backend
+    from services import asr_backend as asr
+
+    backend = asr.get_capture_asr_backend(skip_sherpa=True)
+    if "language" in inspect.signature(backend.transcribe).parameters:
+        return backend
+    if _multilingual_asr_backend is None:
+        ok, _ = asr.MLXWhisperBackend.is_available()
+        _multilingual_asr_backend = (
+            asr.MLXWhisperBackend(model_name=asr._MLX_MODEL_TURBO) if ok else asr.FasterWhisperBackend()
+        )
+    asr.ensure_backend_licence(_multilingual_asr_backend)
+    return _multilingual_asr_backend
+
+
+async def _transcribe_multilingual(pcm16k: np.ndarray, code: str) -> str:
+    from api.routers.capture_ws import _pcm16_to_wav, _result_text
+    from services.asr_backend import run_transcribe_guarded
+    from services.model_manager import _gpu_pool
+
+    path = _pcm16_to_wav(pcm16k.astype(np.int16).tobytes(), INPUT_SAMPLE_RATE)
+    if path is None:
+        return ""
+
+    def _run() -> str:
+        result = _multilingual_asr().transcribe(path, word_timestamps=False, language=code or None)
+        return _result_text(result)
+
+    try:
+        return (await run_transcribe_guarded(_gpu_pool, _run, what="Voice agent")).strip()
+    finally:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
 
 
 def to_pcm16_24k(samples, sample_rate: int) -> np.ndarray:
@@ -414,10 +496,17 @@ class VoiceAgentSession:
             await self._emit({"type": "response.done"})
         await self._set_state("listening")
 
+    def _engine(self) -> str:
+        """The voice engine for this session: the client's pick, else OmniVoice
+        for an Indian language (the light voice is English only)."""
+        if self.config.engine:
+            return self.config.engine
+        return multilingual_engine() if is_indian_language(self.config.language) else ""
+
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
         async for pcm in self.deps.render(
-            sentence, voice=self.config.voice, engine=self.config.engine, language=self.config.language
+            sentence, voice=self.config.voice, engine=self._engine(), language=self.config.language
         ):
             if pcm.size == 0:
                 continue

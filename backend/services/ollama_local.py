@@ -20,6 +20,8 @@ TALK_NUM_CTX = 2048
 TALK_KEEP_ALIVE = "10m"
 #: Preferred defaults, smallest first: the first one installed wins.
 PREFERRED_MODELS = ("llama3.2:1b", "qwen2.5:1.5b", "gemma3:1b", "llama3.2:3b")
+#: For Indian languages: Gemma 3 is trained on many more languages than Llama 3.2.
+MULTILINGUAL_MODELS = ("gemma3:4b", "gemma3:1b", "qwen2.5:3b")
 
 
 def base_url() -> str:
@@ -37,9 +39,9 @@ def base_url() -> str:
     return url[: -len("/v1")] if url.endswith("/v1") else url
 
 
-def pick_default(names: list[str]) -> str:
-    """The lightest preferred model that is installed, else the first listed."""
-    for preferred in PREFERRED_MODELS:
+def pick_default(names: list[str], preferred_models: tuple[str, ...] = PREFERRED_MODELS) -> str:
+    """The first preferred model that is installed, else the first listed."""
+    for preferred in preferred_models:
         for name in names:
             if name == preferred or name == preferred + ":latest":
                 return name
@@ -54,17 +56,19 @@ async def list_models() -> dict:
             response.raise_for_status()
             payload = response.json()
     except (httpx.HTTPError, ValueError):
-        return {"available": False, "models": [], "default": ""}
+        return {"available": False, "models": [], "default": "", "multilingual_default": ""}
     models = [
         {"name": str(item.get("name") or ""), "size": int(item.get("size") or 0)}
         for item in payload.get("models") or []
         if item.get("name")
     ]
     models.sort(key=lambda item: item["size"])
+    names = [item["name"] for item in models]
     return {
         "available": True,
         "models": models,
-        "default": pick_default([item["name"] for item in models]),
+        "default": pick_default(names),
+        "multilingual_default": pick_default(names, MULTILINGUAL_MODELS),
     }
 
 

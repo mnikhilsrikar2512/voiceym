@@ -20,6 +20,22 @@ import './talk-page.css';
 const SETTINGS_KEY = 'voiceym.talk.settings';
 /** The model picker's value for "use the app's language model". */
 const APP_MODEL = 'app';
+/** Languages Talk answers with a multilingual model (the backend switches hearing and voice too). */
+const INDIAN_LANGUAGES = new Set([
+  'Hindi',
+  'Bengali',
+  'Tamil',
+  'Telugu',
+  'Marathi',
+  'Gujarati',
+  'Kannada',
+  'Malayalam',
+  'Panjabi',
+  'Urdu',
+  'Odia',
+  'Assamese',
+  'Nepali',
+]);
 
 function loadSettings(): AgentSettings {
   const fallback: AgentSettings = {
@@ -84,7 +100,9 @@ export function TalkPage() {
   const chosenModel =
     settings.model === APP_MODEL || installed.some((model) => model.name === settings.model)
       ? settings.model
-      : (ollama?.default ?? '') || APP_MODEL;
+      : (INDIAN_LANGUAGES.has(settings.language) && ollama?.multilingual_default) ||
+        ollama?.default ||
+        APP_MODEL;
   const wire = useMemo<AgentSettings>(
     () => ({
       ...settings,

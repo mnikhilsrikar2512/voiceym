@@ -186,6 +186,7 @@ export const DEFAULT_FIXTURES = {
     available: true,
     models: [{ name: 'llama3.2:1b', size: 1_321_098_329 }],
     default: 'llama3.2:1b',
+    multilingual_default: 'llama3.2:1b',
   },
   '/api/settings/history-retention': { cap: 200, default: 200 },
   '/media-tools/status': {

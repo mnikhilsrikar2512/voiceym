@@ -336,6 +336,38 @@ def test_ollama_default_prefers_the_lightest_preferred_model():
     assert ollama_local.pick_default(["llama3.2:3b", "llama3.2:1b"]) == "llama3.2:1b"
     assert ollama_local.pick_default(["mistral:latest"]) == "mistral:latest"
     assert ollama_local.pick_default([]) == ""
+    assert ollama_local.pick_default(
+        ["llama3.2:1b", "gemma3:4b"], ollama_local.MULTILINGUAL_MODELS) == "gemma3:4b"
+
+
+def test_indian_languages_are_spoken_with_the_multilingual_voice():
+    assert va.is_indian_language("Hindi") and va.is_indian_language("ta")
+    assert not va.is_indian_language("English") and not va.is_indian_language("")
+
+    async def run(language, engine=""):
+        fakes, sink = Fakes(), Sink()
+        engines: list[str] = []
+        deps = fakes.deps()
+
+        async def render(text, **kw):
+            engines.append(kw.get("engine"))
+            yield np.zeros(2400, dtype=np.int16)
+
+        deps.render = render
+        config = va.SessionConfig.from_message({"language": language, "engine": engine})
+        session = va.VoiceAgentSession(config, sink, deps)
+        await session.start()
+        await session.push_text("Hello?")
+        await _settle(session)
+        await session.close()
+        return engines
+
+    import pytest as _pytest
+    with _pytest.MonkeyPatch.context() as mp:
+        mp.setattr(va, "multilingual_engine", lambda: "omnivoice-gguf")
+        assert asyncio.run(run("Hindi")) == ["omnivoice-gguf"]
+    assert asyncio.run(run("English")) == [""]
+    assert asyncio.run(run("Tamil", engine="kittentts")) == ["kittentts"]
 
 
 def test_models_endpoint_reports_ollama_unavailable(client, monkeypatch):
@@ -359,7 +391,8 @@ def test_models_endpoint_reports_ollama_unavailable(client, monkeypatch):
     monkeypatch.setattr(ollama_local.httpx, "AsyncClient", Down)
     response = client.get("/v1/agent/models")
     assert response.status_code == 200
-    assert response.json() == {"available": False, "models": [], "default": ""}
+    assert response.json() == {
+        "available": False, "models": [], "default": "", "multilingual_default": ""}
 
 
 def test_ollama_chat_stream_sends_a_short_context_and_yields_text(monkeypatch):

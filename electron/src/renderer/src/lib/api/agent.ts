@@ -9,6 +9,8 @@ export type AgentModels = {
   models: AgentModel[];
   /** The lightest preferred model that is installed. */
   default: string;
+  /** The installed model to prefer for Indian languages. */
+  multilingual_default: string;
 };
 
 export async function getAgentModels(): Promise<AgentModels> {
