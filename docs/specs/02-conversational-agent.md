@@ -2,7 +2,6 @@
 
 **Date:** 2026-06-25
 **Status:** Proposed
-**Owner:** debpalash
 **Spec #:** 02
 
 A fully-offline, low-latency full-duplex voice assistant for Voiceym:

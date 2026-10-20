@@ -69,7 +69,7 @@ export interface IntegrationSetup {
 }
 
 const REPO_DOCS = 'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs';
-const DOCKER_HUB_IMAGE = 'palashdeb/omnivoice-studio';
+const DOCKER_HUB_IMAGE = 'mnikhilsrikar2512/voiceym';
 const GHCR_IMAGE = 'ghcr.io/mnikhilsrikar2512/voiceym';
 // Published images keep this stable even when a desktop build chooses another local default.
 const PUBLISHED_CONTAINER_PORT = 3900;

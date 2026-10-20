@@ -13,7 +13,7 @@ and declining or skipping it keeps them off. Set
 weights download from Hugging Face when you install a model.
 
 **Official images:** [`ghcr.io/mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym/pkgs/container/voiceym)
-and [`palashdeb/omnivoice-studio` on Docker Hub](https://hub.docker.com/r/palashdeb/omnivoice-studio) — same images, same tags.
+and [`mnikhilsrikar2512/voiceym` on Docker Hub](https://hub.docker.com/r/mnikhilsrikar2512/voiceym) — same images, same tags.
 
 ## Architecture
 
@@ -98,8 +98,8 @@ docker run -d --name omnivoice \
 ```
 
 > **Docker Hub mirror:** the same images are published to
-> `palashdeb/omnivoice-studio` on Docker Hub with identical tags — swap the
-> image for `palashdeb/omnivoice-studio:stable` if you prefer Docker Hub.
+> `mnikhilsrikar2512/voiceym` on Docker Hub with identical tags — swap the
+> image for `mnikhilsrikar2512/voiceym:stable` if you prefer Docker Hub.
 > Tag semantics (`:latest` = rolling main preview, `:stable`/`:X.Y.Z` =
 > releases) are the same on both registries.
 

@@ -1,7 +1,7 @@
 # Voice Gallery — Design & Implementation Spec
 
 **Date:** 2026-05-31
-**Branch:** `debpalash/voice-gallery`
+**Branch:** `voice-gallery`
 **Status:** Approved (design), in implementation
 **Ships on:** v0.3.0 (per CLAUDE.md versioning rule — no version chatter)
 

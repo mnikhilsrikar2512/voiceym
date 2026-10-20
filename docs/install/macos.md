@@ -9,7 +9,7 @@ is no longer maintained; if you still run it, follow the
 > PyTorch stopped shipping Intel-Mac (macOS
 > x86_64) wheels after 2.2.x and Voiceym's dependencies need a newer torch,
 > so a local Python backend cannot install on an Intel Mac — from the DMG *or*
-> from source ([#889](https://github.com/debpalash/VoiceStudio/issues/889)).
+> from source.
 > On Intel, packaged setup stops before creating a Python environment or
 > downloading dependencies and shows remote-backend guidance instead: use the
 > remote connection controls on the setup screen to point the app at a backend
@@ -45,7 +45,7 @@ double-click to mount it, and drag **Voiceym.app** into `/Applications`.
 | Mac | DMG to download |
 |-----|-----------------|
 | Apple Silicon (M1/M2/M3/M4…) | `Voiceym-Electron-<version>-mac-arm64.dmg` |
-| Intel | `Voiceym-Electron-<version>-mac-x64.dmg` — **UI only**: the local backend cannot run on Intel ([#889](https://github.com/debpalash/VoiceStudio/issues/889)) |
+| Intel | `Voiceym-Electron-<version>-mac-x64.dmg` — **UI only**: the local backend cannot run on Intel |
 
 The architectures are **not** interchangeable: an Intel Mac cannot run the
 `arm64` build (Rosetta 2 only translates the other direction). An Apple
@@ -162,7 +162,7 @@ publishing. Local packages are unsigned. See
   never regresses; pin `ASR_MODEL_PARAKEET_MLX` to force it).
 - **Intel Macs:** the local backend is **unsupported** — PyTorch no longer
   ships Intel-Mac wheels, so the Python environment can never install
-  ([#889](https://github.com/debpalash/VoiceStudio/issues/889)). The UI
+ . The UI
   works only when connected to a remote backend.
 
 The picker in **Model Catalogue** shows which backend is active.

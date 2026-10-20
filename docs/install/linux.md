@@ -330,8 +330,6 @@ Notes:
 - ZLUDA (CUDA-on-ROCm translation) can work but is unsupported here — prefer a
   native ROCm wheel.
 
-Tracking issue: [#124](https://github.com/debpalash/VoiceStudio/issues/124).
-
 ## Hugging Face token (optional but recommended)
 
 See [docs/setup/huggingface-token.md](../setup/huggingface-token.md).

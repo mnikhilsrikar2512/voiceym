@@ -129,7 +129,7 @@ def test_the_read_candidate_list_is_unchanged(system_mod, monkeypatch, platform,
     Same files, same order, on every platform — the composite is where a
     refactor slip would silently hide a log from the read path.
     """
-    bid = "com.debpalash.omnivoice-studio"
+    bid = "com.voiceym.legacy"
     home = "/home/tester"
     monkeypatch.setattr(system_mod.sys, "platform", platform)
     monkeypatch.setattr(os.path, "expanduser", lambda p: p.replace("~", home))

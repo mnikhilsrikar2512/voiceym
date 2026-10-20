@@ -21,7 +21,7 @@ assert.equal(channel, 'electron-stable-linux-x64', 'Known Linux updater channel'
 const releaseTag = `v${version}`;
 const manifestPath = resolve(releaseDir, `${channel}-linux.yml`);
 const updateInfo =
-  'gh-releases-zsync|debpalash|Voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync';
+  'gh-releases-zsync|mnikhilsrikar2512|voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync';
 
 // The pinned electron-builder runtime reserves a fixed-size .upd_info ELF
 // section. Read its actual offset instead of assuming a particular runtime

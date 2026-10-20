@@ -37,8 +37,7 @@ The directory must contain `model.onnx` and `tokens.txt`. Sherpa-ONNX ships
 no bundled default model, so the engine reports unavailable — with the
 reason — until `OMNIVOICE_SHERPA_MODEL` points at a valid directory. (Before
 this gate, selecting the engine unconfigured produced a failure mislabeled
-as out-of-memory —
-[#919](https://github.com/debpalash/VoiceStudio/issues/919).)
+as out-of-memory.)
 
 ## Configuration
 

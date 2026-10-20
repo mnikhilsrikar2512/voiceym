@@ -79,7 +79,7 @@ function normalized(value, windows = process.platform === "win32") {
 
 // The retired Tauri shell's reverse-DNS identifier. A backend a final Tauri
 // install spawned lives under a per-app directory named after it —
-// `…/com.debpalash.omnivoice-studio/project/.venv/…` — so its path names
+// `…/com.voiceym.legacy/project/.venv/…` — so its path names
 // Voiceym as unambiguously as the checkout path does, just from the other
 // direction. The Electron app's managed runtime is matched by
 // ELECTRON_RUNTIME_VENV below.
@@ -92,7 +92,7 @@ function normalized(value, windows = process.platform === "win32") {
 //
 // A reverse-DNS bundle id is specific enough to be safe here: nothing else
 // on the machine carries it, which is the whole point of the namespace.
-export const APP_BUNDLE_ID = "com.debpalash.omnivoice-studio";
+export const APP_BUNDLE_ID = "com.voiceym.legacy";
 
 // The Electron app's managed runtime venv: `<userData>/runtime/project/.venv`
 // where userData is the `Voiceym` app folder, or a custom runtime location,

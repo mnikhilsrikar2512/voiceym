@@ -221,10 +221,7 @@ bun run dev
 The OOM this section describes is Windows-specific, but the toggle itself works
 on **every** platform — it used to be greyed out elsewhere, which left Linux and
 macOS users with no way to switch off a `torch.compile` that was breaking their
-engine. Tracking issues:
-[#65](https://github.com/debpalash/VoiceStudio/issues/65) (this OOM) and
-[#2135](https://github.com/debpalash/VoiceStudio/issues/2135) (the same toggle
-on Linux/CUDA).
+engine.
 
 ## Hugging Face token (optional but recommended)
 

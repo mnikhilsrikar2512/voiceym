@@ -50,8 +50,7 @@ See [downloading-models.md](../downloading-models.md).
 ## Upstream is unpinned
 
 The upstream repo is installed straight from git with no pinned release, and
-the model class it exports has changed before
-([#1287](https://github.com/debpalash/VoiceStudio/issues/1287)). Voiceym
+the model class it exports has changed before. Voiceym
 therefore verifies that a usable model class actually exists — not just that
 the package imports — before reporting the engine as ready. If the engine
 shows unavailable with a "does not expose a usable model class" message,

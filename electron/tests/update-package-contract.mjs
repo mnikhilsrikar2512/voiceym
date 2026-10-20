@@ -131,7 +131,7 @@ if (platform === 'win32') {
   }).trim();
   assert.equal(
     updateInfo,
-    'gh-releases-zsync|debpalash|Voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync',
+    'gh-releases-zsync|mnikhilsrikar2512|voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync',
     'External AppImage updaters follow the stable Linux release feed',
   );
   const control = `${artifactPath}.zsync`;

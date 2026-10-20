@@ -29,11 +29,11 @@ def _layout(tmp_path):
     if platform.system() == "Darwin":
         user_data = home / "Library/Application Support/Voiceym"
         logs = home / "Library/Logs/Voiceym"
-        legacy = home / "Library/Application Support/com.debpalash.omnivoice-studio"
+        legacy = home / "Library/Application Support/com.voiceym.legacy"
     else:
         user_data = home / ".config/Voiceym"
         logs = user_data / "logs"
-        legacy = home / ".local/share/com.debpalash.omnivoice-studio"
+        legacy = home / ".local/share/com.voiceym.legacy"
     for path in (user_data / "runtime/project/.venv", logs, legacy / "project"):
         path.mkdir(parents=True, exist_ok=True)
     return home, user_data, logs, legacy
@@ -140,4 +140,4 @@ def test_ps1_targets_electron_folders_and_its_uninstaller():
     assert "without administrator rights" in text
     assert "Test-AdminOnlyWritable" not in text
     # The legacy Tauri cleanup stays.
-    assert "$legacyIdentifier = 'com.debpalash.omnivoice-studio'" in text
+    assert "$legacyIdentifier = 'com.voiceym.legacy'" in text

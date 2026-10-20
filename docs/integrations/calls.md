@@ -2,7 +2,7 @@
 
 The call agent places a phone call, or answers one, and holds a short
 conversation to get a task done. For example: "Book a table for 2 at 8pm Friday
-under Palash." It speaks in your verified voice or a designed voice, listens to
+under Alex." It speaks in your verified voice or a designed voice, listens to
 the other person, and gives you a transcript, an outcome and a summary.
 
 It builds on the [Twilio integration](twilio.md): the same Twilio account,
@@ -88,7 +88,7 @@ that it is an AI assistant if someone asks.
 
 Calls are not recorded by default. To record, turn on **Record calls** in call
 settings **and** use a disclosure that says the call is recorded, for example
-"Hi, this is Palash's AI assistant, and this call is recorded." Phrases such as
+"Hi, this is Alex's AI assistant, and this call is recorded." Phrases such as
 "is recorded", "may be recorded" or "we're recording this call" count; a negated
 one ("this call is not recorded") does not. Without such a notice the call is
 not recorded, even with the setting on.

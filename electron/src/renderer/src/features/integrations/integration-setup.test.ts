@@ -167,7 +167,7 @@ it('gives the API and container cards runnable snippets for the right endpoints 
     .blocks('')!
     .map((block) => block.text)
     .join('\n');
-  expect(docker).toContain('palashdeb/omnivoice-studio:stable');
+  expect(docker).toContain('mnikhilsrikar2512/voiceym:stable');
   const ghcr = INTEGRATION_SETUPS['github-container-registry'].blocks('')!;
   expect(ghcr.map((block) => block.text).join('\n')).toContain(
     'ghcr.io/mnikhilsrikar2512/voiceym:stable',

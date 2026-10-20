@@ -4,8 +4,8 @@
 cloning, and cinematic video dubbing — fully local, with no cloud API keys or accounts.
 **646 languages.**
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/palashdeb/omnivoice-studio?logo=docker&color=2496ED)](https://hub.docker.com/r/palashdeb/omnivoice-studio)
-[![Image Size](https://img.shields.io/docker/image-size/palashdeb/omnivoice-studio/latest?logo=docker&label=image%20size)](https://hub.docker.com/r/palashdeb/omnivoice-studio/tags)
+[![Docker Pulls](https://img.shields.io/docker/pulls/mnikhilsrikar2512/voiceym?logo=docker&color=2496ED)](https://hub.docker.com/r/mnikhilsrikar2512/voiceym)
+[![Image Size](https://img.shields.io/docker/image-size/mnikhilsrikar2512/voiceym/latest?logo=docker&label=image%20size)](https://hub.docker.com/r/mnikhilsrikar2512/voiceym/tags)
 [![GitHub Stars](https://img.shields.io/github/stars/mnikhilsrikar2512/voiceym?logo=github&color=f59e0b)](https://github.com/mnikhilsrikar2512/voiceym)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](https://github.com/mnikhilsrikar2512/voiceym/blob/main/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/bzQavDfVV9)
@@ -60,7 +60,7 @@ docker run -d --name omnivoice \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  palashdeb/omnivoice-studio:stable
+  mnikhilsrikar2512/voiceym:stable
 ```
 
 Open <http://localhost:3900>. The first run downloads a few GB of model weights —
@@ -78,7 +78,7 @@ docker run -d --name omnivoice --gpus all \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  palashdeb/omnivoice-studio:stable
+  mnikhilsrikar2512/voiceym:stable
 ```
 
 GPU mode needs the
@@ -99,7 +99,7 @@ docker run -d --name omnivoice \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  palashdeb/omnivoice-studio:stable-rocm
+  mnikhilsrikar2512/voiceym:stable-rocm
 ```
 
 Podman users: same two `--device` flags (Quadlet: `AddDevice=/dev/kfd` +

@@ -65,7 +65,7 @@ GPU build, but the default never diverges.
 
 - The recognizer is **pre-warmed in the background** so the first dictation
   session doesn't pay the 1.3–2.5 s ONNX session load
-  ([#888](https://github.com/debpalash/VoiceStudio/issues/888)); it's then
+ ; it's then
   shared warm across sessions.
 - On Apple Silicon, installing the [parakeet-mlx](parakeet-mlx.md) model
   makes dictation prefer the GPU Parakeet automatically for the 25 covered

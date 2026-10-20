@@ -163,8 +163,6 @@ backend **`.venv`** folder to its exclusions (Windows Security → Virus & threa
 protection → Exclusions). The app's auto-repair now uses `--reinstall` too, so a
 fresh install heals itself.
 
-**Linked issues:** [#58](https://github.com/debpalash/VoiceStudio/issues/58),
-[#248](https://github.com/debpalash/VoiceStudio/issues/248)
 
 ### 1a. Model load fails: `[Errno 2] No such file or directory: '…/transformers/…/modeling_*.py'`
 
@@ -202,8 +200,7 @@ generic message. When the real failure is
 and transformers itself is fine.
 
 **Fix:** reinstall the trio **together, at the pinned versions** — a plain
-unpinned reinstall can itself resolve a drifted pair
-([#1357](https://github.com/debpalash/VoiceStudio/issues/1357)):
+unpinned reinstall can itself resolve a drifted pair:
 
 ```
 uv pip install --python .venv --reinstall torch==2.8.0 torchaudio==2.8.0 torchvision==0.23.0 transformers
@@ -215,8 +212,6 @@ desktop installs don't ship that file, which is why the literal pins are shown).
 They carry no `+cu128`/`+rocm` suffix on purpose — vendor GPU builds match the
 pins rather than being replaced.
 
-**Linked issues:** [#1357](https://github.com/debpalash/VoiceStudio/issues/1357),
-[#1376](https://github.com/debpalash/VoiceStudio/issues/1376)
 
 ### 1b. Dubbing: `ASR backend initialization failed: No module named 'lightning_fabric'`
 
@@ -241,7 +236,6 @@ marked unavailable (Model Catalogue shows why, with this repair command)
 and dubbing automatically falls through to **faster-whisper** instead of
 failing outright.
 
-**Linked issue:** [#1185](https://github.com/debpalash/VoiceStudio/issues/1185)
 
 ## 1c. Setup blocked: "System RAM … The app will OOM on first dub"
 
@@ -251,7 +245,7 @@ reports ~7.8 GB usable (firmware and integrated graphics reserve a slice of
 installed RAM).
 
 **Cause:** the preflight compares OS-reported RAM against the 8 GB minimum.
-Since [#1618](https://github.com/debpalash/VoiceStudio/issues/1618) the check
+The check
 tolerates that reserved-memory gap, so 8 GB-installed machines pass.
 
 **Fix:** update to the latest release. If your machine is genuinely below the
@@ -263,7 +257,6 @@ and relaunch; on macOS/Linux export it in the shell that starts the app. (The
 in-app Settings panel can't help here — this blocker appears before setup
 completes.)
 
-**Linked issues:** [#1618](https://github.com/debpalash/VoiceStudio/issues/1618)
 
 ## 2. HF 401 / pyannote license not accepted
 
@@ -289,8 +282,6 @@ If the token and license are already valid but an older build still reports
 reach both the fast download path and engine-weight installers; no token
 rotation is needed for that fixed client bug.
 
-**Linked issues:** [#35](https://github.com/debpalash/VoiceStudio/issues/35),
-[#2163](https://github.com/debpalash/VoiceStudio/issues/2163)
 
 ### PocketTTS gated weights
 
@@ -346,7 +337,6 @@ peak memory footprint that exceeds free VRAM. Windows-only quirk.
 
 **Fix:** see [windows.md#torch-compile-oom](windows.md#torch-compile-oom).
 
-**Linked issue:** [#65](https://github.com/debpalash/VoiceStudio/issues/65)
 
 ## 5a. Backend dies on the first `/generate` (older NVIDIA GPUs, e.g. Tesla T4)
 
@@ -382,7 +372,6 @@ it, run the engine in a killable child process — select
 `OMNIVOICE_TTS_BACKEND=omnivoice-subprocess`. The parent then returns an HTTP
 error and respawns the sidecar instead of dying.
 
-**Linked issue:** [#2135](https://github.com/debpalash/VoiceStudio/issues/2135)
 
 ## 5b. RTX 50-series (Blackwell, sm_120): backend crashes during `ml_imports`
 
@@ -394,8 +383,7 @@ torch` die with a native access violation rather than a Python traceback.
 **Cause:** not established. The pinned build is not missing Blackwell code:
 `torch 2.8.0+cu128` lists `sm_120` in `torch.cuda.get_arch_list()`, and that
 build imports and runs CUDA normally on some Blackwell cards. What is confirmed
-is that on the Windows setups in
-[#1931](https://github.com/debpalash/VoiceStudio/issues/1931) `import torch`
+is that on some Windows setups `import torch`
 faults inside the native library before Python can raise an error, and moving
 the torch trio to 2.9.x clears it.
 
@@ -460,9 +448,6 @@ drop older architectures. Which ones varies by torch release, not by the CUDA
 variant alone: the pinned 2.8.0+cu128 build reports `sm_70` first, while the
 cu128 arch list captured in #1285 still carried `sm_61`.
 
-**Linked issue:** [#1931](https://github.com/debpalash/VoiceStudio/issues/1931)
-— thanks to the reporter for the full diagnosis, including the verification
-commands above.
 
 ## 6. `uv venv` Python download fails (restricted network)
 
@@ -474,9 +459,6 @@ Russia, sometimes on corporate proxies.
 (same env vars work on macOS and Windows — `UV_PYTHON_INSTALL_MIRROR`,
 `UV_HTTP_TIMEOUT=120`, `UV_HTTP_RETRIES=5`, `UV_PYTHON_PREFERENCE=only-system`).
 
-**Linked issues:**
-[#57](https://github.com/debpalash/VoiceStudio/issues/57),
-[#60](https://github.com/debpalash/VoiceStudio/issues/60).
 
 ## 7. `.deb` ffprobe path conflict on upgrade
 
@@ -565,8 +547,7 @@ falling back to faster-whisper`.
 **Fix:** none needed on Apple Silicon setups that log this transiently. Note
 that Intel Macs can no longer run the local backend at all — PyTorch dropped
 Intel-Mac wheels, so this entry only applies to historical installs (see
-[macos.md](macos.md) and
-[#889](https://github.com/debpalash/VoiceStudio/issues/889)).
+[macos.md](macos.md)).
 
 ## 10. Windows: `Could not locate cudnn_ops_infer64_8.dll` during transcription
 
@@ -577,8 +558,7 @@ WhisperX or faster-whisper selected.
 On builds before this was fixed, the failure looked much worse than a failed
 transcribe: CTranslate2 aborts the **process** rather than raising, so the whole
 backend died with `exit code -1073740791` (`0xC0000409`) and no error, the app
-restarted it, and the next attempt killed it again
-([#1371](https://github.com/debpalash/VoiceStudio/issues/1371)). Voiceym now
+restarted it, and the next attempt killed it again. Voiceym now
 checks whether cuDNN 8 will load *before* selecting a CTranslate2 engine and
 falls back to PyTorch Whisper instead, so a missing library costs you WhisperX's
 word-level alignment — not the backend. Direct or already-selected CTranslate2
@@ -591,11 +571,11 @@ The repair below is still worth doing to get WhisperX back.
 from `.venv\Lib\site-packages\cudnn8_compat\` — but the step that installs that
 folder only ever lived in the dev-loop setup script, which isn't bundled into
 the packaged app. **Packaged installs never had these libraries at all**, so
-reinstalling never fixed it ([#827](https://github.com/debpalash/VoiceStudio/issues/827)).
+reinstalling never fixed it.
 
 **Fix:** update to the latest build and relaunch — the app's bootstrap now
 detects a CUDA machine and installs the cuDNN-8 libraries into the backend venv
-automatically at launch ([#869](https://github.com/debpalash/VoiceStudio/pull/869)).
+automatically at launch.
 (The check is skipped — and its negative result cached — on CPU/AMD/Apple
 machines, so non-NVIDIA launches stay instant.)
 
@@ -626,7 +606,6 @@ its own venv). For v0.3, workaround: install only one of the conflicting
 engines per Voiceym copy. See [docs/engines/cosyvoice.md](../engines/cosyvoice.md)
 for the dedicated CosyVoice path.
 
-**Linked issue:** [#55](https://github.com/debpalash/VoiceStudio/issues/55)
 
 **Same class, ASR side:** the `nemo-parakeet` ASR engine has the identical
 problem and currently has **no safe install path** at all — `nemo_toolkit[asr]`
@@ -635,7 +614,7 @@ Voiceym's own `transformers>=5.3` requirement. Installing it into the
 shared venv breaks the backend outright. Do not `pip install nemo_toolkit`
 into Voiceym's environment; if you want to try it, use a separate Python
 environment. Isolated-venv support for this engine (matching CosyVoice/
-dots-tts) is tracked in [#974](https://github.com/debpalash/VoiceStudio/issues/974).
+dots-tts) is planned.
 
 ## 12. CUDA PyTorch wheel download fails on first run
 
@@ -680,7 +659,6 @@ action to choose them explicitly; see [CPU setup](../../electron/README.md#runni
 An unusable NVIDIA driver is a setup warning for CPU-capable engines;
 GPU-only engines still require supported hardware.
 
-**Linked issue:** [#569](https://github.com/debpalash/VoiceStudio/issues/569)
 
 ## 12b. My AMD Radeon GPU is not used (CPU is busy, GPU is idle)
 
@@ -706,7 +684,6 @@ PyTorch build and, for every engine, whether it uses the GPU.
   driver is loaded and your user can open `/dev/kfd` (`render` and `video`
   groups).
 
-**Linked issue:** [#2468](https://github.com/debpalash/VoiceStudio/issues/2468)
 
 ## 13. Stuck on the download page / incomplete model cache ("only `refs/`")
 
@@ -776,7 +753,6 @@ files land where the app looks.)
 > Newer builds detect an incomplete cache and re-offer the download instead of
 > stranding you on this page — update once the fix is in your channel.
 
-**Linked issue:** [#622](https://github.com/debpalash/VoiceStudio/issues/622)
 
 ## 14. "Can't reach the local backend" *during* generation / transcription / dubbing
 
@@ -866,7 +842,7 @@ dropped` line. Set `OMNIVOICE_BLOCKING_STDIO=1` to restore plain blocking
 writes. When the loop does stall, the backend log names the blocking call
 (`OMNIVOICE_LOOP_STALL_S`, default 4 s, `0` disables).
 
-**Two things changed here** ([#1190](https://github.com/debpalash/VoiceStudio/issues/1190)):
+**Two things changed here**:
 
 - **Waiting in line is no longer counted as compute.** The generate budget used
   to start the moment a job was *queued*, so on a 1-worker machine a request
@@ -1075,8 +1051,7 @@ layer never registers a request, which is exactly why the app never appears in
 the System Settings list. (Diagnosed in the archived Tauri app by
 [@MahdiHedhli](https://github.com/MahdiHedhli).)
 
-**Fix:** fixed since the release after v0.3.12
-([#1016](https://github.com/debpalash/VoiceStudio/pull/1016)); the Electron app
+**Fix:** fixed since the release after v0.3.12; the Electron app
 signs with the same entitlement (`electron/build/entitlements.mac.plist`).
 Update and live recording works, with a normal macOS permission prompt on
 first use.
@@ -1086,7 +1061,6 @@ other app (Voice Memos, QuickTime, etc.) and upload the resulting file in
 Voiceym instead of using live recording — upload-based cloning is
 unaffected and works normally.
 
-**Linked issue:** [#1013](https://github.com/debpalash/VoiceStudio/issues/1013)
 
 > **Tip:** current builds surface the live OS grant state in-app — **Settings →
 > Permissions** shows whether the microphone (and, on macOS, Accessibility) is
@@ -1130,7 +1104,6 @@ Re-enabling 8.3 short filenames (`fsutil 8dot3name`) is deliberately **not**
 recommended: the setting is per-volume and only affects directories created
 *after* it's changed, so it does nothing for a folder that already exists.
 
-**Linked issue:** [#1783](https://github.com/debpalash/VoiceStudio/issues/1783) (auto-captured from [#1771](https://github.com/debpalash/VoiceStudio/issues/1771))
 
 ## Dub: "translation engine needs the optional … package"
 
@@ -1172,7 +1145,6 @@ Voiceym now tries, in order: the default GitHub host → a gh-proxy mirror → y
    (`UV_HTTP_TIMEOUT=120`, `UV_HTTP_CONNECT_TIMEOUT=30`, `UV_HTTP_RETRIES=5`);
    you can raise them further in the environment if a mirror is very slow.
 
-**Linked issues:** [#130](https://github.com/debpalash/VoiceStudio/issues/130), [#60](https://github.com/debpalash/VoiceStudio/issues/60), [#57](https://github.com/debpalash/VoiceStudio/issues/57)
 
 ## Workspace navigation crashes with `insertBefore` / `NotFoundError`
 
@@ -1181,7 +1153,6 @@ navigation while media renderers were cleaning up. Current builds isolate each
 workspace under its own DOM owner. Update Voiceym; no model or project data
 repair is required.
 
-**Linked issue:** [#1590](https://github.com/debpalash/VoiceStudio/issues/1590)
 
 
 ## Reading the first-run install log after setup finishes
@@ -1214,8 +1185,7 @@ crash (exit code `0xffffffff` / `-1073741819`) rather than a Python traceback.
 **Cause.** Not established. `torch 2.8.0+cu128` does contain Blackwell code:
 `sm_120` is in `torch.cuda.get_arch_list()`, and that build imports and runs
 CUDA normally on some Blackwell cards, so this is not simply a wheel without
-kernels for your GPU. What is confirmed is that on the Windows setups in
-[#1931](https://github.com/debpalash/VoiceStudio/issues/1931) `import torch`
+kernels for your GPU. What is confirmed is that on some Windows setups `import torch`
 dies natively before any Voiceym code can classify it, which is why the app
 can only say the backend did not start. Moving to torch 2.9.x clears it for the
 users who hit it.
@@ -1245,7 +1215,7 @@ in the same phase. Update Voiceym, or delete that line in
 
 **Why the pin has not moved.** Raising it for everyone changes the CUDA build
 on every platform, in Docker, and in CI, so it is a deliberate decision rather
-than a patch. Track it in [#1931](https://github.com/debpalash/VoiceStudio/issues/1931).
+than a patch.
 
 ## Uninstalling / removing all of Voiceym's data
 
@@ -1269,7 +1239,6 @@ per-platform path list, env-var overrides, portable-mode note, and the steps to
 remove the app binary itself are in
 [docs/install/uninstall.md](uninstall.md).
 
-**Linked issue:** [#1089](https://github.com/debpalash/VoiceStudio/issues/1089)
 
 ### Pedalboard illegal-instruction crashes
 

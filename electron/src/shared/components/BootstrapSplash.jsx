@@ -103,7 +103,7 @@ function defaultLogDirForPlatform() {
 
 /** WebView2 profile cache path shown in the manual-repair fallback (#879). */
 const WEBVIEW_CACHE_PATH_WIN =
-  '%LOCALAPPDATA%\\com.debpalash.omnivoice-studio\\EBWebView\\Default\\Cache';
+  '%LOCALAPPDATA%\\com.voiceym.legacy\\EBWebView\\Default\\Cache';
 
 /** True on Windows. Deliberately reads the user agent, NOT a Tauri plugin —
  *  in the recovery state IPC is presumed dead, so OS detection must not

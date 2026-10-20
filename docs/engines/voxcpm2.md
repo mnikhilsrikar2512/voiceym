@@ -40,8 +40,7 @@ the engine logs an upgrade hint at load time. Then select the engine via
 | `OMNIVOICE_VOXCPM_MODEL` | `openbmb/VoxCPM2` | HuggingFace checkpoint to load |
 
 The first use downloads a multi-GB checkpoint from HuggingFace. A download
-interrupted near the end used to abort the load outright
-([#1224](https://github.com/debpalash/VoiceStudio/issues/1224)); the load is
+interrupted near the end used to abort the load outright; the load is
 now retried once with a fresh client. See
 [downloading-models.md](../downloading-models.md).
 

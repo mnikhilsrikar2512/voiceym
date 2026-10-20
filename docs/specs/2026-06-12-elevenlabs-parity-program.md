@@ -4,8 +4,6 @@
 
 **Date:** 2026-06-12
 **Status:** Proposed — derived from [discussion #346](https://github.com/mnikhilsrikar2512/voiceym/discussions/346) and the research in [docs/competitive-analysis.md](../competitive-analysis.md) (PR #345)
-**Owner:** debpalash
-
 ## Goal
 
 Execute the #346 roadmap — feature parity with ElevenLabs on quality and freedom,

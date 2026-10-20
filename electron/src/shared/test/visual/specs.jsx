@@ -131,7 +131,7 @@ const UNINSTALL_SCAN = [
   },
   {
     key: 'env',
-    path: '~/Library/Application Support/com.debpalash.omnivoice-studio',
+    path: '~/Library/Application Support/com.voiceym.legacy',
     size_bytes: 391,
     exists: true,
     shared: false,

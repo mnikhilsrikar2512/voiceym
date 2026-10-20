@@ -52,7 +52,7 @@ flaky connection). See [downloading-models.md](../downloading-models.md).
 - Non-English `language` values are ignored with a log line pointing at
   OmniVoice; reference audio is likewise ignored (no cloning).
 - **Long-input hardening
-  ([#1173](https://github.com/debpalash/VoiceStudio/issues/1173)):** the
+ :** the
   shipped ONNX graph has a hard 512-token cap, and phonemization can expand
   text massively (digits especially). Voiceym pre-measures every chunk
   with the model's own tokenizer and splits oversized chunks at word

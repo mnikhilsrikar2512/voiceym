@@ -10,7 +10,7 @@
 
   Covers the Electron desktop app (its Voiceym app folder: managed Python
   runtime, window state, logs, updater cache) and the folders a final Tauri
-  install left behind (com.debpalash.omnivoice-studio).
+  install left behind (com.voiceym.legacy).
 
   Without -RemoveApp it never deletes the app itself (uninstall that via
   Settings > Apps), and never touches anything outside the paths it lists.
@@ -32,7 +32,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 # Final Tauri installs used this identifier for their config + Python env.
-$legacyIdentifier = 'com.debpalash.omnivoice-studio'
+$legacyIdentifier = 'com.voiceym.legacy'
 # Electron app folder (app.getPath('userData'); electron/src/main/app-identity.ts)
 # and electron-updater's download cache (package name + "-updater").
 $electronAppName = 'Voiceym'

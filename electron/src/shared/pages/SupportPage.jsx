@@ -366,7 +366,7 @@ function SupportView() {
 const LICENSE_EMAIL = 'hi@voiceym.example';
 const LICENSE_MAILTO =
   'mailto:hi@voiceym.example?subject=Voiceym Commercial License Inquiry' +
-  '&body=Hi Palash,%0A%0AI%27d like to talk about a commercial license for Voiceym.%0A%0AOrganization:%0ATeam size:%0AUse case:%0A';
+  '&body=Hi,%0A%0AI%27d like to talk about a commercial license for Voiceym.%0A%0AOrganization:%0ATeam size:%0AUse case:%0A';
 
 function LicenseView() {
   const { t } = useTranslation();

@@ -62,7 +62,7 @@ URL with copyable `curl` and OpenAI Python SDK snippets for
 key; remote ones need the backend's API key (see [API authentication](api-auth.md)).
 
 The **Docker** and **GitHub Container Registry** pages give a `docker run` (POSIX shell and Windows PowerShell) and a
-Compose snippet for `palashdeb/omnivoice-studio:stable` and
+Compose snippet for `mnikhilsrikar2512/voiceym:stable` and
 `ghcr.io/mnikhilsrikar2512/voiceym:stable`. `:stable` is the latest tagged
 release; `:latest` is the rolling preview built from `main`. See the
 [Docker install guide](install/docker.md) for GPU flags and the ROCm tags.

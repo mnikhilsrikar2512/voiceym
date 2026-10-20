@@ -111,7 +111,7 @@ export async function isValidVoiceymRoot(path: string, home: string | null): Pro
     'omnivoice',
     '.omnivoice',
     'voiceym',
-    'com.debpalash.omnivoice-studio',
+    'com.voiceym.legacy',
     'huggingface',
   ]);
   if (components(path).some((part) => owned.has(part.toLocaleLowerCase('en-US')))) return true;

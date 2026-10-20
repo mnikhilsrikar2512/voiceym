@@ -21,15 +21,13 @@ quantized native binary with a much smaller memory footprint.
 
 - Runs on CUDA, AMD ROCm (Linux), MPS (Apple Silicon), or CPU — auto-detected.
 - Recommended VRAM floor: **6 GB** on a dedicated GPU. This is the only
-  engine with a measured floor: on 4 GB cards (GTX 1650 Ti, Quadro P2000 —
-  issues [#1226](https://github.com/debpalash/VoiceStudio/issues/1226) /
-  [#1222](https://github.com/debpalash/VoiceStudio/issues/1222)) the driver
+  engine with a measured floor: on 4 GB cards (GTX 1650 Ti, Quadro P2000) the driver
   pages to system RAM and a render that should take seconds runs for minutes
   until the compute budget kills it. The UI warns before you wait; nothing
   hard-blocks, since short inputs can still fit. A CUDA or ROCm card below the
   floor is also budgeted as the CPU-class hardware it performs like — the longer
   `OMNIVOICE_CPU_GENERATE_TIMEOUT_S` (600 s), not the accelerated 300 s
-  ([#1804](https://github.com/debpalash/VoiceStudio/issues/1804)). Apple Silicon
+ . Apple Silicon
   is excluded: unified memory has no dedicated pool to compare against.
 - No extra install — the model ships with the app and downloads its weights
   on first use (see [downloading-models.md](../downloading-models.md)).

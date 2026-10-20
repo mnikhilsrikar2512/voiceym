@@ -122,8 +122,7 @@ subprocess. See [Windows install notes](install/windows.md).
 On CUDA the compile **mode** is chosen per GPU: Ampere (sm_80) and newer use
 `reduce-overhead`, which captures CUDA graphs; older cards (Turing/Volta, e.g.
 the Tesla T4) fall back to the plain `default` mode, because graph capture was
-observed to abort the whole backend process there
-([#2135](https://github.com/debpalash/VoiceStudio/issues/2135)). They still get
+observed to abort the whole backend process there. They still get
 compiled Inductor kernels. `OMNIVOICE_FORCE_CUDAGRAPH=1` restores the
 cudagraph mode if you want to benchmark it.
 

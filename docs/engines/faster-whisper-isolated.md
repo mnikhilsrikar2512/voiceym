@@ -5,8 +5,7 @@ run in a **separate child process** ("sidecar"). CTranslate2's GPU teardown
 can segfault — the endemic faster-whisper crash — and a hung or crashed
 transcribe in-process takes the whole backend down with it. Isolated, the
 child can crash or be force-killed to reclaim a hung transcribe and its VRAM
-while the backend stays up
-([#730](https://github.com/debpalash/VoiceStudio/issues/730)).
+while the backend stays up.
 
 There is nothing extra to install: the sidecar reuses the app's own venv —
 only the process boundary is new.
@@ -29,8 +28,7 @@ It is never picked by auto-detect — it's an explicit opt-in escape hatch.
 
 Same as faster-whisper: CUDA float16 or CPU int8 on macOS, Windows, and
 Linux. The sidecar picks cuda/cpu itself and walks the same
-float16 → int8_float16 → int8 degrade chain on GPUs without efficient fp16
-([#551](https://github.com/debpalash/VoiceStudio/issues/551)).
+float16 → int8_float16 → int8 degrade chain on GPUs without efficient fp16.
 
 ## Model selection
 
@@ -58,4 +56,4 @@ Weights download on first load — see
   in-process engine. It's checked up front so a missing cuDNN 8 shows as
   "unavailable" in Model Catalogue instead of a sidecar that
   silently fails every transcribe
-  ([#1371](https://github.com/debpalash/VoiceStudio/issues/1371)).
+ .

@@ -262,7 +262,7 @@ panels instead so neither editor becomes unusably small.
   it cannot (read-only install), the message names the fix — reinstall the
   backend on Python 3.12+, or run `patchelf --clear-execstack` on the library
   once — and NLLB stays available in the meantime
-  ([#692](https://github.com/debpalash/VoiceStudio/issues/692)).
+ .
 
 
 

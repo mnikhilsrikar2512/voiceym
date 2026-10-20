@@ -105,7 +105,7 @@ export function bindFailureFromLog(text: string): 'in_use' | 'denied' | null {
   return null;
 }
 const POSIX_SIGKILL_AFTER_MS = 2000;
-const TAURI_APP_ID = 'com.debpalash.omnivoice-studio';
+const TAURI_APP_ID = 'com.voiceym.legacy';
 const RUNTIME_LOCATION_FILE = 'runtime-location.json';
 const RUNTIME_PREFERENCES_FILE = 'runtime-preferences.json';
 const RUNTIME_REGIONS = new Set<RuntimeRegion>(['auto', 'global', 'china', 'russia', 'restricted']);

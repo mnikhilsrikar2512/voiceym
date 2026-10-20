@@ -33,7 +33,7 @@ for this model.
    is not offered on Intel Macs (see Platform notes).
 
 2. **Accept the license in-app**
-   ([#1306](https://github.com/debpalash/VoiceStudio/issues/1306)). The code
+  . The code
    is MIT and the weights are CC-BY-4.0, but the weights are **gated on
    HuggingFace** behind an access agreement with an acceptable-use clause.
    Voiceym surfaces this before first use: the engine stays unavailable

@@ -85,7 +85,7 @@ blocks the uninstall. If you never opted in (the default), nothing is sent and
 nothing is printed; the dry-run never sends anything either way.
 
 It covers the current desktop app and anything a final Tauri-era install
-(`com.debpalash.omnivoice-studio`) left behind. Add `--app` (macOS/Linux) or
+(`com.voiceym.legacy`) left behind. Add `--app` (macOS/Linux) or
 `-RemoveApp` (Windows) to also remove the installed app itself. On Windows,
 run `-Yes -RemoveApp` from a normal PowerShell window, without administrator
 rights. An elevated request stops before removing app data or launching an
@@ -154,10 +154,10 @@ If you used Voiceym before the Electron desktop app, these may also exist;
 the script removes them too:
 
 ```
-macOS:   ~/Library/Application Support/com.debpalash.omnivoice-studio/, ~/Library/Logs/OmniVoice/,
-         ~/Library/Logs/com.debpalash.omnivoice-studio/
-Linux:   ~/.local/share/com.debpalash.omnivoice-studio/, ~/.local/state/Voiceym/
-Windows: %LOCALAPPDATA%\com.debpalash.omnivoice-studio\, %LOCALAPPDATA%\OmniVoice\Logs\
+macOS:   ~/Library/Application Support/com.voiceym.legacy/, ~/Library/Logs/OmniVoice/,
+         ~/Library/Logs/com.voiceym.legacy/
+Linux:   ~/.local/share/com.voiceym.legacy/, ~/.local/state/Voiceym/
+Windows: %LOCALAPPDATA%\com.voiceym.legacy\, %LOCALAPPDATA%\OmniVoice\Logs\
 ```
 
 On Windows, if `HF_HOME` isn't set, Voiceym redirects the model cache to

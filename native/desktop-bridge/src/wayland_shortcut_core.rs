@@ -123,7 +123,7 @@ struct DesktopIdentity {
 impl Default for DesktopIdentity {
     fn default() -> Self {
         Self {
-            desktop_id: "com.debpalash.omnivoice-studio",
+            desktop_id: "com.voiceym.desktop",
             executable: None,
         }
     }

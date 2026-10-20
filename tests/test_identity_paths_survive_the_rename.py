@@ -20,7 +20,7 @@ def _read(rel):
 
 def test_electron_recognises_the_final_tauri_identity():
     source = _read("electron/src/main/backend.ts")
-    assert "const TAURI_APP_ID = 'com.debpalash.omnivoice-studio'" in source, WHY
+    assert "const TAURI_APP_ID = 'com.voiceym.legacy'" in source, WHY
 
 
 def test_the_backend_data_directories_are_unchanged():
