@@ -3854,6 +3854,10 @@
         "title": "這次回覆失敗了",
         "hint": "請再說一次。"
       }
-    }
+    },
+    "model": "語言模型",
+    "model_app": "應用程式的語言模型",
+    "model_hint": "用 ollama pull 安裝的模型都會顯示在這裡。模型越小，佔用記憶體越少。",
+    "model_unavailable": "Ollama 未執行，因此對話使用應用程式的語言模型。"
   }
 }

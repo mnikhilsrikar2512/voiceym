@@ -3854,6 +3854,10 @@
         "title": "Dat antwoord lukte niet",
         "hint": "Probeer het nog eens."
       }
-    }
+    },
+    "model": "Taalmodel",
+    "model_app": "Het taalmodel van de app",
+    "model_hint": "Elk model dat je met ollama pull installeert verschijnt hier. Kleinere modellen gebruiken minder geheugen.",
+    "model_unavailable": "Ollama draait niet, dus Praten gebruikt het taalmodel van de app."
   }
 }

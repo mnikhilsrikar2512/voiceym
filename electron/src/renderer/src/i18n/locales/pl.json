@@ -3858,6 +3858,10 @@
         "title": "Ta odpowiedź się nie udała",
         "hint": "Spróbuj powiedzieć to jeszcze raz."
       }
-    }
+    },
+    "model": "Model językowy",
+    "model_app": "Model językowy aplikacji",
+    "model_hint": "Każdy model zainstalowany przez ollama pull pojawi się tutaj. Mniejsze modele zużywają mniej pamięci.",
+    "model_unavailable": "Ollama nie działa, więc Rozmowa używa modelu językowego aplikacji."
   }
 }

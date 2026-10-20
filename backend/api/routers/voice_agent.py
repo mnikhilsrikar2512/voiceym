@@ -1,11 +1,13 @@
 """Talk to the voice agent over a WebSocket, from any client.
 
 ``WS /v1/agent/ws`` runs one :class:`services.voice_agent.VoiceAgentSession`
-per connection. ``GET /agent`` serves a single-page browser client for it.
+per connection. ``GET /agent`` serves a single-page browser client for it, and
+``GET /v1/agent/models`` lists the Ollama models a session can name.
 
 Protocol:
     → {"type": "session.start", "instructions": "...", "voice": "<profile id>",
-       "engine": "", "language": "en", "greet": false, "barge_in": true}
+       "engine": "", "language": "en", "model": "llama3.2:1b", "greet": false,
+       "barge_in": true}
          Must be the first message. Every field is optional.
     → binary frames: microphone audio, PCM16 little-endian mono at 16 kHz
     → {"type": "input_text", "text": "..."}     a typed message
@@ -53,6 +55,14 @@ MAX_AUDIO_FRAME_BYTES = 64 * 1024
 def agent_page() -> HTMLResponse:
     """The browser client: talk to the agent with your microphone."""
     return HTMLResponse(_CLIENT_PAGE.read_text(encoding="utf-8"))
+
+
+@router.get("/v1/agent/models")
+async def agent_models() -> dict:
+    """Models installed in the local Ollama, smallest first."""
+    from services import ollama_local
+
+    return await ollama_local.list_models()
 
 
 @router.websocket(AGENT_WS_PATH)

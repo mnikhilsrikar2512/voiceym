@@ -3854,6 +3854,10 @@
         "title": "Bu yanıt olmadı",
         "hint": "Bir daha söylemeyi dene."
       }
-    }
+    },
+    "model": "Dil modeli",
+    "model_app": "Uygulamanın dil modeli",
+    "model_hint": "ollama pull ile kurduğun her model burada görünür. Küçük modeller daha az bellek kullanır.",
+    "model_unavailable": "Ollama çalışmıyor, bu yüzden Konuş uygulamanın dil modelini kullanıyor."
   }
 }

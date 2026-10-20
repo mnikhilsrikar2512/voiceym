@@ -3856,6 +3856,10 @@
         "title": "Essa resposta falhou",
         "hint": "Tente dizer de novo."
       }
-    }
+    },
+    "model": "Modelo de linguagem",
+    "model_app": "O modelo de linguagem do app",
+    "model_hint": "Qualquer modelo instalado com ollama pull aparece aqui. Modelos menores usam menos memória.",
+    "model_unavailable": "O Ollama não está rodando, então Conversar usa o modelo de linguagem do app."
   }
 }

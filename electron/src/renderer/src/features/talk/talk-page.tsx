@@ -1,26 +1,33 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { MicIcon, MicOffIcon, PhoneOffIcon, SendHorizontalIcon, Settings2Icon } from 'lucide-react';
 import { WorkspaceHeader } from '@/components/app-shell/workspace-header';
 import { ProfileAvatar } from '@/components/profile-avatar';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { LanguagePicker } from '@/features/clone/language-picker';
 import { useProfiles } from '@/hooks/use-profiles';
+import { getAgentModels } from '@/lib/api/agent';
 import { cn } from '@/lib/utils';
 import { AgentClient, type AgentSettings, type AgentSnapshot } from './agent-client';
 import { VoiceOrb } from './voice-orb';
 import './talk-page.css';
 
 const SETTINGS_KEY = 'voiceym.talk.settings';
+/** The model picker's value for "use the app's language model". */
+const APP_MODEL = 'app';
 
 function loadSettings(): AgentSettings {
   const fallback: AgentSettings = {
     instructions: '',
     voice: '',
     language: 'Auto',
+    // Empty until the user picks one: Talk then uses the lightest installed Ollama model.
+    model: '',
     bargeIn: true,
     greet: false,
   };
@@ -54,6 +61,11 @@ export function TalkPage() {
   const { t } = useTranslation();
   const agent = useAgent();
   const { data: profiles = [] } = useProfiles();
+  const { data: ollama } = useQuery({
+    queryKey: ['agent-models'],
+    queryFn: getAgentModels,
+    staleTime: 30_000,
+  });
   const [settings, setSettings] = useState(loadSettings);
   const [draft, setDraft] = useState('');
   const [setupOpen, setSetupOpen] = useState(true);
@@ -68,10 +80,26 @@ export function TalkPage() {
     });
   }, []);
 
+  const installed = ollama?.models ?? [];
+  const chosenModel =
+    settings.model === APP_MODEL || installed.some((model) => model.name === settings.model)
+      ? settings.model
+      : (ollama?.default ?? '') || APP_MODEL;
   const wire = useMemo<AgentSettings>(
-    () => ({ ...settings, language: settings.language === 'Auto' ? '' : settings.language }),
-    [settings],
+    () => ({
+      ...settings,
+      language: settings.language === 'Auto' ? '' : settings.language,
+      model: chosenModel === APP_MODEL ? '' : chosenModel,
+    }),
+    [settings, chosenModel],
   );
+  const modelItems = [
+    { value: APP_MODEL, label: t('talk.model_app') },
+    ...installed.map((model) => ({
+      value: model.name,
+      label: `${model.name} · ${(model.size / 1e9).toFixed(1)} GB`,
+    })),
+  ];
 
   const toggleCall = useCallback(() => {
     if (client.active) void client.stop();
@@ -247,6 +275,29 @@ export function TalkPage() {
               <Link to="/clone" className="talk-link">
                 {t('talk.add_voice')}
               </Link>
+            </div>
+
+            <div className="talk-field">
+              <span id="talk-model-label">{t('talk.model')}</span>
+              <Select
+                items={modelItems}
+                value={chosenModel}
+                onValueChange={(model) => update({ model: String(model) })}
+              >
+                <SelectTrigger aria-labelledby="talk-model-label" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {modelItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="talk-setup-note">
+                {ollama?.available === false ? t('talk.model_unavailable') : t('talk.model_hint')}
+              </p>
             </div>
 
             <div className="talk-field">

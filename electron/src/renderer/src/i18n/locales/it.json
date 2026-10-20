@@ -3856,6 +3856,10 @@
         "title": "Quella risposta non è riuscita",
         "hint": "Prova a ripeterlo."
       }
-    }
+    },
+    "model": "Modello linguistico",
+    "model_app": "Il modello linguistico dell'app",
+    "model_hint": "Ogni modello installato con ollama pull compare qui. I modelli piccoli usano meno memoria.",
+    "model_unavailable": "Ollama non è attivo, quindi Parla usa il modello linguistico dell'app."
   }
 }

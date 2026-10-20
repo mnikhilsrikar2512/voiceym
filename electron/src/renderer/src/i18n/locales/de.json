@@ -3854,6 +3854,10 @@
         "title": "Diese Antwort hat nicht geklappt",
         "hint": "Versuche es noch einmal."
       }
-    }
+    },
+    "model": "Sprachmodell",
+    "model_app": "Sprachmodell der App",
+    "model_hint": "Jedes mit ollama pull installierte Modell erscheint hier. Kleinere Modelle brauchen weniger Speicher.",
+    "model_unavailable": "Ollama läuft nicht, daher nutzt Sprechen das Sprachmodell der App."
   }
 }

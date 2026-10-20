@@ -119,6 +119,8 @@ class VoiceAgentDeps:
     transcribe: Callable[[np.ndarray, str], Awaitable[str]]
     #: (text, voice=, engine=, language=) → async iterator of PCM16 at 24 kHz
     render: Callable[..., AsyncIterator[np.ndarray]]
+    #: (messages, model name) → text deltas, when the session names an Ollama model
+    model_stream: Callable[[list[dict], str], AsyncIterator[str]] | None = None
 
 
 async def _default_transcribe(pcm16k: np.ndarray, language: str) -> str:
@@ -161,12 +163,14 @@ async def _default_render(
 
 
 def default_deps() -> VoiceAgentDeps:
+    from services import ollama_local
     from services.telephony.agent import _default_llm_stream
 
     return VoiceAgentDeps(
         llm_stream=_default_llm_stream,
         transcribe=_default_transcribe,
         render=_default_render,
+        model_stream=ollama_local.chat_stream,
     )
 
 
@@ -183,6 +187,8 @@ class SessionConfig:
     voice: str = ""
     engine: str = ""
     language: str = ""
+    #: An Ollama model to answer with; empty uses the app's language model.
+    model: str = ""
     #: Speak first when the session starts (a greeting from the LLM).
     greet: bool = False
     #: Let caller speech interrupt the agent.
@@ -200,6 +206,7 @@ class SessionConfig:
             voice=_s("voice"),
             engine=_s("engine"),
             language=_s("language", 40),
+            model=_s("model", 120),
             greet=bool(data.get("greet", False)),
             barge_in=bool(data.get("barge_in", True)),
         )
@@ -374,7 +381,11 @@ class VoiceAgentSession:
 
         async def _produce() -> None:
             try:
-                async for delta in self.deps.llm_stream(messages):
+                if self.config.model and self.deps.model_stream is not None:
+                    stream = self.deps.model_stream(messages, self.config.model)
+                else:
+                    stream = self.deps.llm_stream(messages)
+                async for delta in stream:
                     for sentence in chunker.push(think.feed(delta)):
                         await sentences.put(sentence)
                 for sentence in chunker.push(think.finish()) + chunker.flush():

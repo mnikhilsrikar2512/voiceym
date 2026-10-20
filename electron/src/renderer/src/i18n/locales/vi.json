@@ -3854,6 +3854,10 @@
         "title": "Câu trả lời đó bị lỗi",
         "hint": "Hãy thử nói lại."
       }
-    }
+    },
+    "model": "Mô hình ngôn ngữ",
+    "model_app": "Mô hình ngôn ngữ của ứng dụng",
+    "model_hint": "Mọi mô hình cài bằng ollama pull sẽ hiện ở đây. Mô hình nhỏ dùng ít bộ nhớ hơn.",
+    "model_unavailable": "Ollama chưa chạy nên Trò chuyện dùng mô hình ngôn ngữ của ứng dụng."
   }
 }

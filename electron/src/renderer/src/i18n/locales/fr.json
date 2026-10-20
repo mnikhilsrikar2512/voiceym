@@ -3856,6 +3856,10 @@
         "title": "Cette réponse a échoué",
         "hint": "Essayez de le redire."
       }
-    }
+    },
+    "model": "Modèle de langage",
+    "model_app": "Le modèle de langage de l'app",
+    "model_hint": "Tout modèle installé avec ollama pull apparaît ici. Les petits modèles utilisent moins de mémoire.",
+    "model_unavailable": "Ollama ne tourne pas : Parler utilise le modèle de langage de l'app."
   }
 }

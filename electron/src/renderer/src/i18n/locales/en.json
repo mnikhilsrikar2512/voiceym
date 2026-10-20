@@ -3854,6 +3854,10 @@
         "title": "That reply didn't work",
         "hint": "Try saying it again."
       }
-    }
+    },
+    "model": "Language model",
+    "model_app": "The app's language model",
+    "model_hint": "Any model you install with ollama pull shows up here. Smaller models use less memory.",
+    "model_unavailable": "Ollama isn't running, so Talk uses the app's language model."
   }
 }

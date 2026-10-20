@@ -3854,6 +3854,10 @@
         "title": "Svaret misslyckades",
         "hint": "Försök säga det igen."
       }
-    }
+    },
+    "model": "Språkmodell",
+    "model_app": "Appens språkmodell",
+    "model_hint": "Alla modeller du installerar med ollama pull visas här. Mindre modeller använder mindre minne.",
+    "model_unavailable": "Ollama körs inte, så Prata använder appens språkmodell."
   }
 }

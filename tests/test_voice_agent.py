@@ -304,3 +304,88 @@ def test_browser_client_page_is_served(client):
     response = client.get("/agent")
     assert response.status_code == 200
     assert "/v1/agent/ws" in response.text and "<title>Voiceym Agent</title>" in response.text
+
+
+def test_a_named_ollama_model_answers_instead_of_the_app_model():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        deps = fakes.deps()
+        asked: list[str] = []
+
+        async def model_stream(messages, model):
+            asked.append(model)
+            yield "From the small model."
+
+        deps.model_stream = model_stream
+        config = va.SessionConfig.from_message({"model": "llama3.2:1b"})
+        session = va.VoiceAgentSession(config, sink, deps)
+        await session.start()
+        await session.push_text("Hello?")
+        await _settle(session)
+        await session.close()
+        return fakes, sink, asked
+
+    fakes, sink, asked = asyncio.run(run())
+    assert asked == ["llama3.2:1b"] and fakes.llm_calls == []
+    assert fakes.rendered == ["From the small model."]
+
+
+def test_ollama_default_prefers_the_lightest_preferred_model():
+    from services import ollama_local
+
+    assert ollama_local.pick_default(["llama3.2:3b", "llama3.2:1b"]) == "llama3.2:1b"
+    assert ollama_local.pick_default(["mistral:latest"]) == "mistral:latest"
+    assert ollama_local.pick_default([]) == ""
+
+
+def test_models_endpoint_reports_ollama_unavailable(client, monkeypatch):
+    import httpx
+
+    from services import ollama_local
+
+    class Down:
+        def __init__(self, *a, **kw):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *exc):
+            return False
+
+        async def get(self, url):
+            raise httpx.ConnectError("refused")
+
+    monkeypatch.setattr(ollama_local.httpx, "AsyncClient", Down)
+    response = client.get("/v1/agent/models")
+    assert response.status_code == 200
+    assert response.json() == {"available": False, "models": [], "default": ""}
+
+
+def test_ollama_chat_stream_sends_a_short_context_and_yields_text(monkeypatch):
+    import httpx
+
+    from services import ollama_local
+
+    sent = {}
+
+    def handler(request):
+        sent.update(json.loads(request.content))
+        lines = [
+            {"message": {"content": "Hi "}, "done": False},
+            {"message": {"content": "there."}, "done": False},
+            {"done": True},
+        ]
+        return httpx.Response(200, text="\n".join(json.dumps(line) for line in lines))
+
+    real = httpx.AsyncClient
+    monkeypatch.setattr(
+        ollama_local.httpx, "AsyncClient",
+        lambda **kw: real(transport=httpx.MockTransport(handler), **kw),
+    )
+
+    async def run():
+        return [d async for d in ollama_local.chat_stream([{"role": "user", "content": "hey"}], "llama3.2:1b")]
+
+    assert asyncio.run(run()) == ["Hi ", "there."]
+    assert sent["model"] == "llama3.2:1b" and sent["options"]["num_ctx"] == ollama_local.TALK_NUM_CTX

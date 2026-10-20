@@ -20,6 +20,8 @@ export type AgentSettings = {
   instructions: string;
   voice: string;
   language: string;
+  /** An Ollama model name; empty uses the app's language model. */
+  model: string;
   bargeIn: boolean;
   greet: boolean;
 };
@@ -124,6 +126,7 @@ export class AgentClient {
           instructions: settings.instructions,
           voice: settings.voice,
           language: settings.language,
+          model: settings.model,
           barge_in: settings.bargeIn,
           greet: settings.greet,
         }),

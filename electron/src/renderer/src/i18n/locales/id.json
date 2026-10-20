@@ -3854,6 +3854,10 @@
         "title": "Jawaban itu gagal",
         "hint": "Coba katakan sekali lagi."
       }
-    }
+    },
+    "model": "Model bahasa",
+    "model_app": "Model bahasa aplikasi",
+    "model_hint": "Setiap model yang kamu pasang dengan ollama pull muncul di sini. Model kecil memakai lebih sedikit memori.",
+    "model_unavailable": "Ollama tidak berjalan, jadi Bicara memakai model bahasa aplikasi."
   }
 }
