@@ -176,6 +176,7 @@ GET /system/tailscale/status
 GET /tasks/stream/{task_id}
 GET /tools/effects
 GET /tools/plugins
+GET /v1/agent/models
 GET /v1/audio/capabilities
 GET /v1/audio/voices
 GET /v1/models

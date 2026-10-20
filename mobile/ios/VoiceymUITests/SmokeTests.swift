@@ -26,7 +26,11 @@ final class SmokeTests: XCTestCase {
         // Swipe the sheet down, as a person would.
         app.staticTexts["consent.title"].swipeDown(velocity: .fast)
         XCTAssertTrue(app.textFields["connect.url"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons["consent.no"].exists)
+        // The connect form sits behind the sheet, so wait for the sheet's own
+        // buttons to leave rather than checking mid-animation.
+        let dismissed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == false"), object: app.buttons["consent.no"])
+        XCTAssertEqual(XCTWaiter().wait(for: [dismissed], timeout: 5), .completed)
         app.tabBars.buttons["Settings"].tap()
         XCTAssertEqual(app.switches["settings.analytics"].value as? String, "0")
     }
