@@ -126,7 +126,7 @@ test('first run: setup gate completes to home', async (t) => {
       }
     }
     await page.getByRole('button', { name: 'Enter studio', exact: true }).last().click();
-    await page.getByRole('heading', { name: 'Home', exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Talk', exact: true }).waitFor();
     assert.equal(
       await page.evaluate(() => localStorage.getItem('voiceym.setup.complete.v1')),
       '1',
@@ -154,7 +154,7 @@ test('consent: declining analytics keeps the app usable and sends nothing', asyn
         writes.map((r) => JSON.parse(r.body)),
         [{ enabled: false }],
       );
-      await page.getByRole('heading', { name: 'Home', exact: true }).waitFor();
+      await page.getByRole('heading', { name: 'Talk', exact: true }).waitFor();
       // withApp's request guard fails the run if any analytics host was contacted.
     },
   );
