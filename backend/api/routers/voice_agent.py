@@ -114,14 +114,14 @@ async def agent_ws(websocket: WebSocket):
             elif kind == "session.end":
                 break
     except WebSocketDisconnect:
-        pass
+        pass  # The client hung up; the finally block cleans up.
     finally:
         if session is not None:
             await session.close()
         try:
             await websocket.close()
         except RuntimeError:
-            pass
+            pass  # Already closed by the client or by Starlette.
 
 
 def _json(message: dict) -> dict | None:
