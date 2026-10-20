@@ -48,6 +48,11 @@ jobs:
   secrets:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      # The action lists the PR's commits through the API; a private repo's
+      # token can only do that with pull-requests: read.
+      pull-requests: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -60,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GITLEAKS_LICENSE is only required for GitHub *organizations*; this is
-          # a personal public repo, so the action runs free without it.
+          # a personal repo, so the action runs free without it.
 
   # ── CodeQL SAST (Python + JS/TS) ─────────────────────────────────────────
   codeql:
