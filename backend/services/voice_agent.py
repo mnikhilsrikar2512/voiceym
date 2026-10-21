@@ -187,9 +187,12 @@ deps_factory: Callable[[], VoiceAgentDeps] = default_deps
 #: time on 8 GB machines, where the main cloning model can stall a live turn.
 FAST_VOICE_ENGINE = "kittentts"
 
+#: Kokoro-82M through MLX-Audio (Apple Silicon, Apache-2.0): a more natural
+#: English voice that also speaks Hindi, preferred when its weights are on disk.
+KOKORO_ENGINE = "mlx-audio"
 
-#: Light multilingual engine for the built-in voice when a reply isn't English
-#: (KittenTTS speaks English only): quantized OmniVoice, 600+ languages.
+#: Light multilingual engine for sentences neither voice above can say
+#: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
 MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
 
 
@@ -203,14 +206,33 @@ def _engine_if_available(engine_id: str) -> str:
     return engine_id if ok else ""
 
 
+def kokoro_ready() -> bool:
+    """MLX-Audio runs here, is set to Kokoro, and Kokoro is already downloaded
+    (never trigger a surprise download from a live conversation)."""
+    if not _engine_if_available(KOKORO_ENGINE):
+        return False
+    try:
+        from services.asr_backend import _repo_installed
+        from services.tts_backend import MLXAudioBackend
+
+        repo = MLXAudioBackend.CURATED_MODELS["kokoro"]
+        return MLXAudioBackend.configured_identity() == repo and _repo_installed(repo)
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def fast_voice_engine() -> str:
     """The fast engine's id when it is installed, else "" (use the active engine)."""
-    return _engine_if_available(FAST_VOICE_ENGINE)
+    return KOKORO_ENGINE if kokoro_ready() else _engine_if_available(FAST_VOICE_ENGINE)
 
 
 def multilingual_voice_engine() -> str:
     """The light multilingual engine's id when it is installed, else ""."""
     return _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
+
+
+def is_devanagari(sentence: str) -> bool:
+    return any("\u0900" <= ch <= "\u097f" for ch in sentence)
 
 
 _ENGLISH = {"", "en", "english"}
@@ -238,6 +260,8 @@ class SessionConfig:
     multilingual_asr: bool = False
     #: Engine for sentences the fast built-in voice can't speak ("" = none).
     multilingual_engine: str = ""
+    #: Engine that speaks Hindi (Devanagari) for the built-in voice ("" = none).
+    hindi_engine: str = ""
     extra: dict = field(default_factory=dict)
 
     @classmethod
@@ -249,11 +273,12 @@ class SessionConfig:
         voice, engine = _s("voice"), _s("engine")
         # A client may ask for the fast built-in voice when no cloned voice is
         # picked; a named voice or engine always wins.
-        multilingual_engine = ""
+        multilingual_engine = hindi_engine = ""
         if not voice and not engine and data.get("fast_default_voice") is True:
             engine = fast_voice_engine()
             if engine:
                 multilingual_engine = multilingual_voice_engine()
+                hindi_engine = KOKORO_ENGINE if engine == KOKORO_ENGINE else ""
         return cls(
             instructions=_s("instructions", MAX_INSTRUCTIONS_CHARS) or DEFAULT_INSTRUCTIONS,
             voice=voice,
@@ -263,6 +288,7 @@ class SessionConfig:
             barge_in=bool(data.get("barge_in", True)),
             multilingual_asr=data.get("multilingual_asr") is True,
             multilingual_engine=multilingual_engine,
+            hindi_engine=hindi_engine,
         )
 
 
@@ -470,11 +496,13 @@ class VoiceAgentSession:
 
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
-        engine = self.config.engine
-        if self.config.multilingual_engine and needs_multilingual_voice(sentence, self.config.language):
+        engine, language = self.config.engine, self.config.language
+        if self.config.hindi_engine and is_devanagari(sentence):
+            engine, language = self.config.hindi_engine, "hi"
+        elif self.config.multilingual_engine and needs_multilingual_voice(sentence, language):
             engine = self.config.multilingual_engine
         async for pcm in self.deps.render(
-            sentence, voice=self.config.voice, engine=engine, language=self.config.language
+            sentence, voice=self.config.voice, engine=engine, language=language
         ):
             if pcm.size == 0:
                 continue

@@ -32,6 +32,7 @@ class Fakes:
         self.heard: list[str] = []
         self.rendered: list[str] = []
         self.engines: list[str] = []
+        self.languages: list[str] = []
         self.multilingual_calls: list[bool] = []
         self.llm_calls: list[list[dict]] = []
         self.render_gate: asyncio.Event | None = None
@@ -52,6 +53,7 @@ class Fakes:
         async def render(text, **kw):
             self.rendered.append(text)
             self.engines.append(kw.get("engine", ""))
+            self.languages.append(kw.get("language", ""))
             if self.render_gate is not None:
                 await self.render_gate.wait()
             yield np.zeros(2400, dtype=np.int16)  # 100 ms at 24 kHz
@@ -126,6 +128,38 @@ def test_fast_voice_pairs_with_the_multilingual_engine(monkeypatch):
     assert pick({"fast_default_voice": True, "voice": "p1"}).multilingual_engine == ""
     assert pick({"multilingual_asr": True}).multilingual_asr is True
     assert pick({"multilingual_asr": "yes"}).multilingual_asr is False
+
+
+def test_kokoro_is_preferred_and_also_speaks_hindi(monkeypatch):
+    monkeypatch.setattr(va, "kokoro_ready", lambda: True)
+    monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-gguf")
+    cfg = va.SessionConfig.from_message({"fast_default_voice": True})
+    assert (cfg.engine, cfg.hindi_engine, cfg.multilingual_engine) == (
+        "mlx-audio", "mlx-audio", "omnivoice-gguf")
+    monkeypatch.setattr(va, "kokoro_ready", lambda: False)
+    monkeypatch.setattr(va, "_engine_if_available", lambda engine: engine)
+    cfg = va.SessionConfig.from_message({"fast_default_voice": True})
+    assert (cfg.engine, cfg.hindi_engine) == ("kittentts", "")
+
+
+def test_hindi_goes_to_kokoro_other_scripts_to_the_multilingual_engine():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = ["\u092d\u093e\u0930\u0924 \u0915\u0940 \u0930\u093e\u091c\u0927\u093e\u0928\u0940 \u0928\u0908 \u0926\u093f\u0932\u094d\u0932\u0940 \u0939\u0948\u0964 "
+                         "\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c30\u0c3e\u0c1c\u0c27\u0c3e\u0c28\u0c3f \u0c28\u0c41\u0c2f\u0c4d \u0c22\u0c3f\u0c32\u0c4d\u0c32\u0c40, \u0c05\u0c26\u0c3f \u0c1a\u0c3e\u0c32\u0c3e \u0c2a\u0c46\u0c26\u0c4d\u0c26 \u0c28\u0c17\u0c30\u0c02."]
+        config = va.SessionConfig(engine="mlx-audio", hindi_engine="mlx-audio",
+                                  multilingual_engine="omnivoice-gguf")
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Capital?")
+        await _settle(session)
+        await session.close()
+        return fakes
+
+    fakes = asyncio.run(run())
+    assert len(fakes.rendered) == 2, fakes.rendered
+    assert fakes.engines == ["mlx-audio", "omnivoice-gguf"]
+    assert fakes.languages == ["hi", ""]
 
 
 def test_needs_multilingual_voice_by_script_or_language():

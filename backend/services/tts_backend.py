@@ -2415,6 +2415,13 @@ def _kokoro_supported_labels(aliases: dict, lang_codes: dict) -> list[str]:
     return sorted(labels.values())
 
 
+#: One native voice per Kokoro lang_code (hexgrad/Kokoro-82M VOICES.md).
+_KOKORO_DEFAULT_VOICES = {
+    "a": "af_heart", "b": "bf_emma", "e": "ef_dora", "f": "ff_siwis",
+    "h": "hf_alpha", "i": "if_sara", "p": "pf_dora", "j": "jf_alpha", "z": "zf_xiaobei",
+}
+
+
 def resolve_kokoro_lang_code(language: str) -> str:
     """Map a full language name / ISO code to Kokoro's single-letter
     `lang_code`, against the AUTHORITATIVE table read from the installed
@@ -2785,6 +2792,9 @@ class MLXAudioBackend(TTSBackend):
                 # (#977). Resolve against the authoritative installed table
                 # instead of guessing via `language[:2]`.
                 kwargs["lang_code"] = resolve_kokoro_lang_code(language)
+                # Without a voice Kokoro reads every language in its American
+                # default; a native speaker for the language sounds far better.
+                kwargs.setdefault("voice", _KOKORO_DEFAULT_VOICES.get(kwargs["lang_code"], "af_heart"))
             else:
                 # `lang_code`-as-2-letter-truncation is Kokoro's own
                 # convention, not mlx-audio's in general — other curated

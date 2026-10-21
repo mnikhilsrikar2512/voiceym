@@ -20,6 +20,8 @@ metadata and the backend fallback mirror it.
 ### Changed
 
 - Talk's default voice uses the light KittenTTS engine, so conversations stay responsive on 8 GB machines; cloned voices keep their engine (#1)
+- Talk hears any language with multilingual Whisper unless set to English, and its default voice speaks Hindi with Kokoro and other scripts with OmniVoice GGUF when installed (#1)
+- Kokoro picks a native voice for the requested language instead of reading everything in its American voice (#1)
 
 ### Fixed
 
