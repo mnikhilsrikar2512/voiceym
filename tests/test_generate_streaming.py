@@ -453,7 +453,7 @@ def test_stream_native_model_path(client, monkeypatch, tmp_path):
 
     from core import prefs as _prefs
     monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
 
     mock_model = MagicMock()
     mock_model.sampling_rate = 24000

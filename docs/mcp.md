@@ -1,10 +1,10 @@
 # MCP server — let agents speak in your voice
 
-VoiceStudio ships an [MCP](https://modelcontextprotocol.io/) server so AI agents
+Voiceym ships an [MCP](https://modelcontextprotocol.io/) server so AI agents
 (Claude Code, Cursor, …) can synthesize speech, clone voices, transcribe audio,
 and list your voices — locally, in a voice you choose per agent. The server is
 **mounted on the running backend** at `/mcp`, so there's nothing extra to
-start once VoiceStudio is open.
+start once Voiceym is open.
 
 ## Tools
 
@@ -77,7 +77,7 @@ Point your client at the mounted endpoint:
 http://localhost:3900/mcp/
 ```
 
-Keep the trailing slash: `/mcp/` works on every VoiceStudio version. Current
+Keep the trailing slash: `/mcp/` works on every Voiceym version. Current
 backends also answer bare `/mcp` directly (every Streamable HTTP method —
 `POST`, `GET` for the event stream, `DELETE` — with no redirect, whether or not
 the backend also serves the web UI); older Docker and source builds returned
@@ -91,7 +91,7 @@ Streamable HTTP + stdio card under **Model Context Protocol**. For Codex CLI
 the exported table is:
 
 ```toml
-[mcp_servers.voicestudio]
+[mcp_servers.voiceym]
 url = "http://127.0.0.1:3900/mcp/"
 http_headers = { "X-OmniVoice-Client-Id" = "codex-cli" }
 ```
@@ -100,12 +100,12 @@ This follows the [Codex MCP configuration](https://developers.openai.com/codex/m
 a `url` key selects Streamable HTTP and `http_headers` adds static headers.
 
 **Hermes Agent** ([Nous Research](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp))
-connects with no extra VoiceStudio setup. Add the server to
+connects with no extra Voiceym setup. Add the server to
 `~/.hermes/config.yaml` and restart Hermes:
 
 ```yaml
 mcp_servers:
-  voicestudio:
+  voiceym:
     url: "http://127.0.0.1:3900/mcp/"
     headers:
       X-OmniVoice-Client-Id: "hermes"
@@ -134,12 +134,12 @@ local proxy does not make the share PIN an access-control boundary. HTTPS
 encrypts the connection but does not replace that proxy-side authentication.
 
 ```toml
-[mcp_servers.voicestudio]
+[mcp_servers.voiceym]
 url = "http://192.168.1.50:3901/mcp/"
 http_headers = { "X-OmniVoice-Pin" = "123456", "X-OmniVoice-Client-Id" = "codex-cli" }
 ```
 
-VoiceStudio admits its current LAN addresses to the MCP DNS-rebinding guard
+Voiceym admits its current LAN addresses to the MCP DNS-rebinding guard
 only while PIN-gated sharing is enabled, and removes them when sharing stops.
 Overlapping enable/disable requests are serialized so a listener or temporary
 MCP allowlist cannot be left behind by competing lifecycle changes.
@@ -164,7 +164,7 @@ this into your client's MCP config (`docs/mcp.json` is a template):
     "omnivoice": {
       "command": "python",
       "args": ["-m", "backend.mcp_shim"],
-      "cwd": "/path/to/VoiceStudio",
+      "cwd": "/path/to/Voiceym",
       "env": { "OMNIVOICE_PORT": "3900", "OMNIVOICE_CLIENT_ID": "claude-code" }
     }
   }
@@ -173,11 +173,11 @@ this into your client's MCP config (`docs/mcp.json` is a template):
 
 For a backend elsewhere, set `OMNIVOICE_HOST` (and `OMNIVOICE_PORT`), or
 `OMNIVOICE_URL` with the full base URL when it uses https or a reverse-proxy
-path prefix (e.g. `https://gpu-box/voicestudio`). Set `OMNIVOICE_API_KEY` when
+path prefix (e.g. `https://gpu-box/voiceym`). Set `OMNIVOICE_API_KEY` when
 that backend requires an [API key](api-auth.md); the shim sends it as a Bearer
 token, and refuses to start if that would send it over plain http to another
 host. The shim
-needs a VoiceStudio source checkout (it runs with that checkout's Python
+needs a Voiceym source checkout (it runs with that checkout's Python
 environment, e.g. `uv run python -m backend.mcp_shim`).
 
 The shim forwards `OMNIVOICE_CLIENT_ID` as the `X-OmniVoice-Client-Id` header,
@@ -193,7 +193,7 @@ in Scarlett". Voice resolution precedence on every `generate_speech` call:
 
 1. an explicit `profile_id` argument, else
 2. the calling agent's binding, else
-3. VoiceStudio's default voice.
+3. Voiceym's default voice.
 
 Manage bindings over the loopback REST API (the Settings UI uses these):
 
@@ -213,7 +213,7 @@ any agent that speaks as you.
 
 ## How tools reach the backend
 
-The mounted `/mcp` tools call VoiceStudio's API in-process, as a local
+The mounted `/mcp` tools call Voiceym's API in-process, as a local
 caller: they work whatever host and port the backend binds, and the share PIN
 and API key never block them. A standalone `python -m backend.mcp_server`
 calls the backend over HTTP at the address it binds (`OMNIVOICE_BIND_HOST`,

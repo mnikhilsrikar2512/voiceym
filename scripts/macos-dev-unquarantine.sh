@@ -11,8 +11,8 @@
 #   users to run this. Production signing is gated in electron-release.yml.
 #
 # Usage:
-#   scripts/macos-dev-unquarantine.sh "path/to/VoiceStudio.app"
-#   scripts/macos-dev-unquarantine.sh ~/Downloads/VoiceStudio*.dmg
+#   scripts/macos-dev-unquarantine.sh "path/to/Voiceym.app"
+#   scripts/macos-dev-unquarantine.sh ~/Downloads/Voiceym*.dmg
 #   scripts/macos-dev-unquarantine.sh        # auto-discover newest built .app
 # ──────────────────────────────────────────────────────────────────────────
 set -uo pipefail

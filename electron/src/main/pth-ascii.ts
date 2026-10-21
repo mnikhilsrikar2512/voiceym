@@ -8,7 +8,7 @@ import { join } from 'node:path';
  * `encoding="locale"`, which ignores PYTHONUTF8). uv's editable install writes
  * the project path into `_editable_impl_omnivoice.pth` as UTF-8, so on a CJK
  * Windows (cp936/cp932/...) a non-English username made the interpreter die in
- * `init_import_site` before any VoiceStudio code ran.
+ * `init_import_site` before any Voiceym code ran.
  *
  * A non-ASCII path line is rewritten into an equivalent ASCII-only `import`
  * line that appends the same directory with escaped characters; non-ASCII

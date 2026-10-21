@@ -229,7 +229,7 @@ async function openOutside(url: string): Promise<void> {
   }
 }
 
-if (process.env.VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES !== '1' && !app.requestSingleInstanceLock()) {
+if (process.env.VOICEYM_ALLOW_MULTIPLE_INSTANCES !== '1' && !app.requestSingleInstanceLock()) {
   app.quit();
 } else {
   app.on('second-instance', () => {
@@ -288,7 +288,7 @@ if (process.env.VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES !== '1' && !app.requestSing
         const proxy = await startDevBackendProxy(
           () => backend.baseUrl,
           () => backend.requestHeaders(),
-          Number(process.env.VOICESTUDIO_ELECTRON_PROXY_PORT) || DEFAULT_ELECTRON_PROXY_PORT,
+          Number(process.env.VOICEYM_ELECTRON_PROXY_PORT) || DEFAULT_ELECTRON_PROXY_PORT,
           process.env.ELECTRON_RENDERER_URL
             ? [new URL(process.env.ELECTRON_RENDERER_URL).origin]
             : [],

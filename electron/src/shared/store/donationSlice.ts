@@ -1,5 +1,5 @@
 /**
- * Donation prompt slice — the "Support VoiceStudio development" kawaii postcard state machine
+ * Donation prompt slice — the "Support Voiceym development" kawaii postcard state machine
  * (spec 007, Phase 2/3).
  *
  * NOTE (footer donation moments): the postcard UI and its call sites were

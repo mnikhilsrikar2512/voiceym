@@ -16,7 +16,7 @@ os.environ.setdefault("OMNIVOICE_MODEL", "test")
 os.environ.setdefault("OMNIVOICE_DISABLE_FILE_LOG", "1")
 
 _FAKE_AUDIO = b"RIFF" + b"\x00" * 2000  # > _MIN_CONSENT_AUDIO_BYTES floor
-_CONSENT_TEXT = "I confirm this is my own voice and I consent to cloning it in OmniVoice Studio."
+_CONSENT_TEXT = "I confirm this is my own voice and I consent to cloning it in OmniVoiceym."
 
 
 @pytest.fixture(scope="module")

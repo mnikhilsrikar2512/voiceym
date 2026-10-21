@@ -20,7 +20,7 @@ Engine availability depends on installed models, hardware, and configured provid
 
 ## Speech generation
 
-- **VoiceStudio** (default, powered by k2-fsa/OmniVoice)
+- **Voiceym** (default, powered by k2-fsa/OmniVoice)
 - omnivoice-subprocess — [Guide](engines/omnivoice-subprocess.md)
 - CosyVoice 3 — [Guide](engines/cosyvoice.md)
 - KittenTTS

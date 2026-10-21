@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "VoiceStudio model licence inventory v2 draft foundation",
+  "title": "Voiceym model licence inventory v2 draft foundation",
   "description": "Additive v1 migration. Schema validates shape, not legal clearance or complete dependency evidence. See services/model_licenses.py for semantic validation.",
   "type": "object",
   "required": [

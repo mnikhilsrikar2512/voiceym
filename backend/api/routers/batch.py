@@ -361,7 +361,7 @@ async def _run_batch_pipeline_leased(job_id: str, job: dict, lease: voice_leases
         return
 
     # ── Engine resolution (issue #312 class) ────────────────────────────
-    # Batch used to hardcode VoiceStudio regardless of the engine selected in
+    # Batch used to hardcode Voiceym regardless of the engine selected in
     # Model Catalogue. Clone profiles require a cloning-capable engine; presets
     # and designed voices use instruction mode. Resolve once for the whole job.
     # below shares the same active engine); an uncaught ValueError here

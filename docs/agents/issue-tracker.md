@@ -1,7 +1,7 @@
 # Issue tracker: GitHub
 
 Issues and PRDs for this repo live as GitHub issues on
-[`debpalash/VoiceStudio`](https://github.com/debpalash/VoiceStudio). Use the `gh`
+[`mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym). Use the `gh`
 CLI for all operations.
 
 ## Conventions
@@ -32,7 +32,7 @@ GitHub shares one number space across issues and PRs, so a bare `#42` may be eit
 These come from `CLAUDE.md` and apply to anything a skill opens or merges here:
 
 - **Harvest bot reviews before merging.** CodeRabbit and Greptile auto-review every
-  PR. Read their inline comments — `gh api repos/debpalash/VoiceStudio/pulls/<n>/comments`
+  PR. Read their inline comments — `gh api repos/mnikhilsrikar2512/voiceym/pulls/<n>/comments`
   filtered by bot login — and triage them before merge. Never merge with an unread
   Critical/P1. This applies to PRs a skill opened, not just human ones.
 - **Never merge with known findings outstanding.** Fix them on the PR branch; don't

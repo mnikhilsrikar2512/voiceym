@@ -13,7 +13,7 @@ def build_manifest(*, repo: str, tag: str, version: str, asset: str, signature: 
     entry = {"signature": signature.strip(), "url": base + quote(asset)}
     return {
         "version": version,
-        "notes": "VoiceStudio update for the per-user Windows installation.",
+        "notes": "Voiceym update for the per-user Windows installation.",
         "pub_date": datetime.datetime.now(datetime.timezone.utc)
         .isoformat(timespec="milliseconds")
         .replace("+00:00", "Z"),

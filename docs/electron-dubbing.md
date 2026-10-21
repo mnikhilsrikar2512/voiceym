@@ -75,7 +75,7 @@ beginning because its backend stream is request-scoped, not a replayable task. B
 
 Verification: `node electron/tests/dub-smoke.mjs` against the development renderer.
 The test mocks backend jobs and never uploads or generates user media. Optionally
-set `VOICESTUDIO_TEST_VIDEO` to a local MP4 fixture to verify native video transport.
+set `VOICEYM_TEST_VIDEO` to a local MP4 fixture to verify native video transport.
 These checks establish UI wiring, not a completed real model-backed dubbing run.
 `node electron/tests/native-translation-agent-smoke.mjs <agent>` separately launches the packaged
 app with isolated data and verifies that the detected CLI returns complete, ordered translations
@@ -271,7 +271,7 @@ transcripts automatically.
 ### Mirror source delivery
 
 **More → Mirror source delivery** writes a direction for each line from how the
-original actor spoke it. VoiceStudio measures pitch, pitch movement, loudness,
+original actor spoke it. Voiceym measures pitch, pitch movement, loudness,
 syllable rate and voicing on the separated vocals track (the full mix when
 separation did not run) and compares every line against the same speaker's own
 typical delivery. Markedly louder, higher and faster lines become `urgent, quick`;
@@ -368,14 +368,14 @@ require a separate system FFmpeg installation.
 
 ### Unreadable source file
 
-If preparation says the media file is damaged or incomplete, VoiceStudio could
+If preparation says the media file is damaged or incomplete, Voiceym could
 not read its container header or FFmpeg rejected the input data. Check that the
 original file plays with sound in a media player. A file can have its expected
 size while its beginning is filled with zeros after an interrupted download or
 copy. Wait for the transfer to finish, ensure the storage drive has enough free
 space, and download or copy a fresh file before uploading again. Repeatedly
 uploading the same damaged file cannot restore its missing header.
-Uploads also check that the data drive has room for the source copy. If the drive fills during a copy, VoiceStudio removes the partial job
+Uploads also check that the data drive has room for the source copy. If the drive fills during a copy, Voiceym removes the partial job
 file and asks you to free space in Settings → Storage before retrying.
 
 A dub that has segments offers **Create Story**, which carries its speakers and

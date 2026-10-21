@@ -14,7 +14,7 @@ test('CI crawls every fault mode in one job', () => {
   // A matrix would multiply runner jobs per push; the crawler runs the modes concurrently itself.
   assert.doesNotMatch(job, /strategy:|matrix\./, 'ui-crawler must stay a single job');
   // Narrowing the modes or routes in CI would silently skip the faults this job exists for.
-  assert.doesNotMatch(job, /VOICESTUDIO_CRAWL_(MODES|ROUTES|SHARD)/);
+  assert.doesNotMatch(job, /VOICEYM_CRAWL_(MODES|ROUTES|SHARD)/);
   assert.match(crawler, /const MODES = \['fixture', 'http-500', 'network-error', 'bad-json'\]/);
 });
 

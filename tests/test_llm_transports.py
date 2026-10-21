@@ -19,7 +19,7 @@ def registry(monkeypatch, clean_llm_env):
 
 
 def test_cli_never_auto_activates_or_needs_an_api_key(registry, monkeypatch):
-    monkeypatch.setenv("VOICESTUDIO_LLM_AGENTS", '["codex"]')
+    monkeypatch.setenv("VOICEYM_LLM_AGENTS", '["codex"]')
     assert registry.is_configured(registry.get_provider("codex-cli"))
     assert not registry.is_configured(registry.get_provider("pi-cli"))
     assert registry.active_provider_id() is None
@@ -85,8 +85,8 @@ def test_native_anthropic_sdk_http_round_trip(registry, monkeypatch):
 
 def test_cli_refuses_non_loopback_bridge(registry, monkeypatch):
     from services.llm_cli import completion
-    monkeypatch.setenv("VOICESTUDIO_LLM_AGENT_URL", "https://example.com")
-    monkeypatch.setenv("VOICESTUDIO_LLM_AGENT_TOKEN", "private")
+    monkeypatch.setenv("VOICEYM_LLM_AGENT_URL", "https://example.com")
+    monkeypatch.setenv("VOICEYM_LLM_AGENT_TOKEN", "private")
     with pytest.raises(RuntimeError, match="Electron"):
         completion(registry.get_provider("codex-cli"), model="", messages=[])
 

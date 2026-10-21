@@ -1,5 +1,5 @@
 """The official ``openai`` SDK — and the OpenAI Agents SDK voice pipeline built
-on it — must work against VoiceStudio's /v1 routes unmodified.
+on it — must work against Voiceym's /v1 routes unmodified.
 
 Drives the routes through the real SDK: its HTTP client uses a transport
 that hands each request to Starlette's TestClient, so what is tested is the
@@ -270,7 +270,7 @@ def test_models_list_and_retrieve(client, engine):
     ids = {m.id for m in client.models.list()}
     assert {"tts-1", "tts-1-hd", "gpt-4o-mini-tts", "whisper-1", "gpt-4o-transcribe"} <= ids
     assert engine.id in ids
-    assert client.models.retrieve("gpt-4o-mini-tts").owned_by == "voicestudio"
+    assert client.models.retrieve("gpt-4o-mini-tts").owned_by == "voiceym"
     with pytest.raises(openai.NotFoundError):
         client.models.retrieve("definitely-not-a-model")
 
@@ -368,7 +368,7 @@ def test_transcription_errors_are_openai_shaped(client, monkeypatch):
 
 
 def test_asr_engine_id_must_be_the_engine_that_serves(client, monkeypatch):
-    """A concrete VoiceStudio ASR id is never silently served by another engine."""
+    """A concrete Voiceym ASR id is never silently served by another engine."""
     from services import asr_backend
 
     fake = _WhisperLike()
@@ -388,7 +388,7 @@ def test_models_list_only_the_active_asr_engine(client, engine, monkeypatch):
     from services import asr_backend
 
     monkeypatch.setattr(asr_backend, "active_backend_id", lambda: "faster-whisper")
-    stt = {m.id for m in client.models.list() if m.model_extra["voicestudio"]["kind"] == "stt"}
+    stt = {m.id for m in client.models.list() if m.model_extra["voiceym"]["kind"] == "stt"}
     assert stt == {"whisper-1", "gpt-4o-transcribe", "gpt-4o-mini-transcribe", "faster-whisper"}
 
 

@@ -218,7 +218,7 @@ describe('UpdateSettings', () => {
     mocks.listReleases.mockResolvedValue([
       {
         version: '0.5.1',
-        name: 'VoiceStudio 0.5.1',
+        name: 'Voiceym 0.5.1',
         date: '2026-09-12T00:00:00Z',
         prerelease: false,
         notes: '### Fixed\n- **Safe notes** use `native updates`.\n\n<script>alert(1)</script>',

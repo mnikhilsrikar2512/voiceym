@@ -1,7 +1,7 @@
-# VoiceStudio compatibility entry
+# Voiceym compatibility entry
 
-The current cross-agent package is [voicestudio](../../../../skills/voicestudio/SKILL.md).
-For new installations use `npx skills add debpalash/VoiceStudio --skill voicestudio`.
+The current cross-agent package is [voiceym](../../../../skills/voiceym/SKILL.md).
+For new installations use `npx skills add mnikhilsrikar2512/voiceym --skill voiceym`.
 
 Use the running backend at the user's configured address (default
 `http://localhost:3900`). Check `/health`, discover `/openapi.json` and
@@ -21,9 +21,9 @@ before reporting success. Protected backends require configured credentials;
 never disable authentication to make an example work.
 
 Source and current setup documentation:
-https://github.com/debpalash/VoiceStudio
+https://github.com/mnikhilsrikar2512/voiceym
 
 This archived entry is not an installable skill. Existing installations should
-remove the old `omnivoice` / `oss-maintainer` entries and install `voicestudio` /
-`voicestudio-maintainer` from the canonical repository. Legacy helpers remain
+remove the old `omnivoice` / `oss-maintainer` entries and install `voiceym` /
+`voiceym-maintainer` from the canonical repository. Legacy helpers remain
 for existing users; the Electron supervisor is the preferred launcher.

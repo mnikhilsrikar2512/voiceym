@@ -27,9 +27,9 @@
 #   # auto-discover the Electron release bundle:
 #   scripts/verify-macos-signing.sh
 #   # strict gate against a specific bundle:
-#   scripts/verify-macos-signing.sh "path/to/VoiceStudio.app" --require-signed
+#   scripts/verify-macos-signing.sh "path/to/Voiceym.app" --require-signed
 #   # verify a DMG (mounts read-only, finds the .app inside, detaches):
-#   scripts/verify-macos-signing.sh "VoiceStudio_0.3.5_aarch64.dmg"
+#   scripts/verify-macos-signing.sh "Voiceym_0.3.5_aarch64.dmg"
 #
 # Env equivalents: REQUIRE_SIGNED=1
 # ──────────────────────────────────────────────────────────────────────────

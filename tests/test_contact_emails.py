@@ -1,8 +1,8 @@
-"""VoiceStudio publishes exactly three contact addresses (owner-set 2026-10-02).
+"""Voiceym publishes exactly three contact addresses (owner-set 2026-10-02).
 
-    hi@voicestudio.sh        general, business, licensing, collaboration
-    partner@voicestudio.sh   brand and company partnerships
-    security@voicestudio.sh  vulnerability reports
+    hi@voiceym.example        general, business, licensing, collaboration
+    partner@voiceym.example   brand and company partnerships
+    security@voiceym.example  vulnerability reports
 
 Any other real address in a shipped file (docs, UI, locales, package metadata,
 legal text) is a stale or personal contact. Tests and fixtures may use
@@ -16,7 +16,7 @@ import subprocess
 from pathlib import Path
 
 _REPO = Path(__file__).resolve().parents[1]
-_CONTACTS = {"hi@voicestudio.sh", "partner@voicestudio.sh", "security@voicestudio.sh"}
+_CONTACTS = {"hi@voiceym.example", "partner@voiceym.example", "security@voiceym.example"}
 _EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 _RESERVED_DOMAIN = re.compile(r"(^|\.)(example\.(com|net|org)|example|test|invalid|localhost|local)$", re.I)
 # GitHub no-reply commit addresses are identities, not contact addresses.
@@ -40,8 +40,9 @@ def test_only_project_contact_addresses_are_published():
     for name, text in _tracked_text_files():
         for address in _EMAIL.findall(text):
             domain = address.rsplit("@", 1)[1]
+            # CHANGELOG.md keeps upstream VoiceStudio's history verbatim.
             if (address.lower() in _CONTACTS or _RESERVED_DOMAIN.search(domain) or domain.lower() == _NOREPLY_DOMAIN
-                    or _TEST_PATH.search(name)):
+                    or _TEST_PATH.search(name) or name == "CHANGELOG.md"):
                 continue
             stray.append(f"{name}: {address}")
-    assert not stray, "Use hi@, partner@ or security@voicestudio.sh:\n" + "\n".join(stray)
+    assert not stray, "Use hi@, partner@ or security@voiceym.example:\n" + "\n".join(stray)

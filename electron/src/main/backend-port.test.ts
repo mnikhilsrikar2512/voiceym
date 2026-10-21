@@ -63,7 +63,7 @@ it.each(['ready', 'timeout', 'shutdown'])(
     vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
     vi.stubEnv('OMNIVOICE_PORT', '');
     vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-    vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+    vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
     vi.stubEnv('OMNIVOICE_STARTUP_BUDGET_S', '10');
     mocks.occupied.add(4900);
     let ready = false;
@@ -104,7 +104,7 @@ it.each([false, true])(
   async (existingDefault) => {
     vi.stubEnv('OMNIVOICE_PORT', '');
     vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-    vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+    vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
     let runningPort = 0;
     const child = Object.assign(new EventEmitter(), {
       stdin: null,
@@ -136,7 +136,7 @@ it.each([false, true])(
       await vi.waitFor(() => expect(supervisor.status.stage).toBe('ready'));
       expect(supervisor.status.baseUrl).toBe('http://127.0.0.1:4900');
       expect(mocks.spawn.mock.calls[0][2].env.OMNIVOICE_PORT).toBe('4900');
-      vi.stubEnv('VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES', '1');
+      vi.stubEnv('VOICEYM_ALLOW_MULTIPLE_INSTANCES', '1');
       const second = new BackendSupervisor();
       try {
         await second.start();
@@ -181,7 +181,7 @@ it.each([false, true])(
 it.each([200, 404])('skips unrelated occupied fallback listeners (HTTP %s)', async (status) => {
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   mocks.occupied.add(4900);
   let runningPort = 0;
   mocks.spawn.mockImplementation((_command: string, args: string[]) => {
@@ -224,7 +224,7 @@ it('gives a replacement its full handoff grace after a late startup exit', async
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   vi.stubEnv('OMNIVOICE_STARTUP_BUDGET_S', '10');
   let ready = false;
   vi.stubGlobal(
@@ -292,7 +292,7 @@ it.each(['explicit port', 'custom command', 'external backend', 'healthy backend
   async (kind) => {
     vi.stubEnv('OMNIVOICE_PORT', kind === 'explicit port' ? '3900' : '');
     vi.stubEnv('OMNIVOICE_BACKEND_CMD', kind === 'custom command' ? '["custom-python"]' : '');
-    vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', kind === 'external backend' ? '1' : '');
+    vi.stubEnv('VOICEYM_SKIP_BACKEND', kind === 'external backend' ? '1' : '');
     vi.stubGlobal(
       'fetch',
       vi.fn(async () => {
@@ -323,10 +323,10 @@ it.each(['', '3900'])(
     vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
     vi.stubEnv('OMNIVOICE_PORT', portEnv);
     vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-    vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+    vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
     mocks.occupied.add(3900);
     // Another local service owns the port and happens to answer the same
-    // liveness shape, without the VoiceStudio marker header.
+    // liveness shape, without the Voiceym marker header.
     vi.stubGlobal(
       'fetch',
       vi.fn(async (url: string) => {

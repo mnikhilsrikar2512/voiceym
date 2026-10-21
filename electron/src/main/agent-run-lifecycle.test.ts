@@ -60,7 +60,7 @@ vi.mock('./llm-agent-bridge', () => ({
   startLlmAgentBridge: async () => ({ url: '', token: '', close() {} }),
 }));
 vi.mock('./window-safety', () => ({ sendToLiveWindow: mock.output }));
-const frame = { url: 'app://voicestudio/index.html' };
+const frame = { url: 'app://voiceym/index.html' };
 const contents = { mainFrame: frame };
 const owner = { webContents: contents };
 const event = { sender: contents, senderFrame: frame };

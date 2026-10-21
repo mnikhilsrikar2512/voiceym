@@ -12,16 +12,16 @@ import { inflateRawSync } from 'node:zlib';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const releaseDir = resolve(root, process.argv[2] || 'release');
 const version = JSON.parse(readFileSync(resolve(root, '../package.json'), 'utf8')).version;
-const filename = `VoiceStudio-Electron-${version}-linux-x64.AppImage`;
+const filename = `Voiceym-Electron-${version}-linux-x64.AppImage`;
 const image = resolve(releaseDir, filename);
 const zsync = `${image}.zsync`;
-const channel = process.env.VOICESTUDIO_UPDATE_CHANNEL || 'electron-stable-linux-x64';
+const channel = process.env.VOICEYM_UPDATE_CHANNEL || 'electron-stable-linux-x64';
 // Stable is the only Linux update feed (no `preview` release exists).
 assert.equal(channel, 'electron-stable-linux-x64', 'Known Linux updater channel');
 const releaseTag = `v${version}`;
 const manifestPath = resolve(releaseDir, `${channel}-linux.yml`);
 const updateInfo =
-  'gh-releases-zsync|debpalash|VoiceStudio|latest|VoiceStudio-Electron-*-linux-x64.AppImage.zsync';
+  'gh-releases-zsync|mnikhilsrikar2512|voiceym|latest|Voiceym-Electron-*-linux-x64.AppImage.zsync';
 
 // The pinned electron-builder runtime reserves a fixed-size .upd_info ELF
 // section. Read its actual offset instead of assuming a particular runtime
@@ -87,7 +87,7 @@ const { appendBlockmap } = require(
 const { size, sha512, blockMapSize } = await appendBlockmap(image);
 assert.equal((await stat(image)).size, size);
 
-const url = `https://github.com/debpalash/VoiceStudio/releases/download/${releaseTag}/${filename}`;
+const url = `https://github.com/mnikhilsrikar2512/voiceym/releases/download/${releaseTag}/${filename}`;
 execFileSync('zsyncmake', ['-u', url, '-o', zsync, image], { stdio: 'inherit' });
 
 const manifest = readFileSync(manifestPath, 'utf8');

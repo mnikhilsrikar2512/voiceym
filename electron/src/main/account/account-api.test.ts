@@ -48,7 +48,7 @@ it('maps the account to the renderer-safe profile', async () => {
       { id: 'Or5tG7hJ9kL1zX3c', slug: 'ana', displayName: 'Ana', role: 'owner', kind: 'personal' },
     ],
   });
-  expect(fetchImpl.mock.calls[0][0]).toBe('https://appapi.voicestudio.sh/v1/account');
+  expect(fetchImpl.mock.calls[0][0]).toBe('https://appapi.voiceym.example/v1/account');
   expect((fetchImpl.mock.calls[0][1] as RequestInit).headers).toMatchObject({
     authorization: 'Bearer tok',
   });
@@ -98,7 +98,7 @@ describe('profile photo', () => {
     return { api: new AccountApi(env, session as never, activity, cache), fetchImpl, cache, path };
   }
   const image = () => new Response(png, { headers: { 'content-type': 'image/png' } });
-  const URL_A = 'https://app-s3.voicestudio.sh/avatars/a?X-Amz-Signature=one';
+  const URL_A = 'https://app-s3.voiceym.example/avatars/a?X-Amz-Signature=one';
 
   it('downloads the photo once per avatar_artifact_id, even across restarts', async () => {
     const first = photoApi(image);
@@ -171,7 +171,7 @@ it('reads the plan, storage and what the plan includes for an Organization', asy
     proDesktop: false,
   });
   expect(fetchImpl.mock.calls[0][0]).toBe(
-    'https://appapi.voicestudio.sh/v1/account/organizations/Or5tG7hJ9kL1zX3c/entitlements',
+    'https://appapi.voiceym.example/v1/account/organizations/Or5tG7hJ9kL1zX3c/entitlements',
   );
 });
 

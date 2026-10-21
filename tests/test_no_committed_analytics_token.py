@@ -75,17 +75,12 @@ def test_posthog_token_literals_only_in_the_two_canonical_files():
     )
 
 
-def test_both_canonical_files_carry_the_same_default_token():
-    """#1193's whole point: source builds have a destination. Both halves must
-    ship the in-repo default, and it must be ONE token — a mismatched pair would
-    split installs across PostHog projects with no error anywhere."""
-    tokens = {}
+def test_canonical_files_carry_no_default_token():
+    """Voiceym ships no analytics project: builds opt in by setting a token in
+    the environment, never by a literal committed to the canonical files."""
     for name in _CANONICAL_TOKEN_FILES:
         found = _POSTHOG_KEY_RE.findall((_REPO / name).read_text(encoding="utf-8"))
-        assert found, f"{name} no longer carries the in-repo default token (#1193)"
-        assert len(set(found)) == 1, f"{name} contains multiple distinct phc_ literals"
-        tokens[name] = found[0]
-    assert len(set(tokens.values())) == 1, f"canonical token files disagree: {tokens}"
+        assert not found, f"{name} carries a committed analytics token"
 
 
 # ── the OVERRIDE chain must stay wired ───────────────────────────────────────

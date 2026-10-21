@@ -5,7 +5,7 @@ import { Readable } from 'node:stream';
 import { net, protocol } from 'electron';
 
 export const APP_SCHEME = 'app';
-export const APP_HOST = 'voicestudio';
+export const APP_HOST = 'voiceym';
 export const APP_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
 const API_PREFIX = '/api';
 
@@ -47,7 +47,7 @@ const MIME: Record<string, string> = {
  */
 const DROPPED_REQUEST_HEADERS = new Set([
   'origin',
-  'x-voicestudio-desktop-origin',
+  'x-voiceym-desktop-origin',
   'host',
   'referer',
   'accept-charset',

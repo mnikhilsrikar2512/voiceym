@@ -9,7 +9,7 @@ const STRIP_HEADERS = new Set([
   'forwarded',
   'host',
   'origin',
-  'x-voicestudio-desktop-origin',
+  'x-voiceym-desktop-origin',
   'proxy-authorization',
   'referer',
   'te',
@@ -78,7 +78,7 @@ export async function startDevBackendProxy(
   const server = createServer((incoming, response) => {
     if (proxyRequestRefused(incoming.headers, allowedOrigins)) {
       response.writeHead(403, { 'content-type': 'application/json' });
-      response.end('{"detail":"Request refused: it did not come from the VoiceStudio window"}');
+      response.end('{"detail":"Request refused: it did not come from the Voiceym window"}');
       incoming.resume();
       return;
     }

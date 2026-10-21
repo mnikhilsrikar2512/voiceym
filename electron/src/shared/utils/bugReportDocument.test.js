@@ -28,13 +28,13 @@ describe('composeBugReportUrl', () => {
   it('reads the class from an ApiError payload', () => {
     // The Electron client keeps the parsed 500 body on `payload` rather than
     // lifting `error_class` onto the error itself (lib/api/client.ts).
-    const error = new Error('VoiceStudio hit an internal error');
-    error.payload = { detail: 'VoiceStudio hit an internal error', error_class: 'RuntimeError' };
+    const error = new Error('Voiceym hit an internal error');
+    error.payload = { detail: 'Voiceym hit an internal error', error_class: 'RuntimeError' };
     expect(bodyOf({ error })).toContain('Backend error class: RuntimeError');
   });
 
   it('reports the exception type and diagnosis topic of a 500 body (#2917)', () => {
-    const error = new Error('VoiceStudio hit an internal error');
+    const error = new Error('Voiceym hit an internal error');
     error.payload = {
       error_class: 'UNKNOWN',
       error_type: 'RuntimeError',

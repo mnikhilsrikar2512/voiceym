@@ -1,10 +1,10 @@
-# VoiceStudio — Supertonic-3 Engine
+# Voiceym — Supertonic-3 Engine
 
 Supertonic-3 (Supertone Inc.) is a ~99M-parameter ONNX TTS engine covering
 31 languages with 7 preset voices at native 44.1 kHz. It is CPU-only by
 design — pure ONNX Runtime on the CPU execution provider, with no CUDA or
 MPS path in the upstream SDK — and runs in its own sidecar process so
-crashes and cold init never block the rest of VoiceStudio.
+crashes and cold init never block the rest of Voiceym.
 
 ## When to pick it
 
@@ -13,7 +13,7 @@ crashes and cold init never block the rest of VoiceStudio.
 
 ## Setup
 
-1. Install the optional dependency into VoiceStudio's environment:
+1. Install the optional dependency into Voiceym's environment:
 
    ```bash
    uv sync --extra supertonic
@@ -21,7 +21,7 @@ crashes and cold init never block the rest of VoiceStudio.
 
    Or click **Install** in **Model Catalogue → Supertonic-3**. That
    installs the same pinned wheel into the engine's own Python environment
-   under VoiceStudio's data directory. Nothing it installs touches VoiceStudio
+   under Voiceym's data directory. Nothing it installs touches Voiceym
    itself or any other engine, and **Uninstall** in the same row removes only
    that folder. An install made with `uv sync` keeps working as it is.
 
@@ -49,7 +49,7 @@ log line.
 
 - Output is 44.1 kHz mono.
 - Runs as a long-lived sidecar: from its own environment after a one-click
-  install, otherwise from VoiceStudio's (where `uv sync --extra supertonic`
+  install, otherwise from Voiceym's (where `uv sync --extra supertonic`
   puts it). Subsequent calls reuse the warm ONNX session.
 - `speed` is clamped to 0.7–2.0; quality steps clamp to 5–12.
 - Language accepts a supported full name (such as Portuguese or Estonian),
@@ -61,8 +61,8 @@ log line.
 - **No cloning and no voice design** — preset voices only. Dub/batch jobs
   that need cloning won't select it.
 - CPU-only: hardware acceleration is a property of the upstream SDK, not a
-  VoiceStudio limitation.
-- OpenRAIL-M weights are not covered by VoiceStudio's blanket
+  Voiceym limitation.
+- OpenRAIL-M weights are not covered by Voiceym's blanket
   commercial-use statement — review the model license terms in the
   acceptance dialog.
 

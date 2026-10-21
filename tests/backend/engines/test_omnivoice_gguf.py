@@ -444,7 +444,7 @@ def test_registry_resolves_omnivoice_gguf_lazily():
     assert "omnivoice-gguf" in _LAZY_REGISTRY
     cls = _REGISTRY["omnivoice-gguf"]
     assert cls.id == "omnivoice-gguf"
-    assert cls.display_name == "OmniVoice (GGUF, hardware-adaptive)"
+    assert cls.display_name == "OmniVoice (GGUF, hardware-adaptive, non-commercial)"
 
 
 def test_no_shell_true_in_engine_code():

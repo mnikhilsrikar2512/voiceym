@@ -11,7 +11,7 @@ they have never heard of. What actually happened is simply "you asked to clone
 without giving anything to clone from".
 
 The route still passes through every ValueError it cannot classify — most are
-VoiceStudio's own validation messages and are exactly what the user should
+Voiceym's own validation messages and are exactly what the user should
 read, so the fix must not swallow them.
 """
 import pytest

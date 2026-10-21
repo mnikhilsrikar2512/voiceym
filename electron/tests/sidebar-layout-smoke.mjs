@@ -8,10 +8,10 @@ const browser = await chromium.launch({
   headless: true,
 });
 const page = await browser.newPage();
-const out = mkdtempSync(join(tmpdir(), 'voicestudio-sidebar-'));
-const ui = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const out = mkdtempSync(join(tmpdir(), 'voiceym-sidebar-'));
+const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 try {
-  await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.goto(ui + '/#/clone');
   const sidebar = page.locator('aside').first();
   const chooseView = async (name) => {
@@ -52,7 +52,7 @@ try {
     [960, 600],
   ]) {
     await page.setViewportSize({ width, height });
-    assert.equal(await navigation.getByRole('link').count(), 9);
+    assert.equal(await navigation.getByRole('link').count(), 10);
     assert.equal(await page.getByRole('menu').count(), 0);
     const bounds = await navigation.boundingBox();
     assert.ok(bounds && bounds.width <= (await sidebar.boundingBox()).width);
@@ -110,7 +110,7 @@ try {
   const macStartupPage = await browser.newPage();
   try {
     await macStartupPage.addInitScript(() => {
-      Object.defineProperty(window, 'voicestudio', {
+      Object.defineProperty(window, 'voiceym', {
         value: {
           app: {
             version: 'test',
@@ -144,7 +144,7 @@ try {
       });
     });
     await macStartupPage.goto(ui + '/#/clone');
-    const startupBrand = macStartupPage.getByRole('banner').getByText('VoiceStudio', {
+    const startupBrand = macStartupPage.getByRole('banner').getByText('Voiceym', {
       exact: true,
     });
     await startupBrand.waitFor();
@@ -159,8 +159,8 @@ try {
   const macPage = await browser.newPage();
   try {
     await macPage.addInitScript(() => {
-      localStorage.setItem('voicestudio.setup.complete.v1', '1');
-      Object.defineProperty(window, 'voicestudio', {
+      localStorage.setItem('voiceym.setup.complete.v1', '1');
+      Object.defineProperty(window, 'voiceym', {
         value: {
           app: {
             version: 'test',
@@ -207,14 +207,14 @@ try {
     await macNotifications.locator('button:has(.lucide-bell)').click();
     await macPage.locator('[data-slot=popover-content][data-open]').waitFor({ state: 'visible' });
     await macPage.keyboard.press('Escape');
-    const brandLink = macSidebar.getByRole('link', { name: /^VoiceStudio v\S+/ });
+    const brandLink = macSidebar.getByRole('link', { name: /^Voiceym v\S+/ });
     const brandBounds = await brandLink.boundingBox();
     assert.ok(brandBounds && brandBounds.x >= 96, 'macOS brand must clear the traffic lights');
     assert.ok(
       await brandLink
-        .getByText('VoiceStudio', { exact: true })
+        .getByText('Voiceym', { exact: true })
         .evaluate((element) => element.scrollWidth <= element.clientWidth),
-      'macOS titlebar must show the complete VoiceStudio wordmark',
+      'macOS titlebar must show the complete Voiceym wordmark',
     );
     const expandedSettings = macSidebar.getByRole('link', { name: 'Settings', exact: true });
     const expandedDevice = macSidebar.getByRole('button', { name: /Local device/ });
@@ -281,7 +281,7 @@ try {
   );
 } finally {
   await browser.close();
-  if (process.env.VOICESTUDIO_KEEP_SMOKE_ARTIFACTS !== '1') {
+  if (process.env.VOICEYM_KEEP_SMOKE_ARTIFACTS !== '1') {
     rmSync(out, { recursive: true, force: true });
   }
 }

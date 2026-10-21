@@ -26,7 +26,7 @@ concurrency:
   cancel-in-progress: ${{ github.ref_type != 'tag' }}
 
 env:
-  SNAP_NAME: voicestudio
+  SNAP_NAME: voiceym
 
 jobs:
   package:
@@ -34,8 +34,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     env:
-      VOICESTUDIO_DISTRIBUTION: snap-store
-      VOICESTUDIO_RUST_TARGET: x86_64-unknown-linux-gnu
+      VOICEYM_DISTRIBUTION: snap-store
+      VOICEYM_RUST_TARGET: x86_64-unknown-linux-gnu
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -129,7 +129,7 @@ jobs:
           if-no-files-found: error
           path: |
             electron/release/*.snap
-            electron/release/VoiceStudio-Electron-*-snap-verification.json
+            electron/release/Voiceym-Electron-*-snap-verification.json
             electron/release/store-artifact-manifest-linux-x64.json
             electron/release/snap-store-assets/
 

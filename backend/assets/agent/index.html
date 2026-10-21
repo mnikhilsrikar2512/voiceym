@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voiceym Agent</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #6b6b66;
+    --line: #e2e2dc; --accent: #2f6fed; --accent-text: #ffffff;
+    --user: #eef3fe; --agent: #f1f1ee; --danger: #c43d3d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141413; --panel: #1d1d1b; --text: #ececea; --muted: #9a9a94;
+      --line: #2e2e2b; --accent: #6b9bff; --accent-text: #0d0d0c;
+      --user: #1f2a40; --agent: #262624; --danger: #ef7a7a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 40px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.lead { margin: 0 0 20px; color: var(--muted); }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 0 0 4px; }
+  textarea, select, input[type=text] { width: 100%; font: inherit; color: var(--text); background: var(--bg);
+         border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  textarea { resize: vertical; min-height: 64px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+  .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  button { font: inherit; border-radius: 999px; border: 1px solid var(--line); padding: 10px 18px;
+           background: var(--panel); color: var(--text); cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  .state { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .dot.listening { background: #3aa76d; } .dot.thinking { background: #d9a400; } .dot.speaking { background: var(--accent); }
+  #log { display: flex; flex-direction: column; gap: 8px; min-height: 120px; max-height: 50vh; overflow-y: auto; }
+  .msg { padding: 8px 12px; border-radius: 10px; max-width: 85%; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .msg.user { background: var(--user); align-self: flex-end; }
+  .msg.assistant { background: var(--agent); align-self: flex-start; }
+  .msg.interrupted::after { content: " (interrupted)"; color: var(--muted); font-size: 12px; }
+  .msg.error { color: var(--danger); align-self: center; font-size: 13px; }
+  form.say { display: flex; gap: 8px; margin-top: 12px; }
+  form.say input { flex: 1; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Voiceym Agent</h1>
+  <p class="lead">Talk to your local voice agent. Speak, or type a message. Everything runs on this computer.</p>
+
+  <section class="panel">
+    <label for="instructions">What should the agent do?</label>
+    <textarea id="instructions">You are a friendly, helpful voice assistant.</textarea>
+    <div class="row">
+      <div>
+        <label for="voice">Voice</label>
+        <select id="voice"><option value="">Default voice</option></select>
+      </div>
+      <div>
+        <label for="language">Language</label>
+        <input id="language" type="text" placeholder="Auto (e.g. en, hi, es)">
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="controls">
+      <button id="start" class="primary">Start talking</button>
+      <button id="stop" disabled>Stop</button>
+      <span class="state"><span id="dot" class="dot"></span><span id="state">Not connected</span></span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div id="log" aria-live="polite"></div>
+    <form class="say" id="say">
+      <input id="text" type="text" placeholder="Type a message" autocomplete="off" disabled>
+      <button type="submit" id="send" disabled>Send</button>
+    </form>
+  </section>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const IN_RATE = 16000, OUT_RATE = 24000;
+  let ws = null, micCtx = null, micStream = null, playCtx = null, playAt = 0, sources = [];
+  let pendingAssistant = null;
+
+  fetch('/v1/audio/voices').then((r) => r.ok ? r.json() : { voices: [] }).then((data) => {
+    for (const v of data.voices || []) {
+      if (v.type !== 'profile') continue;
+      const opt = document.createElement('option');
+      opt.value = v.voice_id; opt.textContent = v.name;
+      $('voice').appendChild(opt);
+    }
+  }).catch(() => {});
+
+  function setState(state, label) {
+    $('dot').className = 'dot ' + (state || '');
+    $('state').textContent = label || (state ? state[0].toUpperCase() + state.slice(1) : 'Not connected');
+  }
+
+  function addMessage(role, text, extra) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + role + (extra || '');
+    div.textContent = text;
+    $('log').appendChild(div);
+    $('log').scrollTop = $('log').scrollHeight;
+    return div;
+  }
+
+  function clearPlayback() {
+    for (const s of sources) { try { s.stop(); } catch (e) {} }
+    sources = [];
+    playAt = playCtx ? playCtx.currentTime : 0;
+  }
+
+  function playPcm(buffer) {
+    const pcm = new Int16Array(buffer);
+    if (!pcm.length) return;
+    const audio = playCtx.createBuffer(1, pcm.length, OUT_RATE);
+    const ch = audio.getChannelData(0);
+    for (let i = 0; i < pcm.length; i++) ch[i] = pcm[i] / 32768;
+    const src = playCtx.createBufferSource();
+    src.buffer = audio;
+    src.connect(playCtx.destination);
+    playAt = Math.max(playAt, playCtx.currentTime + 0.05);
+    src.start(playAt);
+    playAt += audio.duration;
+    sources.push(src);
+    src.onended = () => { sources = sources.filter((x) => x !== src); };
+  }
+
+  const WORKLET = `
+    class Mic extends AudioWorkletProcessor {
+      constructor() { super(); this.buf = new Int16Array(${IN_RATE / 50}); this.n = 0; }
+      process(inputs) {
+        const ch = inputs[0] && inputs[0][0];
+        if (!ch) return true;
+        for (let i = 0; i < ch.length; i++) {
+          const s = Math.max(-1, Math.min(1, ch[i]));
+          this.buf[this.n++] = s < 0 ? s * 32768 : s * 32767;
+          if (this.n === this.buf.length) { this.port.postMessage(this.buf.slice().buffer, []); this.n = 0; }
+        }
+        return true;
+      }
+    }
+    registerProcessor('mic', Mic);`;
+
+  async function start() {
+    $('start').disabled = true;
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({
+        audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+      });
+    } catch (e) {
+      addMessage('error', 'Microphone access was blocked. You can still type messages.');
+      micStream = null;
+    }
+    playCtx = new AudioContext({ sampleRate: OUT_RATE });
+    playAt = playCtx.currentTime;
+
+    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    ws = new WebSocket(proto + '//' + location.host + '/v1/agent/ws');
+    ws.binaryType = 'arraybuffer';
+    ws.onopen = async () => {
+      ws.send(JSON.stringify({
+        type: 'session.start',
+        instructions: $('instructions').value,
+        voice: $('voice').value,
+        language: $('language').value.trim(),
+        greet: true,
+      }));
+      if (micStream) {
+        micCtx = new AudioContext({ sampleRate: IN_RATE });
+        const url = URL.createObjectURL(new Blob([WORKLET], { type: 'application/javascript' }));
+        await micCtx.audioWorklet.addModule(url);
+        const node = new AudioWorkletNode(micCtx, 'mic');
+        node.port.onmessage = (e) => { if (ws && ws.readyState === 1) ws.send(e.data); };
+        micCtx.createMediaStreamSource(micStream).connect(node);
+      }
+      $('stop').disabled = false; $('text').disabled = false; $('send').disabled = false;
+    };
+    ws.onmessage = (e) => {
+      if (typeof e.data !== 'string') { playPcm(e.data); return; }
+      const m = JSON.parse(e.data);
+      if (m.type === 'state') setState(m.state);
+      else if (m.type === 'session.ready') setState('listening');
+      else if (m.type === 'audio.clear') clearPlayback();
+      else if (m.type === 'transcript.delta') {
+        if (!pendingAssistant) pendingAssistant = addMessage('assistant', '');
+        pendingAssistant.textContent = (pendingAssistant.textContent + ' ' + m.text).trim();
+      } else if (m.type === 'transcript') {
+        if (m.role === 'assistant') {
+          const div = pendingAssistant || addMessage('assistant', '');
+          div.textContent = m.text;
+          if (m.interrupted) div.classList.add('interrupted');
+          pendingAssistant = null;
+        } else addMessage('user', m.text);
+      } else if (m.type === 'error') addMessage('error', m.message || 'Something went wrong.');
+    };
+    ws.onclose = (e) => {
+      if (e.code === 1008) addMessage('error', 'Connection refused: ' + (e.reason || 'not allowed'));
+      stop();
+    };
+  }
+
+  function stop() {
+    if (ws && ws.readyState === 1) ws.send(JSON.stringify({ type: 'session.end' }));
+    if (ws) { ws.onclose = null; ws.close(); }
+    ws = null;
+    if (micStream) micStream.getTracks().forEach((t) => t.stop());
+    if (micCtx) micCtx.close();
+    clearPlayback();
+    if (playCtx) playCtx.close();
+    micStream = micCtx = playCtx = null; pendingAssistant = null;
+    $('start').disabled = false; $('stop').disabled = true;
+    $('text').disabled = true; $('send').disabled = true;
+    setState('', 'Not connected');
+  }
+
+  $('start').onclick = start;
+  $('stop').onclick = stop;
+  $('say').onsubmit = (e) => {
+    e.preventDefault();
+    const text = $('text').value.trim();
+    if (!text || !ws || ws.readyState !== 1) return;
+    clearPlayback();
+    ws.send(JSON.stringify({ type: 'input_text', text }));
+    $('text').value = '';
+  };
+})();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import { onStorageKey } from '@/lib/storage-events';
 
 export type ReviewMode = 'on' | 'off';
 
-const storageKey = 'voicestudio.review-mode.v1';
+const storageKey = 'voiceym.review-mode.v1';
 const listeners = new Set<() => void>();
 
 function read(): ReviewMode {

@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { PanelLeftIcon, PanelLeftOpenIcon, SettingsIcon } from 'lucide-react';
-import { brandIcon, brandArtwork } from '@/lib/brand';
+import { brandIcon } from '@/lib/brand';
 import { appVersion, isMac } from '@/components/bridge';
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -28,7 +28,7 @@ export function WorkspaceSidebar() {
   const { compact, compactViewport, forceExpanded, secondaryWorkspace, setOpen } =
     useWorkspaceSidebarState();
   const sidebarResize = usePaneResize({
-    storageKey: 'voicestudio.library-width',
+    storageKey: 'voiceym.library-width',
     side: 'left',
     minimum: mac ? 288 : 220,
     initial: mac ? 288 : 256,
@@ -100,8 +100,6 @@ export function WorkspaceSidebar() {
             >
               <SettingsIcon
                 className="workspace-nav-icon"
-                data-tone="settings"
-                data-motion="turn"
               />
             </Link>
             {mac && <StatusBar compact inline />}
@@ -115,12 +113,6 @@ export function WorkspaceSidebar() {
           aria-label={t('clone.saved_profiles')}
           className="brand-sidebar relative isolate grid h-full min-h-0 min-w-0 shrink-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,auto)_minmax(7rem,1fr)_auto] overflow-hidden border-r border-border/50 bg-sidebar"
         >
-          <img
-            src={brandArtwork}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-40 w-full object-cover object-right opacity-25 [mask-image:linear-gradient(black,transparent)] dark:opacity-40"
-          />
           <header
             className={cn(
               'workspace-titlebar flex shrink-0 items-center gap-2 px-4',
@@ -134,7 +126,7 @@ export function WorkspaceSidebar() {
             >
               <img src={brandIcon} alt="" className="size-6 shrink-0" />
               <span className="flex min-w-0 flex-col leading-tight">
-                <span className="truncate text-base font-semibold">{t('app.name')}</span>
+                <span className="truncate font-heading text-[17px] font-bold tracking-tight">{t('app.name')}</span>
                 <span className="text-[11px] leading-none text-muted-foreground tabular-nums">
                   {versionLabel}
                 </span>
@@ -175,8 +167,6 @@ export function WorkspaceSidebar() {
                   >
                     <SettingsIcon
                       className="workspace-nav-icon"
-                      data-tone="settings"
-                      data-motion="turn"
                     />
                   </Link>
                 ) : undefined
@@ -193,8 +183,6 @@ export function WorkspaceSidebar() {
                 >
                   <SettingsIcon
                     className="workspace-nav-icon"
-                    data-tone="settings"
-                    data-motion="turn"
                   />
                   {t('nav.settings')}
                 </Link>

@@ -25,7 +25,7 @@ try {
   await page.getByText('Saved voices', { exact: true }).click();
   await page.getByRole('button', { name: 'Edit voice profile: ' + name, exact: true }).click();
   const pane = page.getByRole('complementary', { name: 'Edit voice profile', exact: true });
-  if (process.env.VOICESTUDIO_TEST_PREVIEW === '1') {
+  if (process.env.VOICEYM_TEST_PREVIEW === '1') {
     await page.locator('#design-script').fill('Preserved design draft');
     await pane.locator('summary', { hasText: 'Try this voice' }).click();
     await pane

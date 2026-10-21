@@ -182,7 +182,7 @@ it('uses the dev WebSocket proxy even when the native bridge supplies a backend 
 });
 it('uses the trusted backend URL from the packaged app scheme', async () => {
   vi.stubGlobal('window', {
-    location: { href: 'app://voicestudio/index.html#/capture', protocol: 'app:' },
+    location: { href: 'app://voiceym/index.html#/capture', protocol: 'app:' },
   });
   await live.start(vi.fn());
   expect(Socket.instances[0].url.origin).toBe('ws://127.0.0.1:3900');
@@ -197,8 +197,8 @@ it('preserves a main-issued ticket for authenticated remote dictation', async ()
     },
   };
   vi.stubGlobal('window', {
-    location: { href: 'app://voicestudio/index.html#/capture', protocol: 'app:' },
-    voicestudio: mocks.bridge,
+    location: { href: 'app://voiceym/index.html#/capture', protocol: 'app:' },
+    voiceym: mocks.bridge,
   });
   await live.start(vi.fn());
   expect(Socket.instances[0].url.origin).toBe('wss://gpu-box:3900');
@@ -218,8 +218,8 @@ it('drops a cancelled start whose WebSocket URL resolves after a newer session o
     },
   };
   vi.stubGlobal('window', {
-    location: { href: 'app://voicestudio/index.html#/capture', protocol: 'app:' },
-    voicestudio: mocks.bridge,
+    location: { href: 'app://voiceym/index.html#/capture', protocol: 'app:' },
+    voiceym: mocks.bridge,
   });
   const cancelled = live.start(vi.fn());
   await vi.waitFor(() => expect(pendingUrls).toHaveLength(1));

@@ -1,6 +1,6 @@
-# VoiceStudio brand
+# Voiceym brand
 
-VoiceStudio uses a waveform-and-spark mark. The waveform identifies audio; the
+Voiceym uses a waveform-and-spark mark. The waveform identifies audio; the
 spark identifies creation. The product voice is clear, calm, and direct.
 
 ## Assets
@@ -10,7 +10,7 @@ spark identifies creation. The product voice is clear, calm, and direct.
 | Primary vector mark | `docs/logo.svg` |
 | README mark | `docs/logo.png` and `docs/logo-256.png` |
 | Browser icon | `electron/public/favicon.svg` |
-| In-app mark | `frontend/src/components/brand/VoiceStudioMark.jsx` |
+| In-app mark | `frontend/src/components/brand/VoiceymMark.jsx` |
 | Desktop/platform icons | `electron/build/icons/` |
 | Electron sidebar and browser icon | `electron/public/favicon.svg` via `electron/src/renderer/src/lib/brand.ts` |
 | Sidebar/launchpad artwork | `electron/public/signal-field.webp` |
@@ -21,7 +21,7 @@ mark:
 Export the canonical vector to the required PNG, ICO, and ICNS sizes under
 `electron/build/icons/`, then run the Electron packaging contract.
 
-Do not redraw the waveform per screen. Use `VoiceStudioMark` in React and the
+Do not redraw the waveform per screen. Use `VoiceymMark` in React and the
 canonical SVG elsewhere so the silhouette stays recognizable at 16–512 px.
 
 ## Palette
@@ -39,7 +39,7 @@ together; do not put text inside the icon or add another enclosing ring.
 
 ## Name and copy
 
-- Product name: **VoiceStudio**—one word, capital V and S.
+- Product name: **Voiceym**—one word, capital V and S.
 - Voice: concise, professional, warm, and direct.
 - Promise: local-first creation without a subscription or usage meter.
 - Avoid absolute privacy claims: network-backed engines, downloads, analytics,

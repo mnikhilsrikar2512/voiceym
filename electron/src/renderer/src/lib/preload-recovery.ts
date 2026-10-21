@@ -1,4 +1,4 @@
-const recoveryKey = 'voicestudio.preload-recovery.v1';
+const recoveryKey = 'voiceym.preload-recovery.v1';
 
 interface RecoveryStorage {
   getItem(key: string): string | null;

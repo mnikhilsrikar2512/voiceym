@@ -72,14 +72,12 @@ def test_off_by_default_even_when_the_build_ships_a_token(monkeypatch):
     assert analytics.enabled() is False
 
 
-def test_source_builds_have_a_destination_via_the_in_repo_default(monkeypatch):
-    """#1193: with no env/baked token, the committed publishable key is the
-    fallback — so source builds get the SAME consent flow as installers. Consent
-    is still the gate: available ≠ enabled."""
-    assert analytics.token_configured() is True  # no env token set by _isolate
-    assert analytics.enabled() is False          # …but silence is still not consent
+def test_source_builds_have_no_destination_by_default(monkeypatch):
+    """Voiceym ships no analytics project: with no env/baked token there is no
+    destination, so even an opted-in source build sends nothing."""
+    assert analytics.token_configured() is False  # no env token set by _isolate
     analytics.set_opted_in(True)
-    assert analytics.enabled() is True
+    assert analytics.enabled() is False
 
 
 def test_the_env_token_beats_the_in_repo_default(monkeypatch):

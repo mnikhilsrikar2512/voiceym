@@ -8,7 +8,7 @@ type Layout = {
   /** Shrink the sidebar to a rail when a workspace opens its own side panel on a narrow window. */
   autoCollapseSidebar: boolean;
 };
-const key = 'voicestudio.workspace-layout';
+const key = 'voiceym.workspace-layout';
 const defaults: Layout = {
   panel: null,
   libraryOpen: true,

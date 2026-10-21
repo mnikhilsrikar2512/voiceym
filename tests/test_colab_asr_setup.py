@@ -22,7 +22,7 @@ class ColabWebBuildTests(unittest.TestCase):
         calls = []
         with patch("os.path.exists", side_effect=exists):
             exec(self.build_source(), {
-                "os": os, "REPO_DIR": "/content/VoiceStudio", "BUN": "bun",
+                "os": os, "REPO_DIR": "/content/Voiceym", "BUN": "bun",
                 "run": lambda cmd, **kwargs: calls.append((cmd, kwargs)),
             })
         return calls
@@ -33,7 +33,7 @@ class ColabWebBuildTests(unittest.TestCase):
             ["bun", "install", "--frozen-lockfile"],
             ["bun", "run", "--cwd", "electron", "build:web"],
         ])
-        self.assertTrue(all(opts["cwd"] == "/content/VoiceStudio" for _, opts in calls))
+        self.assertTrue(all(opts["cwd"] == "/content/Voiceym" for _, opts in calls))
 
     def test_existing_bundle_skips_install_and_build(self):
         self.assertEqual(self.run_build([True]), [])

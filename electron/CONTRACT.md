@@ -6,7 +6,7 @@ Renderer HTTP requests never call `http://127.0.0.1:3900` directly (CORS). They 
 app-relative `/api/...` paths:
 
 - dev: the electron-vite renderer dev server (port 3902) proxies `/api` → backend.
-- prod: the renderer is served from the privileged `app://voicestudio/` scheme
+- prod: the renderer is served from the privileged `app://voiceym/` scheme
   and main's `protocol.handle('app', …)` proxies `/api/*` to the backend with
   `net.fetch` (streaming bodies pass through; Range headers forwarded).
   So `API_BASE = '/api'` in the renderer, and `/api/audio/<file>` is a valid
@@ -18,7 +18,7 @@ Those calls therefore appear as `/api/api/settings/...` in renderer network tool
 first `/api` is the desktop transport prefix removed by the dev/app protocol proxy; the
 second belongs to the backend route. Do not collapse the pair in the API client.
 
-Live dictation uses a WebSocket, which cannot pass through the app protocol HTTP handler. Native sessions use the backend URL supplied by the preload status bridge, with the exact `app://voicestudio` origin accepted by the backend. Browser development uses `/api/ws/transcribe`; the dev proxy removes only its own exact localhost origin on WebSocket upgrades. Other origins remain subject to backend validation.
+Live dictation uses a WebSocket, which cannot pass through the app protocol HTTP handler. Native sessions use the backend URL supplied by the preload status bridge, with the exact `app://voiceym` origin accepted by the backend. Browser development uses `/api/ws/transcribe`; the dev proxy removes only its own exact localhost origin on WebSocket upgrades. Other origins remain subject to backend validation.
 
 ## Backend process (main)
 
@@ -66,13 +66,13 @@ Live dictation uses a WebSocket, which cannot pass through the app protocol HTTP
 - `@/lib/api/audio.ts`: `cleanAudio(blob, filename): Promise<File>` (POST /clean-audio, field `audio`, honours X-Clean-Filename).
 - `@/lib/query.ts`: `queryClient`, `queryKeys = { profiles:['profiles'], history:['history'], engines:['engines'], systemInfo:['system','info'] }`.
 - `@/lib/languages.ts`: `LANGUAGES: string[]` (bundled list, index 0 = 'Auto'), `POPULAR_LANGUAGES: string[]`, `TAGS: string[]` (expression tokens).
-- `@/lib/store/clone-settings.ts` (TanStack Store, persisted to localStorage `voicestudio.clone.settings.v1`):
+- `@/lib/store/clone-settings.ts` (TanStack Store, persisted to localStorage `voiceym.clone.settings.v1`):
   `interface CloneSettings { text; language; refText; instruct; steps; cfg; speed; tShift; posTemp; classTemp; layerPenalty; denoise; postprocess; duration; showOverrides; selectedProfileId: string|null; autoPlay: boolean }`,
   `DEFAULT_CLONE_SETTINGS`, `cloneSettingsStore`, `useCloneSetting(key)`, `useCloneSettings()`, `setCloneSetting(key, value)`, `patchCloneSettings(partial)`, `resetOverrides()`.
 - `@/lib/store/reference.ts` (not persisted): `interface ReferenceState { file: File|null; durationSeconds: number|null; objectUrl: string|null }`, `useReference()`, `setReferenceFile(file: File|null): Promise<{ ok: boolean; durationSeconds: number|null; tooLong: boolean }>` (probes duration; clears selectedProfileId when a file is set).
 - `@/lib/store/output.ts`: `interface OutputState { result: GenerateResult|null; objectUrl: string|null; text: string }`, `useLatestOutput()`, `setLatestOutput(result, text)`.
 - `@/lib/audio/playback.ts`: `claimPlayback(stop: () => void, source: string): () => void`, `stopActivePlayback()`, `usePlaybackSource(): string|null`, `playBlob(blob, source): Promise<void>` (plays via a hidden <audio>, claims the slot).
-- `@/hooks/use-backend-status.ts`: `useBackendStatus(): BackendStatus` (useSyncExternalStore over window.voicestudio; safe fallback when the bridge is missing, e.g. vitest).
+- `@/hooks/use-backend-status.ts`: `useBackendStatus(): BackendStatus` (useSyncExternalStore over window.voiceym; safe fallback when the bridge is missing, e.g. vitest).
 - `@/hooks/use-generate.ts`: `useGenerateClone(): { generate(): Promise<void>; cancel(): void; isGenerating: boolean; elapsedSeconds: number; progress: number|null }` (validation toasts via sonner + i18next; routing/dropped toasts; sets output store; invalidates history; autoplay via playBlob when settings.autoPlay).
 - `@/hooks/use-recording.ts`: `useRecording(onRecorded: (file: File) => void): { isRecording; isStarting; isCleaning; seconds: number; inputs: MediaDeviceInfo[]; selectedInputId: string; setSelectedInputId; channelMode: 'auto'|'mono'|'stereo'; setChannelMode; level: number; start(): Promise<void>; stop(): void }`.
 - `@/hooks/use-profiles.ts`: `useProfiles()` (react-query, `Profile[]`), `useCreateCloneProfile()`, `useDeleteProfile()` (mutations; invalidate profiles).

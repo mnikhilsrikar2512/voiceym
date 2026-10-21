@@ -52,12 +52,19 @@ export default defineConfig({
   server: {
     host: 'localhost',
     // Same name the backend reads for its CORS/CSRF allow-list (core/csrf.py);
-    // VOICESTUDIO_UI_PORT remains an accepted alias.
+    // VOICEYM_UI_PORT remains an accepted alias.
     port:
-      Number(process.env.OMNIVOICE_UI_PORT || process.env.VOICESTUDIO_UI_PORT) || DEFAULT_WEB_PORT,
+      Number(process.env.OMNIVOICE_UI_PORT || process.env.VOICEYM_UI_PORT) || DEFAULT_WEB_PORT,
     strictPort: true,
     proxy: {
       '/api/ws': {
+        target: `http://127.0.0.1:${backendPort}`,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        ws: true,
+      },
+      // The voice agent's socket lives outside /ws, so it needs its own upgrade rule.
+      '/api/v1/agent/ws': {
         target: `http://127.0.0.1:${backendPort}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),

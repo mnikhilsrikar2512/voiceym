@@ -1,5 +1,5 @@
 /**
- * The contextBridge surface exposed to the renderer as `window.voicestudio`.
+ * The contextBridge surface exposed to the renderer as `window.voiceym`.
  *
  * Keep this file the single contract between main (src/main), preload
  * (src/preload/index.ts) and the renderer. Both tsconfigs include it.
@@ -326,8 +326,8 @@ export interface AccountPublicState {
   } | null;
 }
 
-export interface VoiceStudioBridge {
-  /** VoiceStudio Cloud account; never carries a token. */
+export interface VoiceymBridge {
+  /** Voiceym Cloud account; never carries a token. */
   account: {
     get(): Promise<AccountPublicState>;
     signIn(): Promise<void>;
@@ -402,7 +402,7 @@ export interface VoiceStudioBridge {
     testRemote(input: { url: string; apiKey: string }): Promise<RemoteBackendProbe>;
     useRemote(input: { url: string; apiKey: string }): Promise<RemoteBackendProbe>;
     useLocal(): Promise<BackendConnection>;
-    websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts'): Promise<string>;
+    websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts' | '/v1/agent/ws'): Promise<string>;
   };
   capture: {
     phase(
@@ -464,7 +464,7 @@ export interface VoiceStudioBridge {
 
 declare global {
   interface Window {
-    voicestudio: VoiceStudioBridge;
+    voiceym: VoiceymBridge;
   }
 }
 

@@ -83,7 +83,7 @@ function BudgetRow({ envKey, label, note, currentValue, shadowed }) {
         toast(
           t('settings.generate_timeout_shadowed_toast', {
             defaultValue:
-              'Saved, but an environment variable outside VoiceStudio is currently setting this — it will keep being used until that variable is removed.',
+              'Saved, but an environment variable outside Voiceym is currently setting this — it will keep being used until that variable is removed.',
           }),
           { icon: '⚠️', duration: 10000 },
         );
@@ -91,7 +91,7 @@ function BudgetRow({ envKey, label, note, currentValue, shadowed }) {
         setSaveShadowed(false);
         toast.success(
           t('settings.generate_timeout_saved', {
-            defaultValue: 'Saved. Restart VoiceStudio for the new budget to take effect.',
+            defaultValue: 'Saved. Restart Voiceym for the new budget to take effect.',
           }),
         );
       }
@@ -128,7 +128,7 @@ function BudgetRow({ envKey, label, note, currentValue, shadowed }) {
         isShadowed
           ? t('settings.generate_timeout_shadowed_note', {
               defaultValue:
-                'An environment variable outside VoiceStudio (shell, .env file, or container) is currently setting this — your saved value here is ignored until that variable is removed.',
+                'An environment variable outside Voiceym (shell, .env file, or container) is currently setting this — your saved value here is ignored until that variable is removed.',
             })
           : note
       }

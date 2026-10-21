@@ -23,7 +23,7 @@ export async function availableBackendPort(
   isBackend: (port: number) => Promise<boolean> = async () => false,
 ): Promise<number> {
   // Deterministic candidates let additional Electron instances discover the
-  // same backend. Keep occupied VoiceStudio candidates for attachment/handoff,
+  // same backend. Keep occupied Voiceym candidates for attachment/handoff,
   // but skip unrelated listeners on fallback ports.
   let denied: unknown;
   for (let offset = 0; offset <= 16; offset++) {

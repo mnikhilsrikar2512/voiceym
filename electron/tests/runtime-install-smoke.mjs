@@ -1,13 +1,13 @@
 // Explicit integration check: installs real Python dependencies into an isolated directory.
-// Not part of the unit suite. VOICESTUDIO_RUNTIME_TEST_DIR and VOICESTUDIO_UV are required.
+// Not part of the unit suite. VOICEYM_RUNTIME_TEST_DIR and VOICEYM_UV are required.
 import { installRuntime, runtimeReady } from '../src/main/runtime-project.ts';
 import { spawn, execFile } from 'node:child_process';
 import { appendFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 
-const project = process.env.VOICESTUDIO_RUNTIME_TEST_DIR;
-const uv = process.env.VOICESTUDIO_UV;
+const project = process.env.VOICEYM_RUNTIME_TEST_DIR;
+const uv = process.env.VOICEYM_UV;
 assert(project && uv, 'Set an isolated runtime directory and the uv executable explicitly');
 assert(!existsSync(join(project, '.venv')), 'This check requires a fresh environment');
 mkdirSync(project, { recursive: true });

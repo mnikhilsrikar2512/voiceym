@@ -21,7 +21,7 @@ _BOMS = (
     (codecs.BOM_UTF16_BE, "utf-16-be"),
 )
 
-_CP1252_UNDEFINED = "voicestudio-cp1252-undefined"
+_CP1252_UNDEFINED = "voiceym-cp1252-undefined"
 
 
 def _undefined_as_latin1(exc: UnicodeDecodeError) -> tuple[str, int]:

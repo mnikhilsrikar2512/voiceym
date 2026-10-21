@@ -45,7 +45,7 @@ Each endorsement that passes adds `kid → public_key` to the trusted key set. A
 
 1. Look up `kid` in the trusted key set. If it is missing, `unknown_key`.
 2. Verify the Ed25519 signature over `"vssaas-license-certificate-v1\x00" || payload_bytes`. If it fails, `bad_signature`.
-3. `aud` must be `"voicestudio-desktop"`. Otherwise `wrong_audience`.
+3. `aud` must be `"voiceym-desktop"`. Otherwise `wrong_audience`.
 4. `env` must equal the client's environment. Otherwise `wrong_environment`.
 5. These must all hold, or `invalid_claims`:
    - `v == 1`, `iss == "vssaas"`, and `env` is one of `development|staging|production`.
@@ -65,7 +65,7 @@ Verify the endorsement at the same `now` as the certificate. vssaas never issues
 
 ### 1.2 Where the root keys come from
 
-Trust starts from one or two **root public keys compiled into the client build**, one set per environment. They are public values, so they can be committed or injected by CI. A good format mirrors vssaas `LICENSE_ROOT_PUBLIC_KEYS`: comma-separated unpadded base64url, 32 bytes each, supplied through a build-time define such as `VOICESTUDIO_LICENSE_ROOT_PUBLIC_KEYS`, next to the existing `VOICESTUDIO_PRO_*` defines in `electron/electron.vite.config.ts`.
+Trust starts from one or two **root public keys compiled into the client build**, one set per environment. They are public values, so they can be committed or injected by CI. A good format mirrors vssaas `LICENSE_ROOT_PUBLIC_KEYS`: comma-separated unpadded base64url, 32 bytes each, supplied through a build-time define such as `VOICEYM_LICENSE_ROOT_PUBLIC_KEYS`, next to the existing `VOICEYM_PRO_*` defines in `electron/electron.vite.config.ts`.
 
 - **Production roots.** These come from the offline key ceremony. A production signing-key ceremony is required before production signing; no production roots are established by this draft. A production build contains only production roots.
 - **Development and staging roots.** Use dedicated non-production roots supplied through the private service setup process; never trust those roots in production.
@@ -209,7 +209,7 @@ export function verifyCertificate(envelope: string, keys: Map<string, KeyObject>
   const { fields: c, message, signature } = open(envelope, 'vslc1.', 'vssaas-license-certificate-v1\x00', CLAIMS);
   const key = keys.get(c.kid) ?? fail('unknown_key');
   if (!verify(null, message, key, signature)) fail('bad_signature');
-  if (c.aud !== 'voicestudio-desktop') fail('wrong_audience');
+  if (c.aud !== 'voiceym-desktop') fail('wrong_audience');
   if (c.env !== env) fail('wrong_environment');
   const valid =
     c.v === 1 && c.iss === 'vssaas' && ENVIRONMENTS.includes(c.env) && KID.test(c.kid) &&
@@ -256,7 +256,7 @@ This has one deliberate difference from Go. Integers outside ±(2^53−1) are `m
 
 ### 1.4 Python (`cryptography`)
 
-Save this as `license_certificate.py`. `cryptography` is already a direct VoiceStudio dependency. Outside the project venv, run it with `uv run --no-project --with cryptography python license_certificate.py …`.
+Save this as `license_certificate.py`. `cryptography` is already a direct Voiceym dependency. Outside the project venv, run it with `uv run --no-project --with cryptography python license_certificate.py …`.
 
 ```python
 """Verifies vssaas License Certificates offline."""
@@ -389,7 +389,7 @@ def verify_certificate(envelope: str, keys: dict, env: str, now: int) -> tuple[d
         raise LicenseCertificateError("unknown_key")
     if not _signed(key, signature, message):
         raise LicenseCertificateError("bad_signature")
-    if c["aud"] != "voicestudio-desktop":
+    if c["aud"] != "voiceym-desktop":
         raise LicenseCertificateError("wrong_audience")
     if c["env"] != env:
         raise LicenseCertificateError("wrong_environment")

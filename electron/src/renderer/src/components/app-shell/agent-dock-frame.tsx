@@ -6,7 +6,7 @@ export function AgentDockFrame({
   label,
   expanded = true,
   resizable = false,
-  resizeStorageKey = 'voicestudio.agent-dock-height',
+  resizeStorageKey = 'voiceym.agent-dock-height',
   className,
   children,
 }: {

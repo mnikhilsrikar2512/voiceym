@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import assert from 'node:assert/strict';
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
 const page = await browser.newPage();
-await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
 const errors = [];
 page.on('pageerror', (error) => errors.push(error.message));
 let loads = 0;
@@ -42,12 +42,12 @@ try {
   await card.getByRole('button', { name: 'Preview voice', exact: true }).click();
   await card.getByRole('button', { name: 'Pause', exact: true }).waitFor({ timeout: 60000 });
   await card.getByRole('button', { name: 'Pause', exact: true }).click();
-  const folder = mkdtempSync(join(tmpdir(), 'voicestudio-community-check-'));
+  const folder = mkdtempSync(join(tmpdir(), 'voiceym-community-check-'));
   await page.screenshot({ path: join(folder, 'community.png') });
   await card.getByRole('button', { name: 'Open in Designer', exact: true }).click();
   await page.waitForURL('**/#/design');
   const draft = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem('voicestudio.design.v1')),
+    JSON.parse(localStorage.getItem('voiceym.design.v1')),
   );
   assert.equal(draft.attrs.Gender, 'female');
   assert.equal(draft.attrs.EnglishAccent, 'british accent');

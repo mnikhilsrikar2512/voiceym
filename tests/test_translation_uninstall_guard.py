@@ -1,6 +1,6 @@
 """Uninstalling a translation engine must never break the app or another engine (#2019).
 
-`pip uninstall` acts on VoiceStudio's own environment. The LLM engine's package
+`pip uninstall` acts on Voiceym's own environment. The LLM engine's package
 (openai) is a core dependency of the app, and deep_translator backs four online
 engines at once, so removing either through one engine broke something else.
 """
@@ -46,7 +46,7 @@ def test_a_package_the_app_depends_on_is_never_uninstalled(monkeypatch):
     with pytest.raises(HTTPException) as err:
         _uninstall(monkeypatch, "x-llm")
     assert err.value.status_code == 400
-    assert "VoiceStudio itself" in err.value.detail
+    assert "Voiceym itself" in err.value.detail
 
 
 def test_a_package_other_engines_share_is_never_uninstalled(monkeypatch):

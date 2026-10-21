@@ -12,7 +12,7 @@ from services.cloud_sync.store import SyncStore
 from .cloud_sync_fake import FakeSyncServer
 
 ORG = "Or5tG7hJ9kL1zX3c"
-INFO = {"access_token": "acc", "organization_id": ORG, "sync_api": "https://appapi.voicestudio.sh/v1/sync"}
+INFO = {"access_token": "acc", "organization_id": ORG, "sync_api": "https://appapi.voiceym.example/v1/sync"}
 
 
 @pytest.fixture

@@ -57,9 +57,9 @@ jobs:
       run:
         shell: bash
     env:
-      VOICESTUDIO_RUST_TARGET: ${{ matrix.target }}
+      VOICEYM_RUST_TARGET: ${{ matrix.target }}
       # Rehearsal artifacts carry the stable feed; there is no preview release.
-      VOICESTUDIO_UPDATE_CHANNEL: electron-stable-${{ matrix.platform }}-${{ matrix.arch }}
+      VOICEYM_UPDATE_CHANNEL: electron-stable-${{ matrix.platform }}-${{ matrix.arch }}
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -91,7 +91,7 @@ jobs:
           import { execFileSync } from 'node:child_process';
           import { mkdirSync, copyFileSync, chmodSync } from 'node:fs';
           import { join } from 'node:path';
-          const expected = process.env.VOICESTUDIO_RUST_TARGET;
+          const expected = process.env.VOICEYM_RUST_TARGET;
           const targets = { 'linux-x64': 'x86_64-unknown-linux-gnu', 'win32-x64': 'x86_64-pc-windows-msvc', 'win32-arm64': 'aarch64-pc-windows-msvc', 'darwin-arm64': 'aarch64-apple-darwin', 'darwin-x64': 'x86_64-apple-darwin' };
           if (targets[`${process.platform}-${process.arch}`] !== expected) throw new Error('Runner architecture does not match package target');
           const source = execFileSync(process.platform === 'win32' ? 'where.exe' : 'which', ['uv'], { encoding: 'utf8' }).trim().split(/\r?\n/)[0];
@@ -119,8 +119,8 @@ jobs:
         working-directory: electron
         run: |
           if [ "$RUNNER_OS" = Linux ]; then
-            for image in release/VoiceStudio-Electron-*-linux-x64.AppImage; do
-              VOICESTUDIO_PACKAGED_EXE="electron/$image" xvfb-run -a node tests/packaged-smoke.mjs --setup
+            for image in release/Voiceym-Electron-*-linux-x64.AppImage; do
+              VOICEYM_PACKAGED_EXE="electron/$image" xvfb-run -a node tests/packaged-smoke.mjs --setup
             done
           else
             node tests/packaged-smoke.mjs --setup
@@ -130,7 +130,7 @@ jobs:
         working-directory: electron
         timeout-minutes: 25
         env:
-          VOICESTUDIO_RUNTIME_TIMEOUT_MS: '1200000'
+          VOICEYM_RUNTIME_TIMEOUT_MS: '1200000'
         run: |
           if [ "$RUNNER_OS" = Linux ]; then
             xvfb-run -a node tests/packaged-smoke.mjs --install
@@ -144,6 +144,6 @@ jobs:
           retention-days: 14
           if-no-files-found: error
           path: |
-            electron/release/VoiceStudio-Electron-*
+            electron/release/Voiceym-Electron-*
             electron/release/electron-*.yml
             electron/release/store-artifact-manifest-*.json

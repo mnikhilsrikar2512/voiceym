@@ -1,7 +1,7 @@
-# VoiceStudio — Speaker Diarization
+# Voiceym — Speaker Diarization
 
 Diarization splits a single audio stream into per-speaker tracks: who said
-what, and when. VoiceStudio uses **pyannote** + **WhisperX** under the hood —
+what, and when. Voiceym uses **pyannote** + **WhisperX** under the hood —
 the same stack the original WhisperX paper used.
 
 ## What diarization buys you
@@ -36,7 +36,7 @@ button deeplinks to.
 ## Fallback behaviour
 
 When diarization files are missing or the installed runtime cannot load,
-VoiceStudio falls back to a **silence-gap heuristic**. The job warning explains
+Voiceym falls back to a **silence-gap heuristic**. The job warning explains
 whether to install/repair the model or inspect the backend log. Jobs never
 download missing weights.
 
@@ -67,7 +67,7 @@ Dubbing resolves all three files from the local cache and does not download mode
 
 ## Native Sortformer adapter
 
-The shared diarisation path also supports audio.cpp Sortformer v1. Install the reviewed model and its checksummed native runtime in **Settings → Models → Diarisation**, then select Sortformer on that page. VoiceStudio resolves the installed Q8 GGUF locally and persists the choice; it never downloads a model while transcribing. `OMNIVOICE_DIARIZATION_BACKEND` and `OMNIVOICE_DIARIZATION_MODEL` remain authoritative overrides for managed deployments.
+The shared diarisation path also supports audio.cpp Sortformer v1. Install the reviewed model and its checksummed native runtime in **Settings → Models → Diarisation**, then select Sortformer on that page. Voiceym resolves the installed Q8 GGUF locally and persists the choice; it never downloads a model while transcribing. `OMNIVOICE_DIARIZATION_BACKEND` and `OMNIVOICE_DIARIZATION_MODEL` remain authoritative overrides for managed deployments.
 
 The adapter normalizes input to mono 16 kHz, converts sample-based turns to the shared annotation format, and contains the native process with a ten-minute timeout. Sortformer supports up to four speakers but cannot enforce the existing exact-speaker-count setting; requesting that setting follows the existing fallback/warning path. Its accelerator graph grows from the default 20-second context for clips up to 120 seconds. Longer recordings require pyannote until locally converted Sortformer v2.1 streaming weights can be distributed. No binary or model is downloaded implicitly. The model's CC-BY-NC-4.0 restrictions apply; see the upstream audio.cpp model card. Native process status and cancellation are wired into the shared job lifecycle.
 
@@ -78,4 +78,4 @@ downloads models or changes app data. On the maintained Windows RTX 4090 fixture
 processed a real 60-second Dubbing source through Vulkan in 3.27 seconds, returned 16 bounded
 turns, and cancelled the 120-second variant in 1.2 seconds without leaving a registered process.
 
-audio.cpp v0.7.4 contains the newer Sortformer v2.1 streaming runtime. Its NVIDIA Open Model License checkpoint currently has no redistributable GGUF package, so VoiceStudio does not advertise a download that upstream cannot legally supply. A locally converted mixed F16/F32 checkpoint is the planned long-recording path once the model can be offered through an explicit local-package workflow.
+audio.cpp v0.7.4 contains the newer Sortformer v2.1 streaming runtime. Its NVIDIA Open Model License checkpoint currently has no redistributable GGUF package, so Voiceym does not advertise a download that upstream cannot legally supply. A locally converted mixed F16/F32 checkpoint is the planned long-recording path once the model can be offered through an explicit local-package workflow.

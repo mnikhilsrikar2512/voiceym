@@ -31,7 +31,7 @@ test("parses only requested Linux listeners and deduplicates pids", () => {
 });
 
 test("command ownership requires a checkout path boundary", () => {
-  const root = "/work/VoiceStudio";
+  const root = "/work/Voiceym";
   assert.equal(belongsToCheckout("", `bun ${root}/scripts/dev.mjs`, "", false, root), true);
   assert.equal(belongsToCheckout("", `bun '${root}'`, "", false, root), true);
   assert.equal(belongsToCheckout("", `bun --cwd=${root}/frontend`, "", false, root), true);
@@ -207,7 +207,7 @@ test("windows stop fails when Terminate reports a non-zero ReturnValue", () => {
 // backend as a stranger, refused to reclaim port 3900, and aborted the run
 // with no way forward but Task Manager.
 test("an app-managed backend is recognised as ours", () => {
-  const root = "/work/VoiceStudio";
+  const root = "/work/Voiceym";
   const macApp = `/Users/x/Library/Application Support/${APP_BUNDLE_ID}/project/.venv/bin/python`;
   assert.equal(belongsToCheckout("", "", macApp, false, root), true);
   assert.equal(belongsToCheckout("", `${macApp} -m uvicorn main:app`, "", false, root), true);
@@ -219,21 +219,21 @@ test("an app-managed backend is recognised as ours", () => {
 });
 
 test("an Electron-managed runtime backend is recognised as ours", () => {
-  const root = "/work/VoiceStudio";
-  const linux = "/home/x/.config/VoiceStudio/runtime/project/.venv/bin/python";
+  const root = "/work/Voiceym";
+  const linux = "/home/x/.config/Voiceym/runtime/project/.venv/bin/python";
   assert.equal(belongsToCheckout("", `${linux} -m uvicorn main:app`, "", false, root), true);
-  const custom = "/mnt/fast/VoiceStudio/project/.venv/bin/python";
+  const custom = "/mnt/fast/Voiceym/project/.venv/bin/python";
   assert.equal(belongsToCheckout("", "", custom, false, root), true);
   const sep = String.fromCharCode(92);
-  const win = ["C:", "Users", "x", "AppData", "Roaming", "VoiceStudio", "runtime", "project", ".venv", "Scripts", "python.exe"].join(sep);
+  const win = ["C:", "Users", "x", "AppData", "Roaming", "Voiceym", "runtime", "project", ".venv", "Scripts", "python.exe"].join(sep);
   assert.equal(belongsToCheckout("", "", win, true, ["C:", "repo"].join(sep)), true);
   // Another project's venv in a folder that merely mentions the name is not ours.
-  assert.equal(belongsToCheckout("", "", "/srv/voicestudio-clone/.venv/bin/python", false, root), false);
+  assert.equal(belongsToCheckout("", "", "/srv/voiceym-clone/.venv/bin/python", false, root), false);
 });
 
 test("the bundle id match is case-insensitive", () => {
   // Windows paths come back with inconsistent casing depending on the API.
-  const root = "/work/VoiceStudio";
+  const root = "/work/Voiceym";
   const shouty = `/Users/x/Library/Application Support/${APP_BUNDLE_ID.toUpperCase()}/project/.venv/bin/python`;
   assert.equal(belongsToCheckout("", "", shouty, false, root), true);
 });
@@ -241,7 +241,7 @@ test("the bundle id match is case-insensitive", () => {
 test("a foreign process is still refused", () => {
   // The guard exists to avoid killing someone else's service on the port;
   // widening ownership must not widen it to everything.
-  const root = "/work/VoiceStudio";
+  const root = "/work/Voiceym";
   assert.equal(belongsToCheckout("", "python -m http.server 3900", "", false, root), false);
   assert.equal(belongsToCheckout("", "", "/usr/bin/python3", false, root), false);
   assert.equal(

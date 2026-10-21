@@ -9,7 +9,7 @@ async function bridge(over: Partial<Parameters<typeof startAccountTokenBridge>[0
     isRemoteBackend: () => false,
     context: async () => ({
       organization_id: 'Or5tG7hJ9kL1zX3c',
-      sync_api: 'https://appapi.voicestudio.sh/v1/sync',
+      sync_api: 'https://appapi.voiceym.example/v1/sync',
     }),
     invalidate: vi.fn(),
     ...over,
@@ -26,7 +26,7 @@ it('hands the backend an access token when sync is on and local', async () => {
     access_token: 'acc',
     expires_at: 123,
     organization_id: 'Or5tG7hJ9kL1zX3c',
-    sync_api: 'https://appapi.voicestudio.sh/v1/sync',
+    sync_api: 'https://appapi.voiceym.example/v1/sync',
   });
   b.close();
 });

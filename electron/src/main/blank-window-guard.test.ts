@@ -65,7 +65,7 @@ describe('blank window fallback', () => {
     });
     const stop = installBlankWindowGuard(
       win as never,
-      'app://voicestudio/index.html',
+      'app://voiceym/index.html',
       'en-US',
       undefined,
       repair,
@@ -106,7 +106,7 @@ describe('blank window fallback', () => {
       },
     });
 
-    const stop = installBlankWindowGuard(win as never, 'app://voicestudio/index.html', 'en-US');
+    const stop = installBlankWindowGuard(win as never, 'app://voiceym/index.html', 'en-US');
     destroyed = true;
 
     expect(() => windowEvents.emit('closed')).not.toThrow();
@@ -127,7 +127,7 @@ describe('stale blank-window probes', () => {
       webContents: contents,
       loadURL,
     });
-    const stop = installBlankWindowGuard(win as never, 'app://voicestudio/index.html', 'en-US');
+    const stop = installBlankWindowGuard(win as never, 'app://voiceym/index.html', 'en-US');
     return { contents, win, loadURL, stop, destroy: () => (destroyed = true) };
   };
   const probeResult = () => {

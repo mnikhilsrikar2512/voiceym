@@ -13,7 +13,7 @@ export function currentDistributionProfile(): DistributionProfile {
 export function applicationUpdatesSupported(
   packaged: boolean,
   target: DistributionTarget = CURRENT_DISTRIBUTION,
-  disabledByEnvironment = process.env.VOICESTUDIO_DISABLE_UPDATER === '1',
+  disabledByEnvironment = process.env.VOICEYM_DISABLE_UPDATER === '1',
 ): boolean {
   return (
     packaged &&

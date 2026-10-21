@@ -45,8 +45,8 @@ pub fn run(events: Events, mut emit: impl FnMut(bool)) {
     let mut down = false;
     #[cfg(target_os = "linux")]
     let portal = crate::wayland_shortcut_core::PortalShortcutState::for_desktop(
-        "com.voicestudio.desktop",
-        std::env::var_os("VOICESTUDIO_DESKTOP_EXE")
+        "com.voiceym.desktop",
+        std::env::var_os("VOICEYM_DESKTOP_EXE")
             .map(std::path::PathBuf::from)
             .unwrap_or_else(|| std::env::current_exe().unwrap_or_default()),
     );

@@ -23,12 +23,12 @@ is an LLM-based multilingual / cross-lingual zero-shot voice-cloning TTS.
   CPU validated on Apple Silicon but ~17× realtime. Output: 22 050 Hz mono.
 
 Like IndexTTS-2 / MOSS-TTS-v1.5 / dots.tts, it runs in its **own subprocess venv**
-so its dependency stack never touches the default VoiceStudio interpreter.
+so its dependency stack never touches the default Voiceym interpreter.
 
 ## One-click install
 
 **Model Catalogue → Confucius4-TTS → Install** does the steps below
-for you, on Windows, Linux and macOS. It installs into its own folder under VoiceStudio's data directory, with its own Python environment. Nothing it installs touches VoiceStudio itself or any other engine, so you can switch to it and back without breaking what already worked. **Uninstall** in the same row removes only that folder. On an NVIDIA machine it installs
+for you, on Windows, Linux and macOS. It installs into its own folder under Voiceym's data directory, with its own Python environment. Nothing it installs touches Voiceym itself or any other engine, so you can switch to it and back without breaking what already worked. **Uninstall** in the same row removes only that folder. On an NVIDIA machine it installs
 the CUDA build of PyTorch; elsewhere it installs the CPU build. The ~5 GB of
 weights still download on first synthesis.
 
@@ -47,7 +47,7 @@ uv pip install -r requirements.txt
 ```
 
 > Upstream ships **no `pyproject.toml`/`setup.py`**, so there is nothing to
-> `pip install -e` — don't try; it fails. The VoiceStudio sidecar puts the clone
+> `pip install -e` — don't try; it fails. The Voiceym sidecar puts the clone
 > on `sys.path` itself (the same thing upstream's `example.py` does).
 
 **Model weights — all fetched automatically from HuggingFace on first
@@ -63,7 +63,7 @@ synthesis (~5 GB total, cached in `$HF_HUB_CACHE`):**
 
 Set your `HF_TOKEN` (Settings → Credentials) if you hit rate limits.
 
-Then point VoiceStudio at the clone and restart:
+Then point Voiceym at the clone and restart:
 
 - **macOS/Linux:** `export OMNIVOICE_CONFUCIUS4_TTS_DIR=/path/to/Confucius4-TTS`
 - **Windows (PowerShell):** `[Environment]::SetEnvironmentVariable("OMNIVOICE_CONFUCIUS4_TTS_DIR","C:\path\to\Confucius4-TTS","User")`

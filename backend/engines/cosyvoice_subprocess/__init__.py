@@ -1,6 +1,6 @@
 """cosyvoice-subprocess: CosyVoice 3 from its own venv (one-click install).
 
-The in-process engine needs CosyVoice importable from VoiceStudio's own
+The in-process engine needs CosyVoice importable from Voiceym's own
 interpreter, which upstream's setup (its own Python 3.10 environment, pins
 that conflict with the app's) never provides. The one-click installer clones a
 reviewed CosyVoice commit and the Matcha-TTS code it vendors as a submodule

@@ -175,8 +175,8 @@ def test_set_env_share_port_accepts_valid(monkeypatch):
 
 
 def test_system_info_reports_no_ui_port_for_the_packaged_desktop(monkeypatch):
-    """The packaged app serves app://voicestudio; there is no UI port to show."""
-    for name in ("OMNIVOICE_UI_PORT", "VOICESTUDIO_UI_PORT"):
+    """The packaged app serves app://voiceym; there is no UI port to show."""
+    for name in ("OMNIVOICE_UI_PORT", "VOICEYM_UI_PORT"):
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("OMNIVOICE_DESKTOP_CONTAINED", "1")
     assert _loopback_client().get("/system/info").json()["ui_port"] is None
@@ -189,7 +189,7 @@ def test_system_info_reports_no_ui_port_for_the_packaged_desktop(monkeypatch):
 def test_system_info_reports_the_ui_port_alias(monkeypatch):
     monkeypatch.delenv("OMNIVOICE_UI_PORT", raising=False)
     monkeypatch.delenv("OMNIVOICE_DESKTOP_CONTAINED", raising=False)
-    monkeypatch.setenv("VOICESTUDIO_UI_PORT", "4100")
+    monkeypatch.setenv("VOICEYM_UI_PORT", "4100")
     assert _loopback_client().get("/system/info").json()["ui_port"] == 4100
 
 

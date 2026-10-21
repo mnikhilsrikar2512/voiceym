@@ -7,10 +7,10 @@ plugins {
 val repository = rootDir.resolve("../..")
 val appVersion = (JsonSlurper().parse(repository.resolve("package.json")) as Map<*, *>)["version"].toString()
 android {
-    namespace = "com.voicestudio.mobile"
+    namespace = "com.voiceym.mobile"
     compileSdk = 36
     defaultConfig {
-        applicationId = "com.voicestudio.mobile"
+        applicationId = "com.voiceym.mobile"
         minSdk = 29
         targetSdk = 36
         versionCode = appVersion.split(".").take(3).map { it.toInt() }.let { it[0]*1000000+it[1]*1000+it[2] }
@@ -40,7 +40,7 @@ val bundleCatalogs by tasks.registering {
         repository.resolve("electron/src/shared/languages.json").copyTo(assets.resolve("languages.json"), overwrite=true)
         val out = assets.resolve("locales").apply { mkdirs() }
         assets.resolve("licenses").mkdirs()
-        repository.resolve("LICENSE").copyTo(assets.resolve("licenses/VoiceStudio-AGPL-3.0.txt"), overwrite=true)
+        repository.resolve("LICENSE").copyTo(assets.resolve("licenses/Voiceym-AGPL-3.0.txt"), overwrite=true)
         catalogs.listFiles()!!.filter { it.extension == "json" }.forEach { it.copyTo(out.resolve(it.name), overwrite = true) }
         contracts.listFiles()!!.filter { it.name.startsWith("strings") && it.name.endsWith(".en.json") }.forEach { it.copyTo(assets.resolve(it.name), overwrite = true) }
         contracts.resolve("tokens.json").copyTo(assets.resolve("tokens.json"), overwrite = true)

@@ -30,7 +30,7 @@ const mocks = vi.hoisted(() => {
     app: {
       isPackaged: true,
       getVersion: vi.fn(() => '0.5.2'),
-      getPath: vi.fn(() => 'C:\\VoiceStudio-test'),
+      getPath: vi.fn(() => 'C:\\Voiceym-test'),
     },
     autoUpdater,
     disk,
@@ -101,7 +101,7 @@ describe('DesktopUpdater', () => {
     expect(mocks.autoUpdater.channel).toBe(`electron-stable-${process.platform}-${process.arch}`);
     expect(mocks.autoUpdater.setFeedURL).toHaveBeenLastCalledWith({
       provider: 'generic',
-      url: 'https://github.com/debpalash/VoiceStudio/releases/latest/download',
+      url: 'https://github.com/mnikhilsrikar2512/voiceym/releases/latest/download',
       channel: `electron-stable-${process.platform}-${process.arch}`,
     });
 
@@ -144,7 +144,7 @@ describe('DesktopUpdater', () => {
     expect(mocks.autoUpdater.channel).toBe(channel);
     expect(mocks.autoUpdater.setFeedURL).toHaveBeenLastCalledWith({
       provider: 'generic',
-      url: 'https://github.com/debpalash/VoiceStudio/releases/download/v0.5.7',
+      url: 'https://github.com/mnikhilsrikar2512/voiceym/releases/download/v0.5.7',
       channel,
     });
   });
@@ -202,7 +202,7 @@ describe('DesktopUpdater', () => {
     emit('update-available', {
       version: '0.5.3',
       releaseNotes: null,
-      files: [{ url: 'VoiceStudio.exe', sha512: 'hash', size: 1_000 }],
+      files: [{ url: 'Voiceym.exe', sha512: 'hash', size: 1_000 }],
     });
     emit('download-progress', {
       percent: 25,
@@ -236,7 +236,7 @@ describe('DesktopUpdater', () => {
     expect(mocks.autoUpdater.allowDowngrade).toBe(false);
     expect(mocks.autoUpdater.setFeedURL).toHaveBeenLastCalledWith({
       provider: 'generic',
-      url: 'https://github.com/debpalash/VoiceStudio/releases/latest/download',
+      url: 'https://github.com/mnikhilsrikar2512/voiceym/releases/latest/download',
       channel: `electron-stable-${process.platform}-${process.arch}`,
     });
     expect(updater).not.toHaveProperty('setChannel');
@@ -292,7 +292,7 @@ describe('DesktopUpdater', () => {
   });
 
   test('stays unsupported when a package manager owns the install', async () => {
-    vi.stubEnv('VOICESTUDIO_DISABLE_UPDATER', '1');
+    vi.stubEnv('VOICEYM_DISABLE_UPDATER', '1');
     try {
       const updater = new DesktopUpdater();
       expect(updater.snapshot()).toMatchObject({ status: 'unsupported' });
@@ -341,7 +341,7 @@ describe('DesktopUpdater', () => {
         JSON.stringify([
           {
             tag_name: 'v0.5.2',
-            name: 'VoiceStudio 0.5.2',
+            name: 'Voiceym 0.5.2',
             published_at: '2026-09-12T12:00:00Z',
             prerelease: false,
             body: 'Ready',
@@ -355,16 +355,16 @@ describe('DesktopUpdater', () => {
     await expect(listDesktopReleases(fetcher)).resolves.toEqual([
       {
         version: '0.5.2',
-        name: 'VoiceStudio 0.5.2',
+        name: 'Voiceym 0.5.2',
         date: '2026-09-12T12:00:00Z',
         prerelease: false,
         notes: 'Ready',
       },
     ]);
     expect(fetcher).toHaveBeenCalledWith(
-      expect.stringContaining('/debpalash/VoiceStudio/releases?per_page=30'),
+      expect.stringContaining('/mnikhilsrikar2512/voiceym/releases?per_page=30'),
       expect.objectContaining({
-        headers: expect.objectContaining({ 'User-Agent': 'VoiceStudio' }),
+        headers: expect.objectContaining({ 'User-Agent': 'Voiceym' }),
         signal: expect.any(AbortSignal),
       }),
     );
@@ -408,7 +408,7 @@ describe('update IPC', () => {
     emit('update-downloaded', { version: '0.5.3', releaseNotes: null });
     const beforeInstall = vi.fn(async () => undefined);
     const webContents = {
-      mainFrame: { url: 'app://voicestudio/index.html' },
+      mainFrame: { url: 'app://voiceym/index.html' },
       send: vi.fn(),
     };
     const owner = { webContents, isDestroyed: () => false } as any;

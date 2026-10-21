@@ -220,7 +220,7 @@ export default function HFMirrorPanel() {
               title={t('models.mirror_auto_title', { defaultValue: 'Automatic selection' })}
               hint={t('models.mirror_auto_hint', {
                 defaultValue:
-                  'VoiceStudio probes huggingface.co and the community mirror, then uses whichever actually works — preferring the official endpoint unless the mirror is decisively faster. Downloads are checksum-verified by Hugging Face regardless of endpoint, so a mirror can never corrupt models.',
+                  'Voiceym probes huggingface.co and the community mirror, then uses whichever actually works — preferring the official endpoint unless the mirror is decisively faster. Downloads are checksum-verified by Hugging Face regardless of endpoint, so a mirror can never corrupt models.',
               })}
               control={
                 <>

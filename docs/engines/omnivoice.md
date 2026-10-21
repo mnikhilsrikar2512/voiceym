@@ -1,6 +1,6 @@
-# VoiceStudio — OmniVoice Engine (default)
+# Voiceym — OmniVoice Engine (default)
 
-OmniVoice (k2-fsa/OmniVoice) is VoiceStudio's default TTS engine — the one a
+OmniVoice (k2-fsa/OmniVoice) is Voiceym's default TTS engine — the one a
 fresh install uses without any configuration. It does zero-shot voice cloning
 across 600+ languages and outputs 24 kHz mono audio. Voice cloning, dubbing,
 and dictation all run on it out of the box.
@@ -11,7 +11,7 @@ and dictation all run on it out of the box.
   [languages.md](../languages.md)).
 - You have a GPU (CUDA, AMD ROCm on Linux, or Apple Silicon MPS) with
   ~6 GB VRAM or more.
-- You just installed VoiceStudio — it's already selected.
+- You just installed Voiceym — it's already selected.
 
 For low-VRAM or CPU-only machines, the
 [OmniVoice GGUF](omnivoice-gguf.md) variant runs the same model through a
@@ -21,15 +21,13 @@ quantized native binary with a much smaller memory footprint.
 
 - Runs on CUDA, AMD ROCm (Linux), MPS (Apple Silicon), or CPU — auto-detected.
 - Recommended VRAM floor: **6 GB** on a dedicated GPU. This is the only
-  engine with a measured floor: on 4 GB cards (GTX 1650 Ti, Quadro P2000 —
-  issues [#1226](https://github.com/debpalash/VoiceStudio/issues/1226) /
-  [#1222](https://github.com/debpalash/VoiceStudio/issues/1222)) the driver
+  engine with a measured floor: on 4 GB cards (GTX 1650 Ti, Quadro P2000) the driver
   pages to system RAM and a render that should take seconds runs for minutes
   until the compute budget kills it. The UI warns before you wait; nothing
   hard-blocks, since short inputs can still fit. A CUDA or ROCm card below the
   floor is also budgeted as the CPU-class hardware it performs like — the longer
   `OMNIVOICE_CPU_GENERATE_TIMEOUT_S` (600 s), not the accelerated 300 s
-  ([#1804](https://github.com/debpalash/VoiceStudio/issues/1804)). Apple Silicon
+ . Apple Silicon
   is excluded: unified memory has no dedicated pool to compare against.
 - No extra install — the model ships with the app and downloads its weights
   on first use (see [downloading-models.md](../downloading-models.md)).
@@ -49,14 +47,14 @@ The env var overrides the persisted UI choice.
 - Weights load lazily on first use and are shared with the rest of the app
   (dubbing, dictation) — the model is never double-loaded.
 - On CUDA and ROCm the model runs fp16 with `torch.compile`; PyTorch exposes
-  ROCm/HIP devices through its `cuda` API, while VoiceStudio's engine matrix
+  ROCm/HIP devices through its `cuda` API, while Voiceym's engine matrix
   reports the hardware as ROCm. An installed speech recognizer can supply
   missing reference transcripts for cloning.
 - Output is 24 kHz mono; the shared mastering chain (highpass + compressor)
   is tuned for this rate and applied automatically.
 - Cloning takes a short reference clip (`ref_audio`); 3–10 seconds is the
   sweet spot. A transcript of the clip improves conditioning — if the profile
-  has none, VoiceStudio uses an already-installed speech recognizer on first
+  has none, Voiceym uses an already-installed speech recognizer on first
   use and saves the result to the profile. This includes the catalogue’s
   Whisper Turbo CT2 build; cloning does not require a second Transformers copy.
   The model-level Whisper fallback
@@ -68,10 +66,10 @@ The env var overrides the persisted UI choice.
   If no recognizer is installed, supply a matching reference transcript or
   explicitly install and select a speech-to-text model in Model Catalogue. A clip with a supplied transcript is limited
   to 20 seconds so the two stay aligned; trim both to the same passage. Without
-  a transcript, VoiceStudio can search up to 75 seconds in five contiguous,
+  a transcript, Voiceym can search up to 75 seconds in five contiguous,
   bounded transcription passes and selects the 15-second passage with the most
   detected speech. Those passes use the speech-to-text model already installed
-  in Model Catalogue. For a clip longer than 20 seconds, VoiceStudio skips
+  in Model Catalogue. For a clip longer than 20 seconds, Voiceym skips
   whole-clip transcription and ignores a saved profile transcript, so long
   saved voices use this selection too. OmniVoice's own Whisper snapshot is only
   a fallback when no catalogue recognizer can transcribe a window, and it is
@@ -145,6 +143,6 @@ See also: [benchmarks.md](../benchmarks.md),
 A timed-out subprocess is killed and given a bounded wait to exit before the
 request returns, so retrying cannot reuse its closing process. Timeout cleanup
 remains tied to the original child and cannot kill a replacement sidecar.
-If that wait cannot confirm exit, VoiceStudio retains the process for cleanup
+If that wait cannot confirm exit, Voiceym retains the process for cleanup
 and blocks another attempt until it can be reaped, rather than starting a second
 engine alongside it. A later retry or shutdown retries the bounded cleanup.

@@ -1,11 +1,10 @@
-# VoiceStudio — MLX-Audio Engine (Apple Silicon)
+# Voiceym — MLX-Audio Engine (Apple Silicon)
 
 MLX-Audio (Blaizzy/mlx-audio) wraps 14+ TTS engines — Kokoro, CSM, Dia,
 Qwen3-TTS, Chatterbox, MeloTTS, OuteTTS, and more — behind a single adapter
 that runs on Apple's MLX framework. It is **Apple Silicon only**: the engine
 is not shipped on Linux, Windows, or Intel Macs, and a stray wheel on those
-platforms never reports as available
-([#390](https://github.com/debpalash/VoiceStudio/issues/390)).
+platforms never reports as available.
 
 ## When to pick it
 
@@ -19,7 +18,7 @@ platforms never reports as available
 pip install mlx-audio
 ```
 
-Install the package into the Python environment that runs VoiceStudio's
+Install the package into the Python environment that runs Voiceym's
 backend. This installs the MLX-Audio adapter, **not the weights for every
 curated model**. An available engine does not mean CSM is downloaded.
 
@@ -40,8 +39,7 @@ One backend hosts many models. The curated set:
 | `melotts` | `mlx-community/MeloTTS-English-v3-MLX` | lightweight VITS |
 | `outetts` | `mlx-community/Llama-OuteTTS-1.0-1B-4bit` | LM-based |
 
-Pick a model in the **Model Catalogue** curated picker
-([#981](https://github.com/debpalash/VoiceStudio/issues/981)) or set
+Pick a model in the **Model Catalogue** curated picker or set
 `OMNIVOICE_MLX_AUDIO_MODEL` to either a curated key (`kokoro`) or any full
 HF repo id. The env var overrides the persisted UI choice.
 
@@ -88,19 +86,19 @@ app's model download flow rather than installing into an unrelated system Python
   conversion on any other model is refused with an error that names the model
   in the way and tells you to pick **CSM (voice cloning)** in Model Catalogue —
   switching engine is offered as a fallback, not the only route
-  ([#2201](https://github.com/debpalash/VoiceStudio/issues/2201)).
+ .
 - Voice design (text description → voice) is available through the
   Qwen3-TTS VoiceDesign model.
 - Language support is per-model (Kokoro ~8 languages, others vary). An
   unsupported language for Kokoro produces a clear error naming what it
-  does support ([#977](https://github.com/debpalash/VoiceStudio/issues/977))
+  does support
   — pick a language it supports or switch to a multilingual engine.
 - Auto is not an escape hatch from that. With the picker on Auto the request
   carries no language, and a selected voice profile's saved language fills the
-  gap ([#533](https://github.com/debpalash/VoiceStudio/issues/533)) — so a
+  gap — so a
   profile saved as, say, Persian still reaches Kokoro and is still refused. The
   error names the profile as the source in that case
-  ([#2156](https://github.com/debpalash/VoiceStudio/issues/2156)); change the
+ ; change the
   profile's language, or pick a supported one explicitly for the render.
 
 ## Platform notes
@@ -113,7 +111,7 @@ the reason.
 ## Troubleshooting
 
 - Unavailable on an M-series Mac: `pip install mlx-audio` into
-  VoiceStudio's Python environment; in a packaged app build, MLX's native
+  Voiceym's Python environment; in a packaged app build, MLX's native
   libraries may fail to load — the engine reports unavailable rather than
   crashing.
 - Other issues: [install/troubleshooting.md](../install/troubleshooting.md).

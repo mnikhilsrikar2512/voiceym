@@ -62,7 +62,7 @@ def test_custom_or_newer_pins_are_not_overridden(tmp_path):
     source = tmp_path / 'recommended.txt'
     source.write_text('gradio==6.18.0\ntransformers>=4.57.2\n')
     assert repair(source) == source
-    assert not (tmp_path / '.voicestudio-compatible.txt').exists()
+    assert not (tmp_path / '.voiceym-compatible.txt').exists()
 
 
 def test_managed_install_uses_repaired_pins_and_reports_native_prerequisites(monkeypatch, tmp_path):
@@ -82,6 +82,6 @@ def test_managed_install_uses_repaired_pins_and_reports_native_prerequisites(mon
     with pytest.raises(si._StepError) as error:
         si._step_install_deps(spec, si._new_job('dots-tts'))
     argument = calls[0][calls[0].index('-c') + 1]
-    assert argument == source.with_name('.voicestudio-compatible.txt').as_uri()
+    assert argument == source.with_name('.voiceym-compatible.txt').as_uri()
     assert 'OpenFst' in error.value.remediation
     assert source.read_text() == 'gradio==6.17.0\ntransformers==4.57.0\n'

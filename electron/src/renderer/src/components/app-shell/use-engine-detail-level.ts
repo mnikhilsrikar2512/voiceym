@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const engineDetailLevels = ['simple', 'models', 'details'] as const;
 export type EngineDetailLevel = (typeof engineDetailLevels)[number];
-const storageKey = 'voicestudio.engine-detail-level';
+const storageKey = 'voiceym.engine-detail-level';
 
 export function useEngineDetailLevel() {
   const [level, setLevel] = useState<EngineDetailLevel>(() => {

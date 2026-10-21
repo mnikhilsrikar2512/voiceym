@@ -1,4 +1,4 @@
-# VoiceStudio — MOSS-TTS-Nano Engine
+# Voiceym — MOSS-TTS-Nano Engine
 
 MOSS-TTS-Nano (OpenMOSS) is the low-resource, broad-language pick: a
 100M-parameter autoregressive codec LM that runs realtime on a 4-core CPU —
@@ -17,7 +17,7 @@ covering languages like Arabic, Hebrew, Persian, Korean, and Turkish.
 ## Setup
 
 The package is **not on PyPI** — install it from the upstream repo into
-VoiceStudio's Python environment:
+Voiceym's Python environment:
 
 ```bash
 git clone https://github.com/OpenMOSS/MOSS-TTS-Nano.git
@@ -42,7 +42,7 @@ See [downloading-models.md](../downloading-models.md).
 - **Cloning is reference-only**: pass a reference clip. Style instructions,
   preset speakers, and speed control are not supported and are silently
   ignored, so mixed-engine call sites keep working.
-- The model emits 48 kHz stereo; VoiceStudio downmixes to mono, matching the
+- The model emits 48 kHz stereo; Voiceym downmixes to mono, matching the
   rest of the pipeline (the dub mixer treats TTS output as mono per
   segment).
 - Runs on CPU or CUDA.
@@ -50,8 +50,7 @@ See [downloading-models.md](../downloading-models.md).
 ## Upstream is unpinned
 
 The upstream repo is installed straight from git with no pinned release, and
-the model class it exports has changed before
-([#1287](https://github.com/debpalash/VoiceStudio/issues/1287)). VoiceStudio
+the model class it exports has changed before. Voiceym
 therefore verifies that a usable model class actually exists — not just that
 the package imports — before reporting the engine as ready. If the engine
 shows unavailable with a "does not expose a usable model class" message,
@@ -71,11 +70,11 @@ The one-click install is not affected: it pins a reviewed commit
 ## One-click install
 
 Click **Install** in **Model Catalogue → MOSS-TTS-Nano**.
-VoiceStudio clones a reviewed upstream commit into its own folder under the
+Voiceym clones a reviewed upstream commit into its own folder under the
 data directory, gives it its own Python environment (the CUDA build of
 PyTorch on an NVIDIA GPU), and runs it there in a separate process.
 
-Nothing it installs touches VoiceStudio itself or any other engine, and
+Nothing it installs touches Voiceym itself or any other engine, and
 **Uninstall** in the same row removes only that folder. The button is not
 offered on Intel Macs, where the PyTorch version it pins has no build.
 

@@ -16,7 +16,7 @@ vi.mock('./locales/fr.json', async () => {
 });
 
 it('keeps the latest language choice when an earlier bundle finishes loading later', async () => {
-  localStorage.setItem('voicestudio.locale', 'en');
+  localStorage.setItem('voiceym.locale', 'en');
   const { default: i18n, setAppLanguage } = await import('./index');
   const earlier = setAppLanguage('de');
   await setAppLanguage('en');
@@ -24,7 +24,7 @@ it('keeps the latest language choice when an earlier bundle finishes loading lat
   await earlier;
   expect(i18n.language).toBe('en');
   expect(document.documentElement.lang).toBe('en');
-  expect(localStorage.getItem('voicestudio.locale')).toBe('en');
+  expect(localStorage.getItem('voiceym.locale')).toBe('en');
 });
 
 it('keeps the current language when a lazy locale chunk cannot load', async () => {
@@ -32,5 +32,5 @@ it('keeps the current language when a lazy locale chunk cannot load', async () =
   await setAppLanguage('en');
   await expect(setAppLanguage('fr')).resolves.toBe(false);
   expect(i18n.language).toBe('en');
-  expect(localStorage.getItem('voicestudio.locale')).toBe('en');
+  expect(localStorage.getItem('voiceym.locale')).toBe('en');
 });

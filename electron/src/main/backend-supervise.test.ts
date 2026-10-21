@@ -107,7 +107,7 @@ it('reports a live-but-busy backend as unresponsive, not failed (#2430)', async 
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   vi.stubEnv('OMNIVOICE_STARTUP_BUDGET_S', '60');
   const health: Health = { mode: 'down' };
   stubHealth(health);
@@ -153,7 +153,7 @@ async function attachedSupervisor(health: Health): Promise<BackendSupervisor> {
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   stubHealth(health);
   // No child to inspect: a backend that was already running is attached to.
   const supervisor = new BackendSupervisor();
@@ -241,7 +241,7 @@ it('reports remote timeouts as uncertain connectivity, not busy', async () => {
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   stubHealth(health);
   const supervisor = new BackendSupervisor();
   (supervisor as unknown as { remoteUrl: string }).remoteUrl = 'http://remote.example:3900';
@@ -305,7 +305,7 @@ it('resumes supervising a remote after a Retry made while it was down', async ()
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   stubHealth(health);
   const supervisor = new BackendSupervisor();
   (supervisor as unknown as { remoteUrl: string }).remoteUrl = 'http://remote.example:3900';
@@ -340,7 +340,7 @@ async function remoteSupervisor(health: Health): Promise<BackendSupervisor> {
   vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] });
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   stubHealth(health);
   const supervisor = new BackendSupervisor();
   (supervisor as unknown as { remoteUrl: string }).remoteUrl = 'http://remote.example:3900';
@@ -543,5 +543,5 @@ it('demotes a recovering remote whose credentials are rejected, even after incon
 
 it('asserts the desktop origin in main-owned backend headers', () => {
   const supervisor = new BackendSupervisor();
-  expect(supervisor.requestHeaders()).toMatchObject({ 'X-VoiceStudio-Desktop-Origin': 'app://voicestudio' });
+  expect(supervisor.requestHeaders()).toMatchObject({ 'X-Voiceym-Desktop-Origin': 'app://voiceym' });
 });

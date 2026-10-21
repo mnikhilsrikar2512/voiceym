@@ -13,12 +13,12 @@ afterEach(async () => {
 });
 
 async function fixture(): Promise<UninstallRoots & { root: string }> {
-  const root = await mkdtemp(join(tmpdir(), 'VoiceStudio-uninstall-test-'));
+  const root = await mkdtemp(join(tmpdir(), 'Voiceym-uninstall-test-'));
   created.push(root);
   const roots = {
     root,
     data: join(root, 'OmniVoice', 'data'),
-    environment: join(root, 'VoiceStudio', 'shell'),
+    environment: join(root, 'Voiceym', 'shell'),
     logs: join(root, 'OmniVoice', 'logs'),
     userEnvironment: join(root, '.config', 'omnivoice'),
     models: join(root, '.cache', 'huggingface'),
@@ -70,7 +70,7 @@ it('does not offer a nested private model directory as a separately shared targe
 
 it('lists a setup-chosen location by its runtime folders so data and models stay separate choices (#2971)', async () => {
   const roots = await fixture();
-  const chosen = join(roots.root, 'E', 'VoiceStudio');
+  const chosen = join(roots.root, 'E', 'Voiceym');
   const data = join(chosen, 'data');
   const entries = [join(chosen, 'project'), join(chosen, '.uv-cache')];
   for (const path of [data, ...entries]) await mkdir(path, { recursive: true });

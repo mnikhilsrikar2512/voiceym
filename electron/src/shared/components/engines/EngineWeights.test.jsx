@@ -11,7 +11,7 @@ const t = i18n.t.bind(i18n);
 const MODELS = [
   {
     repo_id: 'k2-fsa/OmniVoice',
-    label: 'VoiceStudio TTS',
+    label: 'Voiceym TTS',
     role: 'TTS',
     size_gb: 2.4,
     size_on_disk_bytes: 3.04 * 1024 ** 3,
@@ -102,7 +102,7 @@ describe('EngineWeights', () => {
     render(<EngineWeights engineId="omnivoice" models={MODELS} downloads={d} t={t} />);
     const row = screen.getByTestId('weight-k2-fsa/OmniVoice');
     expect(row).toHaveAttribute('data-installed', 'true');
-    expect(within(row).getByText('VoiceStudio TTS')).toBeInTheDocument();
+    expect(within(row).getByText('Voiceym TTS')).toBeInTheDocument();
     expect(within(row).getByText(t('models.required_tag'))).toBeInTheDocument();
     expect(within(row).getByText('3.04 GB')).toBeInTheDocument();
     // Installed: remove + reinstall, no Install.

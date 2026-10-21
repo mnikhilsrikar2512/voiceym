@@ -1,7 +1,7 @@
 """voxcpm2-subprocess: VoxCPM2 from its own venv (one-click install).
 
 VoxCPM2 used to run only in-process, which meant installing ``voxcpm``, and a
-torch of its choosing, into VoiceStudio's own environment. The one-click
+torch of its choosing, into Voiceym's own environment. The one-click
 installer now gives it a venv under ``DATA_DIR/engines/voxcpm2/``, and this
 class runs the model there in a sidecar, so nothing it installs can touch the
 app or another engine.

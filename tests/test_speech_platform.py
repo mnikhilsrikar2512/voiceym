@@ -12,11 +12,11 @@ os.environ.setdefault("OMNIVOICE_DISABLE_FILE_LOG", "1")
 def test_capabilities_are_stable_and_side_effect_free(monkeypatch):
     from api.routers.speech_platform import speech_capabilities
 
-    monkeypatch.delenv("VOICESTUDIO_SPEECH_CONTROL_PORT", raising=False)
+    monkeypatch.delenv("VOICEYM_SPEECH_CONTROL_PORT", raising=False)
     body = speech_capabilities().model_dump(by_alias=True)
 
-    assert body["schema"] == "voicestudio.speech-capabilities"
-    assert body["protocol"] == "voicestudio.speech.v1"
+    assert body["schema"] == "voiceym.speech-capabilities"
+    assert body["protocol"] == "voiceym.speech.v1"
     assert body["local_first"] is True
     assert body["endpoints"]["batch_transcription"]["path"] == (
         "/v1/audio/transcriptions"
@@ -37,7 +37,7 @@ def test_stale_control_port_env_no_longer_advertises_a_dead_endpoint(monkeypatch
     """The Tauri shell that served native control (and set this) is retired."""
     from api.routers.speech_platform import speech_capabilities
 
-    monkeypatch.setenv("VOICESTUDIO_SPEECH_CONTROL_PORT", "3902")
+    monkeypatch.setenv("VOICEYM_SPEECH_CONTROL_PORT", "3902")
     body = speech_capabilities().model_dump(by_alias=True)
 
     assert body["features"]["native_dictation_control"] is False
@@ -84,7 +84,7 @@ def test_versioned_stream_has_session_envelope(monkeypatch):
     ) as websocket:
         started = websocket.receive_json()
         assert started["type"] == "session.started"
-        assert started["protocol"] == "voicestudio.speech.v1"
+        assert started["protocol"] == "voiceym.speech.v1"
         assert started["sample_rate"] == 16000
         session_id = started["session_id"]
 
@@ -95,7 +95,7 @@ def test_versioned_stream_has_session_envelope(monkeypatch):
     assert final["type"] == "final"
     assert final["final_kind"] == "summary"
     assert final["session_id"] == session_id
-    assert final["protocol"] == "voicestudio.speech.v1"
+    assert final["protocol"] == "voiceym.speech.v1"
     assert final["text"] == "Platform works."
 
 

@@ -27,10 +27,13 @@ import pytest
 
 
 @pytest.fixture
-def mm():
+def mm(monkeypatch):
     """Resolved at run time, not import time: a module-level import of an app
     module keeps mutable state in sys.modules across test boundaries."""
     import services.model_manager as _mm
+
+    # Preload only warms OmniVoice when it is the chosen engine (it is opt-in).
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
 
     return _mm
 

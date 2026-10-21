@@ -130,6 +130,7 @@ def test_preload_warms_up_from_cache_when_network_probe_fails(monkeypatch):
     # cache-only check and warms up anyway.
     import services.model_manager as mm
 
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
     _fail_model_info(monkeypatch)
     monkeypatch.setattr(mm, "model", None)
     monkeypatch.setattr(mm, "resolve_omnivoice_checkpoint", lambda: "k2-fsa/OmniVoice")
@@ -215,7 +216,7 @@ def test_generate_500_detail_carries_socks_hint(client, monkeypatch):
     detail = r.json()["detail"]
     assert _SOCKS_MSG not in detail
     assert detail.startswith(
-        "VoiceStudio hit an internal error; check the backend log for details."
+        "Voiceym hit an internal error; check the backend log for details."
     )
     assert "unset ALL_PROXY/HTTPS_PROXY" in detail
     assert r.json()["docs_topic"] == "SOCKS_PROXY_SUPPORT_MISSING"

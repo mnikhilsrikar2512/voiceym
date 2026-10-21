@@ -7,17 +7,17 @@ import { DEFAULT_ELECTRON_DEV_PORT } from '../config/app-config.mjs';
 import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 const base =
-  process.env.VOICESTUDIO_CAPTURE_URL || `http://localhost:${DEFAULT_ELECTRON_DEV_PORT}`;
+  process.env.VOICEYM_CAPTURE_URL || `http://localhost:${DEFAULT_ELECTRON_DEV_PORT}`;
 const output = resolve('docs/media/electron');
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}) });
-const context = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1, colorScheme: 'dark', recordVideo: { dir: '/tmp/voicestudio-readme-video', size: { width: 1440, height: 960 } } });
+const context = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1, colorScheme: 'dark', recordVideo: { dir: '/tmp/voiceym-readme-video', size: { width: 1440, height: 960 } } });
 await context.addInitScript(() => {
-  localStorage.setItem('voicestudio.setup.complete.v1', '1');
-  localStorage.setItem('voicestudio.theme.v2', JSON.stringify({mode:'dark',light:'signal',dark:'signal'}));
-  localStorage.setItem('voicestudio.clone.settings.v1', JSON.stringify({selectedProfileId:'demo0001',text:'Every voice has a story. Bring yours to life with VoiceStudio — created on your machine, in your own way.'}));
+  localStorage.setItem('voiceym.setup.complete.v1', '1');
+  localStorage.setItem('voiceym.theme.v2', JSON.stringify({mode:'dark',light:'signal',dark:'signal'}));
+  localStorage.setItem('voiceym.clone.settings.v1', JSON.stringify({selectedProfileId:'demo0001',text:'Every voice has a story. Bring yours to life with Voiceym — created on your machine, in your own way.'}));
   localStorage.setItem('omnivoice.demoClonePrompted', '1');
-  localStorage.setItem('voicestudio.appearance', JSON.stringify({font:'inter',scale:100,glass:true}));
+  localStorage.setItem('voiceym.appearance', JSON.stringify({font:'inter',scale:100,glass:true}));
 });
 // Capture only bundled demo voices; never publish personal voices or project history.
 await context.route('**/api/**', async route => {

@@ -29,7 +29,7 @@ const IGNORE_PATTERNS = [
 // channel, so `window.onerror` cannot tell it apart from ours by message alone
 // — and the message-based list above cannot help, because an extension's
 // TypeError reads exactly like one of ours. #1901 is the result: a report filed
-// against VoiceStudio whose stack is entirely
+// against Voiceym whose stack is entirely
 // `chrome-extension://…/executors/200.js`, with no frame of ours in it.
 //
 // `Script error.` above already covers the opaque cross-origin case. An

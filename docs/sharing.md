@@ -1,6 +1,6 @@
 # Sharing & Remote Access
 
-VoiceStudio runs **local-only by default** — the backend binds to `127.0.0.1` and nothing is reachable from other machines. When you want to use the *same running instance* (same loaded model, same projects and jobs) from another device, you have two opt-in paths. Neither restarts the backend or interrupts work in progress.
+Voiceym runs **local-only by default** — the backend binds to `127.0.0.1` and nothing is reachable from other machines. When you want to use the *same running instance* (same loaded model, same projects and jobs) from another device, you have two opt-in paths. Neither restarts the backend or interrupts work in progress.
 
 ## LAN sharing (same Wi-Fi / Ethernet)
 
@@ -17,7 +17,7 @@ For another device on the same network — e.g. opening the web UI on your phone
 You can also drive this from **Settings → Sharing & Remote Access**.
 
 Desktop installers include the web interface used by the LAN address; another
-device does not need VoiceStudio installed and the host does not need a source
+device does not need Voiceym installed and the host does not need a source
 checkout or a separate frontend development server. The backend serves the web
 build shipped inside the running app (`OMNIVOICE_FRONTEND_DIST`), so after an
 update LAN devices get the matching interface with no extra step.
@@ -26,7 +26,7 @@ update LAN devices get the matching interface with no extra step.
 but has no web build to serve. Desktop builds before the fix for #2599 had this
 problem on every OS; update to the latest release. In a source checkout run
 `bun run build:web` and restart the backend. Another device is never redirected
-to `localhost`, because on that device it is not VoiceStudio.
+to `localhost`, because on that device it is not Voiceym.
 
 ### How the PIN works
 - A fresh 6-digit PIN is generated each time you enable sharing; it is never written to disk.
@@ -41,7 +41,7 @@ to `localhost`, because on that device it is not VoiceStudio.
 
 ## Tailscale (private remote access, from anywhere)
 
-If you have [Tailscale](https://tailscale.com/download) installed and signed in, you can reach VoiceStudio from any of your devices over your private tailnet — identity-gated, with **no open ports and no PIN** (Tailscale handles identity, and the WireGuard tunnel encrypts the transport).
+If you have [Tailscale](https://tailscale.com/download) installed and signed in, you can reach Voiceym from any of your devices over your private tailnet — identity-gated, with **no open ports and no PIN** (Tailscale handles identity, and the WireGuard tunnel encrypts the transport).
 
 1. **Settings → Sharing & Remote Access → Tailscale.**
 2. If Tailscale isn't detected, an **Install Tailscale** link is shown.
@@ -54,5 +54,5 @@ Tailscale proxies the loopback backend directly, so — like LAN sharing — it 
 
 ## Notes
 - Both paths leave the running model and in-flight jobs **completely untouched**.
-- Open shared or remote VoiceStudio by IP address, `localhost`, this machine's host name, its Tailscale name or a container host alias such as `host.docker.internal`. Any other host name (for example a reverse proxy domain) needs a valid API key or admin session, or an `OMNIVOICE_ALLOWED_HOSTS` entry; see [API authentication](api-auth.md#requests-from-other-websites-and-host-names).
+- Open shared or remote Voiceym by IP address, `localhost`, this machine's host name, its Tailscale name or a container host alias such as `host.docker.internal`. Any other host name (for example a reverse proxy domain) needs a valid API key or admin session, or an `OMNIVOICE_ALLOWED_HOSTS` entry; see [API authentication](api-auth.md#requests-from-other-websites-and-host-names).
 - Server deployments (Docker, or a source backend started with `OMNIVOICE_BIND_HOST=0.0.0.0`) manage their own networking; the in-app toggle is for the desktop app and is unaffected by these flows.

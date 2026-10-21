@@ -1,4 +1,4 @@
-"""HTTP client for the VoiceStudio Cloud sync API (vssaas sync-api.md).
+"""HTTP client for the Voiceym Cloud sync API (vssaas sync-api.md).
 
 Every request asks ``token()`` first; ``None`` raises ``CloudOff`` before any
 byte is sent, which is how the S0 switches stop sync. The client never
@@ -55,8 +55,8 @@ _ORGANIZATION_ID = re.compile(r"^[A-Za-z0-9]{1,64}$")
 #: The sync API of each environment (vssaas desktop-app-guide §1). The client talks
 #: to one of these and nothing else, whatever the bridge answers.
 _KNOWN_SYNC_APIS = (
-    "https://appapi.voicestudio.sh/v1/sync",
-    "https://dev-appapi.voicestudio.sh/v1/sync",
+    "https://appapi.voiceym.example/v1/sync",
+    "https://dev-appapi.voiceym.example/v1/sync",
     "http://127.0.0.1:8090/v1/sync",
 )
 
@@ -67,7 +67,7 @@ def _checked_base(base_url: str) -> str:
     for known in _KNOWN_SYNC_APIS:
         if wanted == known:
             return known
-    raise ValueError("refusing a sync endpoint outside the known VoiceStudio Cloud environments")
+    raise ValueError("refusing a sync endpoint outside the known Voiceym Cloud environments")
 
 
 def _checked_organization(organization_id: str) -> str:

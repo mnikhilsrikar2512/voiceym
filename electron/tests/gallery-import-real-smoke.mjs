@@ -40,7 +40,7 @@ try {
   profileIds.add(profileId);
   await page.waitForURL('**/#/clone');
   await page.getByRole('button').filter({ hasText: fixtureName }).first().waitFor();
-  const out = mkdtempSync(join(tmpdir(), 'voicestudio-gallery-check-'));
+  const out = mkdtempSync(join(tmpdir(), 'voiceym-gallery-check-'));
   await page.screenshot({ path: join(out, 'imported-voice.png') });
   for (const [target, label] of [
     ['stories', 'Use in Stories'],

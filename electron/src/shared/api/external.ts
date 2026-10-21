@@ -10,9 +10,9 @@
  * @param {string} url — the URL to open
  */
 export async function openExternal(url: string) {
-  if (window.voicestudio) {
+  if (window.voiceym) {
     try {
-      await window.voicestudio.files.openExternal(url);
+      await window.voiceym.files.openExternal(url);
       return;
     } catch (err) {
       console.warn('[openExternal] Electron opener failed, falling back:', err);

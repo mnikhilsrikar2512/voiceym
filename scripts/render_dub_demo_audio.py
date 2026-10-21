@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the dubbing demo's five audio tracks with the VoiceStudio engine.
+"""Render the dubbing demo's five audio tracks with the Voiceym engine.
 
 `scripts/build_dub_demo.sh` builds the videos, subtitles and manifest, but it
 got its audio from macOS `say` — so the demo could only be built on a Mac, and
@@ -103,7 +103,7 @@ def main() -> None:
         (f"dubbed_{entry['code']}", entry) for entry in spec["dubbed"]
     ]
 
-    print("Loading VoiceStudio engine (this can take 30-60 s on first run)…")
+    print("Loading Voiceym engine (this can take 30-60 s on first run)…")
     try:
         import asyncio
 
@@ -111,7 +111,7 @@ def main() -> None:
 
         model = asyncio.run(get_model())
     except Exception as exc:  # noqa: BLE001 - the message is the whole point
-        print(f"\nERROR: Could not load VoiceStudio engine: {exc}")
+        print(f"\nERROR: Could not load Voiceym engine: {exc}")
         print("Run `uv sync` first; weights download on first synthesis (~5 GB).")
         sys.exit(1)
     sample_rate = getattr(model, "sampling_rate", 24000)

@@ -1,7 +1,7 @@
 # Install with a coding agent
 
 Instructions for a coding agent (Claude Code, Codex, Cursor, …) asked to install
-VoiceStudio. The short prompt in the [README](../../README.md#install-with-prompt)
+Voiceym. The short prompt in the [README](../../README.md#install-with-prompt)
 points here. Complete the setup, not just a plan.
 
 ## Rules
@@ -17,12 +17,12 @@ points here. Complete the setup, not just a plan.
 1. **Load context.** Read the install guide for this OS ([macOS](macos.md) ·
    [Windows](windows.md) · [Linux](linux.md); [Docker](docker.md) is a headless backend, not the desktop app),
    [performance](../performance.md) and
-   [`skills/voicestudio/SKILL.md`](../../skills/voicestudio/SKILL.md). If your agent
-   supports skills, install it with `npx skills add debpalash/VoiceStudio`.
+   [`skills/voiceym/SKILL.md`](../../skills/voiceym/SKILL.md). If your agent
+   supports skills, install it with `npx skills add mnikhilsrikar2512/voiceym`.
 2. **Inspect the device.** OS, CPU architecture, GPU, RAM/VRAM, free disk, and any
-   existing VoiceStudio install, backend or downloaded models.
+   existing Voiceym install, backend or downloaded models.
 3. **Install.**
-   - Default: the latest stable release asset named `VoiceStudio-Electron-*` for this
+   - Default: the latest stable release asset named `Voiceym-Electron-*` for this
      OS and architecture (macOS `.dmg`, Windows `.exe`, Linux `.AppImage` or `.deb`),
      or the [install script](script.md).
    - From source: follow [`electron/README.md`](../../electron/README.md) —

@@ -48,7 +48,7 @@ class OmniVoiceSubprocessBackend(SubprocessBackend):
     supports_native_omnivoice_controls = True
 
     id = "omnivoice-subprocess"
-    display_name = "OmniVoice (subprocess-isolated, killable on timeout)"
+    display_name = "OmniVoice (subprocess-isolated, killable on timeout, non-commercial)"
     instruct_vocabulary = "tags"
     supports_voice_design = True
     _DEFAULT_SAMPLE_RATE = 24000
@@ -145,7 +145,7 @@ class OmniVoiceMPSSubprocessBackend(OmniVoiceSubprocessBackend):
     """
 
     id = "omnivoice"
-    display_name = "VoiceStudio (k2-fsa/OmniVoice, 600+ languages)"
+    display_name = "OmniVoice (k2-fsa/OmniVoice, 600+ languages, non-commercial)"
     supports_native_omnivoice_controls = True
 
     def generate(self, text: str, **kw):
@@ -160,7 +160,7 @@ class OmniVoiceMPSSubprocessBackend(OmniVoiceSubprocessBackend):
             raise RuntimeError(
                 "The isolated OmniVoice engine stopped during generation, "
                 "usually because macOS reclaimed it under memory pressure. "
-                "The VoiceStudio backend is still running. Close memory-heavy "
+                "The Voiceym backend is still running. Close memory-heavy "
                 "apps or select a smaller TTS engine, then retry."
             ) from exc
 

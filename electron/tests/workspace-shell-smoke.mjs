@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 
-const baseUrl = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const baseUrl = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const errors = [];
@@ -14,7 +14,7 @@ try {
   await page.route('https://api.github.com/**', (route) =>
     route.fulfill({ json: { stargazers_count: 1 } }),
   );
-  await page.addInitScript(() => localStorage.setItem('voicestudio.setup.complete.v1', '1'));
+  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.goto(baseUrl + '/#/stories');
   const compactSidebar = page.locator('[data-slot=compact-main-sidebar]');
   await compactSidebar.waitFor();

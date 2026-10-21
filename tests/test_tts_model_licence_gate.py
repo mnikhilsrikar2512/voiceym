@@ -216,6 +216,7 @@ def test_get_model_revocation_stops_a_resident_model(store, mm, monkeypatch, ma)
 
 def test_preload_skips_quietly_when_unaccepted(store, mm, monkeypatch, caplog):
     monkeypatch.setattr(mm, "model", None)
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in engine
     caps = importlib.import_module("core.device_caps")
 
     monkeypatch.setattr(caps, "detect_host_caps", lambda: type("C", (), {"family": "cpu"})())
@@ -226,6 +227,17 @@ def test_preload_skips_quietly_when_unaccepted(store, mm, monkeypatch, caplog):
     assert mm.model is None
     assert "licence is not accepted" in caplog.text
     assert not [r for r in caplog.records if r.levelno >= logging.WARNING]
+
+
+def test_preload_never_warms_omnivoice_unless_it_was_chosen(mm, monkeypatch):
+    monkeypatch.setattr(mm, "model", None)
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "kokoro")
+    monkeypatch.setattr(mm, "resolve_omnivoice_checkpoint",
+                        lambda: pytest.fail("OmniVoice is opt-in; preload must not touch it"))
+    monkeypatch.setattr(mm, "_ensure_omnivoice_licence",
+                        lambda: pytest.fail("OmniVoice is opt-in; preload must not touch it"))
+    asyncio.run(mm.preload_model())
+    assert mm.model is None
 
 
 # ── Structured failure payloads (jobs / SSE / WebSocket) ───────────────────

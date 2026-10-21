@@ -74,7 +74,11 @@ export function EngineNotice({
       const available = engines.tts.backends.filter(
         (backend) => backend.available && backend.routing_status !== 'unavailable',
       );
-      const candidate = available.find((backend) => backend.id === 'omnivoice') ?? available[0];
+      // Prefer the default (Kokoro, Apache-2.0) and never auto-pick a
+      // non-commercial OmniVoice engine the user didn't choose.
+      const candidate =
+        available.find((backend) => backend.id === 'kokoro') ??
+        available.find((backend) => !backend.id.startsWith('omnivoice'));
       if (!candidate) return false;
       await apiJson('/engines/select', {
         method: 'POST',

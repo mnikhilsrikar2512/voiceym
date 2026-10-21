@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-const baseUrl = process.env.VOICESTUDIO_BACKEND_URL || 'http://127.0.0.1:3900';
+const baseUrl = process.env.VOICEYM_BACKEND_URL || 'http://127.0.0.1:3900';
 
 async function request(path, init) {
   const response = await fetch(baseUrl + path, init);

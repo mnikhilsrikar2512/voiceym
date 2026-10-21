@@ -352,7 +352,7 @@ def _dots_host() -> tuple[bool, str]:
     if sys.platform != "win32":
         return True, ""
     return False, (
-        "dots.tts publishes no Windows install. Run VoiceStudio on Linux or "
+        "dots.tts publishes no Windows install. Run Voiceym on Linux or "
         "macOS, or under WSL2, to use it."
     )
 
@@ -584,6 +584,33 @@ SPECS: dict[str, SidecarSpec] = {
             "VoxCPM2 needs a PyTorch version that has no Intel Mac build."
         ),
     ),
+    # Commercial-use (MIT) English voice cloning. Upstream pins torch 2.6 and
+    # transformers 5.2, so it gets its own venv; a reviewed commit
+    # (2026-07-21). torch 2.6 has no +cu128 build, so the CUDA index is not
+    # forced: Linux takes PyPI's CUDA build, macOS runs on MPS, Windows on CPU.
+    # Weights (ResembleAI/chatterbox) download on the first synthesis.
+    "chatterbox": SidecarSpec(
+        engine_id="chatterbox",
+        display_name="Chatterbox",
+        repo_url="https://github.com/resemble-ai/chatterbox.git",
+        tarball_url=(
+            "https://github.com/resemble-ai/chatterbox/archive/"
+            "5de7a54aa4e5e2baadb0182dde554908b48b85c2.tar.gz"
+        ),
+        checkout_dirname="chatterbox",
+        env_var="OMNIVOICE_CHATTERBOX_DIR",
+        probe_module="chatterbox",
+        probe_code="from chatterbox.tts import ChatterboxTTS",
+        source_revision="5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+        source_required_path="src/chatterbox/tts.py",
+        docs_path="docs/engines/chatterbox.md",
+        venv_args=("--python", "3.11"),
+        install_args=("-e", "{checkout}"),
+        required_bytes=9 * _GIB,
+        host_supported=_no_intel_mac(
+            "Chatterbox pins PyTorch 2.6, which has no Intel Mac build."
+        ),
+    ),
     # Upstream is unpinned and its entry point has moved before (#1287), so the
     # install pins a reviewed commit (2026-09-06) and the sidecar drives the
     # runtime that commit ships (moss_tts_nano_runtime.NanoTTSService). Its
@@ -702,7 +729,7 @@ SPECS: dict[str, SidecarSpec] = {
 
 class HostUnsupported(RuntimeError):
     """The one-click install cannot work on this machine. The message is a
-    VoiceStudio-owned sentence from the spec, safe to show the user."""
+    Voiceym-owned sentence from the spec, safe to show the user."""
 
 
 def host_support(spec: SidecarSpec) -> tuple[bool, str]:
@@ -867,7 +894,7 @@ def uv_subprocess_env(cache_parent: Path) -> "dict[str, str]":
     """Environment for ``uv`` subprocesses that install into *cache_parent*'s volume.
 
     Always a copy of ``os.environ`` with ``UV_NO_CONFIG=1``: an engine's
-    install resolves its own requirements, never VoiceStudio's. The backend
+    install resolves its own requirements, never Voiceym's. The backend
     runs inside the app's tree, so uv would otherwise discover the app's
     ``pyproject.toml`` and apply its ``[tool.uv] constraint-dependencies``
     (``torch==2.8.0``) to the engine's venv. An engine pinning another torch
@@ -1036,7 +1063,7 @@ def _job_step(job: dict, step_id: str) -> dict:
 
 
 _DISK_FULL_REMEDIATION = (
-    "The disk is full. Free up space (or move VoiceStudio's data directory to a "
+    "The disk is full. Free up space (or move Voiceym's data directory to a "
     "larger volume), then re-run the install — it resumes from where it stopped."
 )
 
@@ -1251,7 +1278,7 @@ def uninstall(engine_id: str) -> dict:
             "status": "not_managed",
             "engine": engine_id,
             "detail": (
-                f"{spec.display_name} points at {env_dir}, which VoiceStudio did not "
+                f"{spec.display_name} points at {env_dir}, which Voiceym did not "
                 f"install. Remove that directory yourself if you want it gone, or "
                 f"clear {spec.env_var} in Settings."
             ),
@@ -1322,12 +1349,12 @@ def _step_preflight(spec: SidecarSpec, job: dict) -> None:
         raise _StepError(
             "uv was not found (checked the bundled path via OMNIVOICE_BUNDLED_UV, "
             "then PATH).",
-            "Install uv from https://docs.astral.sh/uv/ and relaunch VoiceStudio, or "
+            "Install uv from https://docs.astral.sh/uv/ and relaunch Voiceym, or "
             "set OMNIVOICE_BUNDLED_UV to the absolute path of a uv binary.",
         )
     err = disk_space_error(spec)
     if err:
-        raise _StepError(err, "Free up disk space (or move VoiceStudio's data directory "
+        raise _StepError(err, "Free up disk space (or move Voiceym's data directory "
                               "to a larger volume) and retry.")
     managed_root(spec).mkdir(parents=True, exist_ok=True)
     _job_step(job, "preflight")["detail"] = "uv found, disk space OK"
@@ -1395,11 +1422,11 @@ def _fetch_main_source(spec: SidecarSpec, job: dict) -> None:
     step["detail"] = "source tarball"
 
 
-_SOURCE_REVISION_MARKER = ".voicestudio_source_revision"
+_SOURCE_REVISION_MARKER = ".voiceym_source_revision"
 # Written once the import probe passes. For an engine with no weights
 # download, the venv interpreter existing proves nothing: a dependency
 # install that died halfway leaves one behind.
-_INSTALL_COMPLETE_MARKER = ".voicestudio_install_complete"
+_INSTALL_COMPLETE_MARKER = ".voiceym_install_complete"
 
 
 def _source_layout_ok(spec: SidecarSpec, checkout: Path) -> bool:
@@ -1804,7 +1831,7 @@ def _step_fetch_weights(spec: SidecarSpec, job: dict) -> None:
         # Unwrap to the bearer string: snapshot_download takes `token: str |
         # None`, and a ResolvedToken record is ignored in favour of ambient
         # discovery, so gated engine weights 401 for a user whose token lives
-        # in VoiceStudio's settings rather than HF's own cache (#2163).
+        # in Voiceym's settings rather than HF's own cache (#2163).
         _resolved = resolve_token()
         endpoint = endpoint_race.effective_endpoint()
         kwargs: dict = {

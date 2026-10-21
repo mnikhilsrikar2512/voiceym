@@ -66,7 +66,7 @@ def _timing(value):
     """
     return round(value, 2) if isinstance(value, (int, float)) else None
 
-SPEECH_PROTOCOL = "voicestudio.speech.v1"
+SPEECH_PROTOCOL = "voiceym.speech.v1"
 PLATFORM_STREAM_PATH = "/v1/audio/transcriptions/stream"
 
 # How often (seconds) to run transcription on the accumulated buffer.

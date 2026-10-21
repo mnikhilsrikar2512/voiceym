@@ -1,7 +1,7 @@
 """IndexTTS 2.5/2 sidecar package (Phase 2 Plan 02-03).
 
 IndexTTS-2 runs in its own subprocess + dedicated venv with
-``transformers<5``, isolated from the VoiceStudio parent process which
+``transformers<5``, isolated from the Voiceym parent process which
 pins ``transformers>=5.3``. Closes issue #42 — the canonical
 ``OffloadedCache`` ImportError driven by the transformers v4 ↔ v5
 incompatibility — by making the two libraries live in separate OS
@@ -60,7 +60,7 @@ _LANGUAGE_ALIASES = {
 
 
 def _normalize_indextts25_language(value, text: str) -> str:
-    """Map VoiceStudio locale labels to IndexTTS 2.5's required token."""
+    """Map Voiceym locale labels to IndexTTS 2.5's required token."""
     raw = str(value or "").strip().lower().replace("_", "-")
     base = raw.split("-", 1)[0]
     resolved = _LANGUAGE_ALIASES.get(raw) or _LANGUAGE_ALIASES.get(base)
@@ -78,7 +78,7 @@ def _normalize_indextts25_language(value, text: str) -> str:
 
 
 def _duration_factor(text: str, language: str, duration: float) -> float:
-    """Map VoiceStudio's absolute duration to IndexTTS 2.5's relative scale."""
+    """Map Voiceym's absolute duration to IndexTTS 2.5's relative scale."""
     from services.speech_rate import expected_duration
 
     natural_s = expected_duration(text, language)
@@ -91,7 +91,7 @@ class IndexTTS2Backend(SubprocessBackend):
     """IndexTTS 2.5 (Bilibili) — isolated subprocess with IndexTTS-2 fallback.
 
     Plan 02-03 migrated IndexTTS off the in-process import path because
-    IndexTTS pins ``transformers<5`` while VoiceStudio pins
+    IndexTTS pins ``transformers<5`` while Voiceym pins
     ``transformers>=5.3``. The two cannot share a Python interpreter
     without one of them blowing up at import time (issue #42 — the
     canonical ``OffloadedCache`` ImportError). Running IndexTTS in a
@@ -114,7 +114,7 @@ class IndexTTS2Backend(SubprocessBackend):
         cd index-tts && uv pip install -e .   # NOT uv sync --all-extras
         hf download IndexTeam/IndexTTS-2.5 --local-dir=checkpoints
 
-    Set ``OMNIVOICE_INDEXTTS_DIR`` to the repo root. VoiceStudio will
+    Set ``OMNIVOICE_INDEXTTS_DIR`` to the repo root. Voiceym will
     create ``backend/engines/indextts/.venv`` lazily on first launch if
     no venv exists yet — the user's existing
     ``${OMNIVOICE_INDEXTTS_DIR}/.venv`` is preferred if present, so no
@@ -153,13 +153,13 @@ class IndexTTS2Backend(SubprocessBackend):
             return False, (
                 "IndexTTS 2.5 venv not found. Set OMNIVOICE_INDEXTTS_DIR to "
                 "your IndexTTS clone (the directory containing checkpoints/) "
-                "and restart VoiceStudio. See docs/engines/indextts.md for the "
+                "and restart Voiceym. See docs/engines/indextts.md for the "
                 "full install walk-through."
             )
         if not INDEXTTS_SIDECAR_SCRIPT.exists():
             return False, (
                 "IndexTTS sidecar script missing at "
-                f"{INDEXTTS_SIDECAR_SCRIPT} — reinstall VoiceStudio."
+                f"{INDEXTTS_SIDECAR_SCRIPT} — reinstall Voiceym."
             )
         return True, "ok"
 

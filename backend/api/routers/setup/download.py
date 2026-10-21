@@ -244,7 +244,7 @@ def _segmented_snapshot(repo_id: str, *, endpoint: "str | None", revision: str) 
     # every consumer below is typed `token: str | None`. Handing over the
     # record fails silently rather than loudly (#2163): huggingface_hub's
     # build_hf_headers ignores a non-str token and falls back to its own
-    # ambient discovery, so a token held only in VoiceStudio's settings sends
+    # ambient discovery, so a token held only in Voiceym's settings sends
     # NO Authorization header at all and every gated file 401s; our own
     # segmented_download interpolates it into `f"Bearer {token}"` and sends a
     # malformed header carrying the raw secret. Unwrap once, here.

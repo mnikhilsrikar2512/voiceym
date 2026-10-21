@@ -45,5 +45,8 @@ export default defineConfig({
     setupFiles: ['./src/shared/test/setup.js'],
     include: ['src/shared/**/*.test.{js,jsx,ts,tsx}'],
     css: false,
+    // Voiceym ships no analytics destination; tests that exercise the
+    // consent-gated client need one, so give them a placeholder.
+    env: { VITE_POSTHOG_KEY: 'test-analytics-destination' },
   },
 });

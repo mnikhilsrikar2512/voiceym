@@ -103,7 +103,7 @@ function defaultLogDirForPlatform() {
 
 /** WebView2 profile cache path shown in the manual-repair fallback (#879). */
 const WEBVIEW_CACHE_PATH_WIN =
-  '%LOCALAPPDATA%\\com.debpalash.omnivoice-studio\\EBWebView\\Default\\Cache';
+  '%LOCALAPPDATA%\\com.voiceym.legacy\\EBWebView\\Default\\Cache';
 
 /** True on Windows. Deliberately reads the user agent, NOT a Tauri plugin —
  *  in the recovery state IPC is presumed dead, so OS detection must not
@@ -255,7 +255,7 @@ function JourneyRail({ t }) {
   return (
     <nav
       className="flex flex-wrap items-center gap-x-5 gap-y-2"
-      aria-label={t('bootstrap.title', 'VoiceStudio')}
+      aria-label={t('bootstrap.title', 'Voiceym')}
     >
       {stages.map(([label, state]) => (
         <span
@@ -789,7 +789,7 @@ export function BootstrapSplash({ stage, message, attempt = 0 }) {
                   screenshot from any of them identifies the build. */}
               <div className="flex flex-wrap items-baseline gap-2.5">
                 <h1 className="m-0 font-serif text-[clamp(1.6rem,3vw,2.2rem)] font-semibold leading-tight tracking-tight">
-                  {t('bootstrap.title', 'VoiceStudio')}
+                  {t('bootstrap.title', 'Voiceym')}
                 </h1>
                 <span className="font-mono text-[0.62rem] tracking-[0.14em] text-fg-subtle">
                   v{APP_VERSION}

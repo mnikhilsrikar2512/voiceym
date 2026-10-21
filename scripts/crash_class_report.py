@@ -17,7 +17,7 @@ Usage:
     uv run python scripts/crash_class_report.py --since 2026-08-13
     uv run python scripts/crash_class_report.py --version 0.5.0
 
-Needs the `gh` CLI authenticated for debpalash/VoiceStudio.
+Needs the `gh` CLI authenticated for mnikhilsrikar2512/voiceym.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ import re
 import subprocess
 import sys
 
-REPO = "debpalash/VoiceStudio"
+REPO = "mnikhilsrikar2512/voiceym"
 
 # One pattern per sub-class, matched against issue TITLES (the auto-reporter
 # seeds titles from the error message, so titles are machine-stable).

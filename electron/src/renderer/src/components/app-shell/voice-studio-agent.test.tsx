@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import type { ReactNode } from 'react';
-import { VoiceStudioAgent } from './voice-studio-agent';
+import { VoiceymAgent } from './voice-studio-agent';
 import { agentConversation, receiveAgentEvent } from '@/lib/agent-conversation';
 const mocks = vi.hoisted(() => ({
   repair: {
@@ -46,7 +46,7 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 async function open() {
-  render(<VoiceStudioAgent />);
+  render(<VoiceymAgent />);
   fireEvent.click(screen.getByRole('button', { name: 'repairAgent.title' }));
   await screen.findByRole('button', { name: 'Codex' });
 }
@@ -127,7 +127,7 @@ it.each([
   mocks.repair.getState.mockResolvedValue({
     status: 'idle', output: '', workspaceAvailable: workspace === 'source',
   });
-  render(<VoiceStudioAgent />);
+  render(<VoiceymAgent />);
   act(() => openRepairAgent(report, true));
   await waitFor(() => expect(mocks.repair.start).toHaveBeenCalledWith(
     expect.objectContaining({ workspace, report }),
@@ -138,7 +138,7 @@ it.each([
 it('keeps crash repair ready for Send until a source checkout is attached', async () => {
   const { DEFAULT_REPAIR_AGENT_KEY, openRepairAgent } = await import('@/lib/repair-agent-events');
   localStorage.setItem(DEFAULT_REPAIR_AGENT_KEY, 'codex');
-  render(<VoiceStudioAgent />);
+  render(<VoiceymAgent />);
   act(() => openRepairAgent('Renderer crashed unexpectedly', true));
   const choose = await screen.findByRole('button', { name: 'settings.models_dir_choose' });
   expect(screen.getByRole('textbox')).toHaveValue('Renderer crashed unexpectedly');
@@ -166,7 +166,7 @@ it('keeps the newest CLI scan when an older one answers last', async () => {
           answerMount = resolve;
         }),
   );
-  render(<VoiceStudioAgent />);
+  render(<VoiceymAgent />);
   fireEvent.click(screen.getByRole('button', { name: 'repairAgent.title' }));
   await waitFor(() => expect(screen.getByRole('button', { name: 'Claude Code' })).toBeEnabled());
   // The mount scan started first but answers after the refresh: it is stale.

@@ -19,7 +19,7 @@ def _appimage_from_environ(raw: bytes) -> str | None:
 
 
 def appimage_belongs_to_build(raw: bytes, build_root: Path) -> bool:
-    """Require an exact debug AppImage directory and VoiceStudio filename."""
+    """Require an exact debug AppImage directory and Voiceym filename."""
     value = _appimage_from_environ(raw)
     if not value:
         return False
@@ -27,7 +27,7 @@ def appimage_belongs_to_build(raw: bytes, build_root: Path) -> bool:
     expected_dir = build_root / "bundle" / "appimage"
     return (
         image.parent == expected_dir
-        and image.name.startswith("VoiceStudio_")
+        and image.name.startswith("Voiceym_")
         and image.name.endswith(".AppImage")
     )
 
@@ -111,7 +111,7 @@ def stop_owned_processes(build_root: Path, timeout_s: float = 5.0) -> list[int]:
     for _, pidfd in owned:
         os.close(pidfd)
     if exited != pending:
-        raise RuntimeError("VoiceStudio processes did not exit; refusing to reset app data")
+        raise RuntimeError("Voiceym processes did not exit; refusing to reset app data")
     return [pid for pid, _ in owned]
 
 

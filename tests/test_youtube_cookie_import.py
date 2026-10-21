@@ -57,11 +57,11 @@ def test_cookie_export_accepts_a_bom_and_rejects_empty_or_oversized_files(dub_co
     ("scheme", "host", "origin", "allowed"),
     [
         ("http", "127.0.0.1", "http://localhost:3901", True),
-        ("http", "127.0.0.1", "app://voicestudio", True),
-        ("http", "::1", "app://voicestudio", True),
-        ("http", "192.0.2.20", "app://voicestudio", False),
-        ("http", "127.0.0.1", "app://voicestudio.evil", False),
-        ("http", "127.0.0.1", "app://voicestudio/path", False),
+        ("http", "127.0.0.1", "app://voiceym", True),
+        ("http", "::1", "app://voiceym", True),
+        ("http", "192.0.2.20", "app://voiceym", False),
+        ("http", "127.0.0.1", "app://voiceym.evil", False),
+        ("http", "127.0.0.1", "app://voiceym/path", False),
         # The retired Tauri webview origin is no longer a trusted local UI.
         ("http", "127.0.0.1", "http://tauri.localhost", False),
         ("http", "::1", "http://localhost:3901", True),
@@ -80,12 +80,12 @@ def test_cookie_credentials_only_cross_https_or_local_ui(
 @pytest.mark.parametrize(
     ("host", "headers", "allowed"),
     [
-        ("127.0.0.1", {"x-voicestudio-desktop-origin": "app://voicestudio"}, True),
-        ("::1", {"x-voicestudio-desktop-origin": "app://voicestudio"}, True),
-        ("192.0.2.20", {"x-voicestudio-desktop-origin": "app://voicestudio"}, False),
-        ("127.0.0.1", {"x-voicestudio-desktop-origin": "app://forged"}, False),
+        ("127.0.0.1", {"x-voiceym-desktop-origin": "app://voiceym"}, True),
+        ("::1", {"x-voiceym-desktop-origin": "app://voiceym"}, True),
+        ("192.0.2.20", {"x-voiceym-desktop-origin": "app://voiceym"}, False),
+        ("127.0.0.1", {"x-voiceym-desktop-origin": "app://forged"}, False),
         ("127.0.0.1", {"origin": "https://untrusted.example",
-                       "x-voicestudio-desktop-origin": "app://voicestudio"}, False),
+                       "x-voiceym-desktop-origin": "app://voiceym"}, False),
         ("127.0.0.1", {}, False),
     ],
 )

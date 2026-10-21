@@ -390,7 +390,7 @@ def is_installed(spec: SherpaModelSpec) -> bool:
 
     Do not use ``snapshot_download(local_files_only=True)`` for this probe.
     ``huggingface_hub.constants.HF_HUB_CACHE`` is fixed when that module is
-    first imported, while VoiceStudio can restore its cache directory later
+    first imported, while Voiceym can restore its cache directory later
     from the durable user settings. Resolve the live root and the recorded
     revision ourselves so readiness and loading cannot disagree after a cache
     move, desktop relaunch, or stale snapshot (#1707).

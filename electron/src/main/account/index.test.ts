@@ -57,13 +57,13 @@ it('hands the bridge to the backend spawn only, never to process.env', async () 
   h.dir = mkdtempSync(join(tmpdir(), 'vs-account-'));
   const close = await startAccount(opts);
   const vars = h.setBackendOnlyEnv.mock.calls[0][0];
-  expect(vars.VOICESTUDIO_ACCOUNT_BRIDGE_URL).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);
-  expect(vars.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN).toMatch(/^[0-9a-f]{64}$/);
-  expect(process.env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
+  expect(vars.VOICEYM_ACCOUNT_BRIDGE_URL).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);
+  expect(vars.VOICEYM_ACCOUNT_BRIDGE_TOKEN).toMatch(/^[0-9a-f]{64}$/);
+  expect(process.env.VOICEYM_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
   close();
   expect(h.setBackendOnlyEnv).toHaveBeenLastCalledWith({
-    VOICESTUDIO_ACCOUNT_BRIDGE_URL: undefined,
-    VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN: undefined,
+    VOICEYM_ACCOUNT_BRIDGE_URL: undefined,
+    VOICEYM_ACCOUNT_BRIDGE_TOKEN: undefined,
   });
 });
 

@@ -5,7 +5,7 @@ import { request as httpsRequest } from 'node:https';
 import { join } from 'node:path';
 import { proxyRequestHeaders } from './dev-backend-proxy';
 
-const CAPABILITY_HEADER = 'x-voicestudio-repair-token';
+const CAPABILITY_HEADER = 'x-voiceym-repair-token';
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
 export interface RepairApiBridge {
@@ -22,9 +22,9 @@ export interface RepairAppControls {
 }
 
 const APP_CONTROL_PATHS = {
-  status: '/__voicestudio/status',
-  restartBackend: '/__voicestudio/backend/restart',
-  setupRuntime: '/__voicestudio/backend/setup-runtime',
+  status: '/__voiceym/status',
+  restartBackend: '/__voiceym/backend/restart',
+  setupRuntime: '/__voiceym/backend/setup-runtime',
 } as const;
 
 function authorized(headers: IncomingHttpHeaders, capability: Buffer): boolean {
@@ -81,7 +81,7 @@ export async function startRepairApiBridge(
 ): Promise<RepairApiBridge> {
   const capabilityText = randomBytes(32).toString('base64url');
   const capability = Buffer.from(capabilityText, 'utf8');
-  const directory = mkdtempSync(join(tempRoot, 'voicestudio-repair-api-'), { encoding: 'utf8' });
+  const directory = mkdtempSync(join(tempRoot, 'voiceym-repair-api-'), { encoding: 'utf8' });
   const contextFile = join(directory, 'context.json');
   const mcpConfigFile = mcpServerPath ? join(directory, 'mcp.json') : undefined;
   const openCodeConfigFile = mcpServerPath ? join(directory, 'opencode.json') : undefined;
@@ -146,11 +146,11 @@ export async function startRepairApiBridge(
         }
         return false;
       } catch {
-        json(500, { detail: 'VoiceStudio could not complete that recovery operation' });
+        json(500, { detail: 'Voiceym could not complete that recovery operation' });
         return true;
       }
     };
-    if (pathname.startsWith('/__voicestudio/')) {
+    if (pathname.startsWith('/__voiceym/')) {
       void control().then((handled) => {
         if (!handled && !response.writableEnded)
           json(404, { detail: 'Unknown Electron recovery operation' });
@@ -188,7 +188,7 @@ export async function startRepairApiBridge(
       if (response.headersSent) response.destroy();
       else {
         response.writeHead(502, { 'content-type': 'application/json' });
-        response.end('{"detail":"VoiceStudio backend unavailable"}');
+        response.end('{"detail":"Voiceym backend unavailable"}');
       }
     });
     incoming.on('aborted', () => upstream.destroy());
@@ -217,7 +217,7 @@ export async function startRepairApiBridge(
         {
           schemaVersion: 1,
           baseUrl: `http://127.0.0.1:${address.port}`,
-          headers: { 'X-VoiceStudio-Repair-Token': capabilityText },
+          headers: { 'X-Voiceym-Repair-Token': capabilityText },
           mode,
           lifetime: 'This capability expires when the repair run stops.',
           electronControls: {
@@ -243,13 +243,13 @@ export async function startRepairApiBridge(
         JSON.stringify(
           {
             mcpServers: {
-              voicestudio: {
+              voiceym: {
                 type: 'stdio',
                 command: process.execPath,
                 args: [mcpServerPath],
                 env: {
                   ELECTRON_RUN_AS_NODE: '1',
-                  VOICESTUDIO_REPAIR_CONTEXT_FILE: contextFile,
+                  VOICEYM_REPAIR_CONTEXT_FILE: contextFile,
                 },
               },
             },
@@ -273,16 +273,16 @@ export async function startRepairApiBridge(
             $schema: 'https://opencode.ai/config.json',
             permission: {
               '*': 'deny',
-              'voicestudio_*': 'allow',
+              'voiceym_*': 'allow',
             },
             mcp: {
-              voicestudio: {
+              voiceym: {
                 type: 'local',
                 command: [process.execPath, mcpServerPath],
                 enabled: true,
                 environment: {
                   ELECTRON_RUN_AS_NODE: '1',
-                  VOICESTUDIO_REPAIR_CONTEXT_FILE: contextFile,
+                  VOICEYM_REPAIR_CONTEXT_FILE: contextFile,
                 },
               },
             },

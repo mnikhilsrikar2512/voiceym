@@ -6,8 +6,8 @@ import {
   mergeDescribedAttrs,
 } from '@shared/utils/voiceInstruct';
 import { pickDesignSeed } from '@shared/utils/seed';
-export const STORAGE = 'voicestudio.design.v1';
-export const DESIGN_DRAFT_EVENT = 'voicestudio:design-draft';
+export const STORAGE = 'voiceym.design.v1';
+export const DESIGN_DRAFT_EVENT = 'voiceym:design-draft';
 
 export interface DesignDraft {
   text: string;

@@ -66,7 +66,7 @@ def test_complete_stale_snapshot_does_not_mask_missing_recorded_revision(tmp_pat
         target = stale / filename
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(b"stale model")
-    (repo / "voicestudio-revision").write_text("b" * 40, encoding="ascii")
+    (repo / "voiceym-revision").write_text("b" * 40, encoding="ascii")
     monkeypatch.setenv("HF_HUB_CACHE", str(tmp_path))
 
     assert sherpa_dictation.is_installed(spec) is False

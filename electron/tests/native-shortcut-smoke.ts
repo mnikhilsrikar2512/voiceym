@@ -5,7 +5,7 @@ import { DictationOutputClient, type ShortcutEvent } from '../src/main/dictation
 assert.equal(process.platform, 'win32', 'Native key injection verification requires Windows');
 const events: ShortcutEvent[] = [];
 const client = new DictationOutputClient(
-  resolve('native/desktop-bridge/target/debug/voicestudio-desktop-bridge.exe'),
+  resolve('native/desktop-bridge/target/debug/voiceym-desktop-bridge.exe'),
   process.pid,
   (event) => events.push(event),
 );

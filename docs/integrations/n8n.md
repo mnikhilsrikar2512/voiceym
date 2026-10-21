@@ -1,15 +1,15 @@
 # n8n: local text to speech
 
-**Integrations → n8n** exports a manual workflow using VoiceStudio's current
+**Integrations → n8n** exports a manual workflow using Voiceym's current
 backend address. It contains a Manual Trigger and an HTTP Request node; it does
 not activate a schedule, install n8n, expose your backend, or include credentials.
 
-1. Start VoiceStudio and install/select a working TTS engine.
-2. Choose **Save as…** on the n8n detail page. Import `voicestudio-n8n.json`
+1. Start Voiceym and install/select a working TTS engine.
+2. Choose **Save as…** on the n8n detail page. Import `voiceym-n8n.json`
    through n8n's workflow import menu. You can also copy its JSON into n8n.
-3. Open the **VoiceStudio** HTTP Request node. Edit `input` in its JSON body.
+3. Open the **Voiceym** HTTP Request node. Edit `input` in its JSON body.
    `voice: "default"` uses the engine's default; use a saved voice profile's ID
-   or name for cloning. `model: "tts-1"` selects VoiceStudio's active engine.
+   or name for cloning. `model: "tts-1"` selects Voiceym's active engine.
 4. Run the workflow manually. The request returns WAV audio in the binary
    `audio` field, ready for a following n8n node or download.
 
@@ -19,7 +19,7 @@ The exported address is correct for a native n8n process on the same computer.
 Inside Docker, `127.0.0.1` refers to the container, not your desktop. Replace the
 node URL with the address your n8n process can actually reach; Docker Desktop
 commonly provides `host.docker.internal` (Podman: `host.containers.internal`).
-VoiceStudio accepts requests addressed to those names out of the box, so no
+Voiceym accepts requests addressed to those names out of the box, so no
 `OMNIVOICE_ALLOWED_HOSTS` entry is needed for them. Linux container networking may require
 an explicit host-gateway mapping. A cloud n8n instance cannot reach a private
 loopback address. Configure remote access deliberately using the
@@ -39,12 +39,12 @@ larger timeout in n8n.
 
 Copying/importing this workflow does not establish a live connection. A successful
 manual execution producing a WAV confirms your engine, address and credentials.
-VoiceStudio processes speech at the selected backend; what subsequent n8n nodes
+Voiceym processes speech at the selected backend; what subsequent n8n nodes
 do with the audio is controlled by your workflow.
 
 The node configuration follows n8n's official
 [HTTP Request documentation](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/).
-Tests send the exported request through VoiceStudio's real HTTP route with a local
+Tests send the exported request through Voiceym's real HTTP route with a local
 test engine, checking its WAV response. The generated export was also imported
 and executed with n8n 2.39.8 on Linux, producing a valid WAV in its binary output.
 Each generated configuration has its own workflow ID, avoiding collisions with

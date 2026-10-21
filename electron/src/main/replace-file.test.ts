@@ -19,7 +19,7 @@ import { replaceFile, type ReplaceFileSystem } from './replace-file';
 
 let directory: string;
 beforeEach(async () => {
-  directory = await mkdtemp(join(tmpdir(), 'voicestudio-replace-'));
+  directory = await mkdtemp(join(tmpdir(), 'voiceym-replace-'));
 });
 afterEach(async () => {
   await rm(directory, { recursive: true, force: true });

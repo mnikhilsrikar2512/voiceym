@@ -11,14 +11,14 @@ from urllib.parse import urlsplit
 def executable(agent: str) -> bool:
     # Electron owns discovery (including Windows npm shims) and process lifetime.
     try:
-        return agent in json.loads(os.environ.get("VOICESTUDIO_LLM_AGENTS", "[]"))
+        return agent in json.loads(os.environ.get("VOICEYM_LLM_AGENTS", "[]"))
     except (ValueError, TypeError):
         return False
 
 
 def completion(provider, *, model, messages, timeout=120, stream=False, **_):
-    base = os.environ.get("VOICESTUDIO_LLM_AGENT_URL", "")
-    token = os.environ.get("VOICESTUDIO_LLM_AGENT_TOKEN", "")
+    base = os.environ.get("VOICEYM_LLM_AGENT_URL", "")
+    token = os.environ.get("VOICEYM_LLM_AGENT_TOKEN", "")
     url = urlsplit(base)
     if url.scheme != "http" or url.hostname != "127.0.0.1" or not token:
         raise RuntimeError("CLI providers require the running Electron desktop.")

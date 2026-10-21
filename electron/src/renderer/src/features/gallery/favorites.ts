@@ -1,6 +1,6 @@
 import { apiJson } from '@/lib/api/client';
 import type { ArchetypePage } from '@shared/api/archetypes-types';
-export const FAVORITES_KEY = 'voicestudio.gallery.favorites.v1';
+export const FAVORITES_KEY = 'voiceym.gallery.favorites.v1';
 export function readFavorites(): string[] {
   try {
     const value = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');

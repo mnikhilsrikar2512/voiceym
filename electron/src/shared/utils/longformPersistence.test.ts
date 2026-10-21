@@ -73,7 +73,7 @@ function legacyEnvelope(script: string): StorageValue<TestState> {
       storyProjects: [{ id: 'p_book', name: 'Book', script, tracks: [], cast: [] }],
       script,
       meta: { title: 'Book' },
-      lexicon: { VoiceStudio: 'voice studio' },
+      lexicon: { Voiceym: 'voice studio' },
       voiceCast: {},
     },
   };

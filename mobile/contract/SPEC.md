@@ -1,10 +1,10 @@
-# VoiceStudio mobile — M1 companion app contract
+# Voiceym mobile — M1 companion app contract
 
 Both native apps (iOS: Swift/SwiftUI, `mobile/ios/`; Android: Kotlin/Compose,
 `mobile/android/`) implement **exactly this spec**. A feature ships on both or
 on neither (CLAUDE.md → "Default features must work on every platform").
 
-M1 is a **companion**: the phone drives the user's own VoiceStudio backend
+M1 is a **companion**: the phone drives the user's own Voiceym backend
 (desktop app, Docker or server) over LAN, Tailscale or a remote URL. No
 on-device inference in M1; no cloud relay; no accounts.
 
@@ -70,7 +70,7 @@ Before pairing, only the Connect flow and Settings → About/Privacy are reachab
    - Scan QR (camera) of the desktop "Network" share panel: URL
      `http(s)://<host>:<port>/?pin=<6 digits>`. Also manual entry: URL + optional
      PIN + optional API key.
-   - Validate with `GET /health` (must be a VoiceStudio response).
+   - Validate with `GET /health` (must be a Voiceym response).
    - PIN: send `X-OmniVoice-Pin` on every request.
    - API key: exchange once via `POST /api/auth/session` with
      `Authorization: Bearer <key>` and body `{"transport":"bearer"}`; store only

@@ -10,7 +10,7 @@ Scope: the `studio` workspace only (voice-library rail + CloneDesignTab + genera
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│ ◉ Voice                            ⊙ VoiceStudio                           🔔2 ● Idle ⚡Flush │
+│ ◉ Voice                            ⊙ Voiceym                           🔔2 ● Idle ⚡Flush │
 ├──┬──────────────────────┬──────────────────────────────────────────┬─────────────────────────┤
 │  │ ACTIVE VOICE         │ SCRIPT                                   │ GENERATED VOICES        │
 │◉ │ ◉ Maya · designed    │ ┌──────────────────────────────────────┐ │ [All][Clone][Design]   │

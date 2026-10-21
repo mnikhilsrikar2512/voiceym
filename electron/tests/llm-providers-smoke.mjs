@@ -44,7 +44,7 @@ try {
     return route.fulfill({ json: { ok: true, models: ['model-two'] } });
   });
   await page.goto(
-    (process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/settings/models/llm',
+    (process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/settings/models/llm',
   );
   const model = page.getByRole('textbox', { name: 'Model', exact: true });
   await model.waitFor();

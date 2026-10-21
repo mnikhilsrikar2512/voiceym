@@ -1,6 +1,6 @@
 # Translation engines (Dub tab)
 
-VoiceStudio dubs in two steps: **transcribe → translate → speak**. The *translate*
+Voiceym dubs in two steps: **transcribe → translate → speak**. The *translate*
 step is pluggable — pick the engine in the Dub tab's **Engine** dropdown. Two
 engines are **built in** and always available offline; the rest need a small
 optional Python package.
@@ -55,17 +55,17 @@ different external translation per language tab without disturbing the others.
 
 ## Installing optional translation engines (from-source vs packaged build)
 
-How you add an engine depends on **how you installed VoiceStudio**.
+How you add an engine depends on **how you installed Voiceym**.
 
 ### From-source / dev install (one-click)
 
-If you cloned the repo and run VoiceStudio from source (`uv sync` + the dev
+If you cloned the repo and run Voiceym from source (`uv sync` + the dev
 launcher) or via Docker, the app can install engines for you:
 
 1. In the Dub tab, open the translation settings and pick the engine you want
    (e.g. **Google Translate**) from the **Engine** dropdown.
 2. A highlighted **Install** button appears next to the *Engine* label. Click it.
-3. VoiceStudio runs the install into the **same** Python environment the backend
+3. Voiceym runs the install into the **same** Python environment the backend
    is using (`uv pip install <package> --python <backend-interpreter>`), then
    re-probes. When it reports *"restart the backend to load it"*, restart so the
    freshly-installed module is importable.
@@ -142,7 +142,7 @@ MT engines can't run either stage):
 ### Fit prediction (all quality levels)
 
 Every translation additionally gets a **pre-synthesis fit check** — no LLM
-needed. For each segment, VoiceStudio predicts how long the translated line will
+needed. For each segment, Voiceym predicts how long the translated line will
 take to speak (self-calibrating to your voice/engine from segments already
 generated in the job, with a per-language rate table as the cold-start
 fallback) and compares it against the slot plus the silence it can borrow
@@ -209,7 +209,7 @@ LLM_DEFAULT_PROVIDER=groq        # or openai, openrouter, orcarouter, cheaperinf
 
 Resolution order for the active provider is: `LLM_DEFAULT_PROVIDER` (env) →
 your saved selection → the first provider that has a key → none. The id must be
-one VoiceStudio knows (the ids shown in **Settings → LLM Providers**); an unknown
+one Voiceym knows (the ids shown in **Settings → LLM Providers**); an unknown
 value is ignored and resolution falls through to your saved selection. While
 this env var is set it wins over the in-app picker, so if the UI selection
 appears to have "no effect," check whether `LLM_DEFAULT_PROVIDER` is exported.
@@ -241,7 +241,7 @@ launching the backend (or in **Settings → Credentials**):
 After transcription, drag the divider between the video/timeline and transcript
 columns to give either side more room. The divider also works from the keyboard:
 focus it, use Left/Right Arrow in 5% steps, or Home/End for the minimum/maximum.
-VoiceStudio remembers the split on this device. Narrow workspaces stack the two
+Voiceym remembers the split on this device. Narrow workspaces stack the two
 panels instead so neither editor becomes unusably small.
 
 ## Troubleshooting
@@ -258,11 +258,11 @@ panels instead so neither editor becomes unusably small.
 - **"The 'argos' engine's CTranslate2 runtime could not be loaded…"** — Argos
   translates on CTranslate2, and on Linux kernels that refuse an executable
   stack the CTranslate2 library shipped with Python 3.11 installs (4.4.0) is
-  rejected outright. VoiceStudio repairs that library in place on first use; if
+  rejected outright. Voiceym repairs that library in place on first use; if
   it cannot (read-only install), the message names the fix — reinstall the
   backend on Python 3.12+, or run `patchelf --clear-execstack` on the library
   once — and NLLB stays available in the meantime
-  ([#692](https://github.com/debpalash/VoiceStudio/issues/692)).
+ .
 
 
 

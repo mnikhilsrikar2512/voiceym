@@ -5,10 +5,10 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({
     width: 640,
     height: 320,
-    title: 'VoiceStudio isolated input verification',
+    title: 'Voiceym isolated input verification',
   });
   await win.loadURL(
-    'data:text/html,<title>VoiceStudio isolated input verification</title><textarea autofocus style="width:90vw;height:70vh" aria-label="Test destination"></textarea>',
+    'data:text/html,<title>Voiceym isolated input verification</title><textarea autofocus style="width:90vw;height:70vh" aria-label="Test destination"></textarea>',
   );
 });
 app.on('window-all-closed', () => app.quit());

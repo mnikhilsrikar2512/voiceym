@@ -1,4 +1,4 @@
-"""Immutable Hugging Face revisions for VoiceStudio's curated repositories.
+"""Immutable Hugging Face revisions for Voiceym's curated repositories.
 
 Branch names are mutable supply-chain inputs. Every repo the product offers is
 resolved here to a reviewed commit SHA; download, preflight, and repair paths
@@ -53,23 +53,23 @@ def remember_revision(repo_id: str, revision: str, cache_dir: str) -> None:
         raise ValueError("Hugging Face revision must be a 40-character commit SHA")
     repo_dir = _repo_dir(repo_id, cache_dir)
     repo_dir.mkdir(parents=True, exist_ok=True)
-    marker = repo_dir / "voicestudio-revision"
+    marker = repo_dir / "voiceym-revision"
     temporary = marker.with_suffix(f".tmp-{os.getpid()}")
     temporary.write_text(revision + "\n", encoding="ascii")
     os.replace(temporary, marker)
 
 
 def installed_revision(repo_id: str, cache_dir: str) -> str:
-    """Return VoiceStudio's recorded revision, falling back to the curated pin."""
+    """Return Voiceym's recorded revision, falling back to the curated pin."""
     # Authenticate the repository before consulting attacker-writable cache
     # metadata.  A syntactically valid marker must never authorize repair of a
-    # repository outside VoiceStudio's reviewed catalog.
+    # repository outside Voiceym's reviewed catalog.
     curated_revision = revision_for(repo_id)
     repo_dir = _repo_dir(repo_id, cache_dir)
     # New installs write the first marker. ``refs/main`` preserves the commit
-    # resolved by older VoiceStudio/huggingface_hub installs, so upgrades repair
+    # resolved by older Voiceym/huggingface_hub installs, so upgrades repair
     # the bytes the user actually installed rather than silently changing them.
-    for marker in (repo_dir / "voicestudio-revision", repo_dir / "refs" / "main"):
+    for marker in (repo_dir / "voiceym-revision", repo_dir / "refs" / "main"):
         try:
             revision = marker.read_text(encoding="ascii").strip()
         except (OSError, UnicodeError):

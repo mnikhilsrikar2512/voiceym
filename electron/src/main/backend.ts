@@ -57,7 +57,7 @@ import { DEFAULT_BACKEND_PORT } from '../../../config/app-config.mjs';
 
 const DEFAULT_BUDGET_S = 300;
 const READY_POLL_MS = 500;
-/** Allow another VoiceStudio shell to take ownership without showing a false crash. */
+/** Allow another Voiceym shell to take ownership without showing a false crash. */
 const REPLACEMENT_ATTACH_GRACE_MS = 10_000;
 const SUPERVISE_POLL_MS = 2000;
 const PROBE_TIMEOUT_MS = 1500;
@@ -105,7 +105,7 @@ export function bindFailureFromLog(text: string): 'in_use' | 'denied' | null {
   return null;
 }
 const POSIX_SIGKILL_AFTER_MS = 2000;
-const TAURI_APP_ID = 'com.debpalash.omnivoice-studio';
+const TAURI_APP_ID = 'com.voiceym.legacy';
 const RUNTIME_LOCATION_FILE = 'runtime-location.json';
 const RUNTIME_PREFERENCES_FILE = 'runtime-preferences.json';
 const RUNTIME_REGIONS = new Set<RuntimeRegion>(['auto', 'global', 'china', 'russia', 'restricted']);
@@ -389,9 +389,9 @@ function scopedRuntimeRoot(): string | null {
 
 function selectedRuntimeRoot(parent: string): string {
   const selected = resolve(parent);
-  return basename(selected).toLocaleLowerCase('en-US') === 'voicestudio'
+  return basename(selected).toLocaleLowerCase('en-US') === 'voiceym'
     ? selected
-    : join(selected, 'VoiceStudio');
+    : join(selected, 'Voiceym');
 }
 
 /** File-manager metadata a new folder can hold; it is not another installation's data. */
@@ -452,8 +452,8 @@ export async function resolveSpawnPlan(
     if (!existsSync(join(root, 'pyproject.toml'))) {
       return {
         error:
-          `The Python environment in ${root} is missing (no ${relative(root, python)}), and this is not a VoiceStudio source checkout. ` +
-          'Install VoiceStudio from the release installer, or clone the repository and run `bun run setup:api` inside it.',
+          `The Python environment in ${root} is missing (no ${relative(root, python)}), and this is not a Voiceym source checkout. ` +
+          'Install Voiceym from the release installer, or clone the repository and run `bun run setup:api` inside it.',
       };
     }
     return {
@@ -525,7 +525,7 @@ function childEnv(
   // The dev renderer is served by Vite on a real port; tell the backend so
   // Settings -> Sharing reports it. Packaged builds serve app:// (no port).
   const rendererPort = devRendererPort(env.ELECTRON_RENDERER_URL);
-  if (rendererPort && !env.OMNIVOICE_UI_PORT?.trim() && !env.VOICESTUDIO_UI_PORT?.trim())
+  if (rendererPort && !env.OMNIVOICE_UI_PORT?.trim() && !env.VOICEYM_UI_PORT?.trim())
     env.OMNIVOICE_UI_PORT = rendererPort;
   // #2215: the backend resolves uv as OMNIVOICE_BUNDLED_UV first and
   // `shutil.which("uv")` second. The packaged uv lives in resources/tools,
@@ -599,7 +599,7 @@ export function spawnFailureMessage(
   const launchRejected = ['ENOENT', 'UNKNOWN', 'EACCES', 'EPERM'].includes(code ?? '');
   if (!launchRejected) return `Could not start ${command}: ${detail}`;
   return runtimeOwned
-    ? `Could not start ${command}: ${detail}. Install or repair the local runtime, then restart VoiceStudio.`
+    ? `Could not start ${command}: ${detail}. Install or repair the local runtime, then restart Voiceym.`
     : `Could not start ${command}: ${detail}. Check that the program exists and can be launched, then try again.`;
 }
 
@@ -618,7 +618,7 @@ export function startupTimeoutMessage(
   if (!owned) return `${base} Nothing was spawned for this attempt.`;
   const advice =
     ' Slow disks and antivirus scanning of the runtime folder are the usual cause: click Retry, ' +
-    'exclude the VoiceStudio runtime folder from real-time scanning, or raise OMNIVOICE_STARTUP_BUDGET_S ' +
+    'exclude the Voiceym runtime folder from real-time scanning, or raise OMNIVOICE_STARTUP_BUDGET_S ' +
     '(for example 900).';
   return lastOutput
     ? `${base} Last output: ${lastOutput}${advice}`
@@ -701,7 +701,7 @@ export class BackendSupervisor extends EventEmitter<{
     // backend transport gates can recognize the desktop. Chromium forbids
     // overriding Origin itself in net.fetch.
     return {
-      'X-VoiceStudio-Desktop-Origin': APP_ORIGIN,
+      'X-Voiceym-Desktop-Origin': APP_ORIGIN,
       ...(session ? { Authorization: `Bearer ${session.token}` } : {}),
     };
   }
@@ -801,9 +801,9 @@ export class BackendSupervisor extends EventEmitter<{
         return;
       }
 
-      if (process.env.VOICESTUDIO_SKIP_BACKEND === '1') {
+      if (process.env.VOICEYM_SKIP_BACKEND === '1') {
         this.setStage('attaching', {
-          message: `VOICESTUDIO_SKIP_BACKEND=1 — waiting for an external backend on port ${this.port}`,
+          message: `VOICEYM_SKIP_BACKEND=1 — waiting for an external backend on port ${this.port}`,
         });
         void this.waitUntilReady(gen, Number.POSITIVE_INFINITY);
         return;
@@ -1249,7 +1249,7 @@ export class BackendSupervisor extends EventEmitter<{
     return ['project', '.uv-cache', '.python', '.tmp', 'tmp'].map((name) => join(root, name));
   }
 
-  websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts'): Promise<string> {
+  websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts' | '/v1/agent/ws'): Promise<string> {
     return remoteWebSocketUrl(this.baseUrl, path, this.remoteUrl ? this.activeSession() : null);
   }
 
@@ -1415,7 +1415,7 @@ export class BackendSupervisor extends EventEmitter<{
     code: number | null,
     signal: NodeJS.Signals | null,
   ): Promise<void> {
-    // A second VoiceStudio shell can deliberately replace this child between
+    // A second Voiceym shell can deliberately replace this child between
     // process exit and its own listener becoming ready. Treat that handoff as
     // attachment, not a crash, and keep renderer requests paused meanwhile.
     this.setStage('attaching', { managed: false, message: undefined });
@@ -1425,7 +1425,7 @@ export class BackendSupervisor extends EventEmitter<{
         if (gen !== this.generation || this.shuttingDown) return;
         this.exitCode = undefined;
         this.exitSignal = undefined;
-        this.pushLog('out', 'Attached to the replacement VoiceStudio backend.');
+        this.pushLog('out', 'Attached to the replacement Voiceym backend.');
         await this.markReady(gen, { managed: false, message: undefined }, true);
         return;
       }

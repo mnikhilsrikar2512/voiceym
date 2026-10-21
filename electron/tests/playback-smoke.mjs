@@ -10,8 +10,8 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
-    localStorage.setItem('voicestudio.language', 'en');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.language', 'en');
   });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -65,7 +65,7 @@ try {
   await page.route('**/api/profiles/playback-fixture/audio', audio);
   await page.route('**/api/generate', audio);
   await page.goto(
-    new URL('/#/personas', process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902').href,
+    new URL('/#/personas', process.env.VOICEYM_UI_URL || 'http://localhost:3902').href,
   );
   const profileButton = page.getByRole('button', { name: profile.name, exact: true }).first();
   await profileButton.waitFor({ timeout: 15_000 }).catch(async (error) => {

@@ -5,7 +5,7 @@ raw exception text may leave the process). That floor used to be the generic
 "Check the selected ASR engine" reply for *every* class, so a Mac without a
 resolvable ffmpeg (``[Errno 2] ... 'ffmpeg'``) or an orphaned backend whose
 stdio pipe closed (``[Errno 32] Broken pipe``) got no next step. The exception
-is now classified privately and mapped to a VoiceStudio-owned, actionable
+is now classified privately and mapped to a Voiceym-owned, actionable
 message per class.
 """
 from __future__ import annotations

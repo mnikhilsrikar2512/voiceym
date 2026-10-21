@@ -16,7 +16,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage({ viewport: { width: 1180, height: 760 } });
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
   });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -29,7 +29,7 @@ try {
           backends: [
             {
               id: 'omnivoice',
-              display_name: 'VoiceStudio',
+              display_name: 'Voiceym',
               available,
               reason: available ? null : 'Model missing',
             },
@@ -51,7 +51,7 @@ try {
     route.fulfill({ json: { engine_available: false, models: [] } }),
   );
 
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.goto(base + '/#/clone');
   const localDevice = (state) =>
     page.getByRole('button', {

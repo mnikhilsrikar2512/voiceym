@@ -15,7 +15,7 @@ def test_workflow_is_manual_private_and_distribution_scoped():
     workflow = load_workflow()
     assert set(workflow["on"]) == {"workflow_dispatch"}
     assert workflow["permissions"] == {"contents": "read"}
-    assert workflow["env"]["VOICESTUDIO_DISTRIBUTION"] == "mac-app-store"
+    assert workflow["env"]["VOICEYM_DISTRIBUTION"] == "mac-app-store"
     source = WORKFLOW.read_text()
     assert "--publish never" in source
     assert "altool" not in source

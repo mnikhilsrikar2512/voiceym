@@ -36,7 +36,7 @@ export function createMicrosoftStoreHandoff({
   output,
   version,
   tag,
-  repository = "debpalash/VoiceStudio",
+  repository = "mnikhilsrikar2512/voiceym",
   generatedAt = new Date().toISOString(),
 }) {
   assert.match(version, /^\d+\.\d+\.\d+$/, "Version must be a release version");
@@ -46,7 +46,7 @@ export function createMicrosoftStoreHandoff({
   const packages = readdirSync(releaseDir)
     .filter((name) =>
       new RegExp(
-        `^VoiceStudio-MicrosoftStore-${version.replaceAll(".", "\\.")}-win-(x64|arm64)\\.exe$`,
+        `^Voiceym-MicrosoftStore-${version.replaceAll(".", "\\.")}-win-(x64|arm64)\\.exe$`,
       ).test(name),
     )
     .sort()
@@ -141,7 +141,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     output,
     version,
     tag: option("tag", `v${version}`),
-    repository: option("repository", process.env.GITHUB_REPOSITORY || "debpalash/VoiceStudio"),
+    repository: option("repository", process.env.GITHUB_REPOSITORY || "mnikhilsrikar2512/voiceym"),
   });
   console.log(`Wrote ${basename(output)}`);
 }

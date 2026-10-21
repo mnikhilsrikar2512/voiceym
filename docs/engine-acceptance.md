@@ -1,6 +1,6 @@
 # Adding a TTS or ASR engine
 
-VoiceStudio ships a lot of engines. That breadth is only an asset while every one
+Voiceym ships a lot of engines. That breadth is only an asset while every one
 of them still works on every platform — otherwise it is a pile of support
 queues, and the project's actual promise (*a first run that works*) is what pays
 for it.
@@ -45,7 +45,7 @@ which is a property of the bar, not a judgement of the contributor.
    rights are obtained. The application licence does not grant model or output
    rights. Existing integrations also need this audit; the controls remain
    tracked in #2587. The previously approved `audiocpp` / Breeze-TTS-2 exception
-   remains restricted and stewarded by `@debpalash`.
+   remains restricted and stewarded by `@mnikhilsrikar2512`.
 3. **Every platform, or explicitly opt-in.** macOS (Apple Silicon and Intel),
    Windows, Linux. A CPU path is required — an engine that only runs on one
    accelerator is fine, but it must degrade rather than break, and a

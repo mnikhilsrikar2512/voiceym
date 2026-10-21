@@ -50,7 +50,7 @@ try {
     }),
   );
   await page.goto(
-    (process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/settings/models/llm',
+    (process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/settings/models/llm',
   );
   const toggle = page.getByRole('switch', { name: 'Dictation cleanup', exact: true });
   await toggle.waitFor();

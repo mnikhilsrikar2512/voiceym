@@ -37,7 +37,13 @@ _TOKEN_BODY_RE = re.compile(rf"^[A-Za-z0-9_-]{{{_ENCODED_TOKEN_LENGTH}}}$")
 # in electron/src/shared/api/authSession.ts — a route missing here mints a 422 and the
 # UI consumer fails silently (#1769 added /ws/tts for the live dub preview).
 _ALLOWED_WS_PATHS = frozenset(
-    {"/ws/events", "/ws/transcribe", "/ws/tts", "/v1/audio/transcriptions/stream"}
+    {
+        "/ws/events",
+        "/ws/transcribe",
+        "/ws/tts",
+        "/v1/audio/transcriptions/stream",
+        "/v1/agent/ws",
+    }
 )
 _ADMIN_CAPABILITIES = frozenset({"consume", "admin"})
 _KEY_GENERATION_INFO = b"omnivoice-admin-key-generation-v1"
@@ -395,7 +401,7 @@ def _process_store() -> AdminSessionStore:
     anchor = sys.modules.get(_ANCHOR_MODULE_NAME)
     if not isinstance(anchor, ModuleType):
         anchor = ModuleType(_ANCHOR_MODULE_NAME)
-        anchor.__doc__ = "Process-global anchor for the VoiceStudio admin-session store."
+        anchor.__doc__ = "Process-global anchor for the Voiceym admin-session store."
         sys.modules[_ANCHOR_MODULE_NAME] = anchor
     store = getattr(anchor, "admin_session_store", None)
     if store is None:

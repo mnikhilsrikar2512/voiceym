@@ -8,7 +8,7 @@ carry, so two readers raised ``UnicodeDecodeError``:
 * ``core.version._fallback_version`` reads ``pyproject.toml`` — the version
   path a raw source checkout and a frozen build without package metadata both
   take. It runs while ``core.version`` is being imported, so the failure took
-  the whole backend down before any VoiceStudio code could report it.
+  the whole backend down before any Voiceym code could report it.
 * ``engines.omnivoice_gguf.backend._load_quant_map`` reads ``quant_map.json``
   when the engine picks a quant, so every generation failed instead.
 

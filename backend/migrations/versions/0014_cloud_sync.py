@@ -1,4 +1,4 @@
-"""VoiceStudio Cloud settings sync tables (S1)
+"""Voiceym Cloud settings sync tables (S1)
 
 Revision ID: 0014_cloud_sync
 Revises: 0013_generation_history_design_recipe
@@ -9,7 +9,7 @@ per-Organization device and cursor, the last agreed version of each item (the
 merge base), the outbox of local changes (one row per item), and the mirror
 of renderer localStorage values the engine reads and writes.
 
-Named ``cloud_sync_*`` because VoiceStudio Pro already owns a ``sync_state``
+Named ``cloud_sync_*`` because Voiceym Pro already owns a ``sync_state``
 table (folder sync) with another schema. Idempotent: every statement is
 ``IF NOT EXISTS`` and the same DDL is in ``core/db.py::_BASE_SCHEMA``.
 """

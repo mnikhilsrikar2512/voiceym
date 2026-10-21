@@ -21,7 +21,7 @@ function harness(over: Partial<Record<string, unknown>> = {}) {
   const store = new RefreshTokenStore(join(dir, 'account.json'), memorySafe);
   const activity = new CloudActivity({
     isAllowed: () => switches.get().accountEnabled,
-    origins: new Set(['https://voicestudio.sh']),
+    origins: new Set(['https://voiceym.example']),
     fetchImpl: vi.fn(),
   });
   const tokens = (refresh: string) => ({
@@ -32,11 +32,11 @@ function harness(over: Partial<Record<string, unknown>> = {}) {
   });
   const oidc = {
     discover: vi.fn(async () => ({
-      authorization_endpoint: 'https://voicestudio.sh/auth',
+      authorization_endpoint: 'https://voiceym.example/auth',
       token_endpoint: '',
       revocation_endpoint: '',
     })),
-    authorizeUrl: vi.fn(() => 'https://voicestudio.sh/auth?x'),
+    authorizeUrl: vi.fn(() => 'https://voiceym.example/auth?x'),
     exchangeCode: vi.fn(async () => tokens('r1')),
     refresh: vi.fn(async () => tokens('r2')),
     revoke: vi.fn(async () => {}),
@@ -56,7 +56,7 @@ function harness(over: Partial<Record<string, unknown>> = {}) {
     switches,
     openExternal,
     startLoopback: vi.fn(async () => loopback) as never,
-    signedInPage: 'https://app.voicestudio.sh/app/desktop-signed-in',
+    signedInPage: 'https://app.voiceym.example/app/desktop-signed-in',
     now: () => t,
     ...over,
   });
@@ -234,7 +234,7 @@ it('a leftover token is cleared at startup when account features are off', () =>
     switches: h.switches,
     openExternal: vi.fn(),
     startLoopback: vi.fn() as never,
-    signedInPage: 'https://app.voicestudio.sh/app/desktop-signed-in',
+    signedInPage: 'https://app.voiceym.example/app/desktop-signed-in',
   });
   expect(h.store.load()).toBeNull();
 });
@@ -250,7 +250,7 @@ it('Cancel during discovery never opens the browser', async () => {
   const done = h.session.signIn().catch(() => {});
   h.session.cancelSignIn();
   pending.resolve({
-    authorization_endpoint: 'https://voicestudio.sh/auth',
+    authorization_endpoint: 'https://voiceym.example/auth',
     token_endpoint: '',
     revocation_endpoint: '',
   });

@@ -49,7 +49,7 @@ WEDGED_STACKS = [
 # A worker that really is grinding: deepest frame inside the model.
 COMPUTING_STACK = (
     '  File "/app/backend/services/model_manager.py", line 1801, in _load\n'
-    "    return VoiceStudio.from_pretrained(checkpoint)\n"
+    "    return Voiceym.from_pretrained(checkpoint)\n"
     '  File "/app/omnivoice/models/omnivoice.py", line 812, in generate\n'
     "    audio = self.llm.forward(tokens)\n"
     '  File "/app/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", '
@@ -99,7 +99,7 @@ def test_a_wedge_does_not_blame_the_machine(mm):
         assert useless not in msg or "won't help" in msg
     # It must give the one thing that does help.
     assert "restart the backend" in msg.lower()
-    assert "github.com/debpalash/VoiceStudio/issues" in msg
+    assert "github.com/mnikhilsrikar2512/voiceym/issues" in msg
 
 
 def test_a_genuinely_slow_job_keeps_its_advice(mm):

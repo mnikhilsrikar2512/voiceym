@@ -17,7 +17,7 @@ const TARGETS = [
   },
   {
     key: 'env',
-    path: '/u/Library/Application Support/com.debpalash.omnivoice-studio',
+    path: '/u/Library/Application Support/com.voiceym.legacy',
     size_bytes: 391,
     exists: true,
     shared: false,

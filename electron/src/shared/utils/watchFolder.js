@@ -137,7 +137,7 @@ async function openTauriSource() {
     // directly to the loopback backend without retaining it in renderer RAM.
     async readFile(entry) {
       return {
-        __voiceStudioNativeWatchUpload: true,
+        __voiceymNativeWatchUpload: true,
         token,
         name: entry.name,
         size: entry.size,

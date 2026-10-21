@@ -1,8 +1,8 @@
 """SubprocessBackend — long-lived sidecar-process TTS primitive (Phase 2.1).
 
 The architectural keystone for engine isolation. Engines that need their
-own Python venv (because their dependency pins conflict with VoiceStudio's
-— IndexTTS demands `transformers<5`, VoiceStudio demands `transformers>=5.3`)
+own Python venv (because their dependency pins conflict with Voiceym's
+— IndexTTS demands `transformers<5`, Voiceym demands `transformers>=5.3`)
 run inside a `subprocess.Popen` child interpreter. The parent backend
 talks to them through length-prefixed JSON over the child's stdin/stdout.
 
@@ -135,7 +135,7 @@ GENERATE_RECV_TIMEOUT_S = 600.0
 #
 # A subprocess engine's sidecar holds a process and, for GPU engines, VRAM —
 # for the whole life of the backend, even when the user has moved on to another
-# engine. The default in-process VoiceStudio model already idle-unloads via
+# engine. The default in-process Voiceym model already idle-unloads via
 # model_manager.idle_worker; this gives the *subprocess* engine class the same
 # treatment: a background reaper shuts down sidecars that have been idle past a
 # timeout, and the next request transparently respawns one (the base already
@@ -671,7 +671,7 @@ class SubprocessBackend(TTSBackend):
             return f"{self.id} sidecar closed pipe mid-generate"
         reason = (
             f"{self.id} sidecar sent nothing for {deadline_s:g}s "
-            f"(elapsed {elapsed_s:.0f}s), so VoiceStudio stopped it. It may "
+            f"(elapsed {elapsed_s:.0f}s), so Voiceym stopped it. It may "
             f"simply be slower than that deadline on this host; retry or increase "
             f"this engine's receive timeout (see Troubleshooting)."
         )

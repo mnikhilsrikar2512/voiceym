@@ -7,7 +7,7 @@
  *
  * That is wrong for this app, twice over, and the reasons are not theoretical:
  *
- * 1. **It would track everyone immediately, before consent.** VoiceStudio's whole
+ * 1. **It would track everyone immediately, before consent.** Voiceym's whole
  *    promise is that a default install sends nothing (Settings → Privacy is OFF
  *    until you turn it on; see backend/core/analytics.py). Initialising at load
  *    would make the app's own README a lie. So init happens ONLY after the user
@@ -41,7 +41,7 @@ import { scrubText } from './scrub';
  * tests/test_no_committed_analytics_token.py pins that a `phc_` literal may
  * live in exactly this file and backend/core/analytics.py.
  */
-const PUBLIC_PROJECT_TOKEN = 'phc_kJK9nFqtwFmB4CYWS4bMDTY7z9P4KCRyiRT7CzJTXm9f'; // gitleaks:allow — publishable write-only key (#1193)
+const PUBLIC_PROJECT_TOKEN = ''; // Voiceym ships no analytics project; set VITE_POSTHOG_KEY to opt a build in.
 const POSTHOG_TOKEN: string = (import.meta.env?.VITE_POSTHOG_KEY as string) || PUBLIC_PROJECT_TOKEN;
 const POSTHOG_HOST: string =
   (import.meta.env?.VITE_POSTHOG_HOST as string) || 'https://us.i.posthog.com';
@@ -93,7 +93,7 @@ interface AnalyticsClient {
   reset(): void;
 }
 
-const APP_ANALYTICS_ORIGIN = 'https://app.voicestudio.sh';
+const APP_ANALYTICS_ORIGIN = 'https://app.voiceym.example';
 const SAFE_SCREEN =
   /^view:(?:home|clone|personas|stories|dub|batch|gallery|transcriptions|design|audiobook|projects|tools|calls|integrations|pro|other|settings\/(?:appearance|general|models|logs|media|pronunciation|network|sharing|credentials|performance|usage|privacy|permissions|storage|support|updates|openapi|diagnostics|other))$/;
 const URL_PROPERTIES = [
@@ -126,7 +126,7 @@ export function sanitizeOutgoingEvent<T extends OutgoingAnalyticsEvent>(
     const pathname = typeof candidate === 'string' ? candidate : '';
     if (/^\/(?:[a-z-]+|settings\/[a-z-]+)$/.test(pathname)) {
       properties.$current_url = `${APP_ANALYTICS_ORIGIN}${pathname}`;
-      properties.$host = 'app.voicestudio.sh';
+      properties.$host = 'app.voiceym.example';
       properties.$pathname = pathname;
     }
   }
@@ -170,9 +170,9 @@ export function sanitizeException(error: unknown): Error {
     )
     .slice(0, MAX_STACK_LINES)
     .map((line) => line.slice(0, MAX_STACK_LINE_LENGTH));
-  const safe = new Error('VoiceStudio renderer error');
+  const safe = new Error('Voiceym renderer error');
   safe.name = errorClass;
-  safe.stack = [`${errorClass}: VoiceStudio renderer error`, ...frames].join('\n');
+  safe.stack = [`${errorClass}: Voiceym renderer error`, ...frames].join('\n');
   return safe;
 }
 
@@ -301,7 +301,7 @@ export function capturePageview(screen: string): void {
     const pathname = `/${screen.slice('view:'.length)}`;
     client.capture('$pageview', {
       $current_url: `${APP_ANALYTICS_ORIGIN}${pathname}`,
-      $host: 'app.voicestudio.sh',
+      $host: 'app.voiceym.example',
       $pathname: pathname,
       source: 'electron',
     });

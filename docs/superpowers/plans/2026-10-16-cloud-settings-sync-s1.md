@@ -2,7 +2,7 @@
 
 > **For agentic workers:** executed inline (superpowers:executing-plans) by the same session that wrote it. Each task is test-first; the tests named per task are the contract.
 
-**Goal:** Sync settings, shortcuts, and gallery favorites between a user's devices through VoiceStudio Cloud (`/v1/sync`), opt-in per device, and stopped at once by the S0 switches.
+**Goal:** Sync settings, shortcuts, and gallery favorites between a user's devices through Voiceym Cloud (`/v1/sync`), opt-in per device, and stopped at once by the S0 switches.
 
 **Architecture:** A backend package `backend/services/cloud_sync/` runs the engine: pull `GET /changes`, apply with a three-way merge against the last agreed version, then push the outbox with `If-Match`. It reads every token through `services.cloud_account.access_token()`, so main's switches stay the single gate. Local values come from three stores. `prefs.json` and the settings table are hooked in the backend. Renderer `localStorage` is mirrored into the backend by a renderer `syncedStorage` wrapper, and pulled values flow back to the renderer the same way. When sync is switched off, main tells the backend to stop at once.
 
@@ -23,10 +23,10 @@
 - Commits carry no AI attribution (CLAUDE.md).
 
 ## Rulings (made while planning)
-- **Table names.** Tables are `cloud_sync_state`, `cloud_sync_items`, `cloud_sync_outbox` and `cloud_sync_local` (the renderer mirror), not the guide's `sync_*`. VoiceStudioPro already has a `sync_state` table (migration 0019, folder sync) with another schema, and both apps share this code. Cost if wrong: renaming four tables.
+- **Table names.** Tables are `cloud_sync_state`, `cloud_sync_items`, `cloud_sync_outbox` and `cloud_sync_local` (the renderer mirror), not the guide's `sync_*`. VoiceymPro already has a `sync_state` table (migration 0019, folder sync) with another schema, and both apps share this code. Cost if wrong: renaming four tables.
 - **Device and Organization.** The token bridge answer also carries `organization_id` (`personal_organization_id`) and the `sync_api` base URL, so the backend needs no environment table of its own.
 - **Renderer stores.** Renderer keys reach the backend over the renderer's existing loopback HTTP channel (`apiJson`), not through main. Renderer → backend is the path every other renderer setting already uses. Cost if wrong: none; the guide's "via main" was a suggestion.
-- **Favorites.** `voicestudio.gallery.favorites.v1` is an ID array, so the mirror records `added_at` the first time it sees each ID.
+- **Favorites.** `voiceym.gallery.favorites.v1` is an ID array, so the mirror records `added_at` the first time it sees each ID.
 - **Shortcuts.** `shortcuts.global` maps `dictation.toggle` to the renderer bridge's `capture` shortcut API, applied through the existing setter, so main's file stays the one writer.
 - **`dictation` group.** This list is sent back to `vssaas` (S1-23): `aecEnabled` (localStorage), plus prefs `dictation.mode`, `dictation.enabled` and `dictation.prompt`. Excluded: `dictation.model_id` and `dictation.silent_models` (engine choices) and the input device.
 - **Plan style.** This plan gives interfaces and test contracts rather than full code. The same session executes it immediately, so writing the code twice would only duplicate it.

@@ -96,7 +96,7 @@ beforeEach(() => {
     }
   }
   capture.onEvent.mockReturnValue(() => {});
-  vi.stubGlobal('voicestudio', { capture });
+  vi.stubGlobal('voiceym', { capture });
 });
 
 afterEach(() => {

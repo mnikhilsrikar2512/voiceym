@@ -55,9 +55,9 @@ it('still retains the newest ordinary exception and the original chained cause',
 // #2382: the shape of a real Windows dump. The faulting thread recursed
 // through Module._apply far deeper than the old 40-line / 1200-character
 // window, so the report showed only torch internals and no other thread.
-const VENV = String.raw`~\AppData\Roaming\VoiceStudio\runtime\project\.venv\Lib\site-packages`;
+const VENV = String.raw`~\AppData\Roaming\Voiceym\runtime\project\.venv\Lib\site-packages`;
 const STDLIB = String.raw`~\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib`;
-const PROJECT = String.raw`~\AppData\Roaming\VoiceStudio\runtime\project`;
+const PROJECT = String.raw`~\AppData\Roaming\Voiceym\runtime\project`;
 const windowsDump = [
   'INFO:     127.0.0.1:56863 - "GET /model/status HTTP/1.1" 200 OK',
   'Windows fatal exception: access violation',
@@ -114,7 +114,7 @@ it('summarises a native fault by where it happened instead of the last output li
   expect(nativeFaultSummary('RuntimeError: ordinary failure')).toBe('');
 });
 
-it('keeps a library-only fault readable without a VoiceStudio frame', async () => {
+it('keeps a library-only fault readable without a Voiceym frame', async () => {
   const { nativeCrashExcerpt } = await import('../shared/utils/crashReport');
   const excerpt = nativeCrashExcerpt(
     [

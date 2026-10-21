@@ -56,9 +56,9 @@
     "no_harness": "Codex、Claude Code、OpenCode、Piのいずれかをインストールしてログインしてください。"
   },
   "repairAgent": {
-    "title": "VoiceStudio Agent に相談",
+    "title": "Voiceym Agent に相談",
     "notInstalled": "未インストール",
-    "noSource": "エージェントが修復できるよう、書き込み可能な VoiceStudio のソースチェックアウトを開いてください。",
+    "noSource": "エージェントが修復できるよう、書き込み可能な Voiceym のソースチェックアウトを開いてください。",
     "ready": "準備完了",
     "placeholder": "何が起きましたか？手順、表示されたエラー、期待する動作を入力してください。",
     "diagnose": "診断",
@@ -68,7 +68,7 @@
   },
   "siteBrowser": {
     "return_studio": "スタジオに戻る",
-    "preview": "公式サイトをVoiceStudio内ですばやくプレビュー",
+    "preview": "公式サイトをVoiceym内ですばやくプレビュー",
     "open_in": "ブラウザーで開く",
     "back": "戻る",
     "forward": "進む",
@@ -99,7 +99,7 @@
     "brand_by": "{{brand}} 開発者",
     "all": "全員",
     "allContributors": "すべての貢献者",
-    "title": "VoiceStudio.sh オープンソース",
+    "title": "voiceym.example オープンソース",
     "design": "説明から声をデザイン。",
     "dub": "音声や動画を翻訳・吹き替え。",
     "stories": "複数の声でシーンを作成。",
@@ -110,17 +110,17 @@
   },
   "longformPersistence": {
     "storage_unavailable_title": "プロジェクトを読み込めませんでした",
-    "storage_unavailable_body": "VoiceStudio はローカルのプロジェクトストレージを読み取れませんでした。データは変更されていません。安全に開くには再試行してください。",
+    "storage_unavailable_body": "Voiceym はローカルのプロジェクトストレージを読み取れませんでした。データは変更されていません。安全に開くには再試行してください。",
     "clear_projects": "保存済みプロジェクトを消去",
-    "clear_confirm": "VoiceStudio を再び開けるように、保存済みのストーリーとオーディオブックのプロジェクト、および未保存の下書きをすべて完全に削除します。この操作は元に戻せません。続行しますか？"
+    "clear_confirm": "Voiceym を再び開けるように、保存済みのストーリーとオーディオブックのプロジェクト、および未保存の下書きをすべて完全に削除します。この操作は元に戻せません。続行しますか？"
   },
   "backendUnreachable": {
     "contact_recent": "{{ago}}前までは応答していましたが、その後応答しなくなりました。クラッシュは記録されていないため、まだ動作していて、エンジンを占有する重い処理で止まっているだけかもしれません。",
     "contact_never": "このセッションでは一度も応答していません — そもそも起動していない可能性があります。",
-    "dev": "ローカルの VoiceStudio バックエンドに接続できません。{{contact}} `bun run dev` ではバックエンドが自動リロードで動作するため、ファイルの変更（リクエスト中の保存も含む）で再起動し、接続が切れます。まず操作をやり直してください。リロードが原因ならそれで動きます。それでも失敗する場合は、`bun run dev` を実行しているターミナルの Python トレースバックや終了メッセージ、および VoiceStudio データフォルダーの omnivoice.log を確認してください。",
-    "server": "VoiceStudio バックエンドサーバーに接続できません。{{contact}} サーバーログで原因を確認してください（例: `docker logs <container>` や `journalctl`）。なお、このページを Docker が配信している場合、バックエンドと一緒にページ自体も落ちることがあります。",
-    "misrouted": "{{url}} に応答しているサーバーは VoiceStudio バックエンドではありません — そのサーバー自身の 404 ページが返されました。API リクエストが誤ったホストに届いています。設定 → 共有 でバックエンド URL を確認するか、リバースプロキシがこの UI を配信している場合は API パスのルート設定を確認してください。",
-    "desktop": "ローカルの VoiceStudio バックエンドに接続できません。{{contact}} クラッシュ通知が出ていれば開いてください。または 設定 → ログ → バックエンド で最後に記録された内容を確認できます。「{{retry}}」で再起動、戻らない場合は「{{cleanRetry}}」で環境を再構築します。"
+    "dev": "ローカルの Voiceym バックエンドに接続できません。{{contact}} `bun run dev` ではバックエンドが自動リロードで動作するため、ファイルの変更（リクエスト中の保存も含む）で再起動し、接続が切れます。まず操作をやり直してください。リロードが原因ならそれで動きます。それでも失敗する場合は、`bun run dev` を実行しているターミナルの Python トレースバックや終了メッセージ、および Voiceym データフォルダーの omnivoice.log を確認してください。",
+    "server": "Voiceym バックエンドサーバーに接続できません。{{contact}} サーバーログで原因を確認してください（例: `docker logs <container>` や `journalctl`）。なお、このページを Docker が配信している場合、バックエンドと一緒にページ自体も落ちることがあります。",
+    "misrouted": "{{url}} に応答しているサーバーは Voiceym バックエンドではありません — そのサーバー自身の 404 ページが返されました。API リクエストが誤ったホストに届いています。設定 → 共有 でバックエンド URL を確認するか、リバースプロキシがこの UI を配信している場合は API パスのルート設定を確認してください。",
+    "desktop": "ローカルの Voiceym バックエンドに接続できません。{{contact}} クラッシュ通知が出ていれば開いてください。または 設定 → ログ → バックエンド で最後に記録された内容を確認できます。「{{retry}}」で再起動、戻らない場合は「{{cleanRetry}}」で環境を再構築します。"
   },
   "nav": {
     "clone": "複製",
@@ -159,13 +159,13 @@
     "remote_backend_recovery_title": "リモートバックエンドに接続できません",
     "remote_backend_recovery_hint": "リモートバックエンドは後で「設定」→「共有」から変更できます。",
     "remote_backend_use_local": "ローカルバックエンドを使用",
-    "remote_backend_error_tls": "安全な接続を検証できませんでした。証明書を確認し、VoiceStudio HTTP API のポートを使用してください。",
+    "remote_backend_error_tls": "安全な接続を検証できませんでした。証明書を確認し、Voiceym HTTP API のポートを使用してください。",
     "remote_backend_error_cors": "リモートバックエンドがこのアプリをブロックしました。CORS 設定でアプリのオリジンを許可してください。",
     "remote_backend_error_network": "リモートバックエンドに到達できません。アドレス、ネットワーク、ファイアウォールを確認してください。",
     "remote_backend_error_timeout": "リモートバックエンドが時間内に応答しませんでした。",
     "remote_backend_error_http": "リモートバックエンドが HTTP {{status}} を返しました。",
-    "remote_backend_error_wrong_port": "VoiceStudio HTTP API ではないようです。ポート 7443 は通常リモートワーカーの制御用です。ポート 3900 をお試しください。",
-    "openapi": "VoiceStudio API",
+    "remote_backend_error_wrong_port": "Voiceym HTTP API ではないようです。ポート 7443 は通常リモートワーカーの制御用です。ポート 3900 をお試しください。",
+    "openapi": "Voiceym API",
     "general": "一般",
     "theme": "テーマ",
     "language": "言語",
@@ -205,7 +205,7 @@
     "llmp_test_ok": "OK — {{model}} · {{ms}} ms",
     "llmp_active_env_pin": "LLMの選択はLLM_DEFAULT_PROVIDERまたはOMNIVOICE_LLM_BACKENDで固定されています。",
     "llmp_connect": "接続して有効化",
-    "llmp_setup_hint": "プロバイダーを選び、サーバーを起動するかAPIキーを追加して接続してください。VoiceStudioはモデルの応答を確認してからLLM機能を有効にします。",
+    "llmp_setup_hint": "プロバイダーを選び、サーバーを起動するかAPIキーを追加して接続してください。Voiceymはモデルの応答を確認してからLLM機能を有効にします。",
     "llmp_disable": "LLMを無効化",
     "llmp_optional_key": "APIキー（任意）",
     "llmp_err_config": "プロバイダー設定を入力してください：ベースURL、モデル、必要に応じてAPIキーまたはアカウントID。",
@@ -274,7 +274,7 @@
     "shortcut_register_failed": "登録できませんでした: {{message}}",
     "shortcut_reset": "デフォルトにリセットする",
     "shortcut_reset_failed": "リセットに失敗しました: {{message}}",
-    "reset_longform_failed": "VoiceStudio は保存済みプロジェクトを安全に消去できませんでした。プロジェクトデータは変更されていません。ストレージの空き容量を増やすかアプリを再起動して、もう一度お試しください。",
+    "reset_longform_failed": "Voiceym は保存済みプロジェクトを安全に消去できませんでした。プロジェクトデータは変更されていません。ストレージの空き容量を増やすかアプリを再起動して、もう一度お試しください。",
     "cancel": "キャンセル",
     "hf_token_also_clear": "保存済みの HuggingFace CLI トークンファイルも削除する",
     "hf_token_clear_btn": "トークンをクリア",
@@ -327,7 +327,7 @@
     "nav_style_desc": "ウィンドウ端のアイコンバー、またはタイトルバーのタブでワークスペースを切り替えます。",
     "nav_style_rail": "サイドバー",
     "nav_style_tabs": "タイトルバーのタブ",
-    "storage_desc": "VoiceStudio がデータと出力を保管する場所。",
+    "storage_desc": "Voiceym がデータと出力を保管する場所。",
     "history_retention": "生成履歴",
     "history_retention_desc": "古いテイクを整理するまでに保持するテイク数。",
     "history_retention_help": "生成のたびに、この上限を超えた古いスターなしテイクは音声ファイルごと削除されます。スター付きテイクは常に保持されます。0 = すべて保持。",
@@ -344,7 +344,7 @@
     "models_dir_effective": "現在使用中",
     "models_dir_configured": "設定済み",
     "models_dir_default": "既定値を使用",
-    "models_dir_restart": "↻ 新しい場所を使用するには VoiceStudio を再起動してください。",
+    "models_dir_restart": "↻ 新しい場所を使用するには Voiceym を再起動してください。",
     "compute_device": "計算デバイス",
     "compute_device_title": "計算デバイス",
     "compute_device_desc": "バックエンドがモデルを実行するデバイス。ほとんどの場合は「自動」が最適です。",
@@ -369,12 +369,12 @@
     "generate_timeout_cpu": "CPU予算",
     "generate_timeout_cpu_note": "生成が CPU 上で実行される場合に使用されます。ここで保存すると、この値は上のアクセラレーテッド予算とは関係なく、常に CPU での生成を管理します。",
     "generate_timeout_invalid": "0 より大きく、{{max}} 以下の秒数を入力してください。",
-    "generate_timeout_saved": "保存しました。新しい予算を適用するには VoiceStudio を再起動してください。",
+    "generate_timeout_saved": "保存しました。新しい予算を適用するには Voiceym を再起動してください。",
     "generate_timeout_shadowed_badge": "外部から上書きされています",
-    "generate_timeout_shadowed_note": "VoiceStudio の外部にある環境変数（シェル、.env ファイル、またはコンテナ）が現在この値を設定しています — その変数が削除されるまで、ここで保存した値は無視されます。",
-    "generate_timeout_shadowed_toast": "保存しましたが、VoiceStudio の外部にある環境変数が現在この値を設定しています — その変数が削除されるまで、その値が使われ続けます。",
+    "generate_timeout_shadowed_note": "Voiceym の外部にある環境変数（シェル、.env ファイル、またはコンテナ）が現在この値を設定しています — その変数が削除されるまで、ここで保存した値は無視されます。",
+    "generate_timeout_shadowed_toast": "保存しましたが、Voiceym の外部にある環境変数が現在この値を設定しています — その変数が削除されるまで、その値が使われ続けます。",
     "hf_token_not_checked": "未テスト",
-    "hf_source_app_label": "VoiceStudio（暗号化済み、推奨）",
+    "hf_source_app_label": "Voiceym（暗号化済み、推奨）",
     "hf_source_cli_label": "HuggingFace CLI",
     "hf_source_env_label": "環境変数",
     "theme_auto": "システム自動",
@@ -389,7 +389,7 @@
     "llmp_cli_auth": "CLIアカウントのアクセスが拒否されました。ログイン、契約、選択したモデルを確認してください。"
   },
   "bootstrap": {
-    "title": "VoiceStudio",
+    "title": "Voiceym",
     "checking": "環境の確認中…",
     "downloading_uv": "uv（Pythonパッケージマネージャー）をダウンロード中…",
     "creating_venv": "Python仮想環境の作成中…",
@@ -424,10 +424,10 @@
     "hint_uv_sync": "依存関係のインストールに失敗しました。「クリーンアップして再試行」はキャッシュされた venv を削除して最初からやり直します。",
     "hint_build_backend": "Python ビルドバックエンドのエラーです。「クリーンアップして再試行」は壊れた venv を削除してゼロから再構築します。",
     "hint_ffmpeg": "ffmpeg のダウンロードに失敗しました。致命的ではありません — 再試行するか、ffmpeg を手動でインストールしてください。",
-    "hint_port": "ポート 3900 は既に使用中です。他の VoiceStudio インスタンスや、そのポートを使うアプリを終了してください。",
+    "hint_port": "ポート 3900 は既に使用中です。他の Voiceym インスタンスや、そのポートを使うアプリを終了してください。",
     "hint_silent_crash": "バックエンドがエラーメッセージなしでクラッシュしました。「クリーンアップして再試行」で venv の破損が直ることがよくあります。",
     "hint_github_blocked": "ネットワークが GitHub をブロックしている可能性があります。python.org から Python 3.11+ をインストール(PATH に追加)して再起動するか、UV_PYTHON_INSTALL_MIRROR を設定してください — docs/install/troubleshooting.md を参照。",
-    "hint_intel_mac": "この Mac は Intel プロセッサ搭載ですが、PyTorch は Intel Mac 向けビルドの提供を終了したため、ローカル AI バックエンドをインストールできません。再試行しても解決しません。別のマシンで動くリモートバックエンドにアプリを接続する(設定 → 共有 → リモートバックエンド)か、Apple Silicon Mac / Windows / Linux で VoiceStudio をご利用ください。詳細: docs/install/macos.md。",
+    "hint_intel_mac": "この Mac は Intel プロセッサ搭載ですが、PyTorch は Intel Mac 向けビルドの提供を終了したため、ローカル AI バックエンドをインストールできません。再試行しても解決しません。別のマシンで動くリモートバックエンドにアプリを接続する(設定 → 共有 → リモートバックエンド)か、Apple Silicon Mac / Windows / Linux で Voiceym をご利用ください。詳細: docs/install/macos.md。",
     "hint_default": "まず「再試行」を試してください。再び失敗する場合、「クリーンアップして再試行」が環境をゼロから再構築します。",
     "hint_stuck": "バックエンドの起動が完了していません。ソースから、最初に「uv sync」を実行し、「uv」と Python が PATH 上にあることを確認してから、再試行します。正確なストール ポイントについては、以下のログ (または [設定] → [ログ] → [バックエンド]) を確認してください。"
   },
@@ -762,9 +762,9 @@
     "watermark_failed": "透かしの設定を変更できませんでした。"
   },
   "consent": {
-    "title": "VoiceStudio の改善に協力しますか？",
+    "title": "Voiceym の改善に協力しますか？",
     "desc": "バグをより早く修正するのに役立つ、匿名でコンテンツを含まない利用統計 — 完全に任意で、デフォルトではオフです。",
-    "step_label": "VoiceStudio の改善",
+    "step_label": "Voiceym の改善",
     "body": "匿名でコンテンツを含まない使用統計です。使用したエンジン、生成にかかった時間、エラーの種類のみを送信します。あなたのテキスト、音声、ファイル、あなたを特定できる情報は決して送信されません。同意しない限り何も送信されず、設定 → プライバシーでいつでも変更できます。",
     "learn_more": "実際に送信される内容は？",
     "yes": "はい、匿名統計を共有する",
@@ -772,7 +772,7 @@
     "dismiss": "閉じる（アナリティクスはオフのまま）"
   },
   "langPrompt": {
-    "offer": "VoiceStudio は{{language}}で開きました。英語のほうがよろしいですか？",
+    "offer": "Voiceym は{{language}}で開きました。英語のほうがよろしいですか？",
     "switch": "英語に切り替える",
     "keep": "{{language}}のままにする"
   },
@@ -833,7 +833,7 @@
     "diskTemporary": "一時的な空き容量",
     "diskDestination": "保存先",
     "diskDestination_hf_model_cache": "Hugging Face モデルキャッシュのボリューム",
-    "diskDestination_engine_data": "VoiceStudio エンジンデータのボリューム",
+    "diskDestination_engine_data": "Voiceym エンジンデータのボリューム",
     "diskActualModel": "実際のモデル",
     "diskActualEnvironment": "実際の環境",
     "diskActualCache": "実際の共有キャッシュ",
@@ -882,7 +882,7 @@
   },
   "capture": {
     "desc": "グローバル ホットキーはデスクトップ アプリでのみ機能します。 Web UI は、ウィンドウにフォーカスがある間、ページ内 <1>Ctrl+Shift+Space</1> ショートカットを使用します。",
-    "desc_detail": "このホットキーは、VoiceStudio の実行中にシステム全体で機能し、ウィンドウにフォーカスを合わせてディクテーションを開始します。 OS によってすでに要求されているコンボは避けてください (macOS では、<1>⌘+Space</1> が Spotlight で、<2>⌘+⇧+Space</2> が入力ソースを循環します)。登録に失敗した場合は、別のコンボを選択してください。",
+    "desc_detail": "このホットキーは、Voiceym の実行中にシステム全体で機能し、ウィンドウにフォーカスを合わせてディクテーションを開始します。 OS によってすでに要求されているコンボは避けてください (macOS では、<1>⌘+Space</1> が Spotlight で、<2>⌘+⇧+Space</2> が入力ソースを循環します)。登録に失敗した場合は、別のコンボを選択してください。",
     "active_shortcut": "アクティブなショートカット",
     "new_shortcut": "新しいショートカット",
     "press_key": "キーの組み合わせを押してください…",
@@ -900,8 +900,8 @@
     "no_speech": "音声が検出されませんでした",
     "mic_denied": "マイクアクセスが拒否されました",
     "mic_denied_toast": "マイクへのアクセスが拒否されました。 {{hint}}",
-    "mic_hint_mac": "macOS: [システム設定] → [プライバシーとセキュリティ] → [マイク] を開き、VoiceStudio を有効にします。",
-    "mic_hint_windows": "Windows: 設定 → プライバシーとセキュリティ → マイクを開き、「マイクへのアクセス」と「デスクトップ アプリがマイクにアクセスできるようにする」をオンにして、VoiceStudio を許可してください。",
+    "mic_hint_mac": "macOS: [システム設定] → [プライバシーとセキュリティ] → [マイク] を開き、Voiceym を有効にします。",
+    "mic_hint_windows": "Windows: 設定 → プライバシーとセキュリティ → マイクを開き、「マイクへのアクセス」と「デスクトップ アプリがマイクにアクセスできるようにする」をオンにして、Voiceym を許可してください。",
     "mic_hint_linux": "Linux: ユーザーがオーディオ グループに属していること、および WebView にマイク アクセスがあることを確認してください。",
     "transcription_failed": "転写に失敗しました: {{message}}",
     "mic_not_found": "マイクが見つかりません。マイクを接続または有効にして、もう一度お試しください。",
@@ -1000,7 +1000,7 @@
     "persona_include_ref_hint": "生のリファレンス クリップを含めます。オフ = 透かし入りのプレビューのみを共有します (推奨)。",
     "consent_title": "音声の所有権",
     "consent_explain": "以下の声明を読んでいる自分の声を録音して、これがあなた自身の声であることを確認してください。エージェント機能とコミュニティ共有には検証が必要ですが、ローカル合成では決して必要ありません。",
-    "consent_statement": "私は、この音声プロファイルが私自身の声であることを確認し、VoiceStudio が私の代わりにそれを複製することに同意します。",
+    "consent_statement": "私は、この音声プロファイルが私自身の声であることを確認し、Voiceym が私の代わりにそれを複製することに同意します。",
     "consent_record": "同意声明を記録する",
     "consent_stop": "録音を停止する",
     "consent_saved": "音声の所有権が確認されました",
@@ -1464,7 +1464,7 @@
     "watch_start_failed": "そのフォルダーの監視を開始できませんでした。フォルダーを選び直して再試行してください。"
   },
   "gallery": {
-    "title": "VoiceStudio ギャラリー",
+    "title": "Voiceym ギャラリー",
     "download_hint": "上で検索してクリップをダウンロードしてください",
     "saving": "保存中…",
     "trim": "トリム",
@@ -1573,8 +1573,8 @@
   "donate": {
     "title": "サポート",
     "desc": "このプロジェクトを気に入っていただけましたら、開発をサポートするために寄付をご検討ください。",
-    "hero_title": "VoiceStudioプロジェクトに寄付",
-    "hero_desc": "VoiceStudio は無料のオープンソースであり、ハードウェア上で完全に実行されます。それがワークフローに価値をもたらす場合は、コア チームのサポートを検討してください。",
+    "hero_title": "Voiceymプロジェクトに寄付",
+    "hero_desc": "Voiceym は無料のオープンソースであり、ハードウェア上で完全に実行されます。それがワークフローに価値をもたらす場合は、コア チームのサポートを検討してください。",
     "github_desc": "定期的または 1 回限り — GitHub 経由で直接。",
     "coffee_desc": "チームにコーヒーをおごってください。アカウントは必要ありません。",
     "paypal_desc": "PayPal 経由で簡単に 1 回限りまたは定期的に実行できます。",
@@ -1588,7 +1588,7 @@
     "choose_method": "与え方を選ぶ",
     "choose_method_amount": "${{amount}} に進む",
     "goal": {
-      "title": "VoiceStudio の開発を支援",
+      "title": "Voiceym の開発を支援",
       "of": "の",
       "per_month": "/月",
       "aria": "月間目標 {{raised}}/{{goal}}",
@@ -1597,7 +1597,7 @@
       "social_proof": "{{count}} サポーターに参加してローカル AI に資金を提供しましょう"
     },
     "postcard": {
-      "title": "VoiceStudio の開発を支援",
+      "title": "Voiceym の開発を支援",
       "later": "たぶん後で"
     }
   },
@@ -1607,11 +1607,11 @@
     "back": "スタジオに戻る",
     "badge": "商用ライセンス",
     "hero_title": "本番環境で AI 音声を出荷",
-    "hero_desc": "VoiceStudio は GNU Affero General Public License v3（AGPL-3.0）の下で提供される自由なオープンソースソフトウェアです。商用利用や社内業務利用を含め、無料でご利用いただけます。商用ライセンスが必要になるのは、AGPL-3.0 のコピーレフト義務なしに VoiceStudio をクローズドソースまたはプロプライエタリな製品・サービスに組み込みたい場合のみです。 当社のライセンスは VoiceStudio のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
+    "hero_desc": "Voiceym は GNU Affero General Public License v3（AGPL-3.0）の下で提供される自由なオープンソースソフトウェアです。商用利用や社内業務利用を含め、無料でご利用いただけます。商用ライセンスが必要になるのは、AGPL-3.0 のコピーレフト義務なしに Voiceym をクローズドソースまたはプロプライエタリな製品・サービスに組み込みたい場合のみです。 当社のライセンスは Voiceym のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
     "pricing_desc": "レベルと価格はまだ最終決定中です。",
     "request_quote": "見積もりを依頼する",
     "benefit_ip": "アプリのライセンス",
-    "benefit_ip_desc": "当社のライセンスは VoiceStudio のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
+    "benefit_ip_desc": "当社のライセンスは Voiceym のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
     "benefit_cost": "分当たりのコストはゼロ",
     "benefit_cost_desc": "API の請求や、予期せぬ超過料金は発生しません。初日から独自のハードウェアで実行できます。",
     "benefit_team_desc": "1 つのライセンスで、組織内の無制限のユーザーをカバーできます。",
@@ -1619,7 +1619,7 @@
     "benefit_support_desc": "コアエンジニアリングチームからの優先的な電子メールおよびビデオ通話サポート。",
     "benefit_source_desc": "スタックを完全に可視化します。ライセンス条項内で監査、フォーク、適応を行います。",
     "benefit_lang_desc": "人間レベルの品質で 646 言語の文字起こし、翻訳、吹き替えを行います。",
-    "hero_simple": "VoiceStudio は、AGPL-3.0 に基づく無料のオープンソースであり、商用および社内ビジネスでの使用も含まれます。 AGPL のコピーレフト義務なしで、クローズドソース製品に埋め込むには商用ライセンスのみが必要です。 当社のライセンスは VoiceStudio のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。"
+    "hero_simple": "Voiceym は、AGPL-3.0 に基づく無料のオープンソースであり、商用および社内ビジネスでの使用も含まれます。 AGPL のコピーレフト義務なしで、クローズドソース製品に埋め込むには商用ライセンスのみが必要です。 当社のライセンスは Voiceym のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。"
   },
   "exportModal": {
     "export": "エクスポート",
@@ -1682,7 +1682,7 @@
     "pkg_audio_body_one": "「オーディオ」タブに移動して、言語ごとの吹き替えを WAV または MP3 でエクスポートします ({{count}} 吹き替えが利用可能)。",
     "pkg_audio_body_other": "「オーディオ」タブに移動して、言語ごとの吹き替えを WAV または MP3 でエクスポートします ({{count}} 吹き替えが利用可能)。",
     "pkg_audio_cta": "オーディオタブを開く",
-    "license_text": "当社のライセンスは VoiceStudio のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
+    "license_text": "当社のライセンスは Voiceym のコードを対象とします。モデルと生成された出力に関する権利は、選択したモデルとその利用条件によって異なります。",
     "license_link": "アプリのライセンス",
     "output": "出力",
     "nothing_selected": "何も選択されていないか、トラックが利用できません",
@@ -1750,14 +1750,14 @@
     "desc": "心配しないでください。アプリの残りの部分は引き続き動作します。タブを切り替えるか、以下でもう一度お試しください。",
     "tryAgain": "もう一度試してください",
     "openDocs": "このエラーのドキュメントを開く",
-    "crash_port_in_use": "ポート 3900 がすでに使用されているため、バックエンドを起動できませんでした。別の VoiceStudio（またはそのポートを取得したアプリ）が保持しています。もう一方を終了して再起動してください。見えている実行中のものがない場合は、前のセッションの取り残されたバックエンドがポートを保持しています。",
+    "crash_port_in_use": "ポート 3900 がすでに使用されているため、バックエンドを起動できませんでした。別の Voiceym（またはそのポートを取得したアプリ）が保持しています。もう一方を終了して再起動してください。見えている実行中のものがない場合は、前のセッションの取り残されたバックエンドがポートを保持しています。",
     "crash_oom_kill": "強制終了されました（シグナル 9）。通常はオペレーティングシステムのメモリ（RAM）が不足して停止したことを意味します。メモリを多く使うアプリを閉じ、設定 → モデルでより小さい ASR モデルを選ぶか、文字起こしの前に TTS モデルをアンロードしてください。",
-    "crash_native_fault": "メモリ不足ではなく、計算スタックの内部でクラッシュしました。同梱の CUDA ランタイムと一致しない GPU ドライバー、またはダウンロードが不完全なモデルファイルが原因と考えられます。GPU ドライバーを更新し、設定 → モデルからモデルを再ダウンロードしてください（不完全なダウンロードはその場で修復されます）。繰り返す場合は、設定 → エンジンでクラッシュ分離エンジンに切り替えてください — 音声合成には「VoiceStudio (subprocess)」、文字起こしには「Faster-Whisper (crash-isolated subprocess)」。これらはモデルを別プロセスで実行するため、このようなクラッシュはバックエンド全体ではなくそのプロセスだけを停止させます。",
+    "crash_native_fault": "メモリ不足ではなく、計算スタックの内部でクラッシュしました。同梱の CUDA ランタイムと一致しない GPU ドライバー、またはダウンロードが不完全なモデルファイルが原因と考えられます。GPU ドライバーを更新し、設定 → モデルからモデルを再ダウンロードしてください（不完全なダウンロードはその場で修復されます）。繰り返す場合は、設定 → エンジンでクラッシュ分離エンジンに切り替えてください — 音声合成には「Voiceym (subprocess)」、文字起こしには「Faster-Whisper (crash-isolated subprocess)」。これらはモデルを別プロセスで実行するため、このようなクラッシュはバックエンド全体ではなくそのプロセスだけを停止させます。",
     "report": "このバグを報告",
     "report_failed": "バグレポートを開けませんでした。もう一度お試しいただくか、上記の内容を新しい Issue にコピーしてください。",
     "searchIssues": "類似の問題を検索",
     "unexpected": "予期しないエラー: {{message}}",
-    "backend_shutting_down": "VoiceStudio を終了しています。アプリを開き直してからもう一度お試しください。",
+    "backend_shutting_down": "Voiceym を終了しています。アプリを開き直してからもう一度お試しください。",
     "crash_broken_env": "自身の Python 依存関係を読み込んでいる最中に停止しました。メモリや GPU の問題ではなく、環境が不完全か、更新が中途半端なまま残っています。設定 → ログ → バックエンド の「クリーンアップして再試行」を実行してください。環境をゼロから作り直してその場で修復し、音声やプロジェクトには手を触れません。それでも失敗する場合は、クラッシュ詳細に読み込めなかったパッケージ名が出ています。",
     "crash_vram_default": "小さめの GPU では、TTS モデルを読み込んだまま ASR モデルを読み込む際に VRAM が不足するのがよくある原因です。先に TTS モデルをアンロードするか、モデルカタログ → モデル でより小さい ASR モデルを選んでください。",
     "stream_cut_backend_alive": "ストリームは途中で終了しましたが、バックエンドはまだ動作しています。つまりクラッシュではありません。サーバー経由やコンテナ環境では、リバースプロキシやロードバランサーが接続をバッファリングまたはタイムアウトさせているのがよくある原因です。このルートのレスポンスバッファリングを無効にし（nginx: proxy_buffering off; X-Accel-Buffering: no）、読み取りタイムアウトを延ばしてください。デスクトップアプリを直接実行するか、プロキシなしの localhost で実行すれば確認できます。",
@@ -1801,7 +1801,7 @@
     "network": "ネットワーク",
     "local": "ローカル",
     "share_confirm_title": "ネットワーク上で共有しますか?",
-    "share_confirm_hint": "Wi-Fi/イーサネット上の他のデバイスは、VoiceStudio がオンになると、表示されるアクセス PIN を使用して VoiceStudio にアクセスできるようになります。",
+    "share_confirm_hint": "Wi-Fi/イーサネット上の他のデバイスは、Voiceym がオンになると、表示されるアクセス PIN を使用して Voiceym にアクセスできるようになります。",
     "enabling": "有効化中…",
     "enable": "有効にする",
     "shared_title": "ネットワーク上で共有されています",
@@ -1842,7 +1842,7 @@
     "model_heading": "モデルの重み · OpenRAIL-M",
     "model_desc": "Supertonic-3 モデルの重みは、OpenRAIL-M ライセンスに基づいてリリースされています。このライセンスは、悪意のない目的での使用を制限します。使用ベースの制限の完全なセットについては、リンクされたライセンスを参照してください。",
     "read_openrail": "OpenRAIL-M ライセンスを読む→",
-    "footer": "[承諾] をクリックすると、承諾が VoiceStudio のローカル設定に記録され、エンジンが有効になります。あなたの同意はこのマシンにのみ保存され、Supertone Inc. や第三者には何も報告されません。",
+    "footer": "[承諾] をクリックすると、承諾が Voiceym のローカル設定に記録され、エンジンが有効になります。あなたの同意はこのマシンにのみ保存され、Supertone Inc. や第三者には何も報告されません。",
     "saving": "保存中…",
     "accept": "受け入れる",
     "accepted_toast": "Supertonic-3 ライセンスが受け入れられました。",
@@ -1857,7 +1857,7 @@
     "gate_desc": "重みは Hugging Face でアクセスが制限されています。初回ダウンロード前に無料アカウントを作成し、連絡先情報を共有してアクセス条件に同意する必要があります。",
     "pockettts_conditions_desc": "アクセス条件は、違法、有害、欺瞞的、詐欺的、無許可、または同意のない音声利用を禁止しています。続行する前に全文を確認してください。",
     "review_access_conditions": "アクセス条件を確認",
-    "pockettts_footer": "［同意する］を押すと、確認した記録は VoiceStudio のローカル設定にのみ保存され、エンジンが有効になります。モデルへのアクセスとダウンロードには Hugging Face を使用し、通常のリクエスト情報とアカウント情報が同社に送信されます。",
+    "pockettts_footer": "［同意する］を押すと、確認した記録は Voiceym のローカル設定にのみ保存され、エンジンが有効になります。モデルへのアクセスとダウンロードには Hugging Face を使用し、通常のリクエスト情報とアカウント情報が同社に送信されます。",
     "pockettts_accepted_toast": "PocketTTS の条件に同意しました。"
   },
   "voicePreview": {
@@ -2161,19 +2161,19 @@
     "ref_audio_too_long": "参照音声は文字起こし付きなら最長20秒、なしなら最長75秒です。明瞭な発話を含む3〜10秒に切り詰め、テキストを指定する場合は文字起こしも同じ区間に合わせてください。",
     "ref_audio_no_speech": "自動音声検出で参照音声から発話が見つかりませんでした。明瞭な発話を含む3〜10秒に切り詰めるか、一致する文字起こしを指定してください。",
     "gpu_arch_unsupported": "このPyTorchビルドはお使いのGPUに対応していません。設定 → パフォーマンスとデバイスでCPUを選択するか、互換性のあるPyTorchビルドをインストールしてください。",
-    "windows_app_control_blocked": "Windowsのアプリケーション制御が必要なファイルをブロックしました。信頼できるVoiceStudioランタイムを許可するよう管理者に依頼し、アプリを再起動してください。",
+    "windows_app_control_blocked": "Windowsのアプリケーション制御が必要なファイルをブロックしました。信頼できるVoiceymランタイムを許可するよう管理者に依頼し、アプリを再起動してください。",
     "audio_io_failed": "音声を読み込むか保存することができませんでした。ファイル形式、ディスクの空き容量、ファイルのアクセス権を確認してください。設定 → ストレージでフォルダーを確認してください。",
     "no_audio_track": "このファイルには音声トラックがないため、文字起こし・吹き替え・クローンする音声がありません。音声を含む動画または音声ファイルを選んでください。",
-    "transcription_media_tool": "文字起こしには ffmpeg が必要ですが、VoiceStudio は見つけられないか実行できませんでした。設定 → オーディオツールを開いてダウンロード/修復を使うか、ffmpeg をインストール（macOS: brew install ffmpeg、Windows: winget install Gyan.FFmpeg、Linux: お使いのパッケージマネージャー）して VoiceStudio を再起動してください。FFMPEG_PATH を ffmpeg のファイルに向けることもできます。",
-    "transcription_pipe_lost": "文字起こし中にバックエンドがアプリへの出力パイプを失いました（broken pipe）。VoiceStudio を再起動してもう一度お試しください。"
+    "transcription_media_tool": "文字起こしには ffmpeg が必要ですが、Voiceym は見つけられないか実行できませんでした。設定 → オーディオツールを開いてダウンロード/修復を使うか、ffmpeg をインストール（macOS: brew install ffmpeg、Windows: winget install Gyan.FFmpeg、Linux: お使いのパッケージマネージャー）して Voiceym を再起動してください。FFMPEG_PATH を ffmpeg のファイルに向けることもできます。",
+    "transcription_pipe_lost": "文字起こし中にバックエンドがアプリへの出力パイプを失いました（broken pipe）。Voiceym を再起動してもう一度お試しください。"
   },
   "sharing": {
     "title": "共有とリモートアクセス",
-    "help": "この実行中の VoiceStudio インスタンスを再起動せずに他のマシンに公開します。デフォルトはループバックのみです。ここでオンにするまでは何も共有されません。",
+    "help": "この実行中の Voiceym インスタンスを再起動せずに他のマシンに公開します。デフォルトはループバックのみです。ここでオンにするまでは何も共有されません。",
     "local_network": "ローカルネットワーク",
     "local_help": "ワンタイムアクセスPINを使用してWi-Fi/イーサネット上で共有します。他のデバイスは QR コードをスキャンするか、リンクを開きます。",
     "ports_title": "ポート",
-    "ports_help": "これらは、起動時に読み取られる環境変数によって設定されます。変数を設定し、VoiceStudio を再起動して、バックエンドまたは UI ポートを変更します。",
+    "ports_help": "これらは、起動時に読み取られる環境変数によって設定されます。変数を設定し、Voiceym を再起動して、バックエンドまたは UI ポートを変更します。",
     "backend_port": "バックエンドポート",
     "ui_port": "UIポート",
     "lan_share_port": "LAN共有ポート",
@@ -2184,9 +2184,9 @@
     "ports_note": "バックエンドおよび UI ポートは再起動時に適用されます。 LAN 共有ポートは、次回共有を有効にするときに適用されます。",
     "tailscale_title": "Tailscale (プライベート リモート アクセス)",
     "tailscale_checking": "テールスケールを確認しています…",
-    "tailscale_absent": "テールスケールが検出されませんでした。これをインストールすると、プライベート テールネット上のどこからでも VoiceStudio に安全にアクセスできます。",
+    "tailscale_absent": "テールスケールが検出されませんでした。これをインストールすると、プライベート テールネット上のどこからでも Voiceym に安全にアクセスできます。",
     "tailscale_install": "テールスケールのインストール",
-    "tailscale_running": "テールスケールが実行中です。プライベート テールネット経由で VoiceStudio を提供します。",
+    "tailscale_running": "テールスケールが実行中です。プライベート テールネット経由で Voiceym を提供します。",
     "tailscale_not_logged_in": "Tailscale はインストールされていますが、ログインしていません。まず、Tailscale を起動してサインインします。",
     "tailscale_enabled": "テールスケール サーブが有効になっています",
     "tailscale_enable_failed": "テールスケールを有効にできませんでした",
@@ -2208,7 +2208,7 @@
     "label": "バグを報告する",
     "title": "ブラウザで事前に入力された GitHub の問題ページを開きます。 「送信」をクリックするまでは何も送信されません。",
     "staleTitle": "アップデートがあります",
-    "staleMessage": "VoiceStudio {{current}} を使用していますが、{{latest}} が既に公開されています。このバグは修正済みかもしれません。報告する前に最新リリースを確認しますか？",
+    "staleMessage": "Voiceym {{current}} を使用していますが、{{latest}} が既に公開されています。このバグは修正済みかもしれません。報告する前に最新リリースを確認しますか？",
     "staleView": "アップデートを見る",
     "staleFileAnyway": "そのまま報告する"
   },
@@ -2236,7 +2236,7 @@
     "failed": "アップデートに失敗しました",
     "retry": "再試行",
     "dismiss": "閉じる",
-    "toast_available": "VoiceStudio {{version}} が利用可能です",
+    "toast_available": "Voiceym {{version}} が利用可能です",
     "toast_install": "インストールして再起動",
     "toast_whats_new": "新機能",
     "toast_later": "後で"
@@ -2280,9 +2280,9 @@
     "retry_load": "再試行"
   },
   "firstrun": {
-    "backend_stop_failed": "VoiceStudio は以前のバックエンドを安全に停止できませんでした。他の VoiceStudio のウィンドウまたはプロセスを閉じて、もう一度お試しください。",
+    "backend_stop_failed": "Voiceym は以前のバックエンドを安全に停止できませんでした。他の Voiceym のウィンドウまたはプロセスを閉じて、もう一度お試しください。",
     "loading": "セットアップを準備中…",
-    "title": "VoiceStudio のセットアップ",
+    "title": "Voiceym のセットアップ",
     "subtitle": "まだ何もインストールされていません。保存先を確認してから開始してください。後で設定から変更できます。",
     "language": "言語",
     "mode_title": "インストール方式",
@@ -2384,7 +2384,7 @@
     "load_config": "設定を読み込む"
   },
   "openapi": {
-    "title": "VoiceStudio API",
+    "title": "Voiceym API",
     "loading": "API 仕様を読み込んでいます…",
     "unreachable_title": "バックエンド仕様を利用できません",
     "unreachable_body": "{{url}} にあるローカルバックエンドの OpenAPI 仕様に接続できませんでした。バックエンドが実行中であることを確認して、再試行してください。",
@@ -2537,7 +2537,7 @@
     "lex_add": "単語を追加",
     "lex_remove": "削除",
     "markup_help": "マークアップリファレンス",
-    "markup_hint": "# 章タイトル · [voice:NAME] 音声切り替え · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · リアクション (VoiceStudio): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
+    "markup_hint": "# 章タイトル · [voice:NAME] 音声切り替え · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · リアクション (Voiceym): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
     "language": "言語",
     "expressive": "プロダクションオーバーライド",
     "reset": "リセット",
@@ -2640,7 +2640,7 @@
   },
   "remote_gate": {
     "title": "アクセスPINを入力してください",
-    "body": "この VoiceStudio インスタンスはネットワーク上で共有されます。ホストに表示されている PIN を入力します。",
+    "body": "この Voiceym インスタンスはネットワーク上で共有されます。ホストに表示されている PIN を入力します。",
     "label": "アクセスPIN",
     "connect": "接続する"
   },
@@ -2664,7 +2664,7 @@
   },
   "permissions": {
     "title": "権限",
-    "desc": "VoiceStudio はすべてデバイス上で動作します。これらの OS 権限はここに記載された機能にのみ使用され、音声がマシンの外に出ることはありません。",
+    "desc": "Voiceym はすべてデバイス上で動作します。これらの OS 権限はここに記載された機能にのみ使用され、音声がマシンの外に出ることはありません。",
     "microphone": "マイク",
     "microphone_why": "音声入力と録音に使用します。音声はローカルで処理されます。",
     "accessibility": "アクセシビリティ",
@@ -2695,7 +2695,7 @@
     "failed": "ダウンロードを開始できませんでした：{{message}}"
   },
   "backend_start_failure": {
-    "notice": "VoiceStudio のバックエンドを起動できませんでした。起動するまで何も実行できません。",
+    "notice": "Voiceym のバックエンドを起動できませんでした。起動するまで何も実行できません。",
     "view": "理由を見る",
     "title": "バックエンドを起動できませんでした",
     "intro": "バックエンドの起動を試みた際にアプリが記録した内容です。この出力をレポートに含めていただくと修正に役立ちます。",
@@ -2704,7 +2704,7 @@
   },
   "crash": {
     "notice_unclean": "前回のセッションは {{ago}}前に正常終了せずに終わりました。多くの場合は無害です — スリープ、強制終了、または VM/コンテナの停止が原因です。",
-    "details_intro_unclean": "前回実行の終了マーカーが {{ago}}前にクリアされないまま残っていました。VoiceStudio にはクラッシュか単なる中断かを判別できません — スリープ、強制終了、VM/コンテナの停止はいずれも同じ痕跡を残します。現在問題なく動作しているなら対応は不要です。",
+    "details_intro_unclean": "前回実行の終了マーカーが {{ago}}前にクリアされないまま残っていました。Voiceym にはクラッシュか単なる中断かを判別できません — スリープ、強制終了、VM/コンテナの停止はいずれも同じ痕跡を残します。現在問題なく動作しているなら対応は不要です。",
     "report_needs_log": "このイベントのエラー出力は記録されていないため、ワンクリック報告は空になります。実際に問題がある場合は、設定 → ログ → バックエンド の最後の行を新しい issue に添付してください。"
   },
   "voices": {
@@ -2772,7 +2772,7 @@
     "title": "連携",
     "featured": "注目",
     "description": "連携機能と注目のパートナーを見つけましょう。",
-    "n8nHint": "このワークフローをn8nにインポートし、リクエストを編集して実行します。VoiceStudioは起動したままにしてください。Dockerやリモートのn8nには、接続可能なバックエンドのアドレスと必要な認証情報を設定してください。"
+    "n8nHint": "このワークフローをn8nにインポートし、リクエストを編集して実行します。Voiceymは起動したままにしてください。Dockerやリモートのn8nには、接続可能なバックエンドのアドレスと必要な認証情報を設定してください。"
   },
   "directoryExamples": {
     "example": "掲載例"

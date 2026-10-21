@@ -10,7 +10,7 @@ at the level of the real desktop window:
 
 | Layer | Runner | Count | Runs in CI |
 |---|---|---|---|
-| Renderer smokes: Vite-served UI in Chromium with a mocked `window.voicestudio` bridge | Playwright `chromium` | ~70 | 4, Linux only (`ci.yml` "Electron renderer workflow smokes") |
+| Renderer smokes: Vite-served UI in Chromium with a mocked `window.voiceym` bridge | Playwright `chromium` | ~70 | 4, Linux only (`ci.yml` "Electron renderer workflow smokes") |
 | Real Electron app, unpackaged (`electron/out/main/index.js`) | Playwright `_electron` | ~11 `native-*-smoke` | none |
 | Packaged installer startup + setup | Playwright `_electron` (`packaged-smoke.mjs`) | 1 | macOS, Windows, Linux, but only on manual rehearsal, release tags and Microsoft Store runs |
 
@@ -62,9 +62,9 @@ The renderer smokes also fake `platform: 'win32'`, so they never see the real OS
 - Every remote action is pinned to a commit SHA (CONTRIBUTING → CI supply chain).
 - Launch pattern already proven in `native-watch-ui-smoke.mjs`:
   `electron.launch({ executablePath, args: [out/main/index.js, --user-data-dir=<tmp>],
-  env: { ELECTRON_RENDERER_URL: '', OMNIVOICE_PORT: <fake>, VOICESTUDIO_SKIP_BACKEND: '1',
-  VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: '1' } })`, with `startHealthBackend()`
-  from `fake-health-backend.mjs`. Also set `VOICESTUDIO_DISABLE_UPDATER=1`.
+  env: { ELECTRON_RENDERER_URL: '', OMNIVOICE_PORT: <fake>, VOICEYM_SKIP_BACKEND: '1',
+  VOICEYM_ALLOW_MULTIPLE_INSTANCES: '1' } })`, with `startHealthBackend()`
+  from `fake-health-backend.mjs`. Also set `VOICEYM_DISABLE_UPDATER=1`.
 - Fresh temp `--user-data-dir` per test; removed in `finally`.
 - Docs-sync: `.github/CONTRIBUTING.md` (quality gates / running tests) is
   updated in the same PR.
@@ -86,12 +86,12 @@ Facts the cases rely on (checked in code):
 - The renderer is served from the app's custom protocol (`electron/src/main/protocol.ts`)
   and routes with TanStack `createHashHistory` (`electron/src/renderer/src/router.tsx`),
   so a route is reached with `location.hash = '#' + path`.
-- First-run state is renderer `localStorage`: `voicestudio.setup.complete.v1`
-  (`lib/setup-progress.ts`) and `voicestudio.locale`. Tests other than case 2
+- First-run state is renderer `localStorage`: `voiceym.setup.complete.v1`
+  (`lib/setup-progress.ts`) and `voiceym.locale`. Tests other than case 2
   seed both with `context.addInitScript`, as the renderer smokes do.
 - The fake backend answers `/api/settings/analytics` with `prompted: true`, which
   suppresses the consent prompt; case 2b overrides it.
-- Save dialogs are reached through `window.voicestudio.files.saveData` /
+- Save dialogs are reached through `window.voiceym.files.saveData` /
   `saveAudio` (`ipc.ts` `filesSaveData` / `filesSaveAudio`).
 - The star badge fetch is made by the renderer (`components/app-shell/github-star.tsx`).
 - Main-process errors are journaled to `<userData>/main-process-errors.json`
@@ -99,13 +99,13 @@ Facts the cases rely on (checked in code):
 - `test-results/` is already gitignored.
 
 The temp profile path contains a space and non-ASCII Latin characters
-(e.g. `VoiceStudio Tëst <random>`), so Windows and macOS path-encoding bugs in
+(e.g. `Voiceym Tëst <random>`), so Windows and macOS path-encoding bugs in
 user-data handling show up. CJK text stays out of tests (localization rule).
 
 Test cases, identical expectations on every OS:
 
-1. **Launch and bridge**: first window opens; title is VoiceStudio; the preload
-   bridge `window.voicestudio` exposes its namespaces; `window.voicestudio.app.platform`
+1. **Launch and bridge**: first window opens; title is Voiceym; the preload
+   bridge `window.voiceym` exposes its namespaces; `window.voiceym.app.platform`
    equals the real `process.platform` (no fake).
 2. **First run**: with a fresh profile and nothing seeded, the setup gate shows.
    Completing it through the UI lands on the home route.
@@ -134,7 +134,7 @@ Test cases, identical expectations on every OS:
 6. **Local-first guard**: across the whole run, every request goes to the
    `app:` protocol, `file:`, `devtools:`/`data:`/`blob:`, or a loopback host
    (`127.0.0.1`, `localhost`, `[::1]`) on any port. That covers the fake
-   backend and the app's backend proxy on `VOICESTUDIO_ELECTRON_PROXY_PORT`.
+   backend and the app's backend proxy on `VOICEYM_ELECTRON_PROXY_PORT`.
    Any other host fails the test.
    - Observe requests in two places: renderer requests with `context.route('**')`,
      installed before the first navigation, and main-process requests with
@@ -175,7 +175,7 @@ either run by CI or consciously classified.
 Triage: smokes that fail today are fixed. A smoke is deleted only if the
 feature it covers no longer exists, with that stated in the commit message.
 Some may need env vars beyond the four the CI
-step exports today (`OMNIVOICE_PORT`, `VOICESTUDIO_UI_URL`,
+step exports today (`OMNIVOICE_PORT`, `VOICEYM_UI_URL`,
 `PLAYWRIGHT_CHANNEL`, `HF_HUB_*`). The runner reads any extra a smoke needs
 from a small per-file table in the runner. A smoke that needs a live backend is
 reclassified, not hacked.

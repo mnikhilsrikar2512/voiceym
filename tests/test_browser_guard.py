@@ -98,7 +98,7 @@ def test_fetch_metadata_without_origin_is_refused(spawned, public_dns, site):
         {},  # CLI, curl, MCP client, scripts
         {"Sec-Fetch-Site": "none"},  # Electron main-process net.fetch
         {"Origin": "http://testserver", "Sec-Fetch-Site": "same-origin"},  # served web UI
-        {"Origin": "app://voicestudio", "Sec-Fetch-Site": "cross-site"},  # packaged renderer
+        {"Origin": "app://voiceym", "Sec-Fetch-Site": "cross-site"},  # packaged renderer
         {"Origin": "http://localhost:3901"},  # browser dev UI
     ],
 )
@@ -263,7 +263,7 @@ def test_websocket_from_another_site_is_refused():
             ws.receive_text()
 
 
-@pytest.mark.parametrize("headers", [{}, {"Origin": "app://voicestudio"}, {"Origin": "http://testserver"}])
+@pytest.mark.parametrize("headers", [{}, {"Origin": "app://voiceym"}, {"Origin": "http://testserver"}])
 def test_websocket_from_the_app_or_a_non_browser_client_connects(headers):
     with _client().websocket_connect("/ws/tts", headers=headers) as ws:
         ws.send_json({})

@@ -112,7 +112,7 @@ export function AnalyticsConsent({
         variant="link"
         className="h-auto p-0"
         onClick={() => {
-          const url = 'https://github.com/debpalash/VoiceStudio#-faq';
+          const url = 'https://github.com/mnikhilsrikar2512/voiceym#-faq';
           const bridge = getBridge();
           if (bridge) void bridge.files.openExternal(url).catch(() => setFailed(true));
           else window.open(url, '_blank', 'noopener,noreferrer');

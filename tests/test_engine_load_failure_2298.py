@@ -1,7 +1,7 @@
 """A weight download that FAILS must not surface as "internal error" (#2298).
 
 Field report (#2298): KittenTTS on Windows, first generate, HTTP 500 —
-"VoiceStudio hit an internal error; check the backend log for details."
+"Voiceym hit an internal error; check the backend log for details."
 The reporter had a Hugging Face mirror configured and it was unreachable, so
 the engine's lazy first-use weight fetch raised a connectivity error.
 
@@ -11,7 +11,7 @@ weights inside `generate()`. But that warm-up only translated
 ``TimeoutError``/``ModelLoadTimeout`` into an actionable 503. Every other
 load failure — the download refused, DNS gone, the mirror down, the file
 truncated, the cache corrupt — escaped the route uncaught and was rendered by
-the global 500 handler as "VoiceStudio hit an internal error", which names
+the global 500 handler as "Voiceym hit an internal error", which names
 neither the engine nor the fact that a model download was what failed.
 
 So the two halves of the same event disagreed: a download that STALLS is

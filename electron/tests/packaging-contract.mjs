@@ -20,9 +20,9 @@ if (process.platform === 'linux') {
 }
 const require = createRequire(import.meta.url);
 const artifactRequested = process.argv.includes('--artifact');
-const artifactArch = process.env.VOICESTUDIO_RUST_TARGET?.startsWith('aarch64')
+const artifactArch = process.env.VOICEYM_RUST_TARGET?.startsWith('aarch64')
   ? 'arm64'
-  : process.env.VOICESTUDIO_RUST_TARGET?.startsWith('x86_64')
+  : process.env.VOICEYM_RUST_TARGET?.startsWith('x86_64')
     ? 'x64'
     : process.arch;
 const artifactCandidates =
@@ -68,7 +68,7 @@ const artifactExecutable = resolve(
     ? `${PRODUCT_NAME}.exe`
     : process.platform === 'darwin'
       ? `MacOS/${PRODUCT_NAME}`
-      : (config.linux.executableName ?? 'voicestudio-electron'),
+      : (config.linux.executableName ?? 'voiceym-electron'),
 );
 const electronPackage = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
 assert.match(electronPackage.author?.email ?? '', /@/, 'Linux package declares a maintainer email');
@@ -85,19 +85,19 @@ assert.equal(
   'Store packaging is distinct without renaming direct-download artifacts',
 );
 assert.equal(
-  config.extraMetadata.voicestudioDistribution,
+  config.extraMetadata.voiceymDistribution,
   DISTRIBUTION_TARGET,
   'Package records its immutable distribution identity',
 );
 assert.equal(
-  config.extraMetadata.voicestudioUpdateOwner,
+  config.extraMetadata.voiceymUpdateOwner,
   DISTRIBUTION_PROFILE.applicationUpdates,
   'Package records who owns application updates',
 );
 if (DISTRIBUTION_TARGET === 'microsoft-store') {
   assert.equal(
     config.extraMetadata.author.name,
-    'Yupcha Softwares Private Limited',
+    'Voiceym',
     'Microsoft Store uninstall metadata uses the legal publisher',
   );
 } else {
@@ -196,7 +196,7 @@ for (const [label, dir] of [
   }
 }
 const bundledUvSource = config.extraResources.find((item) => /^tools\/uv(?:\.exe)?$/.test(item.to));
-if (process.env.VOICESTUDIO_RUST_TARGET || process.env.VOICESTUDIO_BUNDLED_UV) {
+if (process.env.VOICEYM_RUST_TARGET || process.env.VOICEYM_BUNDLED_UV) {
   assert(bundledUvSource, 'Release builds package the pinned uv executable');
   assert(existsSync(bundledUvSource.from), 'Bundled uv source exists');
 }
@@ -213,8 +213,8 @@ const platformIcons = {
   linux: 'build/icons/icon.png',
 };
 for (const [platform, icon] of Object.entries(platformIcons)) {
-  assert.equal(config[platform].icon, icon, `${platform} uses the shared VoiceStudio icon`);
-  assert(existsSync(resolve(root, icon)), `${platform} VoiceStudio icon exists`);
+  assert.equal(config[platform].icon, icon, `${platform} uses the shared Voiceym icon`);
+  assert(existsSync(resolve(root, icon)), `${platform} Voiceym icon exists`);
 }
 for (const icon of ['brand/icon.png', 'brand/icon.ico', 'brand/32x32.png']) {
   const entry = config.extraResources.find((item) => item.to === icon);
@@ -235,15 +235,15 @@ for (const platform of ['win', 'mac', 'linux']) {
 }
 if (artifactRequested) {
   if (process.platform === 'linux') {
-    await verifyLinuxLibraries(resolve(artifactResources, 'native/voicestudio-desktop-bridge'));
+    await verifyLinuxLibraries(resolve(artifactResources, 'native/voiceym-desktop-bridge'));
   }
-  assert(existsSync(artifactExecutable), 'Packaged VoiceStudio executable');
+  assert(existsSync(artifactExecutable), 'Packaged Voiceym executable');
   assert(
     existsSync(
       resolve(
         artifactResources,
         'native',
-        'voicestudio-desktop-bridge' + (process.platform === 'win32' ? '.exe' : ''),
+        'voiceym-desktop-bridge' + (process.platform === 'win32' ? '.exe' : ''),
       ),
     ),
     'Packaged native dictation helper',

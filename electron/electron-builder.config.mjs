@@ -27,19 +27,19 @@ const artifactPrefix = `${PRODUCT_NAME.replace(/[^A-Za-z0-9]+/g, '-')}-${artifac
 // point at. Packaging rehearsals from main are stamped stable too; they are
 // review artifacts and are never published.
 const updateChannel =
-  process.env.VOICESTUDIO_UPDATE_CHANNEL || `electron-stable-${process.platform}-${process.arch}`;
+  process.env.VOICEYM_UPDATE_CHANNEL || `electron-stable-${process.platform}-${process.arch}`;
 if (
   !/^electron-(?:microsoft-store-)?stable-(?:win32|darwin|linux)-(?:x64|arm64)$/.test(updateChannel)
 ) {
   throw new Error(`Unsupported Electron update channel: ${updateChannel}`);
 }
-const updateUrl = 'https://github.com/debpalash/VoiceStudio/releases/latest/download';
+const updateUrl = 'https://github.com/mnikhilsrikar2512/voiceym/releases/latest/download';
 
 export function distributionPackaging(target = DISTRIBUTION_TARGET) {
   if (target === 'snap-store') {
     return {
       linuxTargets: ['snap'],
-      linuxExecutableName: 'voicestudio',
+      linuxExecutableName: 'voiceym',
       snapcraft: {
         // Core 22 uses electron-builder's reproducible Electron snap template;
         // strict confinement is explicit so a future default cannot weaken it.
@@ -94,10 +94,10 @@ const defaultRustTarget =
     'darwin-x64': 'x86_64-apple-darwin',
     'linux-x64': 'x86_64-unknown-linux-gnu',
   }[`${process.platform}-${process.arch}`] ?? null;
-const rustTarget = process.env.VOICESTUDIO_RUST_TARGET || defaultRustTarget;
+const rustTarget = process.env.VOICEYM_RUST_TARGET || defaultRustTarget;
 const uvExtension = rustTarget?.includes('windows') ? '.exe' : '';
-const uvSource = process.env.VOICESTUDIO_BUNDLED_UV
-  ? resolve(process.env.VOICESTUDIO_BUNDLED_UV)
+const uvSource = process.env.VOICEYM_BUNDLED_UV
+  ? resolve(process.env.VOICEYM_BUNDLED_UV)
   : rustTarget
     ? resolve(here, `build/uv/uv-${rustTarget}${uvExtension}`)
     : null;
@@ -129,10 +129,10 @@ export default {
     version,
     productName: PRODUCT_NAME,
     desktopName: PRODUCT_NAME,
-    voicestudioDistribution: DISTRIBUTION_TARGET,
-    voicestudioUpdateOwner: DISTRIBUTION_PROFILE.applicationUpdates,
+    voiceymDistribution: DISTRIBUTION_TARGET,
+    voiceymUpdateOwner: DISTRIBUTION_PROFILE.applicationUpdates,
     ...(DISTRIBUTION_TARGET === 'microsoft-store'
-      ? { author: { name: storeIdentity.publisherLegalName, email: 'hi@voicestudio.sh' } }
+      ? { author: { name: storeIdentity.publisherLegalName, email: 'hi@voiceym.example' } }
       : {}),
   },
   directories: { output: 'release', buildResources: 'build' },
@@ -214,8 +214,8 @@ export default {
   mas: {
     entitlements: 'build/entitlements.mas.plist',
     entitlementsInherit: 'build/entitlements.mas.inherit.plist',
-    ...(process.env.VOICESTUDIO_MAS_PROVISIONING_PROFILE
-      ? { provisioningProfile: process.env.VOICESTUDIO_MAS_PROVISIONING_PROFILE }
+    ...(process.env.VOICEYM_MAS_PROVISIONING_PROFILE
+      ? { provisioningProfile: process.env.VOICEYM_MAS_PROVISIONING_PROFILE }
       : {}),
   },
   linux: {

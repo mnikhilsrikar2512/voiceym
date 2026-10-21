@@ -1,5 +1,5 @@
 /** Fired in this window when Cloud sync writes a pulled value into localStorage. */
-const APPLIED = 'voicestudio:storage-applied';
+const APPLIED = 'voiceym:storage-applied';
 
 /**
  * Re-read a localStorage-backed store when its key changes outside this module:

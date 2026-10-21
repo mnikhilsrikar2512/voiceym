@@ -4,7 +4,7 @@ import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
-const profile = mkdtempSync(join(tmpdir(), 'voicestudio-crash-restart-'));
+const profile = mkdtempSync(join(tmpdir(), 'voiceym-crash-restart-'));
 const reservation = createServer();
 await new Promise((resolve) => reservation.listen(0, '127.0.0.1', resolve));
 const port = reservation.address().port;
@@ -16,19 +16,19 @@ const launch = (script) =>
     env: {
       ...process.env,
       ELECTRON_RENDERER_URL: '',
-      VOICESTUDIO_SKIP_BACKEND: '0',
-      VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: '1',
+      VOICEYM_SKIP_BACKEND: '0',
+      VOICEYM_ALLOW_MULTIPLE_INSTANCES: '1',
       OMNIVOICE_PORT: String(port),
       OMNIVOICE_BACKEND_CMD: JSON.stringify([resolve('.venv/Scripts/python.exe'), '-c', script]),
     },
   });
 async function waitStatus(page, matches) {
-  await page.waitForFunction(() => Boolean(window.voicestudio));
+  await page.waitForFunction(() => Boolean(window.voiceym));
   // The supervisor intentionally offers a ten-second replacement-backend
   // handoff before classifying an owned exit as a crash.
   const deadline = Date.now() + 25000;
   while (Date.now() < deadline) {
-    const status = await page.evaluate(() => window.voicestudio.backend.getStatus());
+    const status = await page.evaluate(() => window.voiceym.backend.getStatus());
     if (matches(status)) return status;
     await new Promise((resolve) => setTimeout(resolve, 50));
   }
@@ -36,7 +36,7 @@ async function waitStatus(page, matches) {
 }
 async function closeThroughWindow(app, page) {
   const closed = app.waitForEvent('close');
-  await page.evaluate(() => window.voicestudio.window.close());
+  await page.evaluate(() => window.voiceym.window.close());
   await closed;
 }
 let app;
@@ -55,7 +55,7 @@ try {
   await details.getByText('Fixture root failure', { exact: true }).waitFor();
   assert.equal(await details.locator('dd').first().innerText(), '23');
   await page.waitForFunction(async () => {
-    const current = await window.voicestudio.backend.getStatus();
+    const current = await window.voiceym.backend.getStatus();
     return current.lastCrash?.acknowledged === true;
   });
   await closeThroughWindow(app, page);

@@ -36,7 +36,7 @@ export function installNativeCapture(
     settings: string;
     exit: string;
   } | null = null;
-  const name = 'voicestudio-desktop-bridge' + (process.platform === 'win32' ? '.exe' : '');
+  const name = 'voiceym-desktop-bridge' + (process.platform === 'win32' ? '.exe' : '');
   const executable = app.isPackaged
     ? join(process.resourcesPath, 'native', name)
     : join(backendRoot(), 'native', 'desktop-bridge', 'target', 'debug', name);

@@ -13,7 +13,7 @@ event restoring the previous controlled value before the provider reports seeked
 
 Run `node electron/tests/playback-smoke.mjs` with the development renderer running.
 The test uses synthetic WAV/profile/generation responses and never saves user data.
-Set `PLAYWRIGHT_CHANNEL` or `VOICESTUDIO_UI_URL` for another installed browser/server.
+Set `PLAYWRIGHT_CHANNEL` or `VOICEYM_UI_URL` for another installed browser/server.
 
 HLS and DASH libraries are bundled and lazy-loaded. The shared provider includes
 Vidstack's native audio/video, HLS, DASH, YouTube and Vimeo selection. Gallery search previews exercise the embedded YouTube provider;

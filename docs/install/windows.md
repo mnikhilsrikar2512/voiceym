@@ -1,6 +1,6 @@
-# VoiceStudio — Install on Windows
+# Voiceym — Install on Windows
 
-VoiceStudio's Windows desktop app is built with Electron. The archived Tauri
+Voiceym's Windows desktop app is built with Electron. The archived Tauri
 app (MSI installers) is no longer maintained; if you still run it, follow the
 [migration guide](../electron-migration.md).
 
@@ -19,13 +19,13 @@ launch; no toolchain is needed for the installer.
 Engine environments (IndexTTS, CosyVoice, MOSS-TTS and other sidecars, plus the
 audio.cpp runtime) install under `<app data>\engines` and can reach several GB
 each. To place them on another drive, set `OMNIVOICE_ENGINES_DIR` before
-launching VoiceStudio, for example in PowerShell:
+launching Voiceym, for example in PowerShell:
 
 ```powershell
-[Environment]::SetEnvironmentVariable('OMNIVOICE_ENGINES_DIR', 'D:\VoiceStudio\engines', 'User')
+[Environment]::SetEnvironmentVariable('OMNIVOICE_ENGINES_DIR', 'D:\Voiceym\engines', 'User')
 ```
 
-Restart VoiceStudio afterwards. Voices, projects and settings stay in the data
+Restart Voiceym afterwards. Voices, projects and settings stay in the data
 folder (`OMNIVOICE_DATA_DIR` moves that too). Engines already installed under the
 old folder are not moved: reinstall them from Engines, or move the
 `engines\<engine>` folder yourself and delete the old copy.
@@ -33,12 +33,12 @@ old folder are not moved: reinstall them from Engines, or move the
 ## Install
 
 Download the installer matching your PC from the
-[Releases page](https://github.com/debpalash/VoiceStudio/releases/latest):
+[Releases page](https://github.com/mnikhilsrikar2512/voiceym/releases/latest):
 
 | PC | Installer |
 |---|---|
-| Intel / AMD (x64) | `VoiceStudio-Electron-<version>-win-x64.exe` |
-| Windows on ARM (Snapdragon X etc., experimental) | `VoiceStudio-Electron-<version>-win-arm64.exe` (releases without it: the x64 installer also works, under emulation) |
+| Intel / AMD (x64) | `Voiceym-Electron-<version>-win-x64.exe` |
+| Windows on ARM (Snapdragon X etc., experimental) | `Voiceym-Electron-<version>-win-arm64.exe` (releases without it: the x64 installer also works, under emulation) |
 
 The setup wizard installs for the current user by default (no administrator
 rights needed) and lets you choose the installation folder. Compare the download with the
@@ -49,12 +49,12 @@ Or, from a regular (non-admin) PowerShell, let the
 wizard:
 
 ```powershell
-irm https://voicestudio.sh/install | iex
+irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex
 ```
 
 ### PCs without an NVIDIA GPU
 
-VoiceStudio is fully usable without a dedicated GPU: laptops with Intel or AMD
+Voiceym is fully usable without a dedicated GPU: laptops with Intel or AMD
 integrated graphics, Ryzen/Ryzen AI parts and older desktops all run the whole
 app on the CPU, just slower (integrated graphics are not used for AI work).
 On first run the runtime installer detects that no NVIDIA driver is present and
@@ -97,7 +97,7 @@ drive (for example an external SSD):
 3. An existing installation is never moved. To relocate its data or model cache
    later, use **Settings > Storage**.
 
-The drive must be connected when VoiceStudio starts.
+The drive must be connected when Voiceym starts.
 
 ## GPU support on Windows
 
@@ -110,14 +110,14 @@ driver it's picked up automatically (no CUDA Toolkit install needed).
 **AMD GPUs — including Ryzen / Ryzen AI integrated Radeon graphics — do not
 accelerate PyTorch engines on Windows.** The runtime has PyTorch 2.8 as either
 the NVIDIA CUDA build or (with no NVIDIA driver present) the CPU-only build;
-neither can drive a Radeon card, so those engines run on the CPU. pytorch.org publishes no Windows ROCm wheels, and VoiceStudio's ROCm
+neither can drive a Radeon card, so those engines run on the CPU. pytorch.org publishes no Windows ROCm wheels, and Voiceym's ROCm
 option (`OMNIVOICE_TORCH_VARIANT=rocm`) is Linux-only — it is ignored on Windows
 rather than failing setup. (The Ryzen AI NPU is likewise not used.) Everything
 still works on CPU, just slower. What you can do today:
 
 - **Use an engine with its own GPU runtime.** [audio.cpp](../engines/audio-cpp.md)
   (Breeze-TTS-2) ships a Vulkan build that runs on Radeon GPUs: install the
-  runtime from **Settings → Models**. VoiceStudio picks the discrete GPU
+  runtime from **Settings → Models**. Voiceym picks the discrete GPU
   automatically.
 - **Run on Linux** (native, or the ROCm Docker image) for ROCm acceleration of
   the PyTorch engines — see [linux.md — AMD GPU (ROCm)](linux.md#amd-gpu-rocm).
@@ -126,7 +126,7 @@ still works on CPU, just slower. What you can do today:
   Python 3.11–3.14, RDNA 3 / RDNA 4 cards such as the RX 7000 and RX 9000 series).
   They are PyTorch 2.9 or newer, not the 2.8 the engines here are validated
   against, and faster-whisper (CTranslate2) needs its own separate HIP build for
-  the GPU, so expect parts of the app (WhisperX is a reported example) to break. VoiceStudio does not install them, and no engine
+  the GPU, so expect parts of the app (WhisperX is a reported example) to break. Voiceym does not install them, and no engine
   parity is claimed. DirectML is not an option either: `torch-directml` needs
   PyTorch 2.4.
 
@@ -139,7 +139,7 @@ saying "no GPU acceleration detected".
 ## Building from source
 
 Use this for development or to run current `main`. The install script's
-`main` mode (`$env:VOICESTUDIO_INSTALL_MODE='main'; irm https://voicestudio.sh/install | iex`)
+`main` mode (`$env:VOICEYM_INSTALL_MODE='main'; irm https://raw.githubusercontent.com/mnikhilsrikar2512/voiceym/main/scripts/install.ps1 | iex`)
 builds and installs a desktop package from `main` without a checkout; see
 [the install script guide](script.md).
 
@@ -158,8 +158,8 @@ Prerequisites:
   tools on Windows on ARM).
 
 ```powershell
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api   # create the Python environment with uv
 bun run dev         # Electron with hot reload; it starts and supervises the backend
@@ -173,7 +173,7 @@ configuration.
 ## HF_TOKEN persistence
 
 The **recommended path** is the in-app **Settings → API Keys** panel: it
-writes the token to VoiceStudio's encrypted SQLite store *and* to the canonical
+writes the token to Voiceym's encrypted SQLite store *and* to the canonical
 `huggingface_hub` location, so every subprocess the app spawns picks it up.
 
 If you prefer setting an environment variable directly (power-user / CLI runs
@@ -207,7 +207,7 @@ failed`.
 
 **The one-click fix:** open **Settings → Performance** in the app and toggle
 **"Disable torch.compile"** on. That sets the `TORCH_COMPILE_DISABLE=1` env var
-on every engine subprocess VoiceStudio spawns and forces the in-process engine
+on every engine subprocess Voiceym spawns and forces the in-process engine
 to eager mode as well. You'll lose a few percent of peak throughput in exchange
 for the engine actually loading.
 
@@ -221,10 +221,7 @@ bun run dev
 The OOM this section describes is Windows-specific, but the toggle itself works
 on **every** platform — it used to be greyed out elsewhere, which left Linux and
 macOS users with no way to switch off a `torch.compile` that was breaking their
-engine. Tracking issues:
-[#65](https://github.com/debpalash/VoiceStudio/issues/65) (this OOM) and
-[#2135](https://github.com/debpalash/VoiceStudio/issues/2135) (the same toggle
-on Linux/CUDA).
+engine.
 
 ## Hugging Face token (optional but recommended)
 

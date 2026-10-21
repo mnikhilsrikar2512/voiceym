@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core';
 
-export const BROWSER_DICTATION_REQUEST = 'voicestudio:dictation-request';
+export const BROWSER_DICTATION_REQUEST = 'voiceym:dictation-request';
 
 export async function requestDictationCapture(action = 'start') {
   if (typeof window === 'undefined') return;

@@ -120,7 +120,7 @@ function stubBackend(ready: () => boolean): void {
 function stubEnv(): void {
   vi.stubEnv('OMNIVOICE_PORT', '');
   vi.stubEnv('OMNIVOICE_BACKEND_CMD', '');
-  vi.stubEnv('VOICESTUDIO_SKIP_BACKEND', '');
+  vi.stubEnv('VOICEYM_SKIP_BACKEND', '');
   vi.stubEnv('OMNIVOICE_STARTUP_BUDGET_S', BUDGET_S);
 }
 

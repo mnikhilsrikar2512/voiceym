@@ -6,7 +6,7 @@ process restarts without reaching for a DB table. Environment variables
 still win — users who set `OMNIVOICE_TTS_BACKEND=…` are opting into an
 explicit override that the UI cannot silently undo.
 
-    resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="omnivoice")
+    resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="kokoro")
       → env var if set, else prefs.json value, else default.
 """
 from __future__ import annotations

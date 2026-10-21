@@ -3,7 +3,7 @@ import { DEFAULT_BACKEND_PORT } from '../app-config.ts';
 /**
  * Centralised API base URL resolver.
  *
- * Single source of truth for "where is the VoiceStudio backend reachable from
+ * Single source of truth for "where is the Voiceym backend reachable from
  * the currently-rendering frontend?". Three runtime contexts need different
  * answers:
  *

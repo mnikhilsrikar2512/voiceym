@@ -103,7 +103,7 @@ class NativeSortformer:
                 "select pyannote for longer recordings"
             )
         device = resolve_compute_selection().device
-        with TemporaryDirectory(prefix="voicestudio-sortformer-") as directory:
+        with TemporaryDirectory(prefix="voiceym-sortformer-") as directory:
             source = Path(audio_path).resolve()
             output = Path(directory) / "turns.json"
             command = _sortformer_command(

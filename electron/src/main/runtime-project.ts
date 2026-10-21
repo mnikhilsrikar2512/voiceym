@@ -79,7 +79,7 @@ export const RUNTIME_NATIVE_IMPORT_PROBE = 'import torch, torchaudio, torchvisio
 export const RUNTIME_IMPORT_PROBE =
   'import fastapi, uvicorn, omnivoice, faster_whisper, sentencepiece, torch, torchaudio, torchvision';
 const RUNTIME_SCHEMA = 'electron-runtime-v2-cudnn8';
-const CUDNN8_PROBE_PREFIX = 'VOICESTUDIO_CUDNN8_PROBE=';
+const CUDNN8_PROBE_PREFIX = 'VOICEYM_CUDNN8_PROBE=';
 const REQUIRED_ENV_BYTES = 9 * 1024 ** 3;
 // No CUDA wheels: torch itself is ~0.2 GB; the rest is ordinary dependencies plus
 // the uv cache copy that cannot hardlink across volumes.

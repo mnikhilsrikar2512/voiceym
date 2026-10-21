@@ -99,23 +99,13 @@ export default function PerformancePanel() {
         hint={
           <Trans
             i18nKey="settings.perf_torch_compile_hint"
-            defaults="Falls back to eager mode by setting <code>TORCH_COMPILE_DISABLE=1</code> on the engine. Turn this on if model load or generation fails with a Triton / <code>torch.compile</code> error, or if the backend dies mid-generation — see <issueLink>#65</issueLink> (Windows OOM on GPUs under 16 GB) and <crashLink>#2135</crashLink> (CUDA-graph crash on older NVIDIA GPUs). Slower, but it always works."
+            defaults="Falls back to eager mode by setting <code>TORCH_COMPILE_DISABLE=1</code> on the engine. Turn this on if model load or generation fails with a Triton / <code>torch.compile</code> error, or if the backend dies mid-generation (for example out-of-memory on Windows GPUs under 16 GB, or a CUDA-graph crash on older NVIDIA GPUs). Slower, but it always works."
             components={{
-              // Trans injects each link's text ("#65" / "#2135") from the
-              // translation string.
               issueLink: (
-                <a
-                  href="https://github.com/debpalash/VoiceStudio/issues/65"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
+                <span />
               ),
               crashLink: (
-                <a
-                  href="https://github.com/debpalash/VoiceStudio/issues/2135"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
+                <span />
               ),
               code: <code />,
             }}

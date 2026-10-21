@@ -18,7 +18,7 @@ export default function ScalarApiReference({ spec }: { spec: Record<string, unkn
       showDeveloperTools: 'never' as const,
       // Scalar uses the bare URL hash for section navigation by default,
       // which collides with the app's hash router. Keep its document anchors
-      // in the pathname so the VoiceStudio route remains mounted.
+      // in the pathname so the Voiceym route remains mounted.
       pathRouting: { basePath: '/api-reference' },
     }),
     [spec, theme],

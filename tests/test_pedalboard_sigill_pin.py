@@ -2,7 +2,7 @@
 
 spotify/pedalboard#454 — 0.9.21+ manylinux wheels are compiled with
 ``-march=native``, so ``import pedalboard`` raises SIGILL on CPUs that
-lack the builder host's SIMD set. VoiceStudio reported this as a Docker
+lack the builder host's SIMD set. Voiceym reported this as a Docker
 first-synthesis crash; 0.9.20 is the last known-good wheel.
 
 The specifier must keep the 0.9.14 floor (effects-chain API) and exclude

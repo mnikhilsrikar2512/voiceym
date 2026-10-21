@@ -7,7 +7,7 @@ key. Anything not listed here never syncs: secrets, paths, hardware and engine
 choices, analytics IDs, and the device-local keys of sync-collections.md.
 
 The ``dictation`` group (S1-23, recorded for vssaas): ``aecEnabled`` from
-localStorage ``voicestudio.dictation-settings.v1`` plus prefs
+localStorage ``voiceym.dictation-settings.v1`` plus prefs
 ``dictation.mode``, ``dictation.enabled`` and ``dictation.prompt``. The model
 choices (``dictation.model_id``, ``dictation.silent_models``) and the input
 device stay on the device.
@@ -245,7 +245,7 @@ def _write_llm(values: dict) -> None:
 
 
 # ── favorites: an ID array locally, a keyed map with first-seen times in sync ──
-FAVORITES_KEY = "voicestudio.gallery.favorites.v1"
+FAVORITES_KEY = "voiceym.gallery.favorites.v1"
 
 
 def _utc_now() -> str:
@@ -289,19 +289,19 @@ _GENERATION_FIELDS = (
     "language", "instruct", "steps", "wavBits", "effectPreset", "cfg", "speed", "tShift",
     "posTemp", "classTemp", "layerPenalty", "denoise", "postprocess", "showOverrides", "autoPlay",
 )
-_CLONE = "voicestudio.clone.settings.v1"
-_DICTATION_LOCAL = "voicestudio.dictation-settings.v1"
-SHORTCUT_KEY = "voicestudio.shortcut.dictation"  # virtual: the renderer maps it to the capture bridge
+_CLONE = "voiceym.clone.settings.v1"
+_DICTATION_LOCAL = "voiceym.dictation-settings.v1"
+SHORTCUT_KEY = "voiceym.shortcut.dictation"  # virtual: the renderer maps it to the capture bridge
 
 ITEMS: tuple[Item, ...] = (
     Item("settings", "appearance", {
-        "theme": Local("voicestudio.theme.v2"),
-        "appearance": Local("voicestudio.appearance"),
-        "locale": Local("voicestudio.locale"),
+        "theme": Local("voiceym.theme.v2"),
+        "appearance": Local("voiceym.appearance"),
+        "locale": Local("voiceym.locale"),
     }),
     Item("settings", "generation-defaults", {name: LocalField(_CLONE, name) for name in _GENERATION_FIELDS}),
-    Item("settings", "review", {"reviewMode": Local("voicestudio.review-mode.v1")}),
-    Item("settings", "transcription", {"mode": Local("voicestudio.transcription.mode")}),
+    Item("settings", "review", {"reviewMode": Local("voiceym.review-mode.v1")}),
+    Item("settings", "transcription", {"mode": Local("voiceym.transcription.mode")}),
     Item("settings", "dictation", {
         "aecEnabled": LocalField(_DICTATION_LOCAL, "aecEnabled"),
         "mode": Pref("dictation.mode"),
@@ -330,7 +330,7 @@ RENDERER_KEYS: tuple[str, ...] = tuple(
 
 #: Renderer keys stored as plain strings; every other renderer key holds JSON.
 RAW_KEYS: frozenset[str] = frozenset({
-    "voicestudio.locale", "voicestudio.review-mode.v1", "voicestudio.transcription.mode", SHORTCUT_KEY,
+    "voiceym.locale", "voiceym.review-mode.v1", "voiceym.transcription.mode", SHORTCUT_KEY,
 })
 
 #: Renderer keys of which only some fields sync (LocalField): a pulled value merges

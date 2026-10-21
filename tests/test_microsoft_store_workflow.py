@@ -14,7 +14,7 @@ def load_workflow():
 def test_store_workflow_is_manual_signed_and_distribution_scoped():
     workflow = load_workflow()
     assert set(workflow["on"]) == {"workflow_dispatch"}
-    assert workflow["env"]["VOICESTUDIO_DISTRIBUTION"] == "microsoft-store"
+    assert workflow["env"]["VOICEYM_DISTRIBUTION"] == "microsoft-store"
     package = workflow["jobs"]["package"]
     build = next(
         step for step in package["steps"] if step.get("name") == "Build signed Microsoft Store installer"
@@ -67,7 +67,7 @@ def test_checkouts_do_not_persist_github_credentials():
 def test_store_package_records_authenticode_and_provenance_evidence():
     workflow = load_workflow()
     package = workflow["jobs"]["package"]
-    assert package["env"]["VOICESTUDIO_UPDATE_CHANNEL"] == (
+    assert package["env"]["VOICEYM_UPDATE_CHANNEL"] == (
         "electron-microsoft-store-stable-win32-${{ matrix.arch }}"
     )
     names = [step.get("name") for step in package["steps"]]

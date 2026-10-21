@@ -34,7 +34,7 @@ try {
     return route.fulfill({ json: state });
   });
   await page.goto(
-    (process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902') + '/#/settings/models',
+    (process.env.VOICEYM_UI_URL || 'http://localhost:3902') + '/#/settings/models',
   );
   await page.getByRole('textbox', { name: 'Custom mirror URL', exact: true }).waitFor();
   assert.equal(tests, 0);

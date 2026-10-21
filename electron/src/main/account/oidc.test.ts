@@ -54,7 +54,7 @@ it('builds the authorize URL from the contract', () => {
     }),
   );
   expect(Object.fromEntries(url.searchParams)).toEqual({
-    client_id: 'voicestudio-desktop-oss',
+    client_id: 'voiceym-desktop-oss',
     response_type: 'code',
     redirect_uri: 'http://127.0.0.1:5000/callback',
     scope: 'openid offline_access',
@@ -101,7 +101,7 @@ it('sends form-encoded refresh with the public client id and no secret', async (
   const body = new URLSearchParams(String(fetchImpl.mock.calls[1][1]!.body));
   expect(Object.fromEntries(body)).toEqual({
     grant_type: 'refresh_token',
-    client_id: 'voicestudio-desktop-oss',
+    client_id: 'voiceym-desktop-oss',
     refresh_token: 'r1',
   });
 });

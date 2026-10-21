@@ -9,13 +9,13 @@ and certification remain pending.
 
 ## Package contract
 
-VoiceStudio uses Microsoft's unpackaged Win32 EXE path. The Store package is a
+Voiceym uses Microsoft's unpackaged Win32 EXE path. The Store package is a
 separately named build of the existing NSIS installer:
 
-`VoiceStudio-MicrosoftStore-<version>-win-<arch>.exe`
+`Voiceym-MicrosoftStore-<version>-win-<arch>.exe`
 
-It embeds `VOICESTUDIO_DISTRIBUTION=microsoft-store`, remains a standalone
-installer, accepts the silent `/S` switch and keeps VoiceStudio's application
+It embeds `VOICEYM_DISTRIBUTION=microsoft-store`, remains a standalone
+installer, accepts the silent `/S` switch and keeps Voiceym's application
 updater enabled. Direct installers, names and update feeds are unchanged.
 
 Microsoft requires a versioned HTTPS package URL that is not replaced after
@@ -31,8 +31,8 @@ at least one screenshot and 1:1 box art. Current requirements:
 
 Before staging a package URL or submitting:
 
-1. Reserve `VoiceStudio` as an EXE/MSI product in Partner Center.
-2. Confirm the seller/publisher identity is `Yupcha Softwares Private Limited`.
+1. Reserve `Voiceym` as an EXE/MSI product in Partner Center.
+2. Confirm the seller/publisher identity is `Voiceym`.
 3. Add `ELECTRON_WINDOWS_CSC_LINK` and
    `ELECTRON_WINDOWS_CSC_KEY_PASSWORD` as repository secrets. The certificate
    must chain to a CA in the Microsoft Trusted Root Program and its subject must

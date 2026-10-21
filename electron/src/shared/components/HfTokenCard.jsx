@@ -136,7 +136,7 @@ export default function HfTokenCard({ className = '' }) {
 
   const SOURCE_LABELS = {
     app: t('settings.hf_source_app_label', {
-      defaultValue: 'VoiceStudio (encrypted, recommended)',
+      defaultValue: 'Voiceym (encrypted, recommended)',
     }),
     env: t('settings.hf_source_env_label', {
       defaultValue: 'Environment variable',

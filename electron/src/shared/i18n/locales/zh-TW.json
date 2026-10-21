@@ -56,9 +56,9 @@
     "no_harness": "安裝並登入 Codex、Claude Code、OpenCode 或 Pi 即可連接代理程式。"
   },
   "repairAgent": {
-    "title": "詢問 VoiceStudio Agent",
+    "title": "詢問 Voiceym Agent",
     "notInstalled": "未安裝",
-    "noSource": "請開啟可寫入的 VoiceStudio 原始碼簽出目錄，讓代理進行修復。",
+    "noSource": "請開啟可寫入的 Voiceym 原始碼簽出目錄，讓代理進行修復。",
     "ready": "就緒",
     "placeholder": "出了什麼問題？請加入操作步驟、可見錯誤或預期行為。",
     "diagnose": "診斷",
@@ -68,7 +68,7 @@
   },
   "siteBrowser": {
     "return_studio": "返回工作室",
-    "preview": "在 VoiceStudio 內快速預覽官方網站",
+    "preview": "在 Voiceym 內快速預覽官方網站",
     "open_in": "在瀏覽器中開啟",
     "back": "上一頁",
     "forward": "下一頁",
@@ -99,7 +99,7 @@
     "brand_by": "{{brand}} 作者",
     "all": "全部",
     "allContributors": "所有貢獻者",
-    "title": "VoiceStudio.sh 開源",
+    "title": "voiceym.example 開源",
     "design": "根據描述設計聲音。",
     "dub": "翻譯並配音音訊或影片。",
     "stories": "用多種聲音創作場景。",
@@ -110,17 +110,17 @@
   },
   "longformPersistence": {
     "storage_unavailable_title": "無法載入專案",
-    "storage_unavailable_body": "VoiceStudio 無法讀取本機專案儲存空間。你的資料未被變更。請重試以安全開啟專案。",
+    "storage_unavailable_body": "Voiceym 無法讀取本機專案儲存空間。你的資料未被變更。請重試以安全開啟專案。",
     "clear_projects": "清除已儲存的專案",
-    "clear_confirm": "這將永久刪除所有已儲存的故事與有聲書專案以及所有未儲存的草稿，讓 VoiceStudio 能重新開啟。此操作無法復原。是否繼續？"
+    "clear_confirm": "這將永久刪除所有已儲存的故事與有聲書專案以及所有未儲存的草稿，讓 Voiceym 能重新開啟。此操作無法復原。是否繼續？"
   },
   "backendUnreachable": {
     "contact_recent": "它在 {{ago}} 前還有回應，之後停止回應，而且沒有記錄到當機——因此它可能仍在執行，只是卡在佔用引擎的繁重工作上。",
     "contact_never": "本次工作階段中它從未回應——可能根本沒有啟動。",
-    "dev": "無法連線本機 VoiceStudio 後端。{{contact}} 在 `bun run dev` 下後端以自動重新載入方式執行，任何檔案變動（包括請求進行中的儲存）都會重啟它並中斷連線。請先重試該操作；若是重新載入造成的，重試即可成功。若仍然失敗，請查看執行 `bun run dev` 的終端機是否有 Python 追蹤訊息或結束訊息，以及 VoiceStudio 資料夾中的 omnivoice.log。",
-    "server": "無法連線 VoiceStudio 後端伺服器。{{contact}} 請查看伺服器日誌以找出原因（例如 `docker logs <容器>` 或 `journalctl`）——另請注意：如果此頁面由 Docker 提供，頁面本身也可能隨後端一起停止運作。",
-    "misrouted": "回應 {{url}} 的伺服器並非 VoiceStudio 後端——它回傳了自己的 404 頁面。API 請求送到了錯誤的主機：請在 設定 → 網路共享 中檢查後端 URL；若此介面由反向代理提供，請檢查它對 API 路徑的路由設定。",
-    "desktop": "無法連線到本機 VoiceStudio 後端。{{contact}} 若出現當機通知請開啟它，或在 設定 → 記錄 → 後端 中查看它最後記錄的內容——「{{retry}}」會重新啟動它，若仍無法恢復，「{{cleanRetry}}」會重建它的執行環境。"
+    "dev": "無法連線本機 Voiceym 後端。{{contact}} 在 `bun run dev` 下後端以自動重新載入方式執行，任何檔案變動（包括請求進行中的儲存）都會重啟它並中斷連線。請先重試該操作；若是重新載入造成的，重試即可成功。若仍然失敗，請查看執行 `bun run dev` 的終端機是否有 Python 追蹤訊息或結束訊息，以及 Voiceym 資料夾中的 omnivoice.log。",
+    "server": "無法連線 Voiceym 後端伺服器。{{contact}} 請查看伺服器日誌以找出原因（例如 `docker logs <容器>` 或 `journalctl`）——另請注意：如果此頁面由 Docker 提供，頁面本身也可能隨後端一起停止運作。",
+    "misrouted": "回應 {{url}} 的伺服器並非 Voiceym 後端——它回傳了自己的 404 頁面。API 請求送到了錯誤的主機：請在 設定 → 網路共享 中檢查後端 URL；若此介面由反向代理提供，請檢查它對 API 路徑的路由設定。",
+    "desktop": "無法連線到本機 Voiceym 後端。{{contact}} 若出現當機通知請開啟它，或在 設定 → 記錄 → 後端 中查看它最後記錄的內容——「{{retry}}」會重新啟動它，若仍無法恢復，「{{cleanRetry}}」會重建它的執行環境。"
   },
   "nav": {
     "clone": "複製聲音",
@@ -159,13 +159,13 @@
     "remote_backend_recovery_title": "無法連線至遠端後端",
     "remote_backend_recovery_hint": "你可以稍後在「設定 → 分享」中變更遠端後端。",
     "remote_backend_use_local": "使用本機後端",
-    "remote_backend_error_tls": "無法驗證安全連線。請檢查憑證並使用 VoiceStudio HTTP API 連接埠。",
+    "remote_backend_error_tls": "無法驗證安全連線。請檢查憑證並使用 Voiceym HTTP API 連接埠。",
     "remote_backend_error_cors": "遠端後端封鎖了此應用程式。請在 CORS 設定中允許此應用程式的來源。",
     "remote_backend_error_network": "無法存取遠端後端。請檢查位址、網路和防火牆。",
     "remote_backend_error_timeout": "遠端後端未及時回應。",
     "remote_backend_error_http": "遠端後端回傳 HTTP {{status}}。",
-    "remote_backend_error_wrong_port": "這似乎不是 VoiceStudio HTTP API。連接埠 7443 通常用於遠端工作程序控制；請嘗試連接埠 3900。",
-    "openapi": "VoiceStudio API",
+    "remote_backend_error_wrong_port": "這似乎不是 Voiceym HTTP API。連接埠 7443 通常用於遠端工作程序控制；請嘗試連接埠 3900。",
+    "openapi": "Voiceym API",
     "general": "一般",
     "theme": "佈景主題",
     "language": "顯示語言",
@@ -205,7 +205,7 @@
     "llmp_test_ok": "正常：{{model}} · {{ms}} ms",
     "llmp_active_env_pin": "LLM 選擇由 LLM_DEFAULT_PROVIDER 或 OMNIVOICE_LLM_BACKEND 固定。",
     "llmp_connect": "連線並啟用",
-    "llmp_setup_hint": "選擇供應商，啟動其伺服器或新增 API 金鑰，然後連線。VoiceStudio 會先驗證模型回應，再啟用 LLM 功能。",
+    "llmp_setup_hint": "選擇供應商，啟動其伺服器或新增 API 金鑰，然後連線。Voiceym 會先驗證模型回應，再啟用 LLM 功能。",
     "llmp_disable": "關閉 LLM",
     "llmp_optional_key": "API 金鑰（選填）",
     "llmp_err_config": "請補全供應商設定：基礎 URL、模型，以及所需的 API 金鑰或帳戶 ID。",
@@ -274,7 +274,7 @@
     "shortcut_register_failed": "無法註冊：{{message}}",
     "shortcut_reset": "重設為預設值",
     "shortcut_reset_failed": "重置失敗：{{message}}",
-    "reset_longform_failed": "VoiceStudio 無法安全清除已儲存的專案。您的專案資料未被變更；請釋放一些儲存空間或重新啟動應用程式後再試。",
+    "reset_longform_failed": "Voiceym 無法安全清除已儲存的專案。您的專案資料未被變更；請釋放一些儲存空間或重新啟動應用程式後再試。",
     "cancel": "取消",
     "hf_token_also_clear": "同時清除已儲存的 HuggingFace CLI 權杖檔案",
     "hf_token_clear_btn": "清除代幣",
@@ -327,7 +327,7 @@
     "nav_style_desc": "透過視窗邊緣的圖示列或標題列上的分頁切換工作區。",
     "nav_style_rail": "側邊欄",
     "nav_style_tabs": "標題列分頁",
-    "storage_desc": "VoiceStudio 保存您的資料和輸出的地方。",
+    "storage_desc": "Voiceym 保存您的資料和輸出的地方。",
     "history_retention": "生成歷史",
     "history_retention_desc": "在清理最舊項目之前保留的生成數量。",
     "history_retention_help": "每次生成後,超過此上限的最舊未加星項目將連同音訊檔案一併刪除。已加星的項目永遠保留。0 = 全部保留。",
@@ -344,7 +344,7 @@
     "models_dir_effective": "目前使用",
     "models_dir_configured": "已設定",
     "models_dir_default": "使用預設值",
-    "models_dir_restart": "↻ 重新啟動 VoiceStudio 以使用新位置。",
+    "models_dir_restart": "↻ 重新啟動 Voiceym 以使用新位置。",
     "compute_device": "運算裝置",
     "compute_device_title": "運算裝置",
     "compute_device_desc": "後端在哪個裝置上執行模型。絕大多數情況下選「自動」即可。",
@@ -369,12 +369,12 @@
     "generate_timeout_cpu": "CPU 預算",
     "generate_timeout_cpu_note": "當生成執行於 CPU 上時使用。一旦在此處儲存，此值將始終控制 CPU 生成 — 與上方的加速預算無關。",
     "generate_timeout_invalid": "請輸入大於 0 且最多 {{max}} 的秒數。",
-    "generate_timeout_saved": "已儲存。重新啟動 VoiceStudio 以套用新的預算。",
+    "generate_timeout_saved": "已儲存。重新啟動 Voiceym 以套用新的預算。",
     "generate_timeout_shadowed_badge": "已被外部覆寫",
-    "generate_timeout_shadowed_note": "VoiceStudio 之外的一個環境變數（終端機、.env 檔案或容器）目前正在設定此值 — 在移除該變數之前，此處儲存的值會被忽略。",
-    "generate_timeout_shadowed_toast": "已儲存，但 VoiceStudio 之外的一個環境變數目前正在設定此值 — 在移除該變數之前，將持續使用該值。",
+    "generate_timeout_shadowed_note": "Voiceym 之外的一個環境變數（終端機、.env 檔案或容器）目前正在設定此值 — 在移除該變數之前，此處儲存的值會被忽略。",
+    "generate_timeout_shadowed_toast": "已儲存，但 Voiceym 之外的一個環境變數目前正在設定此值 — 在移除該變數之前，將持續使用該值。",
     "hf_token_not_checked": "未測試",
-    "hf_source_app_label": "VoiceStudio（已加密，建議）",
+    "hf_source_app_label": "Voiceym（已加密，建議）",
     "hf_source_cli_label": "HuggingFace CLI",
     "hf_source_env_label": "環境變數",
     "theme_auto": "系統自動",
@@ -389,7 +389,7 @@
     "llmp_cli_auth": "CLI 帳戶存取遭拒。請檢查登入、訂閱和所選模型。"
   },
   "bootstrap": {
-    "title": "VoiceStudio",
+    "title": "Voiceym",
     "checking": "正在檢查環境…",
     "downloading_uv": "正在下載 uv（Python 包管理器）…",
     "creating_venv": "正在建立 Python 虛擬環境…",
@@ -423,10 +423,10 @@
     "hint_uv_sync": "相依套件安裝失敗。「清理並重試」會刪除快取的 venv 並重新開始。",
     "hint_build_backend": "Python 建置後端發生錯誤。「清理並重試」會移除損壞的 venv,從頭重新建置。",
     "hint_ffmpeg": "ffmpeg 下載失敗。這不是致命問題 — 可以重試,或手動安裝 ffmpeg。",
-    "hint_port": "連接埠 3900 已被佔用。請關閉其他 VoiceStudio 實例或佔用該連接埠的應用程式。",
+    "hint_port": "連接埠 3900 已被佔用。請關閉其他 Voiceym 實例或佔用該連接埠的應用程式。",
     "hint_silent_crash": "後端在沒有錯誤訊息的情況下當機。「清理並重試」通常能解決 venv 損壞的問題。",
     "hint_github_blocked": "您的網路可能封鎖了 GitHub。請從 python.org 安裝 Python 3.11+(加入 PATH)後重新啟動,或設定 UV_PYTHON_INSTALL_MIRROR — 參見 docs/install/troubleshooting.md。",
-    "hint_intel_mac": "這台 Mac 使用 Intel 處理器,而 PyTorch 已不再發布 Intel Mac 版本 — 無法安裝本機 AI 後端,重試也無濟於事。您仍可將應用程式連接到另一台機器上執行的遠端後端(設定 → 網路共享 → 遠端後端),或在 Apple Silicon Mac、Windows 或 Linux 上使用 VoiceStudio。詳情:docs/install/macos.md。",
+    "hint_intel_mac": "這台 Mac 使用 Intel 處理器,而 PyTorch 已不再發布 Intel Mac 版本 — 無法安裝本機 AI 後端,重試也無濟於事。您仍可將應用程式連接到另一台機器上執行的遠端後端(設定 → 網路共享 → 遠端後端),或在 Apple Silicon Mac、Windows 或 Linux 上使用 Voiceym。詳情:docs/install/macos.md。",
     "hint_default": "請先嘗試「重試」。若再次失敗,「清理並重試」會從頭重建執行環境。",
     "hint_stuck": "後端沒有啟動完成。從原始程式碼中，首先執行“uvsync”並確保“uv”和Python位於您的路徑上，然後再試一次。檢查下面的日誌（或設定 → 日誌 → 後端）以了解確切的停頓點。",
     "lines": "{{count}} 行"
@@ -723,7 +723,7 @@
     "downloading": "正在下載...",
     "check_updates": "檢查更新",
     "copy_diagnostics": "複製診斷",
-    "github": "GitHub 上的 VoiceStudio",
+    "github": "GitHub 上的 Voiceym",
     "commercial_license": "商業許可",
     "update_channel": "更新通道",
     "channel_stable": "穩定版",
@@ -762,9 +762,9 @@
     "watermark_failed": "無法變更浮水印設定。"
   },
   "consent": {
-    "title": "協助改進 VoiceStudio？",
+    "title": "協助改進 Voiceym？",
     "desc": "匿名且不含內容的使用統計,能協助我們更快修正錯誤——完全可選,預設為關閉。",
-    "step_label": "改進 VoiceStudio",
+    "step_label": "改進 Voiceym",
     "body": "匿名且不含內容的使用統計：使用了哪些引擎、生成花費多久，以及錯誤的類型。絕不會傳送你的文字、音訊、檔案或任何可識別你身分的資訊。除非你同意，否則不會傳送任何資料；你可以隨時在 設定 → 隱私 中變更選擇。",
     "learn_more": "究竟會傳送什麼？",
     "yes": "是，分享匿名統計",
@@ -772,7 +772,7 @@
     "dismiss": "關閉（分析保持關閉）"
   },
   "langPrompt": {
-    "offer": "VoiceStudio 以{{language}}開啟。想改用英文嗎？",
+    "offer": "Voiceym 以{{language}}開啟。想改用英文嗎？",
     "switch": "切換到英文",
     "keep": "保留{{language}}"
   },
@@ -833,7 +833,7 @@
     "diskTemporary": "暫時可用空間",
     "diskDestination": "目的地",
     "diskDestination_hf_model_cache": "Hugging Face 模型快取磁碟區",
-    "diskDestination_engine_data": "VoiceStudio 引擎資料磁碟區",
+    "diskDestination_engine_data": "Voiceym 引擎資料磁碟區",
     "diskActualModel": "實際模型空間",
     "diskActualEnvironment": "實際環境空間",
     "diskActualCache": "實際共用快取",
@@ -882,7 +882,7 @@
   },
   "capture": {
     "desc": "全域熱鍵僅適用於桌面應用程式。當視窗具有焦點時，Web UI 使用頁內 <1>Ctrl+Shift+Space</1> 快速鍵。",
-    "desc_detail": "當 VoiceStudio 運作時，熱鍵在整個系統範圍內有效 — 它聚焦視窗並開始聽寫。避免作業系統已宣告的組合（在 macOS 上，<1>⌘+Space</1> 是 Spotlight，<2>⌘+⇧+Space</2> 迴圈輸入來源）。如果註冊失敗，請選擇不同的組合。",
+    "desc_detail": "當 Voiceym 運作時，熱鍵在整個系統範圍內有效 — 它聚焦視窗並開始聽寫。避免作業系統已宣告的組合（在 macOS 上，<1>⌘+Space</1> 是 Spotlight，<2>⌘+⇧+Space</2> 迴圈輸入來源）。如果註冊失敗，請選擇不同的組合。",
     "active_shortcut": "活動快捷方式",
     "new_shortcut": "新快捷方式",
     "press_key": "按組合鍵...",
@@ -900,8 +900,8 @@
     "no_speech": "未偵測到語音",
     "mic_denied": "麥克風存取被拒絕",
     "mic_denied_toast": "麥克風存取被拒絕。 {{hint}}",
-    "mic_hint_mac": "macOS：開啟系統設定 → 隱私和安全 → 麥克風並啟用 VoiceStudio。",
-    "mic_hint_windows": "Windows：開啟 設定 → 隱私權與安全性 → 麥克風，開啟「麥克風存取權」和「允許桌面應用程式存取您的麥克風」，然後允許 VoiceStudio。",
+    "mic_hint_mac": "macOS：開啟系統設定 → 隱私和安全 → 麥克風並啟用 Voiceym。",
+    "mic_hint_windows": "Windows：開啟 設定 → 隱私權與安全性 → 麥克風，開啟「麥克風存取權」和「允許桌面應用程式存取您的麥克風」，然後允許 Voiceym。",
     "mic_hint_linux": "Linux：檢查您的使用者是否在音訊群組中且 WebView 是否具有麥克風存取權限。",
     "transcription_failed": "轉錄失敗：{{message}}",
     "mic_not_found": "找不到麥克風。請連接或啟用麥克風後再試一次。",
@@ -1000,7 +1000,7 @@
     "persona_include_ref_hint": "包括原始參考剪輯。關閉 = 僅共享帶浮水印的預覽（建議）。",
     "consent_title": "語音所有權",
     "consent_explain": "錄製您自己閱讀下面的聲明，以驗證這是您自己的聲音。代理特徵和社區共享需要驗證－本地綜合則不需要。",
-    "consent_statement": "我確認此語音設定檔是我自己的聲音，並且我同意 VoiceStudio 代表我克隆它。",
+    "consent_statement": "我確認此語音設定檔是我自己的聲音，並且我同意 Voiceym 代表我克隆它。",
     "consent_record": "記錄同意聲明",
     "consent_stop": "停止錄音",
     "consent_saved": "語音所有權已驗證",
@@ -1464,7 +1464,7 @@
     "watch_start_failed": "無法開始監看該資料夾 — 請重新選擇以重試。"
   },
   "gallery": {
-    "title": "VoiceStudio 畫廊",
+    "title": "Voiceym 畫廊",
     "download_hint": "在上方搜尋即可下載剪輯",
     "saving": "正在儲存...",
     "trim": "修剪",
@@ -1573,22 +1573,22 @@
   "donate": {
     "title": "支援",
     "desc": "如果您喜歡這個項目，請考慮捐贈以支持我們的發展。",
-    "hero_title": "捐款支持 VoiceStudio 專案",
-    "hero_desc": "VoiceStudio 是免費、開源的，並且完全在您的硬體上運行。如果它為您的工作流程帶來價值，請考慮支援核心團隊。",
+    "hero_title": "捐款支持 Voiceym 專案",
+    "hero_desc": "Voiceym 是免費、開源的，並且完全在您的硬體上運行。如果它為您的工作流程帶來價值，請考慮支援核心團隊。",
     "github_desc": "重複或一次性—直接透過 GitHub。",
     "coffee_desc": "請團隊喝杯咖啡。無需帳戶。",
     "paypal_desc": "快速一次性或透過 PayPal 定期進行。",
     "platforms": "平台",
     "footer": "每一項貢獻都有助於突破本地人工智慧的界限。",
     "back": "返回工作室",
-    "pill": "支持VoiceStudio",
+    "pill": "支持Voiceym",
     "suggested_title": "選擇金額",
     "most_common": "最常見的",
     "custom": "客製化",
     "choose_method": "選擇如何給予",
     "choose_method_amount": "繼續 ${{amount}}",
     "goal": {
-      "title": "支持 VoiceStudio 開發",
+      "title": "支持 Voiceym 開發",
       "of": "的",
       "per_month": "/月",
       "aria": "{{raised}} 每月目標 {{goal}}",
@@ -1597,7 +1597,7 @@
       "social_proof": "加入資助本地人工智慧的 {{count}} 支持者"
     },
     "postcard": {
-      "title": "支持 VoiceStudio 開發",
+      "title": "支持 Voiceym 開發",
       "later": "也許稍後"
     }
   },
@@ -1607,11 +1607,11 @@
     "back": "返回工作室",
     "badge": "商業許可",
     "hero_title": "在生產中傳送人工智慧聲音",
-    "hero_desc": "VoiceStudio 是基於 GNU Affero 通用公眾授權條款第 3 版（AGPL-3.0）的自由開源軟體——可免費使用，包括商業用途與企業內部用途。只有當您想在不承擔 AGPL-3.0 著佐權（copyleft）義務的情況下，將 VoiceStudio 嵌入閉源或專有產品/服務時，才需要商業授權。 我們的授權適用於 VoiceStudio 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
+    "hero_desc": "Voiceym 是基於 GNU Affero 通用公眾授權條款第 3 版（AGPL-3.0）的自由開源軟體——可免費使用，包括商業用途與企業內部用途。只有當您想在不承擔 AGPL-3.0 著佐權（copyleft）義務的情況下，將 Voiceym 嵌入閉源或專有產品/服務時，才需要商業授權。 我們的授權適用於 Voiceym 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
     "pricing_desc": "等級和定價仍在最終確定中。",
     "request_quote": "索取報價",
     "benefit_ip": "應用程式授權",
-    "benefit_ip_desc": "我們的授權適用於 VoiceStudio 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
+    "benefit_ip_desc": "我們的授權適用於 Voiceym 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
     "benefit_cost": "每分鐘零成本",
     "benefit_cost_desc": "沒有 API 帳單，也沒有意外超額。從第一天起就在您自己的硬體上運行。",
     "benefit_team_desc": "一份許可證涵蓋您組織內的無限用戶。",
@@ -1619,7 +1619,7 @@
     "benefit_support_desc": "來自核心工程團隊的優先電子郵件和視訊通話支援。",
     "benefit_source_desc": "對堆疊的完全可見性。在許可條款範圍內進行審核、分叉和調整。",
     "benefit_lang_desc": "以人類層次的品質轉錄、翻譯和配音 646 種語言。",
-    "hero_simple": "VoiceStudio 在 AGPL-3.0 下是免費且開源的 — 包括商業和內部業務用途。您只需要商業許可即可將其嵌入閉源產品中，無需 AGPL 的 Copyleft 義務。 我們的授權適用於 VoiceStudio 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。"
+    "hero_simple": "Voiceym 在 AGPL-3.0 下是免費且開源的 — 包括商業和內部業務用途。您只需要商業許可即可將其嵌入閉源產品中，無需 AGPL 的 Copyleft 義務。 我們的授權適用於 Voiceym 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。"
   },
   "exportModal": {
     "export": "出口",
@@ -1682,7 +1682,7 @@
     "pkg_audio_body_one": "跳到「音訊」選項卡，以 WAV 或 MP3 格式匯出每種語言的配音（可用 {{count}} 配音）。",
     "pkg_audio_body_other": "跳到「音訊」選項卡，以 WAV 或 MP3 格式匯出每種語言的配音（可用 {{count}} 配音）。",
     "pkg_audio_cta": "開啟音訊選項卡",
-    "license_text": "我們的授權適用於 VoiceStudio 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
+    "license_text": "我們的授權適用於 Voiceym 程式碼。模型與生成內容的相關權利取決於所選模型及其條款。",
     "license_link": "應用程式授權",
     "output": "輸出",
     "nothing_selected": "未選擇任何內容或曲目不可用",
@@ -1750,14 +1750,14 @@
     "desc": "別擔心——應用程式的其餘部分仍然有效。您可以切換選項卡，或在下面重試。",
     "tryAgain": "再試一次",
     "openDocs": "開啟此錯誤的文檔",
-    "crash_port_in_use": "後端無法啟動，因為連接埠 3900 已被占用 — 另一個 VoiceStudio 執行個體（或占用該連接埠的應用程式）正持有它。請結束另一個執行個體後重新啟動；若看不到任何正在執行的程式，則是上一次工作階段殘留的後端仍占用該連接埠。",
+    "crash_port_in_use": "後端無法啟動，因為連接埠 3900 已被占用 — 另一個 Voiceym 執行個體（或占用該連接埠的應用程式）正持有它。請結束另一個執行個體後重新啟動；若看不到任何正在執行的程式，則是上一次工作階段殘留的後端仍占用該連接埠。",
     "crash_oom_kill": "程序遭強制終止（信號 9），通常表示作業系統記憶體（RAM）不足而將其停止。請關閉占用記憶體較大的應用程式，在設定 → 模型中選擇較小的 ASR 模型，或在轉錄前卸載 TTS 模型。",
-    "crash_native_fault": "它是在計算堆疊內部崩潰的，而不是記憶體耗盡 — 這通常指向與內建 CUDA 執行環境不相符的 GPU 驅動程式，或未完整下載的模型檔案。請更新 GPU 驅動程式，然後在設定 → 模型中重新下載該模型（可就地修復未完成的下載）。若反覆發生，請在設定 → 引擎中切換到崩潰隔離引擎 — 合成用「VoiceStudio (subprocess)」，轉錄用「Faster-Whisper (crash-isolated subprocess)」。它們在獨立程序中執行模型，因此這類崩潰只會終止該程序，而非整個後端。",
+    "crash_native_fault": "它是在計算堆疊內部崩潰的，而不是記憶體耗盡 — 這通常指向與內建 CUDA 執行環境不相符的 GPU 驅動程式，或未完整下載的模型檔案。請更新 GPU 驅動程式，然後在設定 → 模型中重新下載該模型（可就地修復未完成的下載）。若反覆發生，請在設定 → 引擎中切換到崩潰隔離引擎 — 合成用「Voiceym (subprocess)」，轉錄用「Faster-Whisper (crash-isolated subprocess)」。它們在獨立程序中執行模型，因此這類崩潰只會終止該程序，而非整個後端。",
     "report": "回報此錯誤",
     "report_failed": "無法開啟錯誤回報。請重試，或將上方的詳細資訊複製到新的 issue 中。",
     "searchIssues": "搜尋類似問題",
     "unexpected": "未預期的錯誤：{{message}}",
-    "backend_shutting_down": "VoiceStudio 正在關閉。請重新開啟應用程式後再試。",
+    "backend_shutting_down": "Voiceym 正在關閉。請重新開啟應用程式後再試。",
     "crash_broken_env": "它在載入自身的 Python 相依套件時結束，因此與記憶體或顯示卡無關——執行環境不完整，或更新到一半就停住了。請在 設定 → 系統日誌 → 後端 中使用「清理並重試」，它會從頭重建環境並就地修復，不會動到你的聲音或專案。若之後仍然失敗，當機詳情會指出無法匯入的確切套件。",
     "crash_vram_default": "在較小的 GPU 上，常見原因是在 TTS 模型仍載入時再載入 ASR 模型，導致顯示記憶體（VRAM）不足：請先卸載 TTS 模型，或在 模型庫 → 模型 中選擇較小的 ASR 模型。",
     "stream_cut_backend_alive": "串流提前結束，但後端仍在執行——因此它並沒有當機。在伺服器或容器化部署中，這通常是反向代理或負載平衡器在緩衝連線或使其逾時：請為此路由停用回應緩衝（nginx: proxy_buffering off; X-Accel-Buffering: no）並調高讀取逾時。直接執行桌面應用程式，或在沒有代理的 localhost 上執行，即可確認。",
@@ -1801,7 +1801,7 @@
     "network": "網路",
     "local": "本地",
     "share_confirm_title": "在您的网络上分享？",
-    "share_confirm_hint": "Wi-Fi/乙太網路上的其他裝置將能夠使用開啟後顯示的存取 PIN 碼來存取 VoiceStudio。",
+    "share_confirm_hint": "Wi-Fi/乙太網路上的其他裝置將能夠使用開啟後顯示的存取 PIN 碼來存取 Voiceym。",
     "enabling": "启用...",
     "enable": "啟用",
     "shared_title": "在您的網路上分享",
@@ -1842,7 +1842,7 @@
     "model_heading": "模型重量 · OpenRAIL-M",
     "model_desc": "Supertonic-3 模型權重在 OpenRAIL-M 許可證下發布。此許可證限制用於非惡意目的 - 請參閱連結許可證以了解全套基於使用的限制。",
     "read_openrail": "閱讀 OpenRAIL-M 許可證 →",
-    "footer": "按一下「接受」會在 VoiceStudio 的本機設定中記錄您的接受情況並啟用引擎。您的接受僅儲存在本機上 — 不會向 Supertone Inc. 或任何第三方報告任何內容。",
+    "footer": "按一下「接受」會在 Voiceym 的本機設定中記錄您的接受情況並啟用引擎。您的接受僅儲存在本機上 — 不會向 Supertone Inc. 或任何第三方報告任何內容。",
     "saving": "正在儲存...",
     "accept": "接受",
     "accepted_toast": "已接受 Supertonic-3 許可證。",
@@ -1857,7 +1857,7 @@
     "gate_desc": "權重在 Hugging Face 上受限。首次下載前，你需要免費帳戶、分享聯絡資訊並接受存取條件。",
     "pockettts_conditions_desc": "存取條件禁止非法、有害、欺騙、詐欺、未經授權或未經同意的聲音使用。繼續前請查看完整條件。",
     "review_access_conditions": "查看存取條件",
-    "pockettts_footer": "點擊「接受」只會將你的確認儲存在 VoiceStudio 本機設定中並啟用引擎。模型存取和下載使用 Hugging Face，該服務會收到一般請求和帳戶資訊。",
+    "pockettts_footer": "點擊「接受」只會將你的確認儲存在 Voiceym 本機設定中並啟用引擎。模型存取和下載使用 Hugging Face，該服務會收到一般請求和帳戶資訊。",
     "pockettts_accepted_toast": "已接受 PocketTTS 條件。"
   },
   "voicePreview": {
@@ -2161,19 +2161,19 @@
     "ref_audio_too_long": "參考音訊在提供文字稿時最長20秒，未提供時最長75秒。請裁剪為含清晰語音的3–10秒片段；若提供文字稿，請將其裁剪到同一片段。",
     "ref_audio_no_speech": "自動語音偵測未在參考音訊中找到口語。請裁剪為含清晰語音的3–10秒片段，或提供相符的文字稿。",
     "gpu_arch_unsupported": "此 PyTorch 組建不支援您的 GPU。請在設定 → 效能與裝置中選擇 CPU，或安裝相容的 PyTorch 組建。",
-    "windows_app_control_blocked": "Windows 應用程式控制封鎖了必要檔案。請聯絡管理員允許受信任的 VoiceStudio 執行環境，然後重新啟動應用程式。",
+    "windows_app_control_blocked": "Windows 應用程式控制封鎖了必要檔案。請聯絡管理員允許受信任的 Voiceym 執行環境，然後重新啟動應用程式。",
     "audio_io_failed": "無法讀取或儲存音訊。請檢查檔案格式、磁碟可用空間和檔案存取權限，並在設定 → 儲存空間中檢查資料夾。",
     "no_audio_track": "此檔案沒有音軌，因此沒有可轉錄、配音或複製的語音。請選擇包含聲音的影片或音訊檔案。",
-    "transcription_media_tool": "轉錄需要 ffmpeg，但 VoiceStudio 找不到或無法執行它。請開啟設定 → 音訊工具並使用下載/修復，或安裝 ffmpeg（macOS：brew install ffmpeg；Windows：winget install Gyan.FFmpeg；Linux：你的套件管理員），然後重新啟動 VoiceStudio。你也可以將 FFMPEG_PATH 指向 ffmpeg 執行檔。",
-    "transcription_pipe_lost": "轉錄期間後端失去了通往應用程式的輸出管道（broken pipe）。請重新啟動 VoiceStudio 後再試一次。"
+    "transcription_media_tool": "轉錄需要 ffmpeg，但 Voiceym 找不到或無法執行它。請開啟設定 → 音訊工具並使用下載/修復，或安裝 ffmpeg（macOS：brew install ffmpeg；Windows：winget install Gyan.FFmpeg；Linux：你的套件管理員），然後重新啟動 Voiceym。你也可以將 FFMPEG_PATH 指向 ffmpeg 執行檔。",
+    "transcription_pipe_lost": "轉錄期間後端失去了通往應用程式的輸出管道（broken pipe）。請重新啟動 Voiceym 後再試一次。"
   },
   "sharing": {
     "title": "共享和遠端存取",
-    "help": "將此正在運行的 VoiceStudio 實例公開給您的其他計算機，而無需重新啟動它。僅環回是預設設定 - 除非您在此處將其打開，否則不會共享任何內容。",
+    "help": "將此正在運行的 Voiceym 實例公開給您的其他計算機，而無需重新啟動它。僅環回是預設設定 - 除非您在此處將其打開，否則不會共享任何內容。",
     "local_network": "本地網路",
     "local_help": "使用一次性存取 PIN 在 Wi-Fi/乙太網路上共用。其他設備掃描二維碼或開啟連結。",
     "ports_title": "港口",
-    "ports_help": "這些是透過啟動時讀取的環境變數所設定的。透過設定變數並重新啟動 VoiceStudio 來變更後端或 UI 連接埠。",
+    "ports_help": "這些是透過啟動時讀取的環境變數所設定的。透過設定變數並重新啟動 Voiceym 來變更後端或 UI 連接埠。",
     "backend_port": "後端連接埠",
     "ui_port": "使用者介面連接埠",
     "lan_share_port": "LAN共用連接埠",
@@ -2184,9 +2184,9 @@
     "ports_note": "後端和 UI 連接埠在重新啟動時會套用。 LAN 共用連接埠將在您下次啟用共用時套用。",
     "tailscale_title": "Tailscale（私人遠端存取）",
     "tailscale_checking": "檢查尾鱗...",
-    "tailscale_absent": "未檢測到尾鱗。安裝它即可從私人尾網上的任何地方安全地存取 VoiceStudio。",
+    "tailscale_absent": "未檢測到尾鱗。安裝它即可從私人尾網上的任何地方安全地存取 Voiceym。",
     "tailscale_install": "安裝尾秤",
-    "tailscale_running": "尾鱗正在運行。透過您的私人尾網提供 VoiceStudio。",
+    "tailscale_running": "尾鱗正在運行。透過您的私人尾網提供 Voiceym。",
     "tailscale_not_logged_in": "Tailscale 已安裝但未登入。首先啟動並登入 Tailscale。",
     "tailscale_enabled": "Tailscale 服務已啟用",
     "tailscale_enable_failed": "無法啟用 Tailscale",
@@ -2208,7 +2208,7 @@
     "label": "報告錯誤",
     "title": "在瀏覽器中開啟預先填寫的 GitHub 問題頁面。在您按一下「提交」之前，不會傳送任何內容。",
     "staleTitle": "有可用更新",
-    "staleMessage": "您正在使用 VoiceStudio {{current}}，但 {{latest}} 已經發布——這個錯誤可能已在新版本中修復。回報前先查看最新版本？",
+    "staleMessage": "您正在使用 Voiceym {{current}}，但 {{latest}} 已經發布——這個錯誤可能已在新版本中修復。回報前先查看最新版本？",
     "staleView": "查看更新",
     "staleFileAnyway": "仍然回報"
   },
@@ -2236,7 +2236,7 @@
     "failed": "更新失敗",
     "retry": "重試",
     "dismiss": "關閉",
-    "toast_available": "VoiceStudio {{version}} 可用",
+    "toast_available": "Voiceym {{version}} 可用",
     "toast_install": "安裝並重新啟動",
     "toast_whats_new": "新增內容",
     "toast_later": "稍後"
@@ -2280,9 +2280,9 @@
     "retry_load": "重試"
   },
   "firstrun": {
-    "backend_stop_failed": "VoiceStudio 無法安全停止先前的後端。請關閉其他 VoiceStudio 視窗或程序，然後重試。",
+    "backend_stop_failed": "Voiceym 無法安全停止先前的後端。請關閉其他 Voiceym 視窗或程序，然後重試。",
     "loading": "正在準備安裝精靈…",
-    "title": "設定 VoiceStudio",
+    "title": "設定 Voiceym",
     "subtitle": "尚未安裝任何內容——先確認各項儲存位置，再開始安裝。之後可在設定中變更。",
     "language": "語言",
     "mode_title": "安裝模式",
@@ -2384,7 +2384,7 @@
     "load_config": "載入設定"
   },
   "openapi": {
-    "title": "VoiceStudio API",
+    "title": "Voiceym API",
     "loading": "正在載入 API 規格…",
     "unreachable_title": "後端規格無法使用",
     "unreachable_body": "無法存取 {{url}} 上的本機後端 OpenAPI 規格。請確認後端正在執行，然後重試。",
@@ -2537,7 +2537,7 @@
     "lex_add": "添加單字",
     "lex_remove": "刪除",
     "markup_help": "標記參考",
-    "markup_hint": "# 章節標題 · [voice:NAME] 切換語音 · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · 反應 (VoiceStudio)： [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]: [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
+    "markup_hint": "# 章節標題 · [voice:NAME] 切換語音 · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · 反應 (Voiceym)： [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]: [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
     "language": "語言",
     "expressive": "製作覆蓋",
     "reset": "重置",
@@ -2640,7 +2640,7 @@
   },
   "remote_gate": {
     "title": "輸入訪問 PIN 碼",
-    "body": "此 VoiceStudio 實例在網路上共用。輸入主機上顯示的 PIN。",
+    "body": "此 Voiceym 實例在網路上共用。輸入主機上顯示的 PIN。",
     "label": "訪問密碼",
     "connect": "連接"
   },
@@ -2664,7 +2664,7 @@
   },
   "permissions": {
     "title": "權限",
-    "desc": "VoiceStudio 完全在您的裝置上執行——這些系統權限僅用於此處列出的功能，音訊絕不會離開您的電腦。",
+    "desc": "Voiceym 完全在您的裝置上執行——這些系統權限僅用於此處列出的功能，音訊絕不會離開您的電腦。",
     "microphone": "麥克風",
     "microphone_why": "用於聽寫與語音錄製。音訊在本機處理。",
     "accessibility": "輔助使用",
@@ -2695,7 +2695,7 @@
     "failed": "無法開始下載：{{message}}"
   },
   "backend_start_failure": {
-    "notice": "VoiceStudio 後端無法啟動 — 在它啟動之前無法執行任何功能。",
+    "notice": "Voiceym 後端無法啟動 — 在它啟動之前無法執行任何功能。",
     "view": "查看原因",
     "title": "後端無法啟動",
     "intro": "這是應用程式嘗試啟動後端時記錄的內容。在回報中附上這段輸出有助於我們修正問題。",
@@ -2704,7 +2704,7 @@
   },
   "crash": {
     "notice_unclean": "上一個工作階段在 {{ago}}前未正常關閉就結束了。這通常無害 —— 電腦進入了睡眠、應用程式被強制結束，或某個虛擬機/容器停止了。",
-    "details_intro_unclean": "上次執行的關閉標記在 {{ago}}前一直未被清除。VoiceStudio 無法判斷那是當機還是僅僅被中斷 —— 睡眠、強制結束或停止虛擬機/容器都會留下相同的痕跡。如果現在一切正常，則無需處理。",
+    "details_intro_unclean": "上次執行的關閉標記在 {{ago}}前一直未被清除。Voiceym 無法判斷那是當機還是僅僅被中斷 —— 睡眠、強制結束或停止虛擬機/容器都會留下相同的痕跡。如果現在一切正常，則無需處理。",
     "report_needs_log": "此事件沒有擷取到任何錯誤輸出，因此一鍵回報將是空的。如果確實有問題，請將 設定 → 記錄 → 後端 的最後幾行附加到新的 issue 中。"
   },
   "voices": {
@@ -2772,7 +2772,7 @@
     "title": "整合",
     "featured": "精選",
     "description": "探索整合與精選合作夥伴。",
-    "n8nHint": "將此工作流程匯入 n8n，編輯請求後執行。請保持 VoiceStudio 執行。Docker 和遠端 n8n 需要可存取的後端位址及必要的認證資訊。"
+    "n8nHint": "將此工作流程匯入 n8n，編輯請求後執行。請保持 Voiceym 執行。Docker 和遠端 n8n 需要可存取的後端位址及必要的認證資訊。"
   },
   "directoryExamples": {
     "example": "目錄範例"

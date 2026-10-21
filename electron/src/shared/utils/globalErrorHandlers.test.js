@@ -57,7 +57,7 @@ describe('global unhandled rejection reporting', () => {
  * offered "Report this bug" for code that is not ours. #1901 is one such
  * report: the stack is entirely
  * `chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js` with
- * no VoiceStudio frame in it, and the maintainer had no way to tell from the
+ * no Voiceym frame in it, and the maintainer had no way to tell from the
  * message ("Cannot read properties of undefined") that it was not a real bug.
  *
  * The message-based IGNORE_PATTERNS cannot help here — an extension's TypeError

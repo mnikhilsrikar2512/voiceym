@@ -59,7 +59,7 @@ describe('enqueueBatchJob', () => {
 
   it('streams native watch entries without constructing FormData in the renderer', async () => {
     const watched = {
-      __voiceStudioNativeWatchUpload: /** @type {const} */ (true),
+      __voiceymNativeWatchUpload: /** @type {const} */ (true),
       token: 'a'.repeat(64),
       name: 'large.mkv',
       size: 8 * 1024 * 1024 * 1024,
@@ -89,7 +89,7 @@ describe('enqueueBatchJob', () => {
     const detail = { error: 'asr_model_missing', recommended: { repo_id: 'model/repo' } };
     invoke.mockResolvedValueOnce({ status: 409, body: { detail } });
     const watched = {
-      __voiceStudioNativeWatchUpload: /** @type {const} */ (true),
+      __voiceymNativeWatchUpload: /** @type {const} */ (true),
       token: 'b'.repeat(64),
       name: 'clip.mp4',
       size: 4,

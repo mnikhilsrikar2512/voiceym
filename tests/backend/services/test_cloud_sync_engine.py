@@ -42,7 +42,7 @@ def run(coro):
 
 
 def theme() -> object:
-    return SyncStore().get_local("voicestudio.theme.v2")
+    return SyncStore().get_local("voiceym.theme.v2")
 
 
 def test_pull_applies_remote_values_saves_the_base_and_does_not_echo(env):
@@ -50,7 +50,7 @@ def test_pull_applies_remote_values_saves_the_base_and_does_not_echo(env):
     server.put_remote("settings", "appearance", {"theme": "light", "locale": "de"})
     run(engine.run_once())
     assert theme() == "light"
-    assert store.get_local("voicestudio.locale") == "de"
+    assert store.get_local("voiceym.locale") == "de"
     assert store.item(ORG, "settings", "appearance").revision == 1
     assert store.state(ORG).cursor == server.head
     assert store.outbox(ORG) == []
@@ -84,13 +84,13 @@ def test_conflict_on_push_merges_both_sides_and_retries_with_a_new_key(env):
     server.put_remote("settings", "appearance", {"theme": "dark", "locale": "en"})
     run(engine.run_once())
     server.put_remote("settings", "appearance", {"theme": "dark", "locale": "de"})  # another device
-    store.set_local("voicestudio.theme.v2", "light", origin="renderer")
+    store.set_local("voiceym.theme.v2", "light", origin="renderer")
     engine.local_changed("settings", "appearance")
     original_key = store.outbox(ORG)[0].idempotency_key
     # Push before pulling: our If-Match is stale.
     run(engine.push())
     assert server.values("settings", "appearance") == {"theme": "light", "locale": "de"}
-    assert store.get_local("voicestudio.locale") == "de"
+    assert store.get_local("voiceym.locale") == "de"
     assert server.keys_seen[-1] != original_key
     assert engine.status.conflicts == []
 
@@ -100,7 +100,7 @@ def test_both_sides_changing_one_key_keeps_local_and_notes_a_conflict(env):
     server.put_remote("settings", "appearance", {"theme": "dark"})
     run(engine.run_once())
     server.put_remote("settings", "appearance", {"theme": "system"})
-    store.set_local("voicestudio.theme.v2", "light", origin="renderer")
+    store.set_local("voiceym.theme.v2", "light", origin="renderer")
     engine.local_changed("settings", "appearance")
     run(engine.run_once())
     assert theme() == "light"
@@ -122,7 +122,7 @@ def test_pull_pages_until_has_more_is_false(env):
 def test_a_newer_schema_version_is_never_overwritten(env):
     store, server, engine = env
     server.put_remote("settings", "appearance", {"theme": "light"}, schema_version=2)
-    store.set_local("voicestudio.theme.v2", "dark", origin="renderer")
+    store.set_local("voiceym.theme.v2", "dark", origin="renderer")
     run(engine.pull())
     assert theme() == "dark"
     assert "settings" in engine.status.needs_update
@@ -141,11 +141,11 @@ def test_unknown_content_fields_are_kept_when_pushing(env):
 def test_first_sync_merges_with_an_empty_base_and_local_wins(env):
     store, server, engine = env
     store.save_state(ORG, last_full_sync_at=None, cursor=0)
-    store.set_local("voicestudio.theme.v2", "dark", origin="renderer")
+    store.set_local("voiceym.theme.v2", "dark", origin="renderer")
     server.put_remote("settings", "appearance", {"theme": "light", "locale": "en"})
     run(engine.run_once())
     assert theme() == "dark"
-    assert store.get_local("voicestudio.locale") == "en"
+    assert store.get_local("voiceym.locale") == "en"
     assert server.values("settings", "appearance") == {"theme": "dark", "locale": "en"}
     assert engine.status.conflicts[-1]["keys"] == ["theme"]
     assert store.state(ORG).last_full_sync_at
@@ -154,7 +154,7 @@ def test_first_sync_merges_with_an_empty_base_and_local_wins(env):
 def test_expired_cursor_does_a_full_resync_keeping_local_edits(env):
     store, server, engine = env
     prefs.set_("generation_history_cap", 40)
-    store.set_local("voicestudio.review-mode.v1", True, origin="renderer")
+    store.set_local("voiceym.review-mode.v1", True, origin="renderer")
     engine.local_changed("settings", "review")  # what the renderer-mirror route announces
     run(engine.run_once())
     assert server.values("settings", "review") == {"reviewMode": True}
@@ -168,7 +168,7 @@ def test_expired_cursor_does_a_full_resync_keeping_local_edits(env):
     run(engine.run_once())
     assert server.values("settings", "history") == {"generationHistoryCap": 41}  # pushed as new
     # A settings group the server no longer has keeps its local values (never wiped).
-    assert SyncStore().get_local("voicestudio.review-mode.v1") is True
+    assert SyncStore().get_local("voiceym.review-mode.v1") is True
     assert store.item(ORG, "settings", "review") is None  # only the merge base is forgotten
 
 
@@ -290,12 +290,12 @@ def test_never_two_rounds_at_once(env):
 def test_unchosen_collections_are_neither_pulled_nor_pushed(env):
     store, server, engine = env
     store.save_state(ORG, choices={"settings": True, "shortcuts": False, "favorites": False})
-    store.set_local("voicestudio.gallery.favorites.v1", ["arch-a"], origin="renderer")
+    store.set_local("voiceym.gallery.favorites.v1", ["arch-a"], origin="renderer")
     engine.local_changed("favorites", "gallery")
     server.put_remote("favorites", "gallery", {"arch-z": {"added_at": "2026-10-16T09:00:00Z"}})
     run(engine.run_once())
     assert server.values("favorites", "gallery") == {"arch-z": {"added_at": "2026-10-16T09:00:00Z"}}
-    assert SyncStore().get_local("voicestudio.gallery.favorites.v1") == ["arch-a"]
+    assert SyncStore().get_local("voiceym.gallery.favorites.v1") == ["arch-a"]
 
 
 def test_device_preferences_publishes_this_devices_choices(env):
@@ -345,7 +345,7 @@ def test_value_keys_this_version_does_not_know_survive_a_push(env):
     store, server, engine = env
     server.put_remote("settings", "appearance", {"theme": "dark", "x_new": {"a": 1}})
     run(engine.run_once())
-    store.set_local("voicestudio.theme.v2", "light", origin="renderer")
+    store.set_local("voiceym.theme.v2", "light", origin="renderer")
     engine.local_changed("settings", "appearance")
     run(engine.run_once())
     assert server.values("settings", "appearance") == {"theme": "light", "x_new": {"a": 1}}
@@ -357,7 +357,7 @@ def test_a_newer_schema_is_not_pushed_over_and_is_pulled_once_the_app_supports_i
     store, server, engine = env
     server.put_remote("settings", "appearance", {"theme": "light"}, schema_version=2)
     run(engine.run_once())
-    store.set_local("voicestudio.theme.v2", "dark", origin="renderer")
+    store.set_local("voiceym.theme.v2", "dark", origin="renderer")
     engine.local_changed("settings", "appearance")
     run(engine.run_once())
     assert server.items[("settings", "appearance")]["schema_version"] == 2
@@ -419,11 +419,11 @@ def test_choosing_a_collection_later_pulls_what_the_cloud_already_has(env):
     store.save_state(ORG, choices={"settings": True, "favorites": False})
     server.put_remote("favorites", "gallery", {"arch-z": {"added_at": "2026-10-16T09:00:00Z"}})
     run(engine.run_once())
-    assert SyncStore().get_local("voicestudio.gallery.favorites.v1") is None
+    assert SyncStore().get_local("voiceym.gallery.favorites.v1") is None
     store.save_state(ORG, choices={"settings": True, "favorites": True})
     engine.collections_chosen({"favorites"})
     run(engine.run_once())
-    assert SyncStore().get_local("voicestudio.gallery.favorites.v1") == ["arch-z"]
+    assert SyncStore().get_local("voiceym.gallery.favorites.v1") == ["arch-z"]
 
 
 def test_choosing_a_collection_again_drops_its_pending_removals(env):

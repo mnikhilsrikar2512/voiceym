@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { onStorageKey } from '@/lib/storage-events';
 
-const STORAGE_KEY = 'voicestudio.dictation-settings.v1';
+const STORAGE_KEY = 'voiceym.dictation-settings.v1';
 let aecEnabled = read();
 const listeners = new Set<() => void>();
 

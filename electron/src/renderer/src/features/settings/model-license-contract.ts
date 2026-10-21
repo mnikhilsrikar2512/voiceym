@@ -163,7 +163,7 @@ export function modelLicenseStatusKey(value?: string): string {
   return `modelLicense.${modelLicenseStatus(value)}`;
 }
 
-/** What the declared licence says; never what VoiceStudio has verified. */
+/** What the declared licence says; never what Voiceym has verified. */
 export type ModelLicenseCategory = 'commercial' | 'conditions' | 'noncommercial' | 'unknown';
 
 const categories: readonly string[] = ['commercial', 'conditions', 'noncommercial'];

@@ -198,7 +198,7 @@ def test_locale_inventory_matches_baseline():
 def test_openapi_ui_is_translated_in_every_locale(locale):
     translated = _flatten(_load(locale))
     missing = sorted(_OPENAPI_KEYS - translated.keys())
-    assert not missing, f"{locale}.json is missing VoiceStudio API strings: {missing}"
+    assert not missing, f"{locale}.json is missing Voiceym API strings: {missing}"
 
 
 @pytest.mark.parametrize("locale", _LOCALES)

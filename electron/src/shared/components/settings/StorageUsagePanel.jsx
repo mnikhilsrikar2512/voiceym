@@ -58,7 +58,7 @@ function warningText(t, w) {
   if (w.kind === 'low_disk' && w.severity === 'critical') {
     return t('settings.storage_warn_critical', {
       defaultValue:
-        'Critically low disk space: {{free}} GB free on {{path}} — VoiceStudio needs at least {{min}} GB. Generation and model downloads may fail.',
+        'Critically low disk space: {{free}} GB free on {{path}} — Voiceym needs at least {{min}} GB. Generation and model downloads may fail.',
       ...vars,
     });
   }
@@ -204,7 +204,7 @@ export default function StorageUsagePanel() {
     const ok = await askConfirm(
       t('settings.storage_clear_temp_confirm', {
         defaultValue:
-          "Delete VoiceStudio's temporary working files? Don't do this while a dub or batch job is running.",
+          "Delete Voiceym's temporary working files? Don't do this while a dub or batch job is running.",
       }),
       t('settings.storage_clear_temp', { defaultValue: 'Clear temp files' }),
     );
@@ -273,7 +273,7 @@ export default function StorageUsagePanel() {
       icon={HardDrive}
       title={t('settings.storage_usage', { defaultValue: 'Disk usage' })}
       description={t('settings.storage_usage_desc', {
-        defaultValue: 'What VoiceStudio stores on this machine, and how much space is left.',
+        defaultValue: 'What Voiceym stores on this machine, and how much space is left.',
       })}
       actions={
         <SmallButton
@@ -393,7 +393,7 @@ export default function StorageUsagePanel() {
                       <SmallButton
                         onClick={clearTemp}
                         title={t('settings.storage_clear_temp_hint', {
-                          defaultValue: "Delete VoiceStudio's own files in the temp directory",
+                          defaultValue: "Delete Voiceym's own files in the temp directory",
                         })}
                         testId="storage-clear-temp"
                         disabled={(cat.bytes || 0) === 0}

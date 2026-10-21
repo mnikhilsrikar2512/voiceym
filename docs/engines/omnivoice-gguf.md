@@ -1,4 +1,4 @@
-# VoiceStudio — OmniVoice GGUF Engine
+# Voiceym — OmniVoice GGUF Engine
 
 OmniVoice GGUF runs the same OmniVoice model as the [default
 engine](omnivoice.md), but through a native binary
@@ -33,7 +33,7 @@ against the same table (an F32 reference quant, ~3.2 GB, is override-only).
 
 The desktop installers (Windows, macOS, Linux packages) do **not** ship this
 native binary yet, so on an installed app the engine shows *Unavailable* in
-Model Catalogue ([#2780](https://github.com/debpalash/VoiceStudio/issues/2780)).
+Model Catalogue.
 Use the default in-process OmniVoice engine, which is the same model, or run
 from a source checkout and build the binary for your platform (below). Once
 `bin/omnivoice-tts-<platform>` exists, select the engine via **Model Catalogue**
@@ -45,8 +45,7 @@ the download, not a hang.
 
 **Source checkouts:** the repo ships zero-byte placeholders in `bin/` — real
 binaries come from CI (`build-omnivoice-tts`) or a local build. The engine detects a placeholder and
-reports unavailable with instructions
-([#1172](https://github.com/debpalash/VoiceStudio/issues/1172)) instead of
+reports unavailable with instructions instead of
 failing at spawn time; build one with
 `scripts/build-omnivoice-tts.sh --platform <slug>` or use the default
 in-process engine.
@@ -66,10 +65,10 @@ Before reporting ready, the engine:
 
 - verifies the binary against the SHA-256 manifest (`bin/checksums.sha256`);
 - detects macOS Gatekeeper quarantine and prints the exact
-  `xattr -cr '/Applications/VoiceStudio.app'` fix;
+  `xattr -cr '/Applications/Voiceym.app'` fix;
 - restores a missing execute bit (a git clone or zip extract on POSIX can
   drop `+x`, which used to surface as a permission error mislabeled as
-  out-of-memory — [#437](https://github.com/debpalash/VoiceStudio/issues/437)).
+  out-of-memory).
   The chmod runs only after the SHA check confirms it's the right file.
 
 ## Behaviour notes

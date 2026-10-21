@@ -15,6 +15,8 @@ def model_manager(monkeypatch):
 
     import services.model_manager as mm
 
+    # Preload only warms OmniVoice when it is the chosen engine (it is opt-in).
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
     monkeypatch.setattr(mm, "_torch", None)
     monkeypatch.setattr(mm, "_OmniVoice", None)
     monkeypatch.setattr(mm, "model", None)
@@ -51,8 +53,8 @@ def test_load_model_skips_pytorch_whisper_by_default(model_manager, monkeypatch)
     loaded = model_manager._load_model_sync()
 
     assert loaded.llm is not None
-    assert loaded._voicestudio_checkpoint == "test/checkpoint"
-    assert loaded._voicestudio_loaded_at.endswith("Z")
+    assert loaded._voiceym_checkpoint == "test/checkpoint"
+    assert loaded._voiceym_loaded_at.endswith("Z")
     assert calls == [
         (
             ("test/checkpoint",),

@@ -81,7 +81,7 @@ export function registerSiteBrowser(getMainWindow: () => BrowserWindow | null) {
       return;
     }
     const window = parent!;
-    const isolated = session.fromPartition(`voicestudio-site-browser-${randomUUID()}`);
+    const isolated = session.fromPartition(`voiceym-site-browser-${randomUUID()}`);
     isolated.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
     isolated.setPermissionCheckHandler(() => false);
     const view = new WebContentsView({

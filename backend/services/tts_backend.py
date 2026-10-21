@@ -1527,7 +1527,7 @@ class OmniVoiceBackend(TTSBackend):
     """
 
     id = "omnivoice"
-    display_name = "VoiceStudio (k2-fsa/OmniVoice, 600+ languages)"
+    display_name = "OmniVoice (k2-fsa/OmniVoice, 600+ languages, non-commercial)"
     instruct_vocabulary = "tags"
     supports_voice_design = True
     gpu_compat = ("cuda", "rocm", "mps", "cpu")
@@ -2415,6 +2415,13 @@ def _kokoro_supported_labels(aliases: dict, lang_codes: dict) -> list[str]:
     return sorted(labels.values())
 
 
+#: One native voice per Kokoro lang_code (hexgrad/Kokoro-82M VOICES.md).
+_KOKORO_DEFAULT_VOICES = {
+    "a": "af_heart", "b": "bf_emma", "e": "ef_dora", "f": "ff_siwis",
+    "h": "hf_alpha", "i": "if_sara", "p": "pf_dora", "j": "jf_alpha", "z": "zf_xiaobei",
+}
+
+
 def resolve_kokoro_lang_code(language: str) -> str:
     """Map a full language name / ISO code to Kokoro's single-letter
     `lang_code`, against the AUTHORITATIVE table read from the installed
@@ -2494,7 +2501,7 @@ def _ensure_melotts_text_frontend() -> None:
         raise RuntimeError(
             "MeloTTS English needs the optional 'g2p_en' text package. "
             "Pick another MLX-Audio model or install it explicitly into "
-            "VoiceStudio's Python environment (uv pip install g2p_en)."
+            "Voiceym's Python environment (uv pip install g2p_en)."
         )
     import nltk
     from core.config import DATA_DIR
@@ -2508,7 +2515,7 @@ def _ensure_melotts_text_frontend() -> None:
         except LookupError as exc:
             raise RuntimeError(
                 f"MeloTTS needs the local NLTK '{package}' data. "
-                "Install its resources explicitly in VoiceStudio's Python "
+                "Install its resources explicitly in Voiceym's Python "
                 "environment: python -m nltk.downloader "
                 "averaged_perceptron_tagger averaged_perceptron_tagger_eng cmudict. "
                 "Generation does not download these resources."
@@ -2785,6 +2792,9 @@ class MLXAudioBackend(TTSBackend):
                 # (#977). Resolve against the authoritative installed table
                 # instead of guessing via `language[:2]`.
                 kwargs["lang_code"] = resolve_kokoro_lang_code(language)
+                # Without a voice Kokoro reads every language in its American
+                # default; a native speaker for the language sounds far better.
+                kwargs.setdefault("voice", _KOKORO_DEFAULT_VOICES.get(kwargs["lang_code"], "af_heart"))
             else:
                 # `lang_code`-as-2-letter-truncation is Kokoro's own
                 # convention, not mlx-audio's in general — other curated
@@ -3205,7 +3215,7 @@ class SherpaOnnxBackend(TTSBackend):
       • Android / iOS
       • WebAssembly (browser)
 
-    This is the bridge to browser-based VoiceStudio: the same engine runs natively
+    This is the bridge to browser-based Voiceym: the same engine runs natively
     on desktop and compiles to WASM for the web UI.
 
     Install: pip install sherpa-onnx
@@ -3250,7 +3260,7 @@ class SherpaOnnxBackend(TTSBackend):
             return False, (
                 "OMNIVOICE_SHERPA_MODEL not set. Point it to a sherpa-onnx TTS "
                 "model directory (containing model.onnx + tokens.txt), then "
-                "restart VoiceStudio. Download models from "
+                "restart Voiceym. Download models from "
                 "https://github.com/k2-fsa/sherpa-onnx/releases"
             )
         if not os.path.isfile(os.path.join(model_dir, "model.onnx")):
@@ -3338,6 +3348,10 @@ _LAZY_REGISTRY: dict[str, tuple[str, str]] = {
     # huggingface_hub + soundfile transitively when callers only need
     # the in-process OmniVoice. Resolves on first attribute / item access.
     "omnivoice-gguf": ("engines.omnivoice_gguf", "OmniVoiceGGUFBackend"),
+    # Default voice: Kokoro-82M (Apache-2.0) on ONNX Runtime, every platform.
+    "kokoro": ("engines.kokoro", "KokoroBackend"),
+    # Commercial-use English cloning (MIT) in its own venv (one-click install).
+    "chatterbox": ("engines.chatterbox", "ChatterboxBackend"),
     # Phase 3 Plan 03-01 (TTS-01): Supertonic-3 lives in its own engine
     # package for the same import-cycle reason as IndexTTS2 (its backend
     # module imports services.subprocess_backend which in turn imports
@@ -3467,6 +3481,8 @@ _INSTALL_HINTS: dict[str, str] = {
     "omnivoice-subprocess": "No extra install; uses the host OmniVoice install. Opt in with OMNIVOICE_TTS_BACKEND=omnivoice-subprocess (same model in a killable sidecar, for unattended reliability).",
     "cosyvoice":     "git clone --recursive FunAudioLLM/CosyVoice + pip install -r requirements.txt + SoX",
     "kittentts":     "pip install kittentts  (ONNX, CPU-only, ~80 MB)",
+    "chatterbox":    "One-click install from Model Catalogue (own venv, torch 2.6; ~3 GB weights from ResembleAI/chatterbox on first use).",
+    "kokoro":        "Bundled — ONNX on CPU with the KittenTTS dependencies; the ~95 MB model downloads from onnx-community/Kokoro-82M-v1.0-ONNX on first use.",
     "mlx-audio":     "pip install mlx-audio  (Apple Silicon only)",
     "voxcpm2":       'pip install "voxcpm>=2.0.3"  (floor: 2.0.3 fixed Apple-Silicon audio quality; CPU/MPS supported, CUDA recommended for speed)',
     "moss-tts-nano": "git clone OpenMOSS/MOSS-TTS-Nano && pip install -e .  (not on PyPI)",
@@ -3515,6 +3531,8 @@ _ENGINE_DOCS: dict[str, str] = {
     "omnivoice-gguf":       "docs/engines/omnivoice-gguf.md",
     "cosyvoice":            "docs/engines/cosyvoice.md",
     "kittentts":            "docs/engines/kittentts.md",
+    "kokoro":               "docs/engines/kokoro.md",
+    "chatterbox":           "docs/engines/chatterbox.md",
     "mlx-audio":            "docs/engines/mlx-audio.md",
     "voxcpm2":              "docs/engines/voxcpm2.md",
     "moss-tts-nano":        "docs/engines/moss-tts-nano.md",
@@ -3533,7 +3551,7 @@ _ENGINE_DOCS: dict[str, str] = {
 def _engine_docs_url(bid: str) -> str | None:
     """Public URL of this engine's doc page, or None when it has none.
 
-    VoiceStudio-owned constant either way: the path comes from the registry
+    Voiceym-owned constant either way: the path comes from the registry
     above and the base from :mod:`core.links`, so no part of it is derived
     from an engine probe. That is what lets it cross the public boundary
     intact (see api.public_engine_metadata).
@@ -4085,11 +4103,17 @@ def gpu_routing_verdict() -> dict:
     }
 
 
+#: The engine used when the user has not picked one: commercial-use friendly
+#: (Apache-2.0) and the same on every platform.
+DEFAULT_TTS_ENGINE = "kokoro"
+
+
 def active_backend_id() -> str:
     # Env var > persisted UI choice > default. Env wins so power-users can
     # pin a backend without the Settings picker silently undoing it.
     from core import prefs
-    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="omnivoice")
+    # Kokoro (Apache-2.0) is the default; OmniVoice (CC-BY-NC) is opt-in.
+    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default=DEFAULT_TTS_ENGINE)
 
 
 # Cached active backend instance + its id (MM2-01). Without this, every call

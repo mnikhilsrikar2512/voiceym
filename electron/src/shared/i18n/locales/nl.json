@@ -56,9 +56,9 @@
     "no_harness": "Installeer Codex, Claude Code, OpenCode of Pi en meld je daar aan om een agent te verbinden."
   },
   "repairAgent": {
-    "title": "Vraag het VoiceStudio Agent",
+    "title": "Vraag het Voiceym Agent",
     "notInstalled": "Niet geïnstalleerd",
-    "noSource": "Open een beschrijfbare VoiceStudio-broncheckout zodat een agent deze kan repareren.",
+    "noSource": "Open een beschrijfbare Voiceym-broncheckout zodat een agent deze kan repareren.",
     "ready": "Gereed",
     "placeholder": "Wat ging er mis? Voeg stappen, zichtbare fouten of verwacht gedrag toe.",
     "diagnose": "Diagnosticeren",
@@ -68,7 +68,7 @@
   },
   "siteBrowser": {
     "return_studio": "Terug naar Studio",
-    "preview": "Bekijk de officiële website, rechtstreeks in VoiceStudio",
+    "preview": "Bekijk de officiële website, rechtstreeks in Voiceym",
     "open_in": "Openen in browser",
     "back": "Terug",
     "forward": "Vooruit",
@@ -99,7 +99,7 @@
     "brand_by": "{{brand}} door",
     "all": "Allen",
     "allContributors": "Alle bijdragers",
-    "title": "VoiceStudio.sh Open source",
+    "title": "voiceym.example Open source",
     "design": "Ontwerp een stem op basis van een beschrijving.",
     "dub": "Vertaal en dub audio of video.",
     "stories": "Maak scènes met meerdere stemmen.",
@@ -110,17 +110,17 @@
   },
   "longformPersistence": {
     "storage_unavailable_title": "Projecten konden niet worden geladen",
-    "storage_unavailable_body": "VoiceStudio kon de lokale projectopslag niet lezen. Je gegevens zijn niet gewijzigd. Probeer opnieuw om ze veilig te openen.",
+    "storage_unavailable_body": "Voiceym kon de lokale projectopslag niet lezen. Je gegevens zijn niet gewijzigd. Probeer opnieuw om ze veilig te openen.",
     "clear_projects": "Opgeslagen projecten wissen",
-    "clear_confirm": "Hiermee worden alle opgeslagen Verhalen- en Luisterboekprojecten en niet-opgeslagen concepten permanent verwijderd, zodat VoiceStudio opnieuw kan openen. Dit kan niet ongedaan worden gemaakt. Doorgaan?"
+    "clear_confirm": "Hiermee worden alle opgeslagen Verhalen- en Luisterboekprojecten en niet-opgeslagen concepten permanent verwijderd, zodat Voiceym opnieuw kan openen. Dit kan niet ongedaan worden gemaakt. Doorgaan?"
   },
   "backendUnreachable": {
     "contact_recent": "Het antwoordde {{ago}} geleden nog en reageert sindsdien niet meer, en er is geen crash geregistreerd — het draait dus mogelijk nog, maar hangt op een zware taak die de engine bezet houdt.",
     "contact_never": "Het heeft deze sessie helemaal niet gereageerd — mogelijk is het nooit gestart.",
-    "dev": "Kan de lokale VoiceStudio-backend niet bereiken. {{contact}} Bij `bun run dev` draait de backend met automatisch herladen: elke bestandswijziging — ook opslaan terwijl er een verzoek liep — herstart hem en verbreekt de verbinding. Probeer de actie eerst opnieuw; als het een herlaad was, werkt het gewoon. Blijft het mislukken, kijk dan in de terminal met `bun run dev` naar een Python-traceback of een exit-melding, en in omnivoice.log in uw VoiceStudio-gegevensmap.",
-    "server": "Kan de VoiceStudio-backendserver niet bereiken. {{contact}} Controleer de serverlogs voor de oorzaak (bijv. `docker logs <container>` of `journalctl`) — en let op: als Docker deze pagina serveert, kan de pagina zelf samen met de backend uitvallen.",
-    "misrouted": "De server die {{url}} beantwoordt is geen VoiceStudio-backend — hij gaf zijn eigen 404-pagina terug. API-verzoeken komen bij de verkeerde host terecht: controleer de Backend-URL in Instellingen → Delen of, als een reverse proxy deze interface serveert, de route voor API-paden.",
-    "desktop": "Kan de lokale VoiceStudio-backend niet bereiken. {{contact}} Open de crashmelding als die verscheen, of Instellingen → Logs → Backend voor het laatste dat hij logde — \"{{retry}}\" start hem opnieuw en \"{{cleanRetry}}\" bouwt zijn omgeving opnieuw op als hij niet terugkomt."
+    "dev": "Kan de lokale Voiceym-backend niet bereiken. {{contact}} Bij `bun run dev` draait de backend met automatisch herladen: elke bestandswijziging — ook opslaan terwijl er een verzoek liep — herstart hem en verbreekt de verbinding. Probeer de actie eerst opnieuw; als het een herlaad was, werkt het gewoon. Blijft het mislukken, kijk dan in de terminal met `bun run dev` naar een Python-traceback of een exit-melding, en in omnivoice.log in uw Voiceym-gegevensmap.",
+    "server": "Kan de Voiceym-backendserver niet bereiken. {{contact}} Controleer de serverlogs voor de oorzaak (bijv. `docker logs <container>` of `journalctl`) — en let op: als Docker deze pagina serveert, kan de pagina zelf samen met de backend uitvallen.",
+    "misrouted": "De server die {{url}} beantwoordt is geen Voiceym-backend — hij gaf zijn eigen 404-pagina terug. API-verzoeken komen bij de verkeerde host terecht: controleer de Backend-URL in Instellingen → Delen of, als een reverse proxy deze interface serveert, de route voor API-paden.",
+    "desktop": "Kan de lokale Voiceym-backend niet bereiken. {{contact}} Open de crashmelding als die verscheen, of Instellingen → Logs → Backend voor het laatste dat hij logde — \"{{retry}}\" start hem opnieuw en \"{{cleanRetry}}\" bouwt zijn omgeving opnieuw op als hij niet terugkomt."
   },
   "nav": {
     "clone": "Klonen",
@@ -159,13 +159,13 @@
     "remote_backend_recovery_title": "Kan de externe backend niet bereiken",
     "remote_backend_recovery_hint": "Je kunt de externe backend later wijzigen via Instellingen → Delen.",
     "remote_backend_use_local": "Lokale backend gebruiken",
-    "remote_backend_error_tls": "De beveiligde verbinding kon niet worden geverifieerd. Controleer het certificaat en gebruik de HTTP-API-poort van VoiceStudio.",
+    "remote_backend_error_tls": "De beveiligde verbinding kon niet worden geverifieerd. Controleer het certificaat en gebruik de HTTP-API-poort van Voiceym.",
     "remote_backend_error_cors": "De externe backend heeft deze app geblokkeerd. Sta de oorsprong van de app toe in de CORS-instellingen.",
     "remote_backend_error_network": "De externe backend is niet bereikbaar. Controleer het adres, netwerk en de firewall.",
     "remote_backend_error_timeout": "De externe backend reageerde niet op tijd.",
     "remote_backend_error_http": "De externe backend gaf HTTP {{status}} terug.",
-    "remote_backend_error_wrong_port": "Dit lijkt niet de VoiceStudio HTTP-API. Poort 7443 is meestal de besturingspoort van de externe worker; probeer poort 3900.",
-    "openapi": "VoiceStudio-API",
+    "remote_backend_error_wrong_port": "Dit lijkt niet de Voiceym HTTP-API. Poort 7443 is meestal de besturingspoort van de externe worker; probeer poort 3900.",
+    "openapi": "Voiceym-API",
     "general": "Algemeen",
     "theme": "Thema",
     "language": "Taal",
@@ -205,7 +205,7 @@
     "llmp_test_ok": "ok — {{model}} · {{ms}} ms",
     "llmp_active_env_pin": "De LLM-keuze is vastgezet door LLM_DEFAULT_PROVIDER of OMNIVOICE_LLM_BACKEND.",
     "llmp_connect": "Verbinden en inschakelen",
-    "llmp_setup_hint": "Kies een provider, start de server of voeg de API-sleutel toe en maak verbinding. VoiceStudio controleert een modelantwoord voordat LLM-functies worden ingeschakeld.",
+    "llmp_setup_hint": "Kies een provider, start de server of voeg de API-sleutel toe en maak verbinding. Voiceym controleert een modelantwoord voordat LLM-functies worden ingeschakeld.",
     "llmp_disable": "LLM uitschakelen",
     "llmp_optional_key": "API-sleutel (optioneel)",
     "llmp_err_config": "Vul de providerinstellingen aan: basis-URL, model en eventueel een vereiste API-sleutel of account-ID.",
@@ -274,7 +274,7 @@
     "shortcut_register_failed": "Kon niet registreren: {{message}}",
     "shortcut_reset": "Resetten naar standaard",
     "shortcut_reset_failed": "Reset mislukt: {{message}}",
-    "reset_longform_failed": "VoiceStudio kon de opgeslagen projecten niet veilig wissen. Je projectgegevens zijn niet gewijzigd; maak opslagruimte vrij of start de app opnieuw en probeer het nogmaals.",
+    "reset_longform_failed": "Voiceym kon de opgeslagen projecten niet veilig wissen. Je projectgegevens zijn niet gewijzigd; maak opslagruimte vrij of start de app opnieuw en probeer het nogmaals.",
     "cancel": "Annuleer",
     "hf_token_also_clear": "Ook opgeslagen HuggingFace CLI-tokenbestanden verwijderen",
     "hf_token_clear_btn": "Token wissen",
@@ -327,7 +327,7 @@
     "nav_style_desc": "Wissel van werkruimte via een pictogrambalk langs de vensterrand of via tabbladen in de titelbalk.",
     "nav_style_rail": "Zijbalk",
     "nav_style_tabs": "Tabbladen in de titelbalk",
-    "storage_desc": "Waar VoiceStudio uw gegevens en output bewaart.",
+    "storage_desc": "Waar Voiceym uw gegevens en output bewaart.",
     "history_retention": "Generatiegeschiedenis",
     "history_retention_desc": "Hoeveel takes bewaard blijven voordat de oudste worden opgeruimd.",
     "history_retention_help": "Na elke generatie worden de oudste takes zonder ster boven deze limiet verwijderd, samen met hun audiobestanden. Takes met ster blijven altijd bewaard. 0 = alles bewaren.",
@@ -344,7 +344,7 @@
     "models_dir_effective": "Nu in gebruik",
     "models_dir_configured": "Geconfigureerd",
     "models_dir_default": "Standaard wordt gebruikt",
-    "models_dir_restart": "↻ Start VoiceStudio opnieuw om de nieuwe locatie te gebruiken.",
+    "models_dir_restart": "↻ Start Voiceym opnieuw om de nieuwe locatie te gebruiken.",
     "compute_device": "Rekenapparaat",
     "compute_device_title": "Rekenapparaat",
     "compute_device_desc": "Op welk apparaat de backend modellen draait. Auto is voor bijna iedereen juist.",
@@ -369,12 +369,12 @@
     "generate_timeout_cpu": "CPU-budget",
     "generate_timeout_cpu_note": "Gebruikt wanneer de generatie op de CPU draait. Eenmaal hier opgeslagen, bepaalt deze waarde altijd de CPU-generatie — onafhankelijk van het versnelde budget hierboven.",
     "generate_timeout_invalid": "Voer een aantal seconden groter dan 0 en maximaal {{max}} in.",
-    "generate_timeout_saved": "Opgeslagen. Herstart VoiceStudio om het nieuwe budget toe te passen.",
+    "generate_timeout_saved": "Opgeslagen. Herstart Voiceym om het nieuwe budget toe te passen.",
     "generate_timeout_shadowed_badge": "Extern overschreven",
-    "generate_timeout_shadowed_note": "Een omgevingsvariabele buiten VoiceStudio (shell, .env-bestand of container) stelt deze waarde momenteel in — de hier opgeslagen waarde wordt genegeerd totdat die variabele wordt verwijderd.",
-    "generate_timeout_shadowed_toast": "Opgeslagen, maar een omgevingsvariabele buiten VoiceStudio stelt deze waarde momenteel in — die blijft gebruikt worden totdat die variabele wordt verwijderd.",
+    "generate_timeout_shadowed_note": "Een omgevingsvariabele buiten Voiceym (shell, .env-bestand of container) stelt deze waarde momenteel in — de hier opgeslagen waarde wordt genegeerd totdat die variabele wordt verwijderd.",
+    "generate_timeout_shadowed_toast": "Opgeslagen, maar een omgevingsvariabele buiten Voiceym stelt deze waarde momenteel in — die blijft gebruikt worden totdat die variabele wordt verwijderd.",
     "hf_token_not_checked": "Niet getest",
-    "hf_source_app_label": "VoiceStudio (versleuteld, aanbevolen)",
+    "hf_source_app_label": "Voiceym (versleuteld, aanbevolen)",
     "hf_source_cli_label": "HuggingFace CLI",
     "hf_source_env_label": "Omgevingsvariabele",
     "theme_auto": "Systeem auto",
@@ -389,7 +389,7 @@
     "llmp_cli_auth": "Toegang tot het CLI-account is geweigerd. Controleer je aanmelding, abonnement en gekozen model."
   },
   "bootstrap": {
-    "title": "VoiceStudio",
+    "title": "Voiceym",
     "checking": "Omgeving controleren…",
     "downloading_uv": "uv (Python pakketbeheerder) downloaden…",
     "creating_venv": "Python virtuele omgeving maken…",
@@ -423,10 +423,10 @@
     "hint_uv_sync": "Installatie van afhankelijkheden mislukt. \"Wissen & Opnieuw proberen\" verwijdert de gecachte venv en begint opnieuw.",
     "hint_build_backend": "Fout in de Python-build-backend. \"Wissen & Opnieuw proberen\" verwijdert de kapotte venv zodat die opnieuw wordt opgebouwd.",
     "hint_ffmpeg": "ffmpeg-download mislukt. Dit is niet fataal — probeer opnieuw of installeer ffmpeg handmatig.",
-    "hint_port": "Poort 3900 is al in gebruik. Sluit andere VoiceStudio-instanties of apps die deze poort gebruiken.",
+    "hint_port": "Poort 3900 is al in gebruik. Sluit andere Voiceym-instanties of apps die deze poort gebruiken.",
     "hint_silent_crash": "De backend is zonder foutmelding gecrasht. \"Wissen & Opnieuw proberen\" verhelpt vaak problemen met een corrupte venv.",
     "hint_github_blocked": "Je netwerk blokkeert mogelijk GitHub. Installeer Python 3.11+ van python.org (voeg toe aan PATH) en herstart, of stel UV_PYTHON_INSTALL_MIRROR in — zie docs/install/troubleshooting.md.",
-    "hint_intel_mac": "Deze Mac heeft een Intel-processor en PyTorch levert geen Intel-Mac-builds meer — de lokale AI-backend kan niet worden geïnstalleerd, en opnieuw proberen verandert daar niets aan. Je kunt de app wel verbinden met een remote backend op een andere machine (Instellingen → Delen → Remote backend), of VoiceStudio gebruiken op een Apple Silicon Mac, Windows of Linux. Details: docs/install/macos.md.",
+    "hint_intel_mac": "Deze Mac heeft een Intel-processor en PyTorch levert geen Intel-Mac-builds meer — de lokale AI-backend kan niet worden geïnstalleerd, en opnieuw proberen verandert daar niets aan. Je kunt de app wel verbinden met een remote backend op een andere machine (Instellingen → Delen → Remote backend), of Voiceym gebruiken op een Apple Silicon Mac, Windows of Linux. Details: docs/install/macos.md.",
     "hint_default": "Probeer eerst \"Opnieuw proberen\". Mislukt het weer, dan bouwt \"Wissen & Opnieuw proberen\" de omgeving helemaal opnieuw op.",
     "hint_stuck": "De backend is niet voltooid. Voer vanuit de broncode eerst `uv sync` uit en zorg ervoor dat `uv` en Python zich op uw PATH bevinden, en probeer het vervolgens opnieuw. Controleer het onderstaande logboek (of Instellingen → Logboeken → Backend) voor het exacte stallpunt.",
     "lines": "{{count}} lijnen"
@@ -723,7 +723,7 @@
     "downloading": "Downloaden…",
     "check_updates": "Controleer op updates",
     "copy_diagnostics": "Diagnostische gegevens kopiëren",
-    "github": "VoiceStudio op GitHub",
+    "github": "Voiceym op GitHub",
     "commercial_license": "Commerciële licentie",
     "update_channel": "Updatekanaal",
     "channel_stable": "Stabiel",
@@ -762,9 +762,9 @@
     "watermark_failed": "Kon de watermerkinstelling niet wijzigen."
   },
   "consent": {
-    "title": "Helpen VoiceStudio te verbeteren?",
+    "title": "Helpen Voiceym te verbeteren?",
     "desc": "Anonieme, inhoudsvrije gebruiksstatistieken die ons helpen bugs sneller op te lossen — volledig optioneel en standaard uitgeschakeld.",
-    "step_label": "VoiceStudio verbeteren",
+    "step_label": "Voiceym verbeteren",
     "body": "Anonieme gebruiksstatistieken zonder inhoud: welke engines worden gebruikt, hoelang generaties duren en het type fouten. Nooit je tekst, je audio, je bestanden of iets dat jou identificeert. Er wordt niets verzonden tenzij je ja zegt, en je kunt je keuze altijd wijzigen in Instellingen → Privacy.",
     "learn_more": "Wat wordt er precies verzonden?",
     "yes": "Ja, deel anonieme statistieken",
@@ -772,7 +772,7 @@
     "dismiss": "Sluiten (analytics blijft uit)"
   },
   "langPrompt": {
-    "offer": "VoiceStudio is geopend in het {{language}}. Liever Engels?",
+    "offer": "Voiceym is geopend in het {{language}}. Liever Engels?",
     "switch": "Overschakelen naar Engels",
     "keep": "{{language}} behouden"
   },
@@ -833,7 +833,7 @@
     "diskTemporary": "Tijdelijke vrije ruimte",
     "diskDestination": "Bestemming",
     "diskDestination_hf_model_cache": "Volume voor Hugging Face-modelcache",
-    "diskDestination_engine_data": "Volume voor VoiceStudio-enginegegevens",
+    "diskDestination_engine_data": "Volume voor Voiceym-enginegegevens",
     "diskActualModel": "Werkelijk model",
     "diskActualEnvironment": "Werkelijke omgeving",
     "diskActualCache": "Werkelijke gedeelde cache",
@@ -882,7 +882,7 @@
   },
   "capture": {
     "desc": "Globale sneltoetsen werken alleen in de desktop-app. De webinterface gebruikt een sneltoets <1>Ctrl+Shift+Spatie</1> op de pagina terwijl het venster focus heeft.",
-    "desc_detail": "De sneltoets werkt voor het hele systeem terwijl VoiceStudio actief is: hij stelt het venster scherp en start het dicteren. Vermijd combo's die al door het besturingssysteem worden geclaimd (op macOS is <1>⌘+Spatie</1> Spotlight en <2>⌘+⇧+Spatie</2> cycli invoerbronnen). Als de registratie mislukt, kies dan een andere combinatie.",
+    "desc_detail": "De sneltoets werkt voor het hele systeem terwijl Voiceym actief is: hij stelt het venster scherp en start het dicteren. Vermijd combo's die al door het besturingssysteem worden geclaimd (op macOS is <1>⌘+Spatie</1> Spotlight en <2>⌘+⇧+Spatie</2> cycli invoerbronnen). Als de registratie mislukt, kies dan een andere combinatie.",
     "active_shortcut": "Actieve snelkoppeling",
     "new_shortcut": "Nieuwe snelkoppeling",
     "press_key": "Druk op een toetsencombinatie...",
@@ -900,8 +900,8 @@
     "no_speech": "Geen spraak gedetecteerd",
     "mic_denied": "Microfoontoegang geweigerd",
     "mic_denied_toast": "Microfoontoegang geweigerd. {{hint}}",
-    "mic_hint_mac": "macOS: open Systeeminstellingen → Privacy en beveiliging → Microfoon en schakel VoiceStudio in.",
-    "mic_hint_windows": "Windows: open Instellingen → Privacy en beveiliging → Microfoon, schakel 'Microfoontoegang' en 'Desktop-apps toegang geven tot je microfoon' in en sta VoiceStudio toe.",
+    "mic_hint_mac": "macOS: open Systeeminstellingen → Privacy en beveiliging → Microfoon en schakel Voiceym in.",
+    "mic_hint_windows": "Windows: open Instellingen → Privacy en beveiliging → Microfoon, schakel 'Microfoontoegang' en 'Desktop-apps toegang geven tot je microfoon' in en sta Voiceym toe.",
     "mic_hint_linux": "Linux: controleer of uw gebruiker in de audiogroep zit en of de WebView microfoontoegang heeft.",
     "transcription_failed": "Transcriptie mislukt: {{message}}",
     "mic_not_found": "Geen microfoon gevonden. Sluit een microfoon aan of schakel er een in en probeer het opnieuw.",
@@ -1000,7 +1000,7 @@
     "persona_include_ref_hint": "Voeg de onbewerkte referentieclip toe. Uit = alleen een voorbeeld met watermerk delen (aanbevolen).",
     "consent_title": "Stemeigendom",
     "consent_explain": "Neem jezelf op terwijl je de onderstaande verklaring leest om te verifiëren dat dit je eigen stem is. Verificatie is vereist voor agentische functies en het delen door de community – nooit voor lokale synthese.",
-    "consent_statement": "Ik bevestig dat dit stemprofiel mijn eigen stem is en geef toestemming dat VoiceStudio het namens mij kloont.",
+    "consent_statement": "Ik bevestig dat dit stemprofiel mijn eigen stem is en geef toestemming dat Voiceym het namens mij kloont.",
     "consent_record": "Toestemmingsverklaring vastleggen",
     "consent_stop": "Stop met opnemen",
     "consent_saved": "Eigendom van stem geverifieerd",
@@ -1464,7 +1464,7 @@
     "watch_start_failed": "Kon deze map niet volgen — kies de map opnieuw om het nogmaals te proberen."
   },
   "gallery": {
-    "title": "VoiceStudio Galerij",
+    "title": "Voiceym Galerij",
     "download_hint": "Zoek hierboven om clips te downloaden",
     "saving": "Opslaan…",
     "trim": "Trimmen",
@@ -1573,22 +1573,22 @@
   "donate": {
     "title": "Ondersteuning",
     "desc": "Als je dit project leuk vindt, overweeg dan om te doneren om onze ontwikkeling te ondersteunen.",
-    "hero_title": "Doneer aan het VoiceStudio-project",
-    "hero_desc": "VoiceStudio is gratis, open-source en draait volledig op uw hardware. Als het waarde toevoegt aan uw workflow, overweeg dan om het kernteam te ondersteunen.",
+    "hero_title": "Doneer aan het Voiceym-project",
+    "hero_desc": "Voiceym is gratis, open-source en draait volledig op uw hardware. Als het waarde toevoegt aan uw workflow, overweeg dan om het kernteam te ondersteunen.",
     "github_desc": "Terugkerend of eenmalig – rechtstreeks via GitHub.",
     "coffee_desc": "Koop een kopje koffie voor het team. Geen account nodig.",
     "paypal_desc": "Snel eenmalig of terugkerend via PayPal.",
     "platforms": "Platformen",
     "footer": "Elke bijdrage helpt de grenzen van lokale AI te verleggen.",
     "back": "Terug naar Studio",
-    "pill": "Ondersteuning VoiceStudio",
+    "pill": "Ondersteuning Voiceym",
     "suggested_title": "Kies een bedrag",
     "most_common": "meest voorkomende",
     "custom": "Aangepast",
     "choose_method": "Kies hoe u wilt geven",
     "choose_method_amount": "Ga verder met ${{amount}}",
     "goal": {
-      "title": "Steun de ontwikkeling van VoiceStudio",
+      "title": "Steun de ontwikkeling van Voiceym",
       "of": "van",
       "per_month": "/ maand",
       "aria": "{{raised}} van {{goal}} maanddoel",
@@ -1597,7 +1597,7 @@
       "social_proof": "Sluit u aan bij {{count}} supporters die lokale AI financieren"
     },
     "postcard": {
-      "title": "Steun de ontwikkeling van VoiceStudio",
+      "title": "Steun de ontwikkeling van Voiceym",
       "later": "Misschien later"
     }
   },
@@ -1607,11 +1607,11 @@
     "back": "Terug naar Studio",
     "badge": "Commerciële licentie",
     "hero_title": "Verzend AI-stemmen in productie",
-    "hero_desc": "VoiceStudio is vrije en open-source software onder de GNU Affero General Public License v3 (AGPL-3.0) — gratis te gebruiken, ook voor commercieel en intern zakelijk gebruik. Een commerciële licentie is alleen nodig als je VoiceStudio wilt inbouwen in een closed-source of propriëtair product of dienst zonder de copyleft-verplichtingen van de AGPL-3.0. Onze licentie geldt voor de code van VoiceStudio. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
+    "hero_desc": "Voiceym is vrije en open-source software onder de GNU Affero General Public License v3 (AGPL-3.0) — gratis te gebruiken, ook voor commercieel en intern zakelijk gebruik. Een commerciële licentie is alleen nodig als je Voiceym wilt inbouwen in een closed-source of propriëtair product of dienst zonder de copyleft-verplichtingen van de AGPL-3.0. Onze licentie geldt voor de code van Voiceym. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
     "pricing_desc": "Niveaus en prijzen worden nog afgerond.",
     "request_quote": "Vraag een offerte aan",
     "benefit_ip": "Applicatielicentie",
-    "benefit_ip_desc": "Onze licentie geldt voor de code van VoiceStudio. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
+    "benefit_ip_desc": "Onze licentie geldt voor de code van Voiceym. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
     "benefit_cost": "Geen kosten per minuut",
     "benefit_cost_desc": "Geen API-facturen, geen onverwachte overschrijdingen. Draait vanaf dag één op uw eigen hardware.",
     "benefit_team_desc": "Eén licentie geldt voor een onbeperkt aantal gebruikers binnen uw organisatie.",
@@ -1619,7 +1619,7 @@
     "benefit_support_desc": "Prioritaire e-mail- en videogesprekondersteuning van het kerntechnische team.",
     "benefit_source_desc": "Volledig zicht op de stapel. Audit, fork en pas aan binnen de licentievoorwaarden.",
     "benefit_lang_desc": "Transcribeer, vertaal en kopieer in 646 talen met kwaliteit op menselijk niveau.",
-    "hero_simple": "VoiceStudio is gratis en open-source onder AGPL-3.0 — ook voor commercieel en intern zakelijk gebruik. U hebt alleen een commerciële licentie nodig om het in een gesloten bronproduct in te sluiten, zonder de copyleft-verplichtingen van AGPL. Onze licentie geldt voor de code van VoiceStudio. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden."
+    "hero_simple": "Voiceym is gratis en open-source onder AGPL-3.0 — ook voor commercieel en intern zakelijk gebruik. U hebt alleen een commerciële licentie nodig om het in een gesloten bronproduct in te sluiten, zonder de copyleft-verplichtingen van AGPL. Onze licentie geldt voor de code van Voiceym. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden."
   },
   "exportModal": {
     "export": "Exporteren",
@@ -1682,7 +1682,7 @@
     "pkg_audio_body_one": "Ga naar het tabblad Audio om dubs per taal te exporteren in WAV of MP3 ({{count}} dub beschikbaar).",
     "pkg_audio_body_other": "Ga naar het tabblad Audio om dubs per taal te exporteren in WAV of MP3 ({{count}} dubs beschikbaar).",
     "pkg_audio_cta": "Open het audiotabblad",
-    "license_text": "Onze licentie geldt voor de code van VoiceStudio. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
+    "license_text": "Onze licentie geldt voor de code van Voiceym. Rechten op modellen en gegenereerde uitvoer hangen af van de gekozen modellen en hun voorwaarden.",
     "license_link": "Applicatielicentie",
     "output": "UITGANG",
     "nothing_selected": "Niets geselecteerd of nummer niet beschikbaar",
@@ -1750,14 +1750,14 @@
     "desc": "Maak je geen zorgen: de rest van de app werkt nog steeds. U kunt van tabblad wisselen of het hieronder opnieuw proberen.",
     "tryAgain": "Probeer het opnieuw",
     "openDocs": "Open documenten voor deze fout",
-    "crash_port_in_use": "De backend kon niet starten omdat poort 3900 al in gebruik is — een andere kopie van VoiceStudio (of een app die die poort claimde) houdt hem bezet. Sluit de andere instantie en start opnieuw; als er niets zichtbaar draait, houdt een verweesde backend uit een eerdere sessie de poort nog vast.",
+    "crash_port_in_use": "De backend kon niet starten omdat poort 3900 al in gebruik is — een andere kopie van Voiceym (of een app die die poort claimde) houdt hem bezet. Sluit de andere instantie en start opnieuw; als er niets zichtbaar draait, houdt een verweesde backend uit een eerdere sessie de poort nog vast.",
     "crash_oom_kill": "Het proces werd geforceerd afgesloten (signaal 9), wat meestal betekent dat het besturingssysteem geen geheugen (RAM) meer had. Sluit geheugenintensieve apps, kies een kleiner ASR-model bij Instellingen → Modellen, of ontlaad het TTS-model vóór het transcriberen.",
-    "crash_native_fault": "Het crashte binnen de compute-stack in plaats van door geheugengebrek — dat wijst op een GPU-stuurprogramma dat niet overeenkomt met de meegeleverde CUDA-runtime, of op een modelbestand dat onvolledig is gedownload. Werk uw GPU-stuurprogramma bij en download het model opnieuw via Instellingen → Modellen (een gedeeltelijke download wordt ter plekke hersteld). Blijft het gebeuren, schakel dan in Instellingen → Engines over op een crash-geïsoleerde engine — \"VoiceStudio (subprocess)\" voor synthese, \"Faster-Whisper (crash-isolated subprocess)\" voor transcriptie. Die draaien het model in een apart proces, zodat zo'n crash dat proces neerhaalt in plaats van de hele backend.",
+    "crash_native_fault": "Het crashte binnen de compute-stack in plaats van door geheugengebrek — dat wijst op een GPU-stuurprogramma dat niet overeenkomt met de meegeleverde CUDA-runtime, of op een modelbestand dat onvolledig is gedownload. Werk uw GPU-stuurprogramma bij en download het model opnieuw via Instellingen → Modellen (een gedeeltelijke download wordt ter plekke hersteld). Blijft het gebeuren, schakel dan in Instellingen → Engines over op een crash-geïsoleerde engine — \"Voiceym (subprocess)\" voor synthese, \"Faster-Whisper (crash-isolated subprocess)\" voor transcriptie. Die draaien het model in een apart proces, zodat zo'n crash dat proces neerhaalt in plaats van de hele backend.",
     "report": "Deze bug melden",
     "report_failed": "Kon het bugrapport niet openen. Probeer het opnieuw of kopieer de details hierboven naar een nieuwe issue.",
     "searchIssues": "Vergelijkbare problemen zoeken",
     "unexpected": "Onverwachte fout: {{message}}",
-    "backend_shutting_down": "VoiceStudio wordt afgesloten. Open de app opnieuw en probeer het nog eens.",
+    "backend_shutting_down": "Voiceym wordt afgesloten. Open de app opnieuw en probeer het nog eens.",
     "crash_broken_env": "Hij stierf tijdens het laden van zijn eigen Python-afhankelijkheden, dus dit gaat niet over geheugen of je GPU — de omgeving is onvolledig of half bijgewerkt blijven staan. Gebruik \"Wissen & Opnieuw proberen\" bij Instellingen → Logs → Backend: dat bouwt hem helemaal opnieuw op en repareert hem ter plekke, zonder je stemmen of projecten aan te raken. Blijft het misgaan, dan noemen de crashdetails het pakket dat niet te importeren was.",
     "crash_vram_default": "Op kleinere GPU's is de gebruikelijke oorzaak dat het VRAM-geheugen opraakt bij het laden van het ASR-model bovenop het TTS-model: ontlaad eerst het TTS-model, of kies een kleiner ASR-model in Modelcatalogus → Modellen.",
     "stream_cut_backend_alive": "De stream stopte te vroeg, maar de backend draait nog — hij is dus niet gecrasht. In een server- of containeropstelling is dit meestal een reverse proxy of load balancer die de verbinding buffert of door een time-out afbreekt: schakel responsbuffering voor deze route uit (nginx: proxy_buffering off; X-Accel-Buffering: no) en verhoog de leestime-out ervan. Draai je de desktopapp direct, of op localhost zonder proxy, dan bevestigt dat het.",
@@ -1801,7 +1801,7 @@
     "network": "Netwerk",
     "local": "Lokaal",
     "share_confirm_title": "Delen op uw netwerk?",
-    "share_confirm_hint": "Andere apparaten op uw Wi-Fi/Ethernet kunnen VoiceStudio bereiken met behulp van de toegangspincode die wordt weergegeven zodra deze is ingeschakeld.",
+    "share_confirm_hint": "Andere apparaten op uw Wi-Fi/Ethernet kunnen Voiceym bereiken met behulp van de toegangspincode die wordt weergegeven zodra deze is ingeschakeld.",
     "enabling": "Inschakelen…",
     "enable": "Inschakelen",
     "shared_title": "Gedeeld op uw netwerk",
@@ -1842,7 +1842,7 @@
     "model_heading": "Modelgewichten · OpenRAIL-M",
     "model_desc": "De Supertonic-3 modelgewichten zijn vrijgegeven onder de OpenRAIL-M-licentie. Deze licentie beperkt het gebruik tot niet-kwaadwillige doeleinden. Zie de gekoppelde licentie voor de volledige set op gebruik gebaseerde beperkingen.",
     "read_openrail": "Lees de OpenRAIL-M licentie →",
-    "footer": "Als u op Accepteren klikt, wordt uw acceptatie vastgelegd in de lokale instellingen van VoiceStudio en wordt de engine ingeschakeld. Uw aanvaarding wordt alleen op deze machine opgeslagen; er wordt niets gerapporteerd aan Supertone Inc. of een derde partij.",
+    "footer": "Als u op Accepteren klikt, wordt uw acceptatie vastgelegd in de lokale instellingen van Voiceym en wordt de engine ingeschakeld. Uw aanvaarding wordt alleen op deze machine opgeslagen; er wordt niets gerapporteerd aan Supertone Inc. of een derde partij.",
     "saving": "Opslaan…",
     "accept": "Accepteer",
     "accepted_toast": "Supertonic-3-licentie geaccepteerd.",
@@ -1857,7 +1857,7 @@
     "gate_desc": "De gewichten zijn afgeschermd op Hugging Face. Voor de eerste download heb je een gratis account nodig, moet je contactgegevens delen en de toegangsvoorwaarden accepteren.",
     "pockettts_conditions_desc": "De voorwaarden verbieden illegaal, schadelijk, misleidend, frauduleus, onbevoegd of niet-consensueel stemgebruik. Lees de volledige voorwaarden voordat je doorgaat.",
     "review_access_conditions": "Toegangsvoorwaarden bekijken",
-    "pockettts_footer": "Met Accepteren wordt je bevestiging alleen in de lokale instellingen van VoiceStudio opgeslagen en de engine ingeschakeld. Modeltoegang en downloads verlopen via Hugging Face, dat de gebruikelijke aanvraag- en accountgegevens ontvangt.",
+    "pockettts_footer": "Met Accepteren wordt je bevestiging alleen in de lokale instellingen van Voiceym opgeslagen en de engine ingeschakeld. Modeltoegang en downloads verlopen via Hugging Face, dat de gebruikelijke aanvraag- en accountgegevens ontvangt.",
     "pockettts_accepted_toast": "Voorwaarden van PocketTTS geaccepteerd."
   },
   "voicePreview": {
@@ -2161,19 +2161,19 @@
     "ref_audio_too_long": "Een referentie mag maximaal 20 seconden duren met transcript, of 75 seconden zonder transcript. Knip deze tot een duidelijke gesproken passage van 3–10 seconden; knip een meegeleverd transcript tot dezelfde passage.",
     "ref_audio_no_speech": "De automatische spraakdetectie vond geen gesproken woorden in de referentie. Knip deze tot een duidelijke gesproken passage van 3–10 seconden of geef een passend transcript op.",
     "gpu_arch_unsupported": "Deze PyTorch-versie ondersteunt je GPU niet. Kies CPU bij Instellingen → Prestaties en apparaat of installeer een compatibele PyTorch-versie.",
-    "windows_app_control_blocked": "Windows-toepassingsbeheer heeft een vereist bestand geblokkeerd. Vraag je beheerder de vertrouwde VoiceStudio-runtime toe te staan en start de app opnieuw.",
+    "windows_app_control_blocked": "Windows-toepassingsbeheer heeft een vereist bestand geblokkeerd. Vraag je beheerder de vertrouwde Voiceym-runtime toe te staan en start de app opnieuw.",
     "audio_io_failed": "De audio kon niet worden gelezen of opgeslagen. Controleer het bestandsformaat, de vrije schijfruimte en de bestandsrechten. Controleer de map bij Instellingen → Opslag.",
     "no_audio_track": "Dit bestand heeft geen audiotrack, dus er is geen spraak om te transcriberen, na te synchroniseren of te klonen. Kies een video- of audiobestand met geluid.",
-    "transcription_media_tool": "Voor transcriptie is ffmpeg nodig, dat VoiceStudio niet kon vinden of uitvoeren. Open Instellingen → Audiotools en gebruik Downloaden/Herstellen, of installeer ffmpeg (macOS: brew install ffmpeg; Windows: winget install Gyan.FFmpeg; Linux: je pakketbeheerder) en herstart VoiceStudio. Je kunt ook FFMPEG_PATH naar een ffmpeg-bestand laten wijzen.",
-    "transcription_pipe_lost": "De backend verloor tijdens de transcriptie zijn uitvoerkanaal naar de app (broken pipe). Herstart VoiceStudio en probeer het opnieuw."
+    "transcription_media_tool": "Voor transcriptie is ffmpeg nodig, dat Voiceym niet kon vinden of uitvoeren. Open Instellingen → Audiotools en gebruik Downloaden/Herstellen, of installeer ffmpeg (macOS: brew install ffmpeg; Windows: winget install Gyan.FFmpeg; Linux: je pakketbeheerder) en herstart Voiceym. Je kunt ook FFMPEG_PATH naar een ffmpeg-bestand laten wijzen.",
+    "transcription_pipe_lost": "De backend verloor tijdens de transcriptie zijn uitvoerkanaal naar de app (broken pipe). Herstart Voiceym en probeer het opnieuw."
   },
   "sharing": {
     "title": "Delen en externe toegang",
-    "help": "Stel dit actieve VoiceStudio-exemplaar bloot aan uw andere machines zonder het opnieuw op te starten. Alleen loopback is de standaardinstelling: er wordt niets gedeeld totdat u dit hier inschakelt.",
+    "help": "Stel dit actieve Voiceym-exemplaar bloot aan uw andere machines zonder het opnieuw op te starten. Alleen loopback is de standaardinstelling: er wordt niets gedeeld totdat u dit hier inschakelt.",
     "local_network": "Lokaal netwerk",
     "local_help": "Deel via uw Wi-Fi/Ethernet met een eenmalige toegangspincode. Andere apparaten scannen de QR-code of openen de link.",
     "ports_title": "Poorten",
-    "ports_help": "Deze worden ingesteld via omgevingsvariabelen die bij het opstarten worden gelezen. Wijzig de backend of UI-poort door de variabele in te stellen en VoiceStudio opnieuw te starten.",
+    "ports_help": "Deze worden ingesteld via omgevingsvariabelen die bij het opstarten worden gelezen. Wijzig de backend of UI-poort door de variabele in te stellen en Voiceym opnieuw te starten.",
     "backend_port": "Backend-poort",
     "ui_port": "UI-poort",
     "lan_share_port": "LAN-share-poort",
@@ -2184,9 +2184,9 @@
     "ports_note": "Backend- en UI-poorten zijn van toepassing bij opnieuw opstarten. De LAN-share-poort is van toepassing de volgende keer dat u delen inschakelt.",
     "tailscale_title": "Tailscale (privé toegang op afstand)",
     "tailscale_checking": "Controleren op staartschaal...",
-    "tailscale_absent": "Staartschaal niet gedetecteerd. Installeer het om VoiceStudio veilig te bereiken vanaf elke plek op uw privé-staartnet.",
+    "tailscale_absent": "Staartschaal niet gedetecteerd. Installeer het om Voiceym veilig te bereiken vanaf elke plek op uw privé-staartnet.",
     "tailscale_install": "Installeer Tailscale",
-    "tailscale_running": "Tailscale loopt. Bedien VoiceStudio via uw privé staartnet.",
+    "tailscale_running": "Tailscale loopt. Bedien Voiceym via uw privé staartnet.",
     "tailscale_not_logged_in": "Tailscale is geïnstalleerd maar niet ingelogd. Start en log eerst in bij Tailscale.",
     "tailscale_enabled": "Tailscale-service ingeschakeld",
     "tailscale_enable_failed": "Kan Tailscale niet inschakelen",
@@ -2208,7 +2208,7 @@
     "label": "Rapporteer een bug",
     "title": "Opent een vooraf ingevulde GitHub Issues-pagina in uw browser. Er wordt niets verzonden totdat u op Verzenden klikt.",
     "staleTitle": "Update beschikbaar",
-    "staleMessage": "U gebruikt VoiceStudio {{current}}, maar {{latest}} is al uit — deze bug is daar mogelijk al verholpen. De nieuwste versie bekijken voordat u rapporteert?",
+    "staleMessage": "U gebruikt Voiceym {{current}}, maar {{latest}} is al uit — deze bug is daar mogelijk al verholpen. De nieuwste versie bekijken voordat u rapporteert?",
     "staleView": "Update bekijken",
     "staleFileAnyway": "Toch rapporteren"
   },
@@ -2236,7 +2236,7 @@
     "failed": "Update mislukt",
     "retry": "Opnieuw proberen",
     "dismiss": "Negeren",
-    "toast_available": "VoiceStudio {{version}} is beschikbaar",
+    "toast_available": "Voiceym {{version}} is beschikbaar",
     "toast_install": "Installeren en herstarten",
     "toast_whats_new": "Wat is er nieuw",
     "toast_later": "Later"
@@ -2280,9 +2280,9 @@
     "retry_load": "Opnieuw proberen"
   },
   "firstrun": {
-    "backend_stop_failed": "VoiceStudio kon de vorige backend niet veilig stoppen. Sluit alle andere VoiceStudio-vensters of -processen en probeer het opnieuw.",
+    "backend_stop_failed": "Voiceym kon de vorige backend niet veilig stoppen. Sluit alle andere Voiceym-vensters of -processen en probeer het opnieuw.",
     "loading": "Installatie voorbereiden…",
-    "title": "VoiceStudio instellen",
+    "title": "Voiceym instellen",
     "subtitle": "Er is nog niets geïnstalleerd — controleer waar alles komt te staan en start daarna. Later te wijzigen in Instellingen.",
     "language": "Taal",
     "mode_title": "Installatiemodus",
@@ -2384,7 +2384,7 @@
     "load_config": "Instellingen laden"
   },
   "openapi": {
-    "title": "VoiceStudio-API",
+    "title": "Voiceym-API",
     "loading": "API-specificatie laden…",
     "unreachable_title": "Backendspecificatie niet beschikbaar",
     "unreachable_body": "De OpenAPI-specificatie van de lokale backend op {{url}} is niet bereikbaar. Controleer of de backend actief is en probeer het opnieuw.",
@@ -2537,7 +2537,7 @@
     "lex_add": "Woord toevoegen",
     "lex_remove": "Verwijderen",
     "markup_help": "Opmaakreferentie",
-    "markup_hint": "# Hoofdstuktitel · [voice:NAME] wisselstem · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · Reacties (VoiceStudio): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
+    "markup_hint": "# Hoofdstuktitel · [voice:NAME] wisselstem · [pause 500ms] / [pause 1s] · [slow]…[/slow] · [fast]…[/fast] · [emphasis]…[/emphasis] · [spell]…[/spell] · Reacties (Voiceym): [laughter] [sigh] [confirmation-en] [question-en] [question-ah] [question-oh] [question-ei] [question-yi] [surprise-ah] [surprise-oh] [surprise-wa] [surprise-yo] [dissatisfaction-hnn]",
     "language": "Taal",
     "expressive": "Productie-overrides",
     "reset": "Opnieuw instellen",
@@ -2640,7 +2640,7 @@
   },
   "remote_gate": {
     "title": "Voer de toegangspincode in",
-    "body": "Dit VoiceStudio-exemplaar wordt gedeeld op het netwerk. Voer de pincode in die op de host wordt weergegeven.",
+    "body": "Dit Voiceym-exemplaar wordt gedeeld op het netwerk. Voer de pincode in die op de host wordt weergegeven.",
     "label": "Toegangspincode",
     "connect": "Verbinden"
   },
@@ -2664,7 +2664,7 @@
   },
   "permissions": {
     "title": "Machtigingen",
-    "desc": "VoiceStudio draait volledig op je apparaat — deze systeemmachtigingen worden alleen gebruikt voor de functies die hier staan, en audio verlaat nooit je computer.",
+    "desc": "Voiceym draait volledig op je apparaat — deze systeemmachtigingen worden alleen gebruikt voor de functies die hier staan, en audio verlaat nooit je computer.",
     "microphone": "Microfoon",
     "microphone_why": "Gebruikt voor dicteren en spraakopnamen. Audio wordt lokaal verwerkt.",
     "accessibility": "Toegankelijkheid",
@@ -2695,7 +2695,7 @@
     "failed": "Download kon niet worden gestart: {{message}}"
   },
   "backend_start_failure": {
-    "notice": "De VoiceStudio-backend kon niet starten — tot die tijd werkt er niets.",
+    "notice": "De Voiceym-backend kon niet starten — tot die tijd werkt er niets.",
     "view": "Bekijk waarom",
     "title": "De backend kon niet starten",
     "intro": "De app legde dit vast tijdens het starten van de backend. Deze uitvoer meesturen in een melding helpt ons het op te lossen.",
@@ -2704,7 +2704,7 @@
   },
   "crash": {
     "notice_unclean": "De vorige sessie is {{ago}} geleden zonder nette afsluiting geëindigd. Dit is vaak onschuldig — de machine sliep, de app werd geforceerd gesloten of een VM/container stopte.",
-    "details_intro_unclean": "De afsluitmarkering van de vorige run is {{ago}} geleden nooit gewist. VoiceStudio kan niet zien of het een crash of slechts een onderbreking was — slapen, geforceerd afsluiten of het stoppen van een VM/container laat hetzelfde spoor achter. Als alles nu werkt, hoeft er niets te gebeuren.",
+    "details_intro_unclean": "De afsluitmarkering van de vorige run is {{ago}} geleden nooit gewist. Voiceym kan niet zien of het een crash of slechts een onderbreking was — slapen, geforceerd afsluiten of het stoppen van een VM/container laat hetzelfde spoor achter. Als alles nu werkt, hoeft er niets te gebeuren.",
     "report_needs_log": "Er is voor deze gebeurtenis geen foutuitvoer vastgelegd, dus een één-klik-rapport zou leeg zijn. Als er echt iets mis is, voeg dan de laatste regels van Instellingen → Logboeken → Backend toe aan een nieuw issue."
   },
   "voices": {
@@ -2772,7 +2772,7 @@
     "title": "Integraties",
     "featured": "Uitgelicht",
     "description": "Ontdek integraties en uitgelichte partners.",
-    "n8nHint": "Importeer deze workflow in n8n, bewerk het verzoek en voer hem uit. Laat VoiceStudio draaien. Docker en externe n8n-instanties hebben een bereikbaar backendadres en eventuele inloggegevens nodig."
+    "n8nHint": "Importeer deze workflow in n8n, bewerk het verzoek en voer hem uit. Laat Voiceym draaien. Docker en externe n8n-instanties hebben een bereikbaar backendadres en eventuele inloggegevens nodig."
   },
   "directoryExamples": {
     "example": "Directoryvoorbeeld"

@@ -22,7 +22,6 @@ import { Link, useNavigate, useRouterState } from '@tanstack/react-router';
 import { runRendererTask } from '@/lib/global-error-recovery';
 import {
   ArrowLeftIcon,
-  ExternalLinkIcon,
   SettingsIcon,
   WifiIcon,
   Share2Icon,
@@ -49,7 +48,7 @@ import {
   BarChart3Icon,
   BracesIcon,
   StethoscopeIcon,
-  HeartHandshakeIcon,
+  LifeBuoyIcon,
   ClipboardCheckIcon,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -118,9 +117,9 @@ const extraSettings = [
   {
     to: '/settings/support',
     label: 'donate.title',
-    Icon: ExternalLinkIcon,
+    Icon: LifeBuoyIcon,
     Component: SupportSettings,
-    fields: ['donate.title', 'contact.channels_label'],
+    fields: ['donate.title', 'contact.feature_title', 'contact.security_title'],
   },
   {
     to: '/settings/network',
@@ -232,7 +231,7 @@ const extraSettings = [
   },
 ] as const;
 
-/** Settings → Account is listed only when this build offers VoiceStudio Cloud accounts. */
+/** Settings → Account is listed only when this build offers Voiceym Cloud accounts. */
 export function extraSettingsFor(cloudAccountsAvailable: boolean) {
   return extraSettings.filter((item) => cloudAccountsAvailable || !('cloudAccountsOnly' in item));
 }
@@ -492,11 +491,11 @@ export function SettingsPage() {
             aria-current={extra?.to === '/settings/support' ? 'page' : undefined}
             className={cn(
               buttonVariants({ variant: 'ghost' }),
-              'group relative w-full justify-start overflow-hidden border border-primary/20 bg-gradient-to-r from-primary/15 via-primary/8 to-transparent text-foreground shadow-[inset_0_1px_0_rgb(255_255_255/10%)] transition-[border-color,background-color,box-shadow] hover:border-primary/35 hover:from-primary/20 hover:shadow-[0_8px_24px_-16px_var(--primary)]',
-              extra?.to === '/settings/support' && 'border-primary/40 bg-primary/15',
+              settingsNavItemClass,
+              'w-full justify-start',
             )}
           >
-            <HeartHandshakeIcon className="size-4 shrink-0 text-primary transition-transform duration-200 group-hover:scale-110 motion-reduce:transition-none" />
+            <LifeBuoyIcon className={settingsNavIconClass} />
             <span data-slot="settings-nav-label" className="min-w-0 flex-1 truncate text-left">
               {t('donate.title')}
             </span>
@@ -646,10 +645,10 @@ export function SettingsPage() {
                         <span
                           style={{
                             fontFamily:
-                              font === 'inter' ? '"Inter Variable", sans-serif' : 'system-ui',
+                              font === 'inter' ? '"Figtree Variable", sans-serif' : 'system-ui',
                           }}
                         >
-                          {font === 'inter' ? 'Inter' : t('preferences.audio_tools_origin_system')}
+                          {font === 'inter' ? 'Figtree' : t('preferences.audio_tools_origin_system')}
                         </span>
                       </Button>
                     ))}

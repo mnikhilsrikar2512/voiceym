@@ -59,7 +59,7 @@ def clone_ref_transcript_too_long_message(duration_s: float) -> str:
         f"seconds long; supplied transcripts support at most "
         f"{CLONE_REF_TEXT_MAX_SECONDS:.0f} seconds. Trim both the audio and "
         "transcript to the same 3-10 second passage, or omit the transcript "
-        "so VoiceStudio can pick and transcribe the best passage automatically."
+        "so Voiceym can pick and transcribe the best passage automatically."
     )
 
 

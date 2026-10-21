@@ -13,7 +13,7 @@ import { ExternalLink } from '@/components/external-link';
 import './pro-page.css';
 
 const planUrl = (plan: string, quantity: number) =>
-  `https://voicestudio.sh/pro?plan=${plan}&quantity=${quantity}`;
+  `https://voiceym.example/pro?plan=${plan}&quantity=${quantity}`;
 const plans = [
   {
     id: 'yearly',
@@ -52,7 +52,7 @@ const enterpriseFeatures = [
   'enterprise_private',
   'enterprise_support',
 ] as const;
-const ENTERPRISE_URL = 'https://voicestudio.sh/commercial';
+const ENTERPRISE_URL = 'https://voiceym.example/commercial';
 const benefits = [
   {
     icon: BriefcaseBusinessIcon,

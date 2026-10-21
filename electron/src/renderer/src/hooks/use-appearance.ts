@@ -3,7 +3,7 @@ import { onStorageKey } from '@/lib/storage-events';
 
 type Appearance = { font: 'inter' | 'system'; scale: number; glass: boolean };
 export const appearanceScales = [90, 100, 110, 125] as const;
-const key = 'voicestudio.appearance';
+const key = 'voiceym.appearance';
 const listeners = new Set<() => void>();
 export function parseAppearance(raw: string | null): Appearance {
   try {
@@ -28,7 +28,7 @@ function apply() {
   document.documentElement.style.fontSize = `${current.scale}%`;
   document.documentElement.style.setProperty(
     '--font-sans',
-    `${current.font === 'inter' ? '"Inter Variable", ' : ''}-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif`,
+    `${current.font === 'inter' ? '"Figtree Variable", ' : ''}-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif`,
   );
 }
 apply();

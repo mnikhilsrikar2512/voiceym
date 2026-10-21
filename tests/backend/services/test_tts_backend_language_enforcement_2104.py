@@ -172,7 +172,7 @@ def test_check_language_skips_for_multi_engine(_StubBackend):
     zero-shot, mlx-audio's per-model multiplexer, PocketTTS' own
     per-engine strict check. The base class must NOT clobber their
     semantics with a 2-letter-code check."""
-    be = _StubBackend(["multi"], display_name="VoiceStudio (k2-fsa/OmniVoice, 600+ languages)")
+    be = _StubBackend(["multi"], display_name="Voiceym (k2-fsa/OmniVoice, 600+ languages)")
     for lang in ("pl", "ar", "vi", "th", "anything"):
         be._check_language(lang)
 

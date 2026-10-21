@@ -7,8 +7,8 @@ import { packageLinuxLibraries, packageLinuxLibraryNotices } from '../native-lin
 
 const directory = await mkdtemp(join(tmpdir(), 'vs-native-package-'));
 try {
-  const source = resolve('native/desktop-bridge/target/release/voicestudio-desktop-bridge');
-  const binary = join(directory, 'voicestudio-desktop-bridge');
+  const source = resolve('native/desktop-bridge/target/release/voiceym-desktop-bridge');
+  const binary = join(directory, 'voiceym-desktop-bridge');
   await copyFile(source, binary);
   await packageLinuxLibraries(source, binary);
   await packageLinuxLibraryNotices(source, binary);

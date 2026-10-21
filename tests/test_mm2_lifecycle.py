@@ -52,8 +52,8 @@ def test_active_instance_reused_for_same_id(monkeypatch):
 
 def test_model_status_reports_resident_checkpoint_identity(monkeypatch):
     class _Model:
-        _voicestudio_checkpoint = "k2-fsa/resident-model"
-        _voicestudio_loaded_at = "2026-09-13T12:34:56Z"
+        _voiceym_checkpoint = "k2-fsa/resident-model"
+        _voiceym_loaded_at = "2026-09-13T12:34:56Z"
 
     monkeypatch.setattr(mm, "model", _Model())
 

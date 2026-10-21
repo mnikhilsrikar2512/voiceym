@@ -57,7 +57,7 @@ describe('remote backend probe', () => {
     expect(result).toMatchObject({ ok: false, kind, target: url });
   });
 
-  it('classifies HTTP failures and non-VoiceStudio services', async () => {
+  it('classifies HTTP failures and non-Voiceym services', async () => {
     await expect(
       probeRemoteBackend('https://gpu-box:3900', {
         fetchImpl: vi.fn().mockResolvedValue(response({}, 503)),

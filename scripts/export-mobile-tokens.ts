@@ -22,8 +22,8 @@ const ROOT = join(import.meta.dir, '..');
 const STYLES = join(ROOT, 'electron/src/renderer/src/styles');
 const OUT = {
   json: join(ROOT, 'mobile/contract/tokens.json'),
-  swift: join(ROOT, 'mobile/ios/VoiceStudioKit/Sources/VoiceStudioKit/Theme/Tokens.generated.swift'),
-  kotlin: join(ROOT, 'mobile/android/core/designsystem/src/main/kotlin/com/voicestudio/mobile/designsystem/Tokens.generated.kt'),
+  swift: join(ROOT, 'mobile/ios/VoiceymKit/Sources/VoiceymKit/Theme/Tokens.generated.swift'),
+  kotlin: join(ROOT, 'mobile/android/core/designsystem/src/main/kotlin/com/voiceym/mobile/designsystem/Tokens.generated.kt'),
 };
 
 type RGBA = [number, number, number, number]; // sRGB 0..1, alpha 0..1
@@ -255,7 +255,7 @@ function swift(): string {
 
 function kotlin(): string {
   const argb = (h: string) => `0x${(h.slice(7, 9) + h.slice(1, 7)).toUpperCase()}`;
-  let s = header + 'package com.voicestudio.mobile.designsystem\n\nobject VSTokens {\n';
+  let s = header + 'package com.voiceym.mobile.designsystem\n\nobject VSTokens {\n';
   s += '    data class Palette(val id: String, val label: String, val light: Map<String, Long>?, val dark: Map<String, Long>?)\n\n';
   s += `    val roles: List<String> = listOf(${THEME_COLOR_ROLES.map((r) => `"${r}"`).join(', ')})\n\n`;
   s += '    val palettes: List<Palette> = listOf(\n';

@@ -86,7 +86,7 @@ export const DEFAULT_FIXTURES = {
     models: [
       {
         repo_id: 'k2-fsa/OmniVoice',
-        label: 'VoiceStudio TTS',
+        label: 'Voiceym TTS',
         role: 'TTS',
         size_gb: 2.4,
         required: true,
@@ -181,6 +181,13 @@ export const DEFAULT_FIXTURES = {
     cpu_generate_timeout_shadowed: false,
   },
   '/watermark/status': { audioseal_available: true, invisible_enabled: true },
+  // Talk's model picker: the Ollama models installed on this machine.
+  '/v1/agent/models': {
+    available: true,
+    models: [{ name: 'llama3.2:1b', size: 1_321_098_329 }],
+    default: 'llama3.2:1b',
+    multilingual_default: 'llama3.2:1b',
+  },
   '/api/settings/history-retention': { cap: 200, default: 200 },
   '/media-tools/status': {
     tools: {

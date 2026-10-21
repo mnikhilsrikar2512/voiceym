@@ -1,5 +1,5 @@
 """
-VoiceStudio MCP Server — expose voice synthesis as AI-agent tools.
+Voiceym MCP Server — expose voice synthesis as AI-agent tools.
 
 Run standalone:
     python -m backend.mcp_server          # stdio transport (Claude Desktop)
@@ -442,9 +442,9 @@ def create_mcp_server(app=None):
     """
     FastMCP = _ensure_mcp()
     mcp = FastMCP(
-        "VoiceStudio",
+        "Voiceym",
         instructions=(
-            "AI-agent interface for VoiceStudio — voice cloning, "
+            "AI-agent interface for Voiceym — voice cloning, "
             "voice design, and video dubbing in 646 languages."
         ),
     )
@@ -648,7 +648,7 @@ def create_mcp_server(app=None):
     async def list_languages() -> str:
         """List a sample of supported TTS languages.
 
-        VoiceStudio supports 646 languages. This returns the most popular ones
+        Voiceym supports 646 languages. This returns the most popular ones
         plus a note about the full count.
         """
         return (
@@ -698,7 +698,7 @@ def create_mcp_server(app=None):
 
     @mcp.tool()
     async def check_health() -> str:
-        """Check if the VoiceStudio backend is running and what GPU device is active."""
+        """Check if the Voiceym backend is running and what GPU device is active."""
         info = await _api_get("/health")
         return json.dumps(info)
 
@@ -953,7 +953,7 @@ def mount_mcp(app) -> bool:
 # ── CLI entrypoint ──────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="VoiceStudio MCP Server")
+    parser = argparse.ArgumentParser(description="Voiceym MCP Server")
     parser.add_argument(
         "--sse", action="store_true",
         help="Use SSE transport instead of stdio (for remote agents)",

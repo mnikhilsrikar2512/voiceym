@@ -863,7 +863,7 @@
      },
      "model": {
       "default": "whisper-1",
-      "description": "ASR model. OpenAI ids ('whisper-1', 'gpt-4o-transcribe', 'gpt-4o-mini-transcribe') are served by the active engine; a VoiceStudio ASR engine id must name the active engine (400 otherwise).",
+      "description": "ASR model. OpenAI ids ('whisper-1', 'gpt-4o-transcribe', 'gpt-4o-mini-transcribe') are served by the active engine; a Voiceym ASR engine id must name the active engine (400 otherwise).",
       "title": "Model",
       "type": "string"
      },
@@ -955,7 +955,7 @@
      },
      "model": {
       "default": "whisper-1",
-      "description": "ASR model. OpenAI ids ('whisper-1', 'gpt-4o-transcribe', 'gpt-4o-mini-transcribe') are served by the active engine; a VoiceStudio ASR engine id must name the active engine (400 otherwise).",
+      "description": "ASR model. OpenAI ids ('whisper-1', 'gpt-4o-transcribe', 'gpt-4o-mini-transcribe') are served by the active engine; a Voiceym ASR engine id must name the active engine (400 otherwise).",
       "title": "Model",
       "type": "string"
      },
@@ -3846,8 +3846,8 @@
       "type": "boolean"
      },
      "protocol": {
-      "const": "voicestudio.speech.v1",
-      "default": "voicestudio.speech.v1",
+      "const": "voiceym.speech.v1",
+      "default": "voiceym.speech.v1",
       "title": "Protocol",
       "type": "string"
      },
@@ -3858,13 +3858,13 @@
       "type": "string"
      },
      "schema": {
-      "const": "voicestudio.speech-capabilities",
-      "default": "voicestudio.speech-capabilities",
+      "const": "voiceym.speech-capabilities",
+      "default": "voiceym.speech-capabilities",
       "title": "Schema",
       "type": "string"
      },
      "service": {
-      "default": "VoiceStudio",
+      "default": "Voiceym",
       "title": "Service",
       "type": "string"
      },
@@ -3972,7 +3972,7 @@
      },
      "denoise": {
       "default": true,
-      "description": "VoiceStudio extension: prepend denoise control when supported.",
+      "description": "Voiceym extension: prepend denoise control when supported.",
       "title": "Denoise",
       "type": "boolean"
      },
@@ -3998,7 +3998,7 @@
         "type": "null"
        }
       ],
-      "description": "VoiceStudio extension: target output duration in seconds.",
+      "description": "Voiceym extension: target output duration in seconds.",
       "title": "Duration"
      },
      "guidance_scale": {
@@ -4012,7 +4012,7 @@
         "type": "null"
        }
       ],
-      "description": "VoiceStudio extension: classifier-free guidance scale (app default 2.0).",
+      "description": "Voiceym extension: classifier-free guidance scale (app default 2.0).",
       "title": "Guidance Scale"
      },
      "input": {
@@ -4043,7 +4043,7 @@
         "type": "null"
        }
       ],
-      "description": "OpenAI's voice-style instructions, forwarded as the engine's style instruction (OmniVoice keeps only its voice-design tags). VoiceStudio's `instruct` wins when both are sent.",
+      "description": "OpenAI's voice-style instructions, forwarded as the engine's style instruction (OmniVoice keeps only its voice-design tags). Voiceym's `instruct` wins when both are sent.",
       "title": "Instructions"
      },
      "language": {
@@ -4059,8 +4059,8 @@
       "title": "Language"
      },
      "model": {
-      "default": "omnivoice",
-      "description": "TTS model to use. Maps to VoiceStudio engine IDs: 'omnivoice', 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
+      "default": "kokoro",
+      "description": "TTS model to use. Maps to Voiceym engine IDs: 'kokoro', 'omnivoice' (non-commercial), 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
       "title": "Model",
       "type": "string"
      },
@@ -4075,12 +4075,12 @@
         "type": "null"
        }
       ],
-      "description": "VoiceStudio extension: iterative unmasking steps (app default 16; 32 = the model's documented quality preset).",
+      "description": "Voiceym extension: iterative unmasking steps (app default 16; 32 = the model's documented quality preset).",
       "title": "Num Step"
      },
      "preprocess_prompt": {
       "default": true,
-      "description": "VoiceStudio extension: trim/preprocess reference prompt when supported.",
+      "description": "Voiceym extension: trim/preprocess reference prompt when supported.",
       "title": "Preprocess Prompt",
       "type": "boolean"
      },
@@ -4107,7 +4107,7 @@
         "type": "null"
        }
       ],
-      "description": "VoiceStudio extension: deterministic sampling seed.",
+      "description": "Voiceym extension: deterministic sampling seed.",
       "title": "Seed"
      },
      "speed": {
@@ -4145,7 +4145,7 @@
        }
       ],
       "default": "default",
-      "description": "Voice to use. For VoiceStudio: pass a voice profile ID, a voice profile name (case-insensitive; an ID wins, and a name shared by several profiles is a 409 listing their IDs), 'default', or a KittenTTS preset name (also accepted as OpenAI's {\"id\": ...} object). OpenAI voice names (alloy, ash, ballad, coral, echo, fable, nova, onyx, sage, shimmer, verse, marin, cedar) are accepted and mapped to the engine default.",
+      "description": "Voice to use. For Voiceym: pass a voice profile ID, a voice profile name (case-insensitive; an ID wins, and a name shared by several profiles is a 409 listing their IDs), 'default', or a KittenTTS preset name (also accepted as OpenAI's {\"id\": ...} object). OpenAI voice names (alloy, ash, ballad, coral, echo, fable, nova, onyx, sage, shimmer, verse, marin, cedar) are accepted and mapped to the engine default.",
       "title": "Voice"
      }
     },
@@ -5839,15 +5839,15 @@
   }
  },
  "info": {
-  "title": "VoiceStudio API",
+  "title": "Voiceym API",
   "version": "0.0.0"
  },
  "openapi": "3.1.0",
  "paths": {
-  "/.well-known/voicestudio-speech": {
+  "/.well-known/voiceym-speech": {
    "get": {
     "description": "Advertise batch, streaming, and agent-facing speech transports.",
-    "operationId": "get_speech_capabilities__well_known_voicestudio_speech_get",
+    "operationId": "get_speech_capabilities__well_known_voiceym_speech_get",
     "responses": {
      "200": {
       "content": {
@@ -7974,7 +7974,7 @@
   },
   "/api/settings/storage/temp/clear": {
    "post": {
-    "description": "Delete VoiceStudio-owned temp files (Settings \u2192 Storage \u2192 Temporary files).\n\nRemoves only the ``omnivoice*`` entries in the OS temp dir \u2014 the exact\npopulation the storage report's \"temp\" category counts \u2014 and invalidates\nthe cached report so the next scan reflects the reclaimed space. Partial\nfailures (files held open by a running job) are returned per entry.",
+    "description": "Delete Voiceym-owned temp files (Settings \u2192 Storage \u2192 Temporary files).\n\nRemoves only the ``omnivoice*`` entries in the OS temp dir \u2014 the exact\npopulation the storage report's \"temp\" category counts \u2014 and invalidates\nthe cached report so the next scan reflects the reclaimed space. Partial\nfailures (files held open by a running job) are returned per entry.",
     "operationId": "clear_temp_files_api_settings_storage_temp_clear_post",
     "responses": {
      "200": {
@@ -10473,11 +10473,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -10539,11 +10539,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -10615,11 +10615,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -10691,11 +10691,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -10822,11 +10822,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -10953,11 +10953,11 @@
      },
      {
       "in": "header",
-      "name": "X-VoiceStudio-Path-Authorization",
+      "name": "X-Voiceym-Path-Authorization",
       "required": false,
       "schema": {
        "default": "",
-       "title": "X-Voicestudio-Path-Authorization",
+       "title": "X-Voiceym-Path-Authorization",
        "type": "string"
       }
      }
@@ -12638,7 +12638,7 @@
   },
   "/engines/sonitranslate/dub": {
    "post": {
-    "description": "Run full dubbing pipeline via SoniTranslate.\n\nTranscribes, translates, generates TTS, and mixes audio.\nReturns the path to the dubbed output video.\n\nKNOWN PROVENANCE GAP (#1169, documented \u2014 not silently ignored): the\ndubbed audio is synthesized and muxed entirely inside the external\nSoniTranslate sidecar (its own venv + gradio pipeline, Edge-TTS voices),\nwhich hands back a finished video file. VoiceStudio's tensor-stage\nmark_synthetic chokepoint never sees that audio; marking it would require\na demux \u2192 embed \u2192 re-mux post-pass on the sidecar's output, which is a\nlossy re-encode of a pipeline we don't control. This opt-in engine\n(explicit install + start) is therefore NOT covered by the invisible\nAudioSeal provenance mark that every built-in synthesis path carries.",
+    "description": "Run full dubbing pipeline via SoniTranslate.\n\nTranscribes, translates, generates TTS, and mixes audio.\nReturns the path to the dubbed output video.\n\nKNOWN PROVENANCE GAP (#1169, documented \u2014 not silently ignored): the\ndubbed audio is synthesized and muxed entirely inside the external\nSoniTranslate sidecar (its own venv + gradio pipeline, Edge-TTS voices),\nwhich hands back a finished video file. Voiceym's tensor-stage\nmark_synthetic chokepoint never sees that audio; marking it would require\na demux \u2192 embed \u2192 re-mux post-pass on the sidecar's output, which is a\nlossy re-encode of a pipeline we don't control. This opt-in engine\n(explicit install + start) is therefore NOT covered by the invisible\nAudioSeal provenance mark that every built-in synthesis path carries.",
     "operationId": "sonitranslate_dub_engines_sonitranslate_dub_post",
     "requestBody": {
      "content": {
@@ -14785,7 +14785,7 @@
   },
   "/marketplace/publish/{profile_id}": {
    "post": {
-    "description": "Publish a voice profile to the local marketplace directory.\n\nThis saves a .omnivoice bundle to the marketplace folder so other\nVoiceStudio instances on the same machine (or shared network drive)\ncan discover and import it.",
+    "description": "Publish a voice profile to the local marketplace directory.\n\nThis saves a .omnivoice bundle to the marketplace folder so other\nVoiceym instances on the same machine (or shared network drive)\ncan discover and import it.",
     "operationId": "publish_to_marketplace_marketplace_publish__profile_id__post",
     "parameters": [
      {
@@ -15730,7 +15730,7 @@
       "name": "license_spdx",
       "required": false,
       "schema": {
-       "default": "LicenseRef-VoiceStudio-Personal",
+       "default": "LicenseRef-Voiceym-Personal",
        "title": "License Spdx",
        "type": "string"
       }
@@ -17158,7 +17158,7 @@
   },
   "/stories/encode": {
    "post": {
-    "description": "Transcode an uploaded WAV to MP3/M4B/OGG and return the encoded bytes.\n\nProvenance note (#1169): this endpoint is a pure TRANSCODER, not a\nsynthesis producer \u2014 it never calls a TTS engine, so it must not call\nmark_synthetic (the upload may be arbitrary user audio, and marking human\nspeech as synthetic would be wrong). Audio the Stories Editor stitched\nfrom VoiceStudio generations is already marked at its producing route, and\nthe AudioSeal mark survives the lossy encode here.",
+    "description": "Transcode an uploaded WAV to MP3/M4B/OGG and return the encoded bytes.\n\nProvenance note (#1169): this endpoint is a pure TRANSCODER, not a\nsynthesis producer \u2014 it never calls a TTS engine, so it must not call\nmark_synthetic (the upload may be arbitrary user audio, and marking human\nspeech as synthetic would be wrong). Audio the Stories Editor stitched\nfrom Voiceym generations is already marked at its producing route, and\nthe AudioSeal mark survives the lossy encode here.",
     "operationId": "stories_encode_stories_encode_post",
     "requestBody": {
      "content": {
@@ -18201,6 +18201,27 @@
     "summary": "Transcribe Audio"
    }
   },
+  "/v1/agent/models": {
+   "get": {
+    "description": "Models installed in the local Ollama, smallest first.",
+    "operationId": "agent_models_v1_agent_models_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "title": "Response Agent Models V1 Agent Models Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Agent Models"
+   }
+  },
   "/v1/audio/capabilities": {
    "get": {
     "description": "Advertise batch, streaming, and agent-facing speech transports.",
@@ -18345,7 +18366,7 @@
   },
   "/v1/audio/voices": {
    "get": {
-    "description": "List available voices. VoiceStudio extension to the OpenAI API.",
+    "description": "List available voices. Voiceym extension to the OpenAI API.",
     "operationId": "list_voices_v1_audio_voices_get",
     "responses": {
      "200": {
@@ -18426,7 +18447,7 @@
   },
   "/watermark/detect": {
    "post": {
-    "description": "Upload an audio file and check whether it contains a VoiceStudio watermark.\n\nReturns confidence score, decoded message, and source attribution.",
+    "description": "Upload an audio file and check whether it contains a Voiceym watermark.\n\nReturns confidence score, decoded message, and source attribution.",
     "operationId": "detect_audio_watermark_watermark_detect_post",
     "requestBody": {
      "content": {

@@ -101,7 +101,7 @@ def test_shutdown_error_wrapped_in_cause_chain():
         try:
             raise root
         except RuntimeError as e:
-            raise ImportError("Could not import module VoiceStudio") from e
+            raise ImportError("Could not import module Voiceym") from e
     except ImportError as wrapped:
         assert _is_interpreter_shutdown_error(wrapped) is True
 
@@ -271,6 +271,7 @@ def test_load_sync_bails_before_torch_when_already_shutting_down(monkeypatch):
 
 def test_preload_interrupted_by_shutdown_logs_info_only(monkeypatch, caplog):
     from core import device_caps
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # preload only warms a chosen OmniVoice
     # Exercise native preload even on hosts that normally route TTS to a sidecar.
     monkeypatch.setattr(device_caps, "detect_host_caps", lambda: types.SimpleNamespace(family="cpu"))
     async def _boom():
@@ -318,6 +319,7 @@ def test_lifespan_shutdown_mid_load_is_clean_and_clears_sentinel(
     shutdown mode, and clear the run sentinel — a deliberate quit mid-load
     must NEVER be recorded as an unclean crash by the next startup (#1164
     interaction the #1174 fix has to preserve)."""
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # preload only warms a chosen OmniVoice
     from fastapi import FastAPI
 
     with _reimported_backend_modules():

@@ -56,7 +56,7 @@ export function SecondarySidebar({
   };
   const dimensions = WIDTHS[size];
   const resize = usePaneResize({
-    storageKey: `voicestudio.secondary-sidebar.${size}`,
+    storageKey: `voiceym.secondary-sidebar.${size}`,
     side: 'left',
     ...dimensions,
     enabled: !collapsed,

@@ -14,11 +14,11 @@ describe('engine detail preference', () => {
     const restored = renderHook(useEngineDetailLevel);
     expect(restored.result.current.level).toBe('details');
     act(() => restored.result.current.chooseLevel('simple'));
-    expect(localStorage.getItem('voicestudio.engine-detail-level')).toBe('simple');
+    expect(localStorage.getItem('voiceym.engine-detail-level')).toBe('simple');
   });
 
   it('falls back for invalid preferences and keeps working without storage', () => {
-    localStorage.setItem('voicestudio.engine-detail-level', 'invalid');
+    localStorage.setItem('voiceym.engine-detail-level', 'invalid');
     expect(renderHook(useEngineDetailLevel).result.current.level).toBe('simple');
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('blocked');

@@ -317,6 +317,9 @@ def test_mps_picker_hides_redundant_omnivoice_sidecar_but_api_accepts_it(
 
     _force_host(monkeypatch, "mps")
     monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
+    # OmniVoice is opt-in now (Kokoro is the default); exercise a host that
+    # starts on OmniVoice without pinning it through the environment.
+    monkeypatch.setattr(tts_backend, "DEFAULT_TTS_ENGINE", "omnivoice")
     monkeypatch.setattr(
         OmniVoiceSubprocessBackend,
         "is_available",

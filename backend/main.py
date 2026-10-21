@@ -751,6 +751,7 @@ def _phase_a_build_inner() -> None:
         media_tools as media_tools_router,  # Audio tools: ffmpeg/ffprobe/yt-dlp
         auth as auth_router,
         voice_convert,  # Studio Convert: speech-to-speech via ASR → TTS
+        voice_agent,  # Voice agent over WebSocket (/v1/agent/ws) + browser client
     )
     from api.routers import mcp_bindings as _mcp_bindings_router  # noqa: E402
     from api.routers import telephony_twilio as _telephony_twilio_router  # noqa: E402
@@ -764,7 +765,7 @@ def _phase_a_build_inner() -> None:
         openai_compat, tts_stream, marketplace, personas, sonitranslate,
         audiobook, longform_jobs, pronunciation, settings_router,
         media_tools_router, auth_router, _mcp_bindings_router,
-        _telephony_twilio_router, _calls_router, _cloud_sync_router,
+        _telephony_twilio_router, _calls_router, _cloud_sync_router, voice_agent,
     ])
     # Download-acceleration state, once, for triage-from-logs (FDL-03).
     try:
@@ -1158,7 +1159,7 @@ async def _phase_b(app: FastAPI) -> None:
     app.state.mcp_task = mcp_task
     app.state.mcp_stop = mcp_stop
 
-    # VoiceStudio Cloud settings sync: idles (no Cloud call) unless main hands
+    # Voiceym Cloud settings sync: idles (no Cloud call) unless main hands
     # out a token, i.e. the user is signed in with sync switched on.
     from services.cloud_sync.service import get_service as _cloud_sync
 
@@ -1634,7 +1635,7 @@ async def global_exception_handler(request: Request, exc: Exception):
                 # genuinely reportable bugs — suppressing the report button for
                 # every 503 would silence exactly the class users need to file.
                 "detail": (
-                    "[shutting_down] VoiceStudio is shutting down, so it didn't "
+                    "[shutting_down] Voiceym is shutting down, so it didn't "
                     "start loading the model. Reopen the app and try again."
                 )
             },
@@ -1669,13 +1670,13 @@ async def global_exception_handler(request: Request, exc: Exception):
 
     content = public_exception_response(
         exc,
-        fallback="VoiceStudio hit an internal error; check the backend log for details.",
+        fallback="Voiceym hit an internal error; check the backend log for details.",
     )
     content["error_class"] = _entry.get("error_class")
     # The Python exception TYPE rides along with the taxonomy class. The class
     # is "UNKNOWN" for most failures, which made every such 500 render the same
     # fixed sentence AND the same report (#2917/#2916/#2688); the type name is
-    # VoiceStudio-safe (a type, never user text) and is what tells a
+    # Voiceym-safe (a type, never user text) and is what tells a
     # RuntimeError from a KeyError. No substring of the message is copied.
     content["error_type"] = type(exc).__name__
     return JSONResponse(
@@ -1736,7 +1737,7 @@ class StartupGateMiddleware:
             status_code=503,
             content={
                 "detail": (
-                    f"[starting] VoiceStudio is still starting "
+                    f"[starting] Voiceym is still starting "
                     f"({_label or 'initializing'}). Retry shortly."
                 ),
                 "step": _step,
@@ -1803,7 +1804,7 @@ class NetworkAccessMiddleware:
 #: from whatever else might answer at the same URL (#1385). A rehosted UI
 #: whose API requests land on a static host or a proxy with no API route gets
 #: that host's 404 page; the frontend needs an authoritative "this really is
-#: a VoiceStudio backend" signal rather than guessing from the body shape,
+#: a Voiceym backend" signal rather than guessing from the body shape,
 #: since a proxy can return JSON too. Value is the version, which is also
 #: useful when a desktop app talks to an older remote backend.
 BACKEND_MARKER_HEADER = "x-omnivoice-backend"
@@ -1919,7 +1920,7 @@ class BearerKeyMiddleware:
 
 
 # Origin policy is single-sourced in core.csrf: the UI port (OMNIVOICE_UI_PORT,
-# alias VOICESTUDIO_UI_PORT) and OMNIVOICE_ALLOWED_ORIGINS feed both this CORS
+# alias VOICEYM_UI_PORT) and OMNIVOICE_ALLOWED_ORIGINS feed both this CORS
 # allow-list and the CSRF origin checks, so the two can never disagree.
 from core.csrf import CORS_EXPOSED_HEADERS, allowed_origin_values, ui_port as _ui_port
 
@@ -1970,7 +1971,7 @@ app.add_middleware(
 # Registered LAST, which in Starlette means OUTERMOST — so the marker lands on
 # every response. CORS is immediately inside it and outside both auth gates, so
 # preflights and gate-generated 401s retain the browser contract. The marker's
-# absence lets a client conclude that the responder is not VoiceStudio (#1385).
+# absence lets a client conclude that the responder is not Voiceym (#1385).
 app.add_middleware(BackendMarkerMiddleware)
 
 # Register canonical audio MIME types before any StaticFiles mount.
@@ -2179,7 +2180,7 @@ if __name__ == "__main__":
     # Electron's backend supervisor must stay in sync.
     #
     # SECURITY: default to loopback (127.0.0.1) so the API isn't reachable
-    # from the LAN out of the box. VoiceStudio ships no authentication; binding
+    # from the LAN out of the box. Voiceym ships no authentication; binding
     # to 0.0.0.0 by default would expose every router on this process to any
     # host on the user's network. The Docker image never reaches this block:
     # its uvicorn ENTRYPOINT binds 0.0.0.0 itself (deploy/Dockerfile), and the
@@ -2211,7 +2212,7 @@ if __name__ == "__main__":
 
     def _fail_port_in_use(exc: "OSError | None") -> None:
         print(
-            f"FATAL: port {_port} is already in use — another VoiceStudio "
+            f"FATAL: port {_port} is already in use — another Voiceym "
             f"backend (or another app) is listening on it. Quit the other "
             f"instance and relaunch; if nothing is visibly running, an "
             f"orphaned backend from a previous session is still holding the "
@@ -2230,7 +2231,7 @@ if __name__ == "__main__":
         shell's "Last output" shows it instead of a bare exit code.
         """
         print(
-            f"FATAL: the operating system refused to let VoiceStudio listen on "
+            f"FATAL: the operating system refused to let Voiceym listen on "
             f"port {_port} (permission denied). On Windows a possible cause is "
             f"a reserved port range (check "
             f"`netsh interface ipv4 show excludedportrange protocol=tcp`) or "

@@ -106,7 +106,7 @@ it('names the folder to open and refuses setup advice outside a checkout (#2988)
   state.checkout = false;
   const plan = await resolveSpawnPlan(3900);
   if (!('error' in plan)) throw new Error('expected a setup error');
-  expect(plan.error).toContain('not a VoiceStudio source checkout');
+  expect(plan.error).toContain('not a Voiceym source checkout');
   expect(plan.error).toContain('release installer');
 });
 
@@ -162,7 +162,7 @@ it('passes legacy storage to packaged backends while preserving explicit overrid
 });
 
 it('names the program and runtime repair when the OS rejects a spawn', () => {
-  const python = String.raw`C:\Users\u\VoiceStudio\.venv\Scripts\python.exe`;
+  const python = String.raw`C:\Users\u\Voiceym\.venv\Scripts\python.exe`;
   const message = spawnFailureMessage(
     python,
     Object.assign(new Error('spawn UNKNOWN'), { code: 'UNKNOWN' }),
@@ -253,10 +253,10 @@ it('ignores supervisor log lines when this launch printed nothing', async () => 
 
 it('tells the backend the dev renderer port so Sharing reports the real UI port', () => {
   expect(devRendererPort('http://localhost:3902')).toBe('3902');
-  expect(devRendererPort('app://voicestudio/index.html')).toBeNull();
+  expect(devRendererPort('app://voiceym/index.html')).toBeNull();
   expect(devRendererPort(undefined)).toBeNull();
   vi.stubEnv('OMNIVOICE_UI_PORT', '');
-  vi.stubEnv('VOICESTUDIO_UI_PORT', '');
+  vi.stubEnv('VOICEYM_UI_PORT', '');
   vi.stubEnv('ELECTRON_RENDERER_URL', 'http://localhost:4102');
   expect(managedBackendSpawnOptions(3900).env.OMNIVOICE_UI_PORT).toBe('4102');
   vi.stubEnv('OMNIVOICE_UI_PORT', '4200');
@@ -267,15 +267,15 @@ it('tells the backend the dev renderer port so Sharing reports the real UI port'
 });
 
 it('hands backend-only capabilities to the managed backend alone, never to process.env', () => {
-  setBackendOnlyEnv({ VOICESTUDIO_ACCOUNT_BRIDGE_URL: 'http://127.0.0.1:1', VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN: 'cap' });
+  setBackendOnlyEnv({ VOICEYM_ACCOUNT_BRIDGE_URL: 'http://127.0.0.1:1', VOICEYM_ACCOUNT_BRIDGE_TOKEN: 'cap' });
   try {
     expect(managedBackendSpawnOptions(3900).env).toMatchObject({
-      VOICESTUDIO_ACCOUNT_BRIDGE_URL: 'http://127.0.0.1:1',
-      VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN: 'cap',
+      VOICEYM_ACCOUNT_BRIDGE_URL: 'http://127.0.0.1:1',
+      VOICEYM_ACCOUNT_BRIDGE_TOKEN: 'cap',
     });
-    expect(process.env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
+    expect(process.env.VOICEYM_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
   } finally {
-    setBackendOnlyEnv({ VOICESTUDIO_ACCOUNT_BRIDGE_URL: undefined, VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN: undefined });
+    setBackendOnlyEnv({ VOICEYM_ACCOUNT_BRIDGE_URL: undefined, VOICEYM_ACCOUNT_BRIDGE_TOKEN: undefined });
   }
-  expect(managedBackendSpawnOptions(3900).env.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
+  expect(managedBackendSpawnOptions(3900).env.VOICEYM_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
 });

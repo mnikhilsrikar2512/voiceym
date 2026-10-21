@@ -1,4 +1,4 @@
-# VoiceStudio — Install with Docker
+# Voiceym — Install with Docker
 
 For headless servers, dedicated GPUs, or "I want one command" deployments.
 The docker image bundles the backend; the UI is served over HTTP and you open
@@ -12,9 +12,8 @@ and declining or skipping it keeps them off. Set
 `-e OMNIVOICE_ANALYTICS_DISABLED=1` to switch analytics off entirely. Model
 weights download from Hugging Face when you install a model.
 
-**Official images:** [`ghcr.io/debpalash/voicestudio`](https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio)
-and [`palashdeb/omnivoice-studio` on Docker Hub](https://hub.docker.com/r/palashdeb/omnivoice-studio) — same images, same tags.
-The former `ghcr.io/debpalash/omnivoice-studio` path remains a compatible alias.
+**Official images:** [`ghcr.io/mnikhilsrikar2512/voiceym`](https://github.com/mnikhilsrikar2512/voiceym/pkgs/container/voiceym)
+and [`mnikhilsrikar2512/voiceym` on Docker Hub](https://hub.docker.com/r/mnikhilsrikar2512/voiceym) — same images, same tags.
 
 ## Architecture
 
@@ -40,7 +39,7 @@ On an ARM64 host, pulling without an explicit platform can fail with
   has no aarch64 wheel and builds against Opus). Then:
 
   ```bash
-  docker build -f deploy/Dockerfile --build-arg BASE_IMAGE=<your-base> -t voicestudio:arm64-cuda .
+  docker build -f deploy/Dockerfile --build-arg BASE_IMAGE=<your-base> -t voiceym:arm64-cuda .
   ```
 
   The Dockerfile skips the cuDNN 8 compatibility step on aarch64 because NVIDIA
@@ -89,18 +88,18 @@ master key.
 ## Pull and run (CPU)
 
 ```bash
-docker pull ghcr.io/debpalash/voicestudio:stable
+docker pull ghcr.io/mnikhilsrikar2512/voiceym:stable
 
 docker run -d --name omnivoice \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  ghcr.io/debpalash/voicestudio:stable
+  ghcr.io/mnikhilsrikar2512/voiceym:stable
 ```
 
 > **Docker Hub mirror:** the same images are published to
-> `palashdeb/omnivoice-studio` on Docker Hub with identical tags — swap the
-> image for `palashdeb/omnivoice-studio:stable` if you prefer Docker Hub.
+> `mnikhilsrikar2512/voiceym` on Docker Hub with identical tags — swap the
+> image for `mnikhilsrikar2512/voiceym:stable` if you prefer Docker Hub.
 > Tag semantics (`:latest` = rolling main preview, `:stable`/`:X.Y.Z` =
 > releases) are the same on both registries.
 
@@ -114,7 +113,7 @@ docker run -d --name omnivoice --gpus all \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  ghcr.io/debpalash/voicestudio:stable
+  ghcr.io/mnikhilsrikar2512/voiceym:stable
 ```
 
 GPU mode requires the
@@ -134,7 +133,7 @@ docker run -d --name omnivoice \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  ghcr.io/debpalash/voicestudio:stable-rocm
+  ghcr.io/mnikhilsrikar2512/voiceym:stable-rocm
 ```
 
 ### AMD GPU on WSL2
@@ -157,7 +156,7 @@ docker run -d --name omnivoice \
   -p 127.0.0.1:3900:3900 \
   -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -v omnivoice-data:/app/omnivoice_data \
-  ghcr.io/debpalash/voicestudio:stable-rocm
+  ghcr.io/mnikhilsrikar2512/voiceym:stable-rocm
 ```
 
 The image currently uses ROCm 7.2.x, so `HSA_ENABLE_DXG_DETECTION=1` is
@@ -169,12 +168,12 @@ for the driver/runtime compatibility matrix.
 
 #### WSL2 architecture compatibility matrix
 
-VoiceStudio classifies the architecture result separately from device-node
+Voiceym classifies the architecture result separately from device-node
 visibility. `/dev/dxg` alone is not proof of acceleration; a supported claim
 also needs the runtime probe, application routing, a completed workload, and
 GPU-utilization evidence.
 
-| Classification | Evidence required | VoiceStudio behavior |
+| Classification | Evidence required | Voiceym behavior |
 |---|---|---|
 | **Supported** | The native GFX tag is in the shipped PyTorch architecture list, and the named hardware has a published successful workload with GPU-utilization evidence. | Report the measured provider and device from Settings and diagnostics. |
 | **Best-effort override** | The native tag is absent, a mapped target is present in the PyTorch build, and `HSA_OVERRIDE_GFX_VERSION` is applied. No hardware validation is implied. | Attempt the mapped kernels; capture execution evidence and treat failures as unsupported for that host. |
@@ -183,15 +182,15 @@ GPU-utilization evidence.
 
 | Hardware / architecture | Current classification | Detail |
 |---|---|---|
-| AMD Radeon RX 6700 XT / `gfx1031` through WSL2 ROCDXG | **Unverified** | VoiceStudio can map `gfx1031` to `gfx1030` when that target exists in the PyTorch build, but no RX 6700 XT end-to-end validation has been published. |
+| AMD Radeon RX 6700 XT / `gfx1031` through WSL2 ROCDXG | **Unverified** | Voiceym can map `gfx1031` to `gfx1030` when that target exists in the PyTorch build, but no RX 6700 XT end-to-end validation has been published. |
 
 For an RX 6700 XT result to move out of **Unverified**, record the Windows AMD
 driver, WSL kernel/distribution, image and ROCDXG/ROCm versions,
 `torch.version.hip`, device name/count and compiled architecture list, effective
-HSA override, `rocminfo`, VoiceStudio self-check and engine-routing output, and
+HSA override, `rocminfo`, Voiceym self-check and engine-routing output, and
 one successful PyTorch TTS and ASR workload with utilization plus cold/warm
 latency. Record whether either workload fell back to CPU and, when it did, the
-CPU fallback stage and reason reported by VoiceStudio. A CPU-only completion
+CPU fallback stage and reason reported by Voiceym. A CPU-only completion
 does not qualify as successful GPU validation.
 
 The same flags work with **Podman** (`podman run --device /dev/kfd
@@ -200,7 +199,7 @@ The same flags work with **Podman** (`podman run --device /dev/kfd
 ```ini
 # ~/.config/containers/systemd/omnivoice.container
 [Container]
-Image=ghcr.io/debpalash/voicestudio:stable-rocm
+Image=ghcr.io/mnikhilsrikar2512/voiceym:stable-rocm
 AddDevice=/dev/kfd
 AddDevice=/dev/dri
 PublishPort=127.0.0.1:3900:3900
@@ -238,7 +237,7 @@ ROCm container `omnivoice-studio-rocm` (CPU: `omnivoice-studio`, NVIDIA:
 
 (ROCm-built PyTorch reports through `torch.cuda.*` — `True` plus your card's
 name means torch can see the GPU.) That check alone isn't proof the app is
-using it: **Settings → Performance & Device** shows the device VoiceStudio
+using it: **Settings → Performance & Device** shows the device Voiceym
 actually resolved.
 **Model Catalogue** should report both `omnivoice` and
 `omnivoice-subprocess` as accelerated on ROCm, rather than a CPU-fallback
@@ -246,7 +245,7 @@ warning.
 If it reads `cpu` while the command above prints `True`, the backend log line
 starting `Falling back to CPU:` names the architecture mismatch it hit.
 
-The image installs and launches VoiceStudio through that same `python3`
+The image installs and launches Voiceym through that same `python3`
 interpreter. To verify this invariant on an older or custom image, compare
 `docker exec <container> python3 -c "import sys, torch; print(sys.executable,
 torch.version.hip)"` with `docker exec <container> sh -c 'tr "\\0" " "
@@ -329,7 +328,7 @@ enforces loopback-only.
 
 <a id="lan-access"></a>
 
-To expose VoiceStudio on your LAN (e.g. you're running it on a homelab box and
+To expose Voiceym on your LAN (e.g. you're running it on a homelab box and
 opening the UI from a laptop), change the host port mapping:
 
 ```yaml
@@ -340,7 +339,7 @@ services:
       - "0.0.0.0:3900:3900"   # ← was 127.0.0.1:3900:3900
 ```
 
-The VoiceStudio frontend defaults to the **same origin** the page was served
+The Voiceym frontend defaults to the **same origin** the page was served
 from, so opening the UI from `http://<lan-ip>:3900` Just Works for both the
 page load *and* the API/media requests it makes afterwards.
 
@@ -355,7 +354,7 @@ docker run -e OMNIVOICE_API_KEY="$OMNIVOICE_API_KEY" \
   -e OMNIVOICE_PUBLIC_API_BASE=https://api.your-host.example \
   -e OMNIVOICE_ALLOWED_ORIGINS=https://ui.your-host.example \
   -p 0.0.0.0:3900:3900 \
-  ghcr.io/debpalash/voicestudio:stable
+  ghcr.io/mnikhilsrikar2512/voiceym:stable
 ```
 
 List the UI's origin in `OMNIVOICE_ALLOWED_ORIGINS` so the API accepts its
@@ -418,7 +417,7 @@ as root, so files it adds there are root-owned on the host.
   to stay local) plus authentication. If you front
   the container with your own auth proxy on loopback, set `OMNIVOICE_SERVER_MODE=0`
   to re-enable the strict gate.
-- **"Request refused: VoiceStudio was addressed by an unrecognized host name":**
+- **"Request refused: Voiceym was addressed by an unrecognized host name":**
   without an API key, the backend answers only to `localhost`, IP addresses and
   configured names, so another website cannot rebind its domain onto it. Open
   it by IP address, sign in with the API key, or add the name with

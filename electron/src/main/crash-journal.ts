@@ -22,7 +22,7 @@ export class CrashJournal {
    * Buffer the whole all-thread dump before the supervisor ring evicts its
    * start. It is condensed only at record time (#2382): keeping the first 40
    * raw lines of the faulting thread used to fill the record with one
-   * recursive torch frame and drop both the VoiceStudio frames that say what
+   * recursive torch frame and drop both the Voiceym frames that say what
    * was loading and every other thread.
    */
   captureLine(line: string): void {

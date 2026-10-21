@@ -38,7 +38,7 @@ up to five valid thumbnails. Thumbnails are decoded, normalized and saved locall
 through the same profile-image flow as uploads; remote originals are never fetched.
 
 Only Google's HTTPS thumbnail proxy hosts and embedded JPEG previews are accepted from that page.
-If Google requires browser JavaScript, consent, or a CAPTCHA, VoiceStudio falls back to Openverse's
+If Google requires browser JavaScript, consent, or a CAPTCHA, Voiceym falls back to Openverse's
 public search with mature content excluded and reuse-friendly licensing filters. It never bypasses
 Google challenges. Initials and file uploads remain available if neither source responds.
 Filtering does not guarantee that every result is appropriate or licensed for reuse.

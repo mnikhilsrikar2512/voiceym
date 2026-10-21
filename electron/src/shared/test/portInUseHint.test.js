@@ -95,24 +95,24 @@ describe('the Rust failure messages reach the localised hint (#1223, #1933)', ()
   it.each([
     [
       'our own orphan',
-      'Port 3900 is in use by a VoiceStudio backend from an earlier session that never shut ' +
-        'down. It has no window to quit, so closing VoiceStudio will not release it. End it ' +
+      'Port 3900 is in use by a Voiceym backend from an earlier session that never shut ' +
+        'down. It has no window to quit, so closing Voiceym will not release it. End it ' +
         'Find and end it from a terminal:\n\n    lsof -nP -iTCP:3900 -sTCP:LISTEN',
     ],
     [
       'a backend from another version',
-      'Port 3900 is in use by a VoiceStudio backend from version 0.1.0, left running by an ' +
+      'Port 3900 is in use by a Voiceym backend from version 0.1.0, left running by an ' +
         'earlier install. This build is 0.5.2, so it cannot use that one. End it from a ' +
         'terminal:\n\n    lsof -nP -iTCP:3900 -sTCP:LISTEN',
     ],
     [
       'an unidentified listener',
-      'Port 3900 is already in use by another application, and VoiceStudio could not free it. ' +
+      'Port 3900 is already in use by another application, and Voiceym could not free it. ' +
         'Quit whatever is using that port and try again.',
     ],
     [
       'with the respawn suffix',
-      'Port 3900 is already in use by another application, and VoiceStudio could not free it. ' +
+      'Port 3900 is already in use by another application, and Voiceym could not free it. ' +
         'Quit whatever is using that port and try again.\n\nThe backend cannot restart until ' +
         'that port is free.',
     ],

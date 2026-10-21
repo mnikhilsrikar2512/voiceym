@@ -134,7 +134,7 @@ def resolve_confucius4_venv() -> Path:
             "Confucius4-TTS is not installed. Set the "
             f"{_CLONE_DIR_ENV} environment variable to your Confucius4-TTS clone "
             "(the directory that contains requirements.txt), then restart "
-            "VoiceStudio. See docs/engines/confucius4-tts.md."
+            "Voiceym. See docs/engines/confucius4-tts.md."
         )
 
     cand = _bootstrap_engines_venv(Path(clone_dir))
@@ -192,7 +192,7 @@ def _bootstrap_engines_venv(clone_dir: Path) -> Path:
         raise RuntimeError(
             "uv is required to bootstrap the Confucius4-TTS venv but was not "
             "found on PATH (and OMNIVOICE_BUNDLED_UV was not set). Install uv "
-            "from https://docs.astral.sh/uv/ and re-launch VoiceStudio."
+            "from https://docs.astral.sh/uv/ and re-launch Voiceym."
         )
 
     logger.info(

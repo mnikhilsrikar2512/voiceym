@@ -44,7 +44,7 @@ def test_windows_on_arm_leg_builds_natively_and_installs_the_runtime():
 def test_install_smoke_uses_an_offline_fresh_model_cache():
     """Fresh installation must not reuse models or trigger model downloads."""
     smoke = (Path(__file__).parents[1] / 'electron/tests/packaged-smoke.mjs').read_text()
-    assert "mkdtempSync(join(tmpdir(), 'voicestudio-packaged-check-'))" in smoke
+    assert "mkdtempSync(join(tmpdir(), 'voiceym-packaged-check-'))" in smoke
     assert "if (setup || install || existing)" in smoke
     assert "HF_HUB_CACHE: join(profile, 'hf-home', 'hub')" in smoke
     assert "HF_HUB_OFFLINE: firstSound ? '0' : '1'" in smoke
@@ -55,4 +55,4 @@ def test_install_smoke_uses_an_offline_fresh_model_cache():
     for step in workflow['jobs']['package']['steps']:
         if '--install' in step.get('run', ''):
             assert '--first-sound' not in step['run']
-            assert 'VOICESTUDIO_TEST_PROFILE' not in step.get('env', {})
+            assert 'VOICEYM_TEST_PROFILE' not in step.get('env', {})

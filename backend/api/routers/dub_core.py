@@ -100,7 +100,7 @@ def _stage_cookie_export(contents: str | None) -> str | None:
             ),
         )
     fd, cookie_path = tempfile.mkstemp(
-        prefix="voicestudio-ytdlp-", suffix=".cookies.txt",
+        prefix="voiceym-ytdlp-", suffix=".cookies.txt",
     )
     try:
         os.chmod(cookie_path, 0o600)
@@ -967,7 +967,7 @@ async def dub_ingest_url(req: DubIngestUrlRequest, request: Request):
     if req.cookie_file and not _cookie_transport_allowed(
         request.url.scheme,
         request.client.host if request.client else None,
-        request.headers.get("origin") or request.headers.get("x-voicestudio-desktop-origin"),
+        request.headers.get("origin") or request.headers.get("x-voiceym-desktop-origin"),
     ):
         raise HTTPException(
             status_code=403,
@@ -1373,7 +1373,7 @@ async def dub_transcribe_stream(
         else:
             # The TTS core model is loaded here for exactly one reason: to harvest a
             # preloaded `_asr_pipe` off it (passed to get_active_asr_backend below).
-            # That attribute is only ever set by VoiceStudio.from_pretrained under
+            # That attribute is only ever set by Voiceym.from_pretrained under
             # OMNIVOICE_PRELOAD_TTS_ASR, which is off by default — so in the default
             # config this loaded ~3 GB, harvested None, and then offload_tts_for_asr()
             # freed it again 60 lines below. On unified memory that offload is a full

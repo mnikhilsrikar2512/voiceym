@@ -38,7 +38,7 @@ describe('theme preferences', () => {
     });
   });
   it('migrates previous palette names without changing the selected colors', () => {
-    expect(parseThemePreferences('{"light":"t3-chat","dark":"voicestudio-classic"}')).toEqual({
+    expect(parseThemePreferences('{"light":"t3-chat","dark":"voiceym-classic"}')).toEqual({
       mode: 'dark',
       light: 'signal',
       dark: 'heritage',

@@ -20,7 +20,7 @@ def _read(rel):
 
 def test_electron_recognises_the_final_tauri_identity():
     source = _read("electron/src/main/backend.ts")
-    assert "const TAURI_APP_ID = 'com.debpalash.omnivoice-studio'" in source, WHY
+    assert "const TAURI_APP_ID = 'com.voiceym.legacy'" in source, WHY
 
 
 def test_the_backend_data_directories_are_unchanged():
@@ -54,9 +54,9 @@ def test_the_public_env_var_prefix_is_unchanged(env_var):
     assert env_var in source, WHY
 
 
-def test_the_product_and_artifact_names_are_voicestudio():
+def test_the_product_and_artifact_names_are_voiceym():
     config = json.loads(_read("config/app.json"))
     builder = _read("electron/electron-builder.config.mjs")
-    assert config["productName"] == "VoiceStudio"
+    assert config["productName"] == "Voiceym"
     assert "productName: PRODUCT_NAME" in builder
     assert "artifactPrefix" in builder

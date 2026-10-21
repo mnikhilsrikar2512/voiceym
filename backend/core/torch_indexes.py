@@ -1,4 +1,4 @@
-"""The PyTorch wheel index VoiceStudio installs CUDA builds from.
+"""The PyTorch wheel index Voiceym installs CUDA builds from.
 
 A local-version pin such as ``torch==2.9.1+cu128`` exists only on PyTorch's
 own index, never on PyPI. The app's own ``pyproject.toml`` routes torch there

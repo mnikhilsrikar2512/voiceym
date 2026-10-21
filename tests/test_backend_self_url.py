@@ -29,8 +29,8 @@ def test_backend_self_url(monkeypatch, env, expected):
     ({"OMNIVOICE_HOST": "10.0.0.2", "OMNIVOICE_PORT": "3912"}, "http://10.0.0.2:3912"),
     # A remote backend behind a TLS proxy with a path prefix (exported by the
     # Integrations → Model Context Protocol card) keeps scheme and prefix.
-    ({"OMNIVOICE_URL": "https://gpu.example/voicestudio/", "OMNIVOICE_PORT": "1"},
-     "https://gpu.example/voicestudio"),
+    ({"OMNIVOICE_URL": "https://gpu.example/voiceym/", "OMNIVOICE_PORT": "1"},
+     "https://gpu.example/voiceym"),
 ])
 def test_mcp_shim_targets_the_configured_backend(monkeypatch, env, expected):
     from mcp_shim.__main__ import _base_url
@@ -59,7 +59,7 @@ def test_no_backend_module_hard_codes_the_default_port():
 @pytest.mark.parametrize("url,sent", [
     ("http://127.0.0.1:3912", True),
     ("http://[::1]:3900", True),
-    ("https://gpu.example/voicestudio", True),
+    ("https://gpu.example/voiceym", True),
     ("http://192.168.1.5:3900", False),  # plain http off-host: never leak the key
 ])
 def test_api_key_only_travels_over_https_or_loopback(monkeypatch, url, sent):

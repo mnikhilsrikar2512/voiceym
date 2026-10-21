@@ -1,4 +1,4 @@
-"""VoiceStudio Cloud settings sync routes (desktop only).
+"""Voiceym Cloud settings sync routes (desktop only).
 
 The renderer drives "Choose what to sync", devices and the localStorage
 mirror here; Electron main calls ``/start`` and ``/stop`` when the user flips

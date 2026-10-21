@@ -104,14 +104,14 @@ async function hasAppSignature(path: string): Promise<boolean> {
   }
 }
 
-export async function isValidVoiceStudioRoot(path: string, home: string | null): Promise<boolean> {
+export async function isValidVoiceymRoot(path: string, home: string | null): Promise<boolean> {
   if (!isAbsolute(path) || dirname(path) === path || components(path).length < 2) return false;
   if (home && normalized(path) === normalized(home)) return false;
   const owned = new Set([
     'omnivoice',
     '.omnivoice',
-    'voicestudio',
-    'com.debpalash.omnivoice-studio',
+    'voiceym',
+    'com.voiceym.legacy',
     'huggingface',
   ]);
   if (components(path).some((part) => owned.has(part.toLocaleLowerCase('en-US')))) return true;
@@ -120,7 +120,7 @@ export async function isValidVoiceStudioRoot(path: string, home: string | null):
 
 export function modelsAreShared(models: string, data: string): boolean {
   if (within(models, data)) return false;
-  const appPrivate = new Set(['omnivoice', '.omnivoice', 'voicestudio']);
+  const appPrivate = new Set(['omnivoice', '.omnivoice', 'voiceym']);
   return !components(models).some((part) => appPrivate.has(part.toLocaleLowerCase('en-US')));
 }
 
@@ -173,7 +173,7 @@ async function allowedTarget(
   for (const root of [roots.data, roots.models, roots.logs].filter((value): value is string =>
     Boolean(value),
   )) {
-    if (within(path, root) && (await isValidVoiceStudioRoot(root, home))) return true;
+    if (within(path, root) && (await isValidVoiceymRoot(root, home))) return true;
   }
   return false;
 }

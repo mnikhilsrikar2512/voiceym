@@ -188,9 +188,9 @@ it('seamless-join gaps reach preview and full render only once touched', () => {
 
 it('does not recreate a cleared draft during pagehide persistence', async () => {
   editLongform('stories', { script: 'Must stay deleted' });
-  localStorage.setItem('voicestudio.longform.v1', 'old');
+  localStorage.setItem('voiceym.longform.v1', 'old');
   clearLongformDraftForReset();
   window.dispatchEvent(new Event('pagehide'));
   await new Promise((resolve) => setTimeout(resolve, 300));
-  expect(localStorage.getItem('voicestudio.longform.v1')).toBeNull();
+  expect(localStorage.getItem('voiceym.longform.v1')).toBeNull();
 });

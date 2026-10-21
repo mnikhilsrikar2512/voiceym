@@ -35,7 +35,7 @@ export async function packageNativeHelper(context) {
       code === 0 ? resolve() : reject(new Error(`Native helper build failed (${code})`)),
     );
   });
-  const name = 'voicestudio-desktop-bridge' + (platform === 'win32' ? '.exe' : '');
+  const name = 'voiceym-desktop-bridge' + (platform === 'win32' ? '.exe' : '');
   const destination = join(context.packager.getResourcesDir(context.appOutDir), 'native');
   await mkdir(destination, { recursive: true });
   const binary = join(destination, name);

@@ -27,8 +27,8 @@ def main() -> int:
     args = parser.parse_args()
 
     temp_root = Path(tempfile.gettempdir()).resolve()
-    work = (temp_root / f"voicestudio-url-smoke-{uuid.uuid4().hex}").resolve()
-    if work.parent != temp_root or not work.name.startswith("voicestudio-url-smoke-"):
+    work = (temp_root / f"voiceym-url-smoke-{uuid.uuid4().hex}").resolve()
+    if work.parent != temp_root or not work.name.startswith("voiceym-url-smoke-"):
         raise RuntimeError(f"Refusing unsafe smoke directory: {work}")
     work.mkdir()
     try:
@@ -49,7 +49,7 @@ def main() -> int:
         )
         return 0
     finally:
-        if work.parent == temp_root and work.name.startswith("voicestudio-url-smoke-"):
+        if work.parent == temp_root and work.name.startswith("voiceym-url-smoke-"):
             shutil.rmtree(work, ignore_errors=True)
 
 

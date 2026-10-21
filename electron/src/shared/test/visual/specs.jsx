@@ -35,7 +35,7 @@ import Table from '../../ui/Table.jsx';
 import Tabs from '../../ui/Tabs.jsx';
 import SettingRow from '../../components/settings/primitives/SettingRow.jsx';
 import SettingsToggle from '../../components/settings/primitives/SettingsToggle.jsx';
-// shadcn/ui proof components — themed via the VoiceStudio token bridge (index.css).
+// shadcn/ui proof components — themed via the Voiceym token bridge (index.css).
 // Rendered here across all 3 themes to prove the bridge keeps them on-palette.
 import { Button as ShadcnButton } from '../../components/ui/button.tsx';
 import { Input as ShadcnInput } from '../../components/ui/input.tsx';
@@ -66,7 +66,7 @@ const RESET_SCAN = [
   { key: 'history', paths: [], size_bytes: 0, exists: true, shared: false, needs_restart: false },
   {
     key: 'settings',
-    paths: ['~/…/VoiceStudio/prefs.json'],
+    paths: ['~/…/Voiceym/prefs.json'],
     size_bytes: 4096,
     exists: true,
     shared: false,
@@ -74,7 +74,7 @@ const RESET_SCAN = [
   },
   {
     key: 'content',
-    paths: ['~/…/VoiceStudio/voices'],
+    paths: ['~/…/Voiceym/voices'],
     size_bytes: 5.4 * 1024 ** 3,
     exists: true,
     shared: false,
@@ -82,7 +82,7 @@ const RESET_SCAN = [
   },
   {
     key: 'engines',
-    paths: ['~/…/VoiceStudio/engines'],
+    paths: ['~/…/Voiceym/engines'],
     size_bytes: 2.3 * 1024 ** 3,
     exists: true,
     shared: false,
@@ -90,7 +90,7 @@ const RESET_SCAN = [
   },
   {
     key: 'tools',
-    paths: ['~/…/VoiceStudio/media_tools'],
+    paths: ['~/…/Voiceym/media_tools'],
     size_bytes: 96 * 1024 ** 2,
     exists: true,
     shared: false,
@@ -106,7 +106,7 @@ const RESET_SCAN = [
   },
   {
     key: 'caches',
-    paths: ['~/…/VoiceStudio/gallery_cache'],
+    paths: ['~/…/Voiceym/gallery_cache'],
     size_bytes: 11 * 1024 ** 2,
     exists: true,
     shared: false,
@@ -114,7 +114,7 @@ const RESET_SCAN = [
   },
   {
     key: 'logs',
-    paths: ['~/…/VoiceStudio/omnivoice.log'],
+    paths: ['~/…/Voiceym/omnivoice.log'],
     size_bytes: 820,
     exists: true,
     shared: false,
@@ -131,7 +131,7 @@ const UNINSTALL_SCAN = [
   },
   {
     key: 'env',
-    path: '~/Library/Application Support/com.debpalash.omnivoice-studio',
+    path: '~/Library/Application Support/com.voiceym.legacy',
     size_bytes: 391,
     exists: true,
     shared: false,
@@ -446,7 +446,7 @@ export const SPECS = {
           t={i18n.t.bind(i18n)}
           count={353}
           profiles={[
-            { id: 'demo', name: 'VoiceStudio Demo Voice' },
+            { id: 'demo', name: 'Voiceym Demo Voice' },
             { id: 'narrator', name: 'Studio Narrator', instruct: 'calm' },
           ]}
           speakerClones={{ 'Speaker 1': {}, 'Speaker 2': {} }}

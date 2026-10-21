@@ -1,4 +1,4 @@
-# VoiceStudio — Moonshine Engine
+# Voiceym — Moonshine Engine
 
 Moonshine is an edge-optimized ASR family built for CPU-only machines.
 Unlike Whisper it processes variable-length audio (no padding everything to

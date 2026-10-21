@@ -11,7 +11,7 @@
 export const LEGACY_API_KEY_STORAGE_KEY = 'ov_api_key';
 export const ADMIN_SESSION_STORAGE_KEY = 'ov_admin_session';
 const ADMIN_SESSION_EPOCH_STORAGE_KEY = 'ov_admin_session_epoch';
-export const CSRF_HEADER_NAME = 'X-VoiceStudio-CSRF';
+export const CSRF_HEADER_NAME = 'X-Voiceym-CSRF';
 
 const ADMIN_SESSION_RE = /^ovs_admin_session_[A-Za-z0-9_-]{43}$/;
 const WS_TICKET_RE = /^ovs_ws_ticket_[A-Za-z0-9_-]{43}$/;
@@ -499,7 +499,7 @@ export async function revokeAdminSession(
 // Mirrors the backend ticket allowlist (`_ALLOWED_WS_PATHS` in
 // backend/services/admin_sessions.py). A path listed here but not there mints
 // a 422, and the consumer fails silently — keep the two in lockstep.
-const ALLOWED_WS_PATHS = new Set(['/ws/events', '/ws/transcribe', '/ws/tts']);
+const ALLOWED_WS_PATHS = new Set(['/ws/events', '/ws/transcribe', '/ws/tts', '/v1/agent/ws']);
 const LOGICAL_WS_ORIGIN = 'http://omnivoice.invalid';
 
 function websocketTarget(path: string, apiBase: string): { url: URL; logicalPath: string } {

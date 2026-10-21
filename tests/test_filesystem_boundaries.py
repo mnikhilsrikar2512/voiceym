@@ -231,7 +231,7 @@ def test_dub_artifact_rebases_trusted_path_after_data_relocation(tmp_path, monke
     monkeypatch.setattr(dub_export, "DUB_DIR", str(current))
 
     old_posix = tmp_path / "old-data" / "dub_jobs" / "job_123" / "tracks" / "voice.wav"
-    old_windows = r"D:\Old VoiceStudio\dub_jobs\job_123\tracks\voice.wav"
+    old_windows = r"D:\Old Voiceym\dub_jobs\job_123\tracks\voice.wav"
     assert dub_export._dub_artifact(old_posix, "job_123") == str(artifact.resolve())
     assert dub_export._dub_artifact(old_windows, "job_123") == str(artifact.resolve())
 
@@ -248,7 +248,7 @@ def test_dub_artifact_rebase_cannot_cross_job_boundary(tmp_path, monkeypatch):
     values = [
         other,
         tmp_path / "old-data" / "dub_jobs" / "job_other" / "voice.wav",
-        r"D:\Old VoiceStudio\dub_jobs\job_other\voice.wav",
+        r"D:\Old Voiceym\dub_jobs\job_other\voice.wav",
     ]
     for value in values:
         with pytest.raises(HTTPException) as exc:
@@ -371,7 +371,7 @@ def test_dub_authorization_survives_validation_failure(tmp_path, monkeypatch):
     )
     response = TestClient(app, client=("127.0.0.1", 50000)).get(
         "/dub/download/missing-job",
-        headers={"X-VoiceStudio-Path-Authorization": token},
+        headers={"X-Voiceym-Path-Authorization": token},
     )
     assert response.status_code == 404
     assert capability.is_file()

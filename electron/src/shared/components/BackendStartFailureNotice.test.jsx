@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 // #1177: the shell's `Failed { message }` diagnosis must reach the user AFTER
 // the bootstrap splash is gone — the window in which a start failure used to
-// collapse into the evidence-free "Can't reach the local VoiceStudio backend".
+// collapse into the evidence-free "Can't reach the local Voiceym backend".
 vi.mock('../utils/bugReport', () => ({
   openBugReport: vi.fn().mockResolvedValue(undefined),
 }));

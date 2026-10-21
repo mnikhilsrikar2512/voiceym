@@ -1,4 +1,4 @@
-# Ask VoiceStudio Agent
+# Ask Voiceym Agent
 
 The Electron launcher opens a resizable chat workspace inside the app. Select an installed
 Codex, Claude Code, OpenCode or Pi harness, then describe a task. Feature chips supply focused
@@ -20,7 +20,7 @@ renderer/backend logs and diagnostics. The harness may use its configured provid
 No harness starts merely by opening the panel or selecting a preset.
 
 Each run also receives a temporary connection file for an app-owned loopback API bridge. The bridge
-targets the backend currently attached to VoiceStudio, injects remote authentication inside the
+targets the backend currently attached to Voiceym, injects remote authentication inside the
 Electron main process, and gives the agent only a random per-run capability. Diagnose bridges reject
 mutating methods. Authentication routes are blocked in both modes, and the bridge, capability and
 connection file are removed when the run stops. This lets an authorized Fix select engines, install
@@ -57,13 +57,13 @@ agent starts in an isolated temporary directory, can reach only the session brid
 authentication routes, and is instructed to inspect, perform and verify the requested app operation
 without editing user files. Codex keeps its workspace sandbox for these sessions and enables network
 access so it can reach the loopback bridge. Its automatic-review mode owns that workspace-write
-sandbox; VoiceStudio does not also pass Codex's mutually exclusive explicit sandbox flag. Claude
+sandbox; Voiceym does not also pass Codex's mutually exclusive explicit sandbox flag. Claude
 Code and OpenCode receive a generated per-run MCP configuration whose default permission is deny;
-their checkout-free sessions can call only VoiceStudio's scoped API tool and cannot invoke shell or
+their checkout-free sessions can call only Voiceym's scoped API tool and cannot invoke shell or
 filesystem tools. The MCP process reads the capability from the protected connection file, so the
 token never appears in agent arguments, configuration or output.
 
-Explicit source diagnosis and code repair require a writable VoiceStudio source checkout and must follow its
+Explicit source diagnosis and code repair require a writable Voiceym source checkout and must follow its
 `AGENTS.md`, `CLAUDE.md`, `CONTEXT.md`, and installed skills. Source builds select the current
 checkout automatically. Packaged builds ask the user to choose a checkout only when source work is
 actually required and remember that location. The picker rejects read-only folders and unrelated

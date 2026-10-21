@@ -68,10 +68,10 @@ beforeEach(() => {
   mock.apiFetch.mockResolvedValue(new Response(null, { status: 204 }));
   mock.clearProjects.mockResolvedValue(undefined);
   mock.clearLongformDraft.mockImplementation(() =>
-    localStorage.removeItem('voicestudio.longform.v1'),
+    localStorage.removeItem('voiceym.longform.v1'),
   );
   mock.clearDubDraft.mockImplementation(() =>
-    localStorage.removeItem('voicestudio.dub.session.v1'),
+    localStorage.removeItem('voiceym.dub.session.v1'),
   );
 });
 
@@ -83,7 +83,7 @@ afterEach(() => {
 it('resets every renderer preference while preserving app settings and content', async () => {
   for (const key of UI_PREFERENCE_KEYS) localStorage.setItem(key, 'custom');
   for (const key of LOCAL_SETTING_KEYS) localStorage.setItem(key, 'custom');
-  localStorage.setItem('voicestudio.design.v1', 'draft');
+  localStorage.setItem('voiceym.design.v1', 'draft');
   localStorage.setItem('omni_transcriptions', 'history');
 
   render(<ResetSettings reload={mock.reload} />);
@@ -94,7 +94,7 @@ it('resets every renderer preference while preserving app settings and content',
   await waitFor(() => expect(mock.reload).toHaveBeenCalledOnce());
   for (const key of UI_PREFERENCE_KEYS) expect(localStorage.getItem(key)).toBeNull();
   for (const key of LOCAL_SETTING_KEYS) expect(localStorage.getItem(key)).toBe('custom');
-  expect(localStorage.getItem('voicestudio.design.v1')).toBe('draft');
+  expect(localStorage.getItem('voiceym.design.v1')).toBe('draft');
   expect(localStorage.getItem('omni_transcriptions')).toBe('history');
   expect(mock.purgeReset).not.toHaveBeenCalled();
 });
@@ -103,9 +103,9 @@ it('shows scanned sizes and requires DELETE before removing all app content', as
   for (const key of [
     ...UI_PREFERENCE_KEYS,
     ...LOCAL_SETTING_KEYS,
-    'voicestudio.design.v1',
-    'voicestudio.dub.session.v1',
-    'voicestudio.longform.v1',
+    'voiceym.design.v1',
+    'voiceym.dub.session.v1',
+    'voiceym.longform.v1',
     'omni_transcriptions',
   ])
     localStorage.setItem(key, 'kept-until-confirmed');
@@ -141,9 +141,9 @@ it('shows scanned sizes and requires DELETE before removing all app content', as
   for (const key of [
     ...UI_PREFERENCE_KEYS,
     ...LOCAL_SETTING_KEYS,
-    'voicestudio.design.v1',
-    'voicestudio.dub.session.v1',
-    'voicestudio.longform.v1',
+    'voiceym.design.v1',
+    'voiceym.dub.session.v1',
+    'voiceym.longform.v1',
     'omni_transcriptions',
   ])
     expect(localStorage.getItem(key)).toBeNull();
@@ -151,7 +151,7 @@ it('shows scanned sizes and requires DELETE before removing all app content', as
 
 it('clears generation histories while preserving content and avoiding a backend restart', async () => {
   localStorage.setItem('omni_transcriptions', 'history');
-  localStorage.setItem('voicestudio.design.v1', 'draft');
+  localStorage.setItem('voiceym.design.v1', 'draft');
   render(<ResetSettings reload={mock.reload} />);
   await waitFor(() => expect(mock.scanReset).toHaveBeenCalledOnce());
 
@@ -167,6 +167,6 @@ it('clears generation histories while preserving content and avoiding a backend 
   expect(mock.purgeReset).not.toHaveBeenCalled();
   expect(mock.clearProjects).not.toHaveBeenCalled();
   expect(localStorage.getItem('omni_transcriptions')).toBeNull();
-  expect(localStorage.getItem('voicestudio.design.v1')).toBe('draft');
+  expect(localStorage.getItem('voiceym.design.v1')).toBe('draft');
   await waitFor(() => expect(mock.reload).toHaveBeenCalledOnce());
 });

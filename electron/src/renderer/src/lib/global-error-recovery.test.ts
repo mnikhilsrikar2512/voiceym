@@ -9,7 +9,7 @@ describe('global renderer error recovery', () => {
   it('hands uncaught faults to repair once while ignoring cancellation and foreign noise', async () => {
     const earlyCleanup = vi.fn();
     Object.assign(window, {
-      __voicestudioEarlyFaults: [
+      __voiceymEarlyFaults: [
         {
           kind: 'error',
           message: 'startup module failed',
@@ -17,7 +17,7 @@ describe('global renderer error recovery', () => {
           filename: 'http://localhost/startup.js',
         },
       ],
-      __voicestudioStopEarlyErrorCapture: earlyCleanup,
+      __voiceymStopEarlyErrorCapture: earlyCleanup,
     });
     const { installGlobalErrorRecovery, runRendererTask } = await import('./global-error-recovery');
     installGlobalErrorRecovery();

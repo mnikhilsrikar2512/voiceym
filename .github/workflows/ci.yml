@@ -168,21 +168,21 @@ jobs:
         run: |
           set -euo pipefail
           export OMNIVOICE_PORT=3999
-          export VOICESTUDIO_UI_URL=http://localhost:3912
+          export VOICEYM_UI_URL=http://localhost:3912
           export PLAYWRIGHT_CHANNEL=chromium
           export HF_HUB_OFFLINE=1
           export HF_HUB_CACHE="$(mktemp -d)"
-          bun run --cwd electron smoke:server > /tmp/voicestudio-electron-smoke.log 2>&1 &
+          bun run --cwd electron smoke:server > /tmp/voiceym-electron-smoke.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for _ in {1..60}; do
-            if curl --fail --silent --show-error "$VOICESTUDIO_UI_URL" >/dev/null; then
+            if curl --fail --silent --show-error "$VOICEYM_UI_URL" >/dev/null; then
               break
             fi
             sleep 0.25
           done
-          curl --fail --silent --show-error "$VOICESTUDIO_UI_URL" >/dev/null || {
-            cat /tmp/voicestudio-electron-smoke.log
+          curl --fail --silent --show-error "$VOICEYM_UI_URL" >/dev/null || {
+            cat /tmp/voiceym-electron-smoke.log
             exit 1
           }
           # Every smoke must be classified (run here, or needs a backend/native app).
@@ -231,18 +231,18 @@ jobs:
         shell: bash
         env:
           OMNIVOICE_PORT: '3999'
-          VOICESTUDIO_UI_URL: http://localhost:3912
+          VOICEYM_UI_URL: http://localhost:3912
         run: |
           set -euo pipefail
-          bun run --cwd electron smoke:server > /tmp/voicestudio-crawler-server.log 2>&1 &
+          bun run --cwd electron smoke:server > /tmp/voiceym-crawler-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for _ in {1..60}; do
-            curl --fail --silent "$VOICESTUDIO_UI_URL" >/dev/null && break
+            curl --fail --silent "$VOICEYM_UI_URL" >/dev/null && break
             sleep 0.25
           done
-          curl --fail --silent --show-error "$VOICESTUDIO_UI_URL" >/dev/null || {
-            cat /tmp/voicestudio-crawler-server.log
+          curl --fail --silent --show-error "$VOICEYM_UI_URL" >/dev/null || {
+            cat /tmp/voiceym-crawler-server.log
             exit 1
           }
           node electron/tests/ui-crawler.mjs

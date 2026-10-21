@@ -246,7 +246,7 @@ Design constraints:
 - Reject malformed or unreasonably long tokens before hashing.
 - Do not persist the store. Restart invalidation is intentional, reduces
   attack lifetime, avoids a database verifier for a possibly weak operator key,
-  and matches VoiceStudio's single-process backend architecture.
+  and matches Voiceym's single-process backend architecture.
 
 ### Canonical authentication resolver
 
@@ -350,7 +350,7 @@ handshakes:
   credential is not ambient.
 
 In addition, first-party cookie-authenticated HTTP requests that can mutate
-state must send a fixed custom header such as `X-VoiceStudio-CSRF: 1`. Requiring
+state must send a fixed custom header such as `X-Voiceym-CSRF: 1`. Requiring
 the header forces a cross-origin script through CORS preflight; it is not a
 substitute for the exact origin check. `require_admin_action` must require this
 header even for the known side-effectful GET routes. For same-origin GET, where
@@ -619,7 +619,7 @@ Add table-driven tests covering both HTTP and WebSocket:
   unsafe cookie-authenticated requests.
 - Safe cookie-authenticated `GET` preserves the documented policy.
 - Bearer-authenticated CLI requests without `Origin` continue to work.
-- Cookie-authenticated unsafe requests without `X-VoiceStudio-CSRF: 1` fail.
+- Cookie-authenticated unsafe requests without `X-Voiceym-CSRF: 1` fail.
 - Cross-origin requests with the marker still fail origin/CORS validation.
 - Side-effectful GET with marker plus `Sec-Fetch-Site: same-origin` succeeds;
   missing marker or any cross-site fetch metadata fails.
@@ -1003,7 +1003,7 @@ scope, or revocation.
 Rejected. Stateless sessions complicate individual revocation and key rotation.
 Deriving a signing key from a potentially human-chosen API key also creates an
 offline verifier if a token is stolen. A small process-local opaque-token store
-is simpler and safer for VoiceStudio's single-process architecture.
+is simpler and safer for Voiceym's single-process architecture.
 
 ### Persist browser sessions in SQLite
 

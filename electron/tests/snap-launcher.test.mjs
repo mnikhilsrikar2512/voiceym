@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import test from 'node:test';
 import { configureSnapLauncher, verifySnapLauncher } from '../snap-launcher.mjs';
 
-const command = '#!/bin/bash -e\nexec "$SNAP/desktop-init.sh" "$SNAP/desktop-common.sh" "$SNAP/desktop-gnome-specific.sh" "$SNAP/voicestudio" "$@"';
+const command = '#!/bin/bash -e\nexec "$SNAP/desktop-init.sh" "$SNAP/desktop-common.sh" "$SNAP/desktop-gnome-specific.sh" "$SNAP/voiceym" "$@"';
 
 test('Snap launches without a sandbox permission probe and preserves desktop initialization and arguments', () => {
   const dir = mkdtempSync(join(tmpdir(), 'snap-launcher-'));
@@ -15,7 +15,7 @@ test('Snap launches without a sandbox permission probe and preserves desktop ini
     for (const script of ['desktop-init.sh', 'desktop-common.sh', 'desktop-gnome-specific.sh']) {
       writeFileSync(join(dir, script), '#!/bin/sh\nexec "$@"\n', { mode: 0o755 });
     }
-    writeFileSync(join(dir, 'voicestudio'), '#!/bin/sh\nprintf "%s\\n" "$@"\n', { mode: 0o755 });
+    writeFileSync(join(dir, 'voiceym'), '#!/bin/sh\nprintf "%s\\n" "$@"\n', { mode: 0o755 });
     const result = spawnSync('/bin/bash', ['-c', configureSnapLauncher(command), 'launcher', 'a b', '--example'], {
       env: { SNAP: dir, PATH: dir }, encoding: 'utf8',
     });
@@ -32,7 +32,7 @@ test('accepts the launcher electron-builder generates for allow-sandbox: false',
   const { buildCommandShContent } = builderRequire('app-builder-lib/out/targets/snap/coreLegacy.js');
   const generated = buildCommandShContent({
     isTemplate: true,
-    executableName: 'voicestudio',
+    executableName: 'voiceym',
     extraAppArgs: ['--no-sandbox'],
   });
   assert.doesNotThrow(() => verifySnapLauncher(generated));
@@ -47,19 +47,19 @@ test('launcher configuration is idempotent', () => {
 
 test('rejects unexpected launch templates instead of silently shipping a broken Snap', () => {
   assert.throws(() => configureSnapLauncher('exit 0'), /launcher/);
-  assert.throws(() => configureSnapLauncher(command.replace('voicestudio', 'other')), /launcher/);
+  assert.throws(() => configureSnapLauncher(command.replace('voiceym', 'other')), /launcher/);
   assert.throws(() => verifySnapLauncher(command), /launcher/);
   const configured = configureSnapLauncher(command);
   assert.throws(() => verifySnapLauncher(`snapctl is-connected browser-support\n${configured}`), /launcher/);
 });
 
 test('comments cannot satisfy or bypass validation of the executed command', () => {
-  const comment = '# "$SNAP/voicestudio" --no-sandbox "$@"\n';
+  const comment = '# "$SNAP/voiceym" --no-sandbox "$@"\n';
   const [shebang, ...lines] = command.split('\n');
   const commented = [shebang, comment.trimEnd(), ...lines].join('\n');
   assert.throws(() => verifySnapLauncher(commented), /launcher/);
   const configured = configureSnapLauncher(commented);
-  assert.match(configured, /^exec .*"\$SNAP\/voicestudio" --no-sandbox "\$@"$/m);
+  assert.match(configured, /^exec .*"\$SNAP\/voiceym" --no-sandbox "\$@"$/m);
   assert.equal(configureSnapLauncher(configured), configured);
   assert.throws(() => verifySnapLauncher(`#!/bin/sh\n${comment}`), /launcher/);
 });

@@ -1,4 +1,4 @@
-# VoiceStudio — Parakeet TDT v3 (MLX) Engine
+# Voiceym — Parakeet TDT v3 (MLX) Engine
 
 NVIDIA's Parakeet TDT v3 on the Apple Silicon GPU, via the small pure-Python
 `parakeet-mlx` package. It gives Macs the Parakeet tier CUDA/CPU users get
@@ -33,8 +33,7 @@ For languages outside the 25 (CJK, Arabic, ...), use
 ## Platform support
 
 **Apple Silicon only** — the same shared MLX platform gate as mlx-whisper
-refuses Linux, Windows, and Intel Macs before any import
-([#390](https://github.com/debpalash/VoiceStudio/issues/390)). It runs on the
+refuses Linux, Windows, and Intel Macs before any import. It runs on the
 unified-memory GPU; there is no CPU tier.
 
 ## Model selection

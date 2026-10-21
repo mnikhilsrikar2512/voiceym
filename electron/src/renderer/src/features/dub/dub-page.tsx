@@ -145,8 +145,8 @@ import {
   planDubIncremental,
 } from './dub-session';
 
-const DEFAULT_TRANSLATION_AGENT_KEY = 'voicestudio.defaultTranslationAgent';
-const LIVE_PREVIEW_KEY = 'voicestudio.dubLivePreview';
+const DEFAULT_TRANSLATION_AGENT_KEY = 'voiceym.defaultTranslationAgent';
+const LIVE_PREVIEW_KEY = 'voiceym.dubLivePreview';
 const targetOptions = LANG_CODES.map((item) => item.label);
 const sentenceEnd = /[.!?\u3002\uff01\uff1f]/;
 
@@ -1844,7 +1844,7 @@ export function DubPage() {
                       >
                         {t('asr_missing.choose')}
                       </Link>
-                      <AgentFixButton request="Restore local ASR readiness for this Dubbing job. Install and activate the best supported Faster-Whisper model through VoiceStudio's setup interfaces, preserve the prepared media, and leave transcription ready to retry." />
+                      <AgentFixButton request="Restore local ASR readiness for this Dubbing job. Install and activate the best supported Faster-Whisper model through Voiceym's setup interfaces, preserve the prepared media, and leave transcription ready to retry." />
                     </div>
                   )
                 ) : (

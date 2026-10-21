@@ -145,7 +145,7 @@ const refetch = vi.fn();
 const MODELS = [
   {
     repo_id: 'k2-fsa/OmniVoice',
-    label: 'VoiceStudio TTS',
+    label: 'Voiceym TTS',
     role: 'TTS',
     size_gb: 2.4,
     installed: true,
@@ -306,13 +306,13 @@ describe('Model Store — scoped to one engine family', () => {
     expect(screen.getByTestId('models-section-dictation')).toBeInTheDocument();
     expect(screen.getByTestId('models-section-diarisation')).toBeInTheDocument();
     expect(screen.queryByTestId('models-section-tts')).not.toBeInTheDocument();
-    expect(visibleLabels()).not.toContain('VoiceStudio TTS');
+    expect(visibleLabels()).not.toContain('Voiceym TTS');
   });
 });
 
 describe('Model Store — only weights no engine owns', () => {
   it('drops rows an engine claims and keeps pipeline weights', async () => {
-    MODELS[0].engines = ['omnivoice']; // VoiceStudio TTS now belongs to its engine
+    MODELS[0].engines = ['omnivoice']; // Voiceym TTS now belongs to its engine
     try {
       const { unmount } = mountTab({ family: 'tts' });
       await new Promise((r) => setTimeout(r, 0));

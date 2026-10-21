@@ -1491,7 +1491,7 @@ async def dub_generate(job_id: str, req: DubRequest):
                 # Never publish engine exception text here: allocator errors
                 # carry process tables and arbitrary failures can carry paths,
                 # tokens, or source text. The shared helper enriches recognized
-                # classes using VoiceStudio-owned constants only.
+                # classes using Voiceym-owned constants only.
                 from core.public_errors import stream_generation_failure
 
                 error_detail = stream_generation_failure(e)["detail"]

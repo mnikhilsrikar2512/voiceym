@@ -10,7 +10,7 @@ const version = JSON.parse(
   readFileSync(resolve(electronRoot, '../package.json'), 'utf8'),
 ).version;
 const backendPort = process.env.OMNIVOICE_PORT || '3900';
-const uiPort = Number(process.env.VOICESTUDIO_SMOKE_PORT) || 3912;
+const uiPort = Number(process.env.VOICEYM_SMOKE_PORT) || 3912;
 
 export default defineConfig({
   root: rendererRoot,

@@ -57,7 +57,7 @@ test('renderer smokes do not depend on a live backend', () => {
   // A fixed backend port means the smoke talks to a real server; CI has none.
   const live = listSmokes(dir)
     .filter((smoke) => smoke.kind === 'renderer')
-    .filter(({ file }) => /(127\.0\.0\.1|localhost):3900|VOICESTUDIO_BACKEND_URL/.test(readFileSync(join(dir, file), 'utf8')))
+    .filter(({ file }) => /(127\.0\.0\.1|localhost):3900|VOICEYM_BACKEND_URL/.test(readFileSync(join(dir, file), 'utf8')))
     .map((smoke) => smoke.file);
   assert.deepEqual(live, []);
 });

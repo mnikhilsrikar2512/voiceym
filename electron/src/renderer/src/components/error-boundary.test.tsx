@@ -40,13 +40,13 @@ it('links to the shared contextual docs while preserving an explicit error class
   );
   expect(screen.getByRole('link', { name: 'errors.openDocs' })).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/blob/main/docs/features/diarization.md#license-acceptance-flow',
+    'https://github.com/mnikhilsrikar2512/voiceym/blob/main/docs/features/diarization.md#license-acceptance-flow',
   );
 });
 
 it('hands a route failure to the repair dock for default-agent recovery', async () => {
   const listener = vi.fn();
-  window.addEventListener('voicestudio:repair-agent-open', listener);
+  window.addEventListener('voiceym:repair-agent-open', listener);
   render(<ErrorRecovery error={new Error('Failed to load Gallery')} reset={() => {}} />);
   await waitFor(() => expect(listener).toHaveBeenCalled());
   const event = listener.mock.calls[0]?.[0] as CustomEvent<{
@@ -55,7 +55,7 @@ it('hands a route failure to the repair dock for default-agent recovery', async 
   }>;
   expect(event.detail.autoFix).toBe(true);
   expect(event.detail.report).toContain('Failed to load Gallery');
-  window.removeEventListener('voicestudio:repair-agent-open', listener);
+  window.removeEventListener('voiceym:repair-agent-open', listener);
 });
 
 it('reloads a transient dynamic module once in Strict Mode, then asks an agent on repeat', async () => {
@@ -63,7 +63,7 @@ it('reloads a transient dynamic module once in Strict Mode, then asks an agent o
   const listener = vi.fn();
   const reset = vi.fn();
   const reload = vi.fn();
-  window.addEventListener('voicestudio:repair-agent-open', listener);
+  window.addEventListener('voiceym:repair-agent-open', listener);
   render(
     <StrictMode>
       <ErrorRecovery
@@ -86,5 +86,5 @@ it('reloads a transient dynamic module once in Strict Mode, then asks an agent o
     />,
   );
   expect(listener).toHaveBeenCalledOnce();
-  window.removeEventListener('voicestudio:repair-agent-open', listener);
+  window.removeEventListener('voiceym:repair-agent-open', listener);
 });

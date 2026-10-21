@@ -523,7 +523,7 @@ def test_whitespace_query_does_not_shadow_admin_key_cookie(monkeypatch):
         cookies={"ov_key": "s3cret"},
         headers={
             "origin": "http://voice.test",
-            "x-voicestudio-csrf": "1",
+            "x-voiceym-csrf": "1",
         },
     )
     request.url = SimpleNamespace(scheme="http", netloc="voice.test")
@@ -582,7 +582,7 @@ def test_side_effectful_get_cookie_session_requires_same_origin_csrf(monkeypatch
         cookies={"ov_session": session.token},
         headers={
             "origin": "http://voice.test",
-            "x-voicestudio-csrf": "1",
+            "x-voiceym-csrf": "1",
             "sec-fetch-site": "same-origin",
         },
     )

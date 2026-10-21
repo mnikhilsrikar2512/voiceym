@@ -9,7 +9,7 @@ The shared locale files mirror those labels for parity.
 This is a visible-credit inventory, not a clearance registry. Model-card labels
 are evidence of an upstream statement, not proof that all components, training
 data, voices, distribution conditions, or commercial uses have been cleared.
-VoiceStudio's application licence does not replace model or component terms.
+Voiceym's application licence does not replace model or component terms.
 The displayed list is intentionally partial; bundled licence texts, notices,
 acceptance requirements, and dependency audits still need separate review.
 

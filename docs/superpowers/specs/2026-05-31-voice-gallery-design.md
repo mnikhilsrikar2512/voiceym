@@ -1,7 +1,7 @@
 # Voice Gallery — Design & Implementation Spec
 
 **Date:** 2026-05-31
-**Branch:** `debpalash/voice-gallery`
+**Branch:** `voice-gallery`
 **Status:** Approved (design), in implementation
 **Ships on:** v0.3.0 (per CLAUDE.md versioning rule — no version chatter)
 
@@ -10,7 +10,7 @@
 ## 1. Goal
 
 A browsable library of **designed voice archetypes** — hundreds of ready-to-use
-voices generated entirely by VoiceStudio's own voice-design engine — organized
+voices generated entirely by Voiceym's own voice-design engine — organized
 ElevenLabs-style (featured cards up top, facet filters to explore the rest),
 plus a **neutral URL/file importer** for users to bring their own source audio.
 

@@ -38,11 +38,11 @@ export const DISTRIBUTION_PROFILES = Object.freeze(
   ),
 );
 
-export function resolveDistributionTarget(value = process.env.VOICESTUDIO_DISTRIBUTION) {
+export function resolveDistributionTarget(value = process.env.VOICEYM_DISTRIBUTION) {
   const target = typeof value === "string" && value.trim() ? value.trim() : "direct";
   if (!Object.hasOwn(DISTRIBUTION_PROFILES, target)) {
     throw new TypeError(
-      `Unsupported VoiceStudio distribution: ${target}. Expected one of: ${DISTRIBUTION_TARGETS.join(", ")}`,
+      `Unsupported Voiceym distribution: ${target}. Expected one of: ${DISTRIBUTION_TARGETS.join(", ")}`,
     );
   }
   return target;

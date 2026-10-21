@@ -18,7 +18,7 @@ export function CaptureWidget() {
   const stopRequested = useRef(false);
   const output = useRef<Promise<unknown>>(Promise.resolve());
   const finishTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const api = window.voicestudio?.capture;
+  const api = window.voiceym?.capture;
   // The capture subscription is a long-lived session, so it is driven by
   // whether the backend can serve at all and never by the stage LABEL.
   // Depending on `backend.stage` tore the session down whenever a health probe

@@ -44,4 +44,4 @@ def test_exported_n8n_request_returns_playable_wav(monkeypatch):
     assert response.status_code == 200, response.text
     assert response.headers['content-type'] == 'audio/wav'
     assert response.content[:4] == b'RIFF' and response.content[8:12] == b'WAVE'
-    assert engine.generated == ['VoiceStudio']
+    assert engine.generated == ['Voiceym']

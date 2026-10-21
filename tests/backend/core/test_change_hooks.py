@@ -42,7 +42,7 @@ def test_writes_applied_from_sync_are_silent(seen):
     with change_hooks.from_sync():
         prefs.set_("generation_history_cap", 10)
         settings_store.set_text("llm.active_provider", "openai")
-        change_hooks.notify("local", "voicestudio.locale")
+        change_hooks.notify("local", "voiceym.locale")
     assert seen == []
     prefs.set_("generation_history_cap", 11)
     assert seen == [("prefs", "generation_history_cap")]

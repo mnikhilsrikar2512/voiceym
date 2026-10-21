@@ -3,12 +3,12 @@ import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import assert from 'node:assert/strict';
-const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const app = await electron.launch({
   executablePath: resolve('electron/node_modules/electron/dist/electron.exe'),
   args: [
     resolve('electron/out/main/index.js'),
-    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voicestudio-dev-dictation-')),
+    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voiceym-dev-dictation-')),
     '--use-fake-device-for-media-stream',
     '--use-fake-ui-for-media-stream',
     '--use-file-for-fake-audio-capture=' +
@@ -38,7 +38,7 @@ try {
     if (message.type() === 'error') errors.push(message.text());
   });
   await page
-    .waitForFunction(() => window.voicestudio?.backend, undefined, { timeout: 10000 })
+    .waitForFunction(() => window.voiceym?.backend, undefined, { timeout: 10000 })
     .catch((error) => {
       console.error('Renderer:', page.url(), errors);
       throw error;

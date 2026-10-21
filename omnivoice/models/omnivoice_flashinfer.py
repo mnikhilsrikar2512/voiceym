@@ -27,7 +27,7 @@ Usage:
 
 Ported from upstream k2-fsa/OmniVoice master with one behavioural change:
 the unmasking schedule uses ``num_step + 1`` timesteps to match this repo's
-``_generate_iterative``. VoiceStudio enables it via ``OMNIVOICE_FLASHINFER``
+``_generate_iterative``. Voiceym enables it via ``OMNIVOICE_FLASHINFER``
 (see services/model_manager.py); ``flashinfer`` is an optional dependency and
 this module must only be imported after that opt-in.
 """

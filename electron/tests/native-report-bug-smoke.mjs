@@ -10,13 +10,13 @@ const app = await electron.launch({
   executablePath: join(workspaceRoot, 'electron/node_modules/electron/dist/electron.exe'),
   args: [
     join(workspaceRoot, 'electron/out/main/index.js'),
-    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voicestudio-report-')),
+    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'voiceym-report-')),
   ],
   env: {
     ...process.env,
     ELECTRON_RENDERER_URL: '',
-    VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES: '1',
-    VOICESTUDIO_ELECTRON_PROXY_PORT: '49304',
+    VOICEYM_ALLOW_MULTIPLE_INSTANCES: '1',
+    VOICEYM_ELECTRON_PROXY_PORT: '49304',
   },
 });
 try {

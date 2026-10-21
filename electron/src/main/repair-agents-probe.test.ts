@@ -22,9 +22,9 @@ import { probe } from './repair-agents';
 afterEach(() => vi.unstubAllEnvs());
 
 it('CLI detection probes never inherit backend-only capabilities', async () => {
-  vi.stubEnv('VOICESTUDIO_LLM_AGENT_TOKEN', 'capability');
-  vi.stubEnv('VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN', 'capability');
+  vi.stubEnv('VOICEYM_LLM_AGENT_TOKEN', 'capability');
+  vi.stubEnv('VOICEYM_ACCOUNT_BRIDGE_TOKEN', 'capability');
   await probe('codex', ['--version']);
-  expect(seen.env?.VOICESTUDIO_LLM_AGENT_TOKEN).toBeUndefined();
-  expect(seen.env?.VOICESTUDIO_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
+  expect(seen.env?.VOICEYM_LLM_AGENT_TOKEN).toBeUndefined();
+  expect(seen.env?.VOICEYM_ACCOUNT_BRIDGE_TOKEN).toBeUndefined();
 });

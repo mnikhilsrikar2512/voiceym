@@ -1,4 +1,4 @@
-/** VoiceStudio Cloud endpoints (vssaas desktop-app-guide §1). One block per environment. */
+/** Voiceym Cloud endpoints (vssaas desktop-app-guide §1). One block per environment. */
 export type CloudEnvName = 'prod' | 'dev' | 'local';
 
 export interface CloudEnvironment {
@@ -10,20 +10,20 @@ export interface CloudEnvironment {
   clientId: string;
 }
 
-const CLIENT_ID = 'voicestudio-desktop-oss';
+const CLIENT_ID = 'voiceym-desktop-oss';
 
 const ENVIRONMENTS: Record<CloudEnvName, Omit<CloudEnvironment, 'name' | 'clientId'>> = {
   prod: {
-    issuer: 'https://voicestudio.sh/identity/realms/vssaas',
-    accountApi: 'https://appapi.voicestudio.sh/v1/account',
-    syncApi: 'https://appapi.voicestudio.sh/v1/sync',
-    signedInPage: 'https://app.voicestudio.sh/app/desktop-signed-in',
+    issuer: 'https://voiceym.example/identity/realms/vssaas',
+    accountApi: 'https://appapi.voiceym.example/v1/account',
+    syncApi: 'https://appapi.voiceym.example/v1/sync',
+    signedInPage: 'https://app.voiceym.example/app/desktop-signed-in',
   },
   dev: {
-    issuer: 'https://dev-app.voicestudio.sh/identity/realms/vssaas',
-    accountApi: 'https://dev-appapi.voicestudio.sh/v1/account',
-    syncApi: 'https://dev-appapi.voicestudio.sh/v1/sync',
-    signedInPage: 'https://dev-app.voicestudio.sh/app/desktop-signed-in',
+    issuer: 'https://dev-app.voiceym.example/identity/realms/vssaas',
+    accountApi: 'https://dev-appapi.voiceym.example/v1/account',
+    syncApi: 'https://dev-appapi.voiceym.example/v1/sync',
+    signedInPage: 'https://dev-app.voiceym.example/app/desktop-signed-in',
   },
   local: {
     issuer: 'http://127.0.0.1:3000/identity/realms/vssaas',
@@ -52,7 +52,7 @@ export function cloudOrigins(env: CloudEnvironment): Set<string> {
 }
 
 /**
- * On in developer builds; packaged builds need VOICESTUDIO_CLOUD_ACCOUNTS=1 at build
+ * On in developer builds; packaged builds need VOICEYM_CLOUD_ACCOUNTS=1 at build
  * time, so releases ship it dark until the vssaas production API launches.
  */
 export function cloudAccountsAvailable(packaged: boolean): boolean {

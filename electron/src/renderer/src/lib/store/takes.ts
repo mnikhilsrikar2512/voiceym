@@ -21,7 +21,7 @@ export function useSelectedTake() {
     () => selected,
   );
 }
-const key = 'voicestudio.take-settings.v1';
+const key = 'voiceym.take-settings.v1';
 /** Application preferences, not generation controls: never stored or restored per take. */
 const PREFERENCES = new Set<keyof CloneSettings>(['autoPlay', 'showOverrides']);
 type TakeSettings = Omit<CloneSettings, 'autoPlay' | 'showOverrides'>;

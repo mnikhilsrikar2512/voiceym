@@ -9,7 +9,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   await page.addInitScript(() => {
-    localStorage.setItem('voicestudio.setup.complete.v1', '1');
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
     Object.defineProperty(navigator.mediaDevices, 'enumerateDevices', {
       configurable: true,
       value: async () => [
@@ -31,7 +31,7 @@ try {
     preserve_technical: true,
     llm_ready: true,
   };
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.route('**/api/api/settings/dictation-refinement', (route) => {
     if (route.request().method() === 'PUT') Object.assign(config, route.request().postDataJSON());
     return route.fulfill({ json: config });

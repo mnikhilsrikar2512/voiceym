@@ -84,13 +84,13 @@ describe('sanitizeException — error tracking keeps frames, not user data', () 
     );
     failure.stack = [
       failure.message,
-      '    at render (/home/pal/github/VoiceStudio/electron/src/app.tsx:12:3)',
+      '    at render (/home/pal/github/Voiceym/electron/src/app.tsx:12:3)',
       '    at extension (chrome-extension://private/content.js:2:1)',
     ].join('\n');
     const clean = sanitizeException(failure);
     expect(clean.name).toBe('TypeError');
-    expect(clean.message).toBe('VoiceStudio renderer error');
-    expect(clean.stack).toContain('~/github/VoiceStudio/electron/src/app.tsx:12:3');
+    expect(clean.message).toBe('Voiceym renderer error');
+    expect(clean.stack).toContain('~/github/Voiceym/electron/src/app.tsx:12:3');
     expect(clean.stack).not.toContain('Private script');
     expect(clean.stack).not.toContain('/home/pal');
     expect(clean.stack).not.toContain('sk-');
@@ -130,8 +130,8 @@ describe('sanitizeOutgoingEvent — renderer URLs never leave', () => {
       },
     });
     expect(clean?.properties).toEqual({
-      $current_url: 'https://app.voicestudio.sh/clone',
-      $host: 'app.voicestudio.sh',
+      $current_url: 'https://app.voiceym.example/clone',
+      $host: 'app.voiceym.example',
       $pathname: '/clone',
     });
   });
@@ -183,7 +183,7 @@ describe('initAnalyticsFromConsent — silence is not consent', () => {
 it('drops multiline error messages while preserving genuine stack frames', () => {
   const error = new Error('Failed\nPrivate transcript\nCustomer address');
   error.stack =
-    'Error: Failed\nPrivate transcript\nCustomer address\n    at render (app://voicestudio/assets/index.js:3:4)';
+    'Error: Failed\nPrivate transcript\nCustomer address\n    at render (app://voiceym/assets/index.js:3:4)';
   const safe = sanitizeException(error);
   expect(safe.stack).not.toContain('Private transcript');
   expect(safe.stack).not.toContain('Customer address');

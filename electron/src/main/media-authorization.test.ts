@@ -19,10 +19,10 @@ afterEach(async () => {
   if (directory) await rm(directory, { recursive: true, force: true });
 });
 it('compares full origins rather than URL prefixes', () => {
-  expect(isTrustedRenderer('app://voicestudio/index.html')).toBe(true);
+  expect(isTrustedRenderer('app://voiceym/index.html')).toBe(true);
   expect(isTrustedRenderer('http://localhost:3902/settings', 'http://localhost:3902')).toBe(true);
   for (const url of [
-    'app://voicestudio.evil/index.html',
+    'app://voiceym.evil/index.html',
     'http://localhost:39020',
     'http://localhost:3902.evil',
     'https://localhost:3902',

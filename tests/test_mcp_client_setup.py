@@ -119,11 +119,11 @@ def test_standalone_server_authenticates_to_a_keyed_https_backend(monkeypatch):
     monkeypatch.setattr(httpx, 'AsyncClient', lambda **kwargs: real_client(
         **{**kwargs, 'transport': httpx.MockTransport(health)}
     ))
-    monkeypatch.setenv('OMNIVOICE_API_URL', 'https://gpu.example/voicestudio')
+    monkeypatch.setenv('OMNIVOICE_API_URL', 'https://gpu.example/voiceym')
     monkeypatch.setenv('OMNIVOICE_API_KEY', 'k' * 40)
     server = mcp_server.create_mcp_server()
     asyncio.run(server.call_tool('check_health', {}))
-    assert seen == [('https://gpu.example/voicestudio/health', 'Bearer ' + 'k' * 40)]
+    assert seen == [('https://gpu.example/voiceym/health', 'Bearer ' + 'k' * 40)]
 
 
 @pytest.mark.parametrize('backend_status', [200, 503])
@@ -151,7 +151,7 @@ def test_remote_compressed_speech_checks_backend_encoder_not_mcp_host(
     monkeypatch.setattr(ffmpeg_utils, 'find_ffmpeg', lambda: None)
     monkeypatch.delenv('OMNIVOICE_MCP_BASE_PATH', raising=False)
     monkeypatch.setenv('OMNIVOICE_MCP_OUTPUT_MODE', 'files')
-    monkeypatch.setenv('OMNIVOICE_API_URL', 'https://gpu.example/voicestudio')
+    monkeypatch.setenv('OMNIVOICE_API_URL', 'https://gpu.example/voiceym')
     monkeypatch.setenv('OMNIVOICE_API_KEY', 'k' * 40)
     server = mcp_server.create_mcp_server()
     if backend_status == 503:
@@ -160,9 +160,9 @@ def test_remote_compressed_speech_checks_backend_encoder_not_mcp_host(
     else:
         result = asyncio.run(server.call_tool('generate_speech', {'text': 'Hello', 'format': 'opus'}))
         assert json.loads(result[0][0].text)['audio_url'] == (
-            'https://gpu.example/voicestudio/audio/ab12cd34.opus'
+            'https://gpu.example/voiceym/audio/ab12cd34.opus'
         )
     assert seen == [
-        ('/voicestudio/generate', 'Bearer ' + 'k' * 40),
-        ('/voicestudio/audio/ab12cd34.opus', 'Bearer ' + 'k' * 40),
+        ('/voiceym/generate', 'Bearer ' + 'k' * 40),
+        ('/voiceym/audio/ab12cd34.opus', 'Bearer ' + 'k' * 40),
     ]

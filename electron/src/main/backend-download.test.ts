@@ -8,7 +8,7 @@ describe('native backend downloads', () => {
     expect(resolveBackendDownloadUrl('/api/audio/take.wav', backend)).toBe(
       'https://voicebox.example:3900/audio/take.wav',
     );
-    expect(resolveBackendDownloadUrl('app://voicestudio/api/personas/export/voice', backend)).toBe(
+    expect(resolveBackendDownloadUrl('app://voiceym/api/personas/export/voice', backend)).toBe(
       'https://voicebox.example:3900/personas/export/voice',
     );
   });
@@ -18,10 +18,10 @@ describe('native backend downloads', () => {
       `${backend}/exports/take.wav`,
     );
     expect(() => resolveBackendDownloadUrl('https://attacker.example/take.wav', backend)).toThrow(
-      'active VoiceStudio backend',
+      'active Voiceym backend',
     );
     expect(() => resolveBackendDownloadUrl('file:///tmp/take.wav', backend)).toThrow(
-      'active VoiceStudio backend',
+      'active Voiceym backend',
     );
   });
 });

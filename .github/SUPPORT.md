@@ -4,22 +4,22 @@
 
 | Channel | Best for |
 |---|---|
-| [Discord](https://discord.gg/bzQavDfVV9) — `#help` | Setup problems, quick questions, sharing results |
-| [GitHub Issues](https://github.com/debpalash/VoiceStudio/issues) | Bugs and feature requests — use the templates; attach the diagnostic bundle (Settings → About → "Save diagnostic bundle") |
-| [GitHub Discussions](https://github.com/debpalash/VoiceStudio/discussions) | Design questions, ideas, show & tell |
+| [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) | Setup problems, quick questions, sharing results |
+| [GitHub Issues](https://github.com/mnikhilsrikar2512/voiceym/issues) | Bugs and feature requests — use the templates; attach the diagnostic bundle (Settings → About → "Save diagnostic bundle") |
+| [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) | Design questions, ideas, show & tell |
 | Security issues | **Never a public issue** — see [SECURITY.md](SECURITY.md) for private reporting |
 
 ## Uninstalling / removing all data
 
-VoiceStudio is fully local — there's nothing to deactivate, just folders to
+Voiceym is fully local — there's nothing to deactivate, just folders to
 delete. `scripts/uninstall.sh` (macOS/Linux) or `scripts\uninstall.ps1`
-(Windows) lists every VoiceStudio folder with its size (dry-run first) and
+(Windows) lists every Voiceym folder with its size (dry-run first) and
 removes them on `--yes`. The complete per-platform path list is in
 [docs/install/uninstall.md](../docs/install/uninstall.md).
 
 ## Model sources we support
 
-VoiceStudio is built on the idea that everything it runs is **open and available
+Voiceym is built on the idea that everything it runs is **open and available
 to everyone**: free, public models with verifiable sources and licenses
 (Hugging Face repos, official project releases), so the whole community can
 use, test, and debug the same thing.

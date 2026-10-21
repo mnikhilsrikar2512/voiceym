@@ -1,7 +1,7 @@
 /**
  * Settings → Storage (System group).
  *
- * Shows where VoiceStudio keeps its data and outputs (read-only, from systemInfo,
+ * Shows where Voiceym keeps its data and outputs (read-only, from systemInfo,
  * each with an Open-folder affordance via the /export/reveal endpoint), then the
  * two destructive affordances, in escalating order:
  *
@@ -74,7 +74,7 @@ export default function StorageTab() {
         icon={HardDrive}
         title={t('settings.storage', { defaultValue: 'Storage' })}
         description={t('settings.storage_desc', {
-          defaultValue: 'Where VoiceStudio keeps your data and outputs.',
+          defaultValue: 'Where Voiceym keeps your data and outputs.',
         })}
       >
         <div className="grid grid-cols-1 gap-[var(--space-3)] @min-[560px]/settings:grid-cols-3">

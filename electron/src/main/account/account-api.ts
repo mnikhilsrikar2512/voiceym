@@ -85,7 +85,7 @@ export interface AccountPlan {
   storageLimitBytes: number;
   /** `sync.settings`: settings, shortcuts and favorites sync. */
   settingsSync: boolean;
-  /** `pro.desktop`: VoiceStudio Pro features. */
+  /** `pro.desktop`: Voiceym Pro features. */
   proDesktop: boolean;
 }
 

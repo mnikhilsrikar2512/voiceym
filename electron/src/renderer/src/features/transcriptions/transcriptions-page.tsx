@@ -62,7 +62,7 @@ import { saveLocalFile } from '@/lib/local-export';
 import { formatShortcut } from '@shared/utils/dictationShortcut';
 
 type TranscriptionMode = 'fast' | 'accurate';
-const TRANSCRIPTION_MODE_KEY = 'voicestudio.transcription.mode';
+const TRANSCRIPTION_MODE_KEY = 'voiceym.transcription.mode';
 
 function initialTranscriptionMode(): TranscriptionMode {
   try {
@@ -511,7 +511,7 @@ export function TranscriptionsPage() {
                 <div className="mx-auto flex w-full max-w-4xl items-center gap-3 rounded-lg border border-border/60 bg-muted/20 px-3 py-2 text-sm">
                   <ScanTextIcon className="size-4 shrink-0 text-muted-foreground" />
                   <span className="min-w-0 flex-1">{t('transcriptions.missing_model')}</span>
-                  <AgentFixButton request="Restore accurate file transcription. Install and activate the best compatible local ASR model through VoiceStudio, preserve the selected media and mode, then verify transcription is ready to start." />
+                  <AgentFixButton request="Restore accurate file transcription. Install and activate the best compatible local ASR model through Voiceym, preserve the selected media and mode, then verify transcription is ready to start." />
                   <Link
                     to="/settings/models/$family"
                     params={{ family: 'asr' }}
@@ -571,7 +571,7 @@ export function TranscriptionsPage() {
                 </span>
                 {liveState.issue === 'model' && (
                   <>
-                    <AgentFixButton request="Restore live dictation readiness. Install and activate the best compatible dictation model through VoiceStudio, preserve this transcription workspace, and verify recording can start." />
+                    <AgentFixButton request="Restore live dictation readiness. Install and activate the best compatible dictation model through Voiceym, preserve this transcription workspace, and verify recording can start." />
                     <Link
                       to="/settings/models/$family"
                       params={{ family: 'dictation' }}

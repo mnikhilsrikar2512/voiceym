@@ -17,7 +17,7 @@ export function useDictationPreferences(enabled = true) {
 }
 
 export function useNativeShortcut(enabled = true) {
-  const api = window.voicestudio?.capture;
+  const api = window.voiceym?.capture;
   return useQuery({
     queryKey: nativeShortcutKey,
     enabled: enabled && Boolean(api),
@@ -26,7 +26,7 @@ export function useNativeShortcut(enabled = true) {
 }
 
 export function NativeDictationSync() {
-  const api = window.voicestudio?.capture;
+  const api = window.voiceym?.capture;
   const backend = useBackendStatus();
   const prefs = useDictationPreferences(!!api && isBackendReachable(backend.stage));
   const client = useQueryClient();

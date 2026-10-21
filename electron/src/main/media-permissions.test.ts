@@ -3,15 +3,15 @@ import { allowsRendererPermission, installRendererPermissions } from './media-pe
 
 describe('renderer permissions', () => {
   it('grants trusted audio and denies camera or foreign origins', () => {
-    expect(allowsRendererPermission('media', 'app://voicestudio/#/capture', ['audio'])).toBe(
+    expect(allowsRendererPermission('media', 'app://voiceym/#/capture', ['audio'])).toBe(
       true,
     );
-    expect(allowsRendererPermission('media', 'app://voicestudio/#/capture', ['video'])).toBe(
+    expect(allowsRendererPermission('media', 'app://voiceym/#/capture', ['video'])).toBe(
       false,
     );
     expect(allowsRendererPermission('media', 'https://example.com', ['audio'])).toBe(false);
     expect(
-      allowsRendererPermission('media', 'app://voicestudio/frame.html', ['audio'], undefined, false),
+      allowsRendererPermission('media', 'app://voiceym/frame.html', ['audio'], undefined, false),
     ).toBe(false);
     expect(
       allowsRendererPermission('media', 'http://localhost:3902/#/capture', ['audio'], 'http://localhost:3902'),
@@ -19,13 +19,13 @@ describe('renderer permissions', () => {
   });
 
   it('allows only the trusted browser permissions used by the renderer', () => {
-    expect(allowsRendererPermission('clipboard-read', 'app://voicestudio/index.html', undefined)).toBe(
+    expect(allowsRendererPermission('clipboard-read', 'app://voiceym/index.html', undefined)).toBe(
       true,
     );
-    expect(allowsRendererPermission('fullscreen', 'app://voicestudio/index.html', undefined)).toBe(
+    expect(allowsRendererPermission('fullscreen', 'app://voiceym/index.html', undefined)).toBe(
       true,
     );
-    expect(allowsRendererPermission('notifications', 'app://voicestudio/index.html', undefined)).toBe(
+    expect(allowsRendererPermission('notifications', 'app://voiceym/index.html', undefined)).toBe(
       false,
     );
   });
@@ -44,18 +44,18 @@ describe('renderer permissions', () => {
     installRendererPermissions(fakeSession as never);
 
     expect(
-      check(null, 'media', 'app://voicestudio', {
+      check(null, 'media', 'app://voiceym', {
         isMainFrame: true,
-        requestingUrl: 'app://voicestudio/#/capture',
+        requestingUrl: 'app://voiceym/#/capture',
         mediaType: 'audio',
       }),
     ).toBe(true);
     const callback = vi.fn();
     request(
-      { getURL: () => 'app://voicestudio/#/capture' },
+      { getURL: () => 'app://voiceym/#/capture' },
       'media',
       callback,
-      { isMainFrame: true, requestingUrl: 'app://voicestudio/#/capture', mediaTypes: ['video'] },
+      { isMainFrame: true, requestingUrl: 'app://voiceym/#/capture', mediaTypes: ['video'] },
     );
     expect(callback).toHaveBeenCalledWith(false);
   });

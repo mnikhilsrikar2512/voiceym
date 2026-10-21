@@ -26,7 +26,7 @@ try {
     if (body.key === 'HTTP_PROXY') proxy = body.value;
     return route.fulfill({ json: { ok: true } });
   });
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.goto(base + '/#/settings/network');
   const input = page.getByRole('textbox', { name: t('settings.proxy'), exact: true });
   await page.waitForFunction(

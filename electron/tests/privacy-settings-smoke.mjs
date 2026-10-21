@@ -48,7 +48,7 @@ try {
     }
     return route.fulfill({ json: retention });
   });
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.goto(base + '/#/settings/general');
   await page.getByRole('link', { name: t('settings.privacy'), exact: true }).click();
   await page.waitForURL('**/#/settings/privacy');

@@ -13,9 +13,9 @@ Probe order (Open Question #1 resolution from 02-RESEARCH.md):
        Windows). Highest priority — power users who already cloned
        IndexTTS and ran ``uv pip install -e .`` get zero migration cost.
     2. ``backend/engines/indextts/.venv/`` — this package's own venv,
-       created by step 3 if needed. Survives across VoiceStudio upgrades;
+       created by step 3 if needed. Survives across Voiceym upgrades;
        the IndexTTS clone is referenced via ``uv pip install -e`` so
-       weights and code live in the user's clone, not under VoiceStudio.
+       weights and code live in the user's clone, not under Voiceym.
     3. Bootstrap: run ``uv venv`` then ``uv pip install -e
        ${OMNIVOICE_INDEXTTS_DIR}`` to populate step-2's venv. Requires
        OMNIVOICE_INDEXTTS_DIR to be set (otherwise we don't know where
@@ -165,7 +165,7 @@ def resolve_indextts_venv() -> Path:
             "IndexTTS 2.5 is not installed. Set the OMNIVOICE_INDEXTTS_DIR "
             "environment variable to your IndexTTS clone (the directory "
             "that contains checkpoints/ and pyproject.toml), then restart "
-            "VoiceStudio. See docs/engines/indextts.md for the full install "
+            "Voiceym. See docs/engines/indextts.md for the full install "
             "walk-through."
         )
 
@@ -241,7 +241,7 @@ def _bootstrap_engines_venv(indextts_clone: Path) -> Path:
             "uv is required to bootstrap the IndexTTS 2.5 venv but was not "
             "found on PATH (and the bundled uv path was not set via the "
             "OMNIVOICE_BUNDLED_UV env var). Install uv from "
-            "https://docs.astral.sh/uv/ and re-launch VoiceStudio, or set "
+            "https://docs.astral.sh/uv/ and re-launch Voiceym, or set "
             "OMNIVOICE_BUNDLED_UV to the absolute path of a uv binary."
         )
 

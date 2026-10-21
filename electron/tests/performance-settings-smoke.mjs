@@ -138,7 +138,7 @@ try {
     budgets.push(body);
     return route.fulfill({ json: { shadowed: body.key.includes('CPU') } });
   });
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3902';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3902';
   await page.goto(base + '/#/settings/performance');
   await page.getByRole('radiogroup').first().waitFor();
   assert.equal(await page.getByRole('radiogroup').count(), 7);

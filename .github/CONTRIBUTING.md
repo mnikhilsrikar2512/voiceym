@@ -1,27 +1,20 @@
-# Contributing to VoiceStudio
+# Contributing to Voiceym
 
-Thanks for your interest in improving VoiceStudio! This guide covers everything you need to get started.
+Thanks for your interest in improving Voiceym! This guide covers everything you need to get started.
 
 ## Quick Links
 
 | | |
 |---|---|
-| 💬 **Chat** | [Discord](https://discord.gg/bzQavDfVV9) |
-| 🐛 **Bugs** | [GitHub Issues](https://github.com/debpalash/VoiceStudio/issues) |
-| 🏷️ **Good First Issues** | [Filtered list](https://github.com/debpalash/VoiceStudio/labels/good%20first%20issue) |
+| 💬 **Chat** | [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions) |
+| 🐛 **Bugs** | [GitHub Issues](https://github.com/mnikhilsrikar2512/voiceym/issues) |
+| 🏷️ **Good First Issues** | [Filtered list](https://github.com/mnikhilsrikar2512/voiceym/labels/good%20first%20issue) |
 | 📋 **Roadmap** | [docs/ROADMAP.md](../docs/ROADMAP.md) |
 
 ---
 
-> **Before your first pull request:** unless exempt under the
-> [CLA checker’s policy](#contribution-licensing), sign the
-> [Contributor License Agreement](CLA-1.0.md) once. GitHub cannot stop you opening a pull request first, so it is checked at
-> merge instead: an unsigned pull request cannot merge unless a maintainer applies
-> the `cla-override` label after manual review. You can sign now on the
-> [signing issue (#2586)](https://github.com/debpalash/VoiceStudio/issues/2586) and
-> your signature covers your future contributions. Every other non-exempt human commit
-> author and co-author must also sign before the check passes. Details are in
-> [Contribution licensing](#contribution-licensing).
+> **Licensing:** contributions are accepted under the project's AGPL-3.0-only
+> license. See [Contribution licensing](#contribution-licensing).
 
 ---
 
@@ -59,8 +52,8 @@ for Fedora and Arch packages.
 ### Clone & Run
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd Voiceym
 bun install
 bun run setup:api  # prepare Python dependencies before starting Electron
 bun run dev
@@ -116,7 +109,7 @@ modules and native helpers used by Electron remain maintained.
 ## Project Structure
 
 ```
-VoiceStudio/
+Voiceym/
 ├── backend/                 # Python FastAPI server
 │   ├── api/                 # Route handlers
 │   ├── core/                # Config, prefs, constants
@@ -142,7 +135,7 @@ VoiceStudio/
 
 ### Bug Reports
 
-Open an [issue](https://github.com/debpalash/VoiceStudio/issues/new) with:
+Open an [issue](https://github.com/mnikhilsrikar2512/voiceym/issues/new) with:
 
 1. **What happened** vs **what you expected**
 2. **Steps to reproduce**
@@ -167,7 +160,7 @@ Open an [issue](https://github.com/debpalash/VoiceStudio/issues/new) with:
 
 ### Adding a New TTS Engine
 
-VoiceStudio's TTS backend is a plugin registry. Adding a new engine takes ~50 lines:
+Voiceym's TTS backend is a plugin registry. Adding a new engine takes ~50 lines:
 
 1. Open `backend/services/tts_backend.py`
 2. Create a class extending `TTSBackend`:
@@ -266,17 +259,7 @@ bad:  update
 bad:  WIP
 ```
 
-Commit with a real identity (your GitHub noreply address works). The
-`commit-identity` PR check (`scripts/check_commit_identities.py`) fails when a
-PR commit's author, committer, or `Co-authored-by:`/`Signed-off-by:` email is
-a placeholder (`test@local`, `you@example.com`, `mergetest`, hostname-style
-`*.local`), an AI agent, or on the hashed block list, or when a commit message
-or the PR description credits an AI agent. Fix an identity on the listed
-commits only: `git rebase -i origin/main`, mark each listed commit `edit`, and
-at each stop run `git commit --amend --no-edit --reset-author` and
-`git rebase --continue` (a blanket `--exec` would also take over other
-people's commits); fix agent credit by rewording the commit messages (`git rebase -i`, then
-`reword`) and editing the PR description.
+Commit with a real identity (your GitHub noreply address works).
 
 ---
 
@@ -310,7 +293,7 @@ bun run --cwd electron test:desktop-ui
 # *-real-smoke = needs a live backend, _electron = drives the real app);
 # `node --test electron/tests/smoke-inventory.test.mjs` fails on an unclassified one.
 OMNIVOICE_PORT=3999 bun run --cwd electron smoke:server &
-OMNIVOICE_PORT=3999 VOICESTUDIO_UI_URL=http://localhost:3912 PLAYWRIGHT_CHANNEL=chromium \
+OMNIVOICE_PORT=3999 VOICEYM_UI_URL=http://localhost:3912 PLAYWRIGHT_CHANNEL=chromium \
   node electron/tests/run-renderer-smokes.mjs [name-filter ...]
 
 # UI crawler (the "UI crawler" CI job), against the same smoke server:
@@ -320,8 +303,8 @@ OMNIVOICE_PORT=3999 VOICESTUDIO_UI_URL=http://localhost:3912 PLAYWRIGHT_CHANNEL=
 # left after requests settle, a button still greyed out after its write failed,
 # a failed write with no visible feedback, an uncaught error, or a
 # console.error. Fix the button; KNOWN_FINDINGS stays empty.
-OMNIVOICE_PORT=3999 VOICESTUDIO_UI_URL=http://localhost:3912 \
-  VOICESTUDIO_CRAWL_MODES=http-500 VOICESTUDIO_CRAWL_ROUTES=/clone \
+OMNIVOICE_PORT=3999 VOICEYM_UI_URL=http://localhost:3912 \
+  VOICEYM_CRAWL_MODES=http-500 VOICEYM_CRAWL_ROUTES=/clone \
   node electron/tests/ui-crawler.mjs
 
 # Shared native helper, when changed
@@ -364,18 +347,13 @@ as Claude, Jules, or Devin. Known agent email addresses remain blocked. The
 identity workflow runs the base branch's policy and publishes `Commit identity
 policy`; changing the checker or workflow in your PR does not bypass it.
 
-Keep one open PR per head commit. CLA checks reject duplicate heads because
-GitHub commit statuses are shared by SHA, even when PR descriptions or authors
-differ. Close duplicates and comment `recheck` on the survivor, then rerun its
-trusted identity workflow.
+Keep one open PR per head commit.
 
 One practical tip: this codebase is large, and re-explaining it to your agent
 every session burns context and tokens fast. A persistent memory layer fixes
 that — the agent recalls the architecture, conventions, and your past findings
-instead of re-reading the tree each time. [**memxt**](https://github.com/debpalash/memxt)
-(100% local, MCP-based, built by this project's maintainer) exists for exactly
-this; any MCP memory server works. Pair it with the repo's agent skill —
-`npx skills add debpalash/VoiceStudio` — so your agent knows the project's
+instead of re-reading the tree each time. Any MCP memory server works. Pair it with the repo's agent skill —
+`npx skills add mnikhilsrikar2512/voiceym` — so your agent knows the project's
 hard rules from the first prompt.
 
 ## Quality gates your PR must pass
@@ -415,16 +393,16 @@ hard rules from the first prompt.
     the user (`electron/src/main/updater.ts`).
   - **yt-dlp updates** from PyPI, only when the user clicks update
     (`backend/services/media_tools.py`).
-  - **VoiceStudio Cloud account features, only after the user turns them on**
+  - **Voiceym Cloud account features, only after the user turns them on**
     (first-run setup or Settings → Account; off by default, skipping = off):
-    browser sign-in against `voicestudio.sh/identity` and the account API at
-    `appapi.voicestudio.sh` from Electron main (`electron/src/main/account/`),
+    browser sign-in against `voiceym.example/identity` and the account API at
+    `appapi.voiceym.example` from Electron main (`electron/src/main/account/`),
     and, only after the user also turns cloud sync on, settings sync with
-    `appapi.voicestudio.sh/v1/sync` from the backend
+    `appapi.voiceym.example/v1/sync` from the backend
     (`backend/services/cloud_sync/`), which can call only with a token main
     hands out. Turning either off stops every request at once; switching
     account features off sends one best-effort token revocation. Hidden in
-    packaged builds until VoiceStudio Cloud launches.
+    packaged builds until Voiceym Cloud launches.
   - Bug reports as prefilled GitHub Issue URLs opened in the user's browser.
   - PostHog analytics only after a yes at the first-run consent prompt
     (`backend/core/analytics.py`, allowlisted content-free metadata).
@@ -442,51 +420,19 @@ hard rules from the first prompt.
 
 ## Contribution licensing
 
-VoiceStudio is **AGPL-3.0-only**, and the maintainer also offers a
-**commercial license** (see [LICENSE-NOTICE.md](../LICENSE-NOTICE.md)). Before
-a pull request can merge, every non-exempt human contributor — the opener,
-commit authors and co-authors — signs the [Contributor License Agreement](CLA-1.0.md)
-once. The [checker](scripts/cla_check.py) exempts its configured maintainer and
-bot account IDs. You keep
-your copyright. The agreement lets Yupcha Softwares Private Limited, the
-company that maintains VoiceStudio, ship your work in both the AGPL-3.0 app and
-commercial builds. In return, the company commits that while your contribution
-is in the public VoiceStudio repository, it stays available there under
-AGPL-3.0 or another OSI-approved licence (CLA section 4). AI agents can't be co-authors (see
+Voiceym is **AGPL-3.0-only** (see [LICENSE-NOTICE.md](../LICENSE-NOTICE.md)).
+By opening a pull request you agree that your contribution is licensed under
+the same terms. You keep your copyright. Adding a `Signed-off-by:` line (DCO)
+is appreciated. AI agents can't be co-authors (see
 [Contributing with AI agents](#contributing-with-ai-agents)); the person
-submitting the work signs for it.
-
-The **CLA** check comments on your pull request when someone still needs to
-sign. To sign, post this as a new comment, on its own line:
-
-```text
-I have read the VoiceStudio CLA 1.0 and I hereby sign it.
-```
-
-The signature covers your earlier and future contributions. The CLA check
-identifies other required signers or cases needing manual review.
-New contributors can sign first: post the same line on the
-[signing issue (#2586)](https://github.com/debpalash/VoiceStudio/issues/2586)
-before opening a pull request, or on the pull request itself if you prefer. The
-same signature applies if a maintainer folds your pull request into another one.
-If a pull request contains `Supersedes #N`, its CLA check also covers the
-non-exempt human opener, commit authors and co-authors of pull request #N.
-Contributed before and have no open pull request? Post
-the same line on the [issue labelled `cla`](https://github.com/debpalash/VoiceStudio/issues?q=label%3Acla). If it lists a commit it cannot link to a GitHub
-account, either add that commit email to your account (Settings → Emails), or
-rewrite the commits with an email that is on it (`git commit --amend
---reset-author`, or an interactive rebase) and push again. Comment `recheck` to
-run the check without pushing. Contributing as part of your job? Your employer
-signs the [Corporate CLA](CCLA-1.0.md) first, and you still sign the CLA
-yourself. Adding a `Signed-off-by:` line (DCO) is appreciated but does not
-replace the CLA.
+submitting the work is responsible for it.
 
 ---
 
 ## Need Help?
 
-- **Stuck on setup?** Ask in [Discord #help](https://discord.gg/bzQavDfVV9)
-- **Not sure where to start?** Check [good first issues](https://github.com/debpalash/VoiceStudio/labels/good%20first%20issue)
-- **Want to discuss a big change?** Open a [discussion](https://github.com/debpalash/VoiceStudio/discussions) or Discord thread before coding
+- **Stuck on setup?** Ask in [GitHub Discussions](https://github.com/mnikhilsrikar2512/voiceym/discussions)
+- **Not sure where to start?** Check [good first issues](https://github.com/mnikhilsrikar2512/voiceym/labels/good%20first%20issue)
+- **Want to discuss a big change?** Open a [discussion](https://github.com/mnikhilsrikar2512/voiceym/discussions) before coding
 
 Thank you for contributing! 🎙️

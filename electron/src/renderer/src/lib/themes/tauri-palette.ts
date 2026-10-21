@@ -1,6 +1,6 @@
 import { GROVE_THEME, type ThemeColors, type ThemeDefinition } from './t3-palettes';
 
-// Refined VoiceStudio/Tauri palette: original charcoal canvas and rose action,
+// Refined Voiceym/Tauri palette: original charcoal canvas and rose action,
 // lavender text, plum surfaces, and quieter translucent borders.
 // The light variant is a complementary adaptation; the original default is dark.
 function colors(light: boolean): ThemeColors {
@@ -75,7 +75,7 @@ function colors(light: boolean): ThemeColors {
 }
 export const TAURI_THEME: ThemeDefinition = {
   id: 'heritage',
-  label: 'VoiceStudio Classic',
+  label: 'Voiceym Classic',
   appearance: 'dark',
   colors: colors(false),
   variants: { light: colors(true) },

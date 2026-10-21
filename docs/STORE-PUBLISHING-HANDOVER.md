@@ -28,7 +28,7 @@ listing, support and release lessons are incorporated before the next store.
 Every worker must preserve:
 
 - Electron as the only desktop and UI shell.
-- `com.voicestudio.desktop`, `VoiceStudio` and the legal publisher from
+- `com.voiceym.desktop`, `Voiceym` and the legal publisher from
   `store/metadata.json` unless the store forces a documented identifier.
 - The privacy disclosures in `store/privacy.json`.
 - The capability and updater policy in `config/distributions.mjs`.
@@ -70,8 +70,8 @@ Scope:
 1. Confirm Partner Center supports the existing signed NSIS EXE submission and
    reserve the product identity with the owner.
 2. Add a Microsoft Store packaging/submission workflow that sets
-   `VOICESTUDIO_DISTRIBUTION=microsoft-store` without affecting direct builds.
-3. Keep VoiceStudio's in-app updater enabled for this EXE distribution on the
+   `VOICEYM_DISTRIBUTION=microsoft-store` without affecting direct builds.
+3. Keep Voiceym's in-app updater enabled for this EXE distribution on the
    dedicated `electron-microsoft-store-stable-*` feed; never publish Store
    packages through the direct-download `electron-stable-*` feed. Store builds
    select the newest GitHub release containing their dedicated feed, so a newer
@@ -104,7 +104,7 @@ Scope:
 1. Register the Snap name with the owner and document the selected confinement
    level and interfaces.
 2. Add Snap packaging without replacing AppImage or Debian packaging.
-3. Set `VOICESTUDIO_DISTRIBUTION=snap-store`; the Snap Store owns application
+3. Set `VOICEYM_DISTRIBUTION=snap-store`; the Snap Store owns application
    updates, so the in-app updater must remain unavailable.
 4. Map writable data, cache, models, runtime and project paths into allowed Snap
    locations while preserving user-selected file access.
@@ -140,7 +140,7 @@ Scope:
    without altering Developer ID direct builds.
 4. Implement security-scoped user-selected file access and validate persistence
    only where the user expects it.
-5. Set `VOICESTUDIO_DISTRIBUTION=mac-app-store`; the App Store owns updates, so
+5. Set `VOICEYM_DISTRIBUTION=mac-app-store`; the App Store owns updates, so
    the in-app updater must remain unavailable.
 6. Validate microphone, accessibility, file import/export, audio/video tools,
    child processes, model use and offline relaunch in a signed sandbox build.

@@ -4,9 +4,9 @@ import assert from 'node:assert/strict';
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
 const page = await browser.newPage();
 await page.addInitScript(() => {
-  localStorage.setItem('voicestudio.setup.complete.v1', '1');
+  localStorage.setItem('voiceym.setup.complete.v1', '1');
 });
-const broken = process.env.VOICESTUDIO_TEST_BROKEN_FALLBACK === '1';
+const broken = process.env.VOICEYM_TEST_BROKEN_FALLBACK === '1';
 let canonical = 0;
 let fallback = 0;
 // The listing is mocked so the smoke stays offline (the real one comes from the CDN manifest).
@@ -71,7 +71,7 @@ await page.route('**/api/community/items/feat_00_the_librarian/preview*', async 
   });
 });
 try {
-  const base = process.env.VOICESTUDIO_UI_URL || 'http://localhost:3912';
+  const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
   await page.goto(base + '/#/gallery');
   await page.getByRole('button', { name: 'Community', exact: true }).click();
   const card = page
