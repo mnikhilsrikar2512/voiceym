@@ -130,6 +130,7 @@ def test_preload_warms_up_from_cache_when_network_probe_fails(monkeypatch):
     # cache-only check and warms up anyway.
     import services.model_manager as mm
 
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
     _fail_model_info(monkeypatch)
     monkeypatch.setattr(mm, "model", None)
     monkeypatch.setattr(mm, "resolve_omnivoice_checkpoint", lambda: "k2-fsa/OmniVoice")

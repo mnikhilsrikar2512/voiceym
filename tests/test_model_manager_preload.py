@@ -15,6 +15,8 @@ def model_manager(monkeypatch):
 
     import services.model_manager as mm
 
+    # Preload only warms OmniVoice when it is the chosen engine (it is opt-in).
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
     monkeypatch.setattr(mm, "_torch", None)
     monkeypatch.setattr(mm, "_OmniVoice", None)
     monkeypatch.setattr(mm, "model", None)
