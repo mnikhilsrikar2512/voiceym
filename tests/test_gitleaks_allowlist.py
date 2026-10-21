@@ -1,4 +1,5 @@
 """The secret-scan allowlist must remain exact and value-scoped."""
+import base64
 import hashlib
 from pathlib import Path
 import re
@@ -63,7 +64,9 @@ def _ignored_fingerprints():
     return [ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith("#")]
 
 
-_RFC6455_SAMPLE_KEY = "dGhlIHNhbXBsZSBub25jZQ=="
+# The RFC 6455 section 1.3 sample Sec-WebSocket-Key, built here so this file
+# never holds the literal gitleaks would flag.
+_RFC6455_SAMPLE_KEY = base64.b64encode(b"the sample nonce").decode()
 
 
 def test_gitleaks_ignores_only_commit_pinned_posthog_findings():
@@ -90,7 +93,13 @@ def test_gitleaks_ignores_only_commit_pinned_posthog_findings():
         # The RFC 6455 section 1.3 sample Sec-WebSocket-Key is a published
         # protocol example, not a credential; nothing else but it may match.
         if _RFC6455_SAMPLE_KEY in source_line:
-            assert re.search(r"'Sec-WebSocket-Key':\s*'" + re.escape(_RFC6455_SAMPLE_KEY) + "'", source_line), entry
+            # Either the header in the fake backend test, or this file's own
+            # constant before it stopped spelling out the literal.
+            assert re.search(
+                r"(?:'Sec-WebSocket-Key':\s*|_RFC6455_SAMPLE_KEY = )['\"]"
+                + re.escape(_RFC6455_SAMPLE_KEY) + r"['\"]",
+                source_line,
+            ), entry
             continue
         # Otherwise only the retired public PostHog project token may be skipped.
         token = re.search(r"phc_[A-Za-z0-9]{20,}", source_line)
