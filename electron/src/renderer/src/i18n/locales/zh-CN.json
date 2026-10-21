@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "这次回复失败了",
         "hint": "请再说一遍。"
+      },
+      "issue_voice": {
+        "title": "仅以文字回复",
+        "hint": "目前没有可商用的语音能说这段内容。请在模型目录中安装 Kokoro 或 KittenTTS，或选择默认语音。"
       }
     }
   }

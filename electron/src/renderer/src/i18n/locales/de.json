@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Diese Antwort hat nicht geklappt",
         "hint": "Versuche es noch einmal."
+      },
+      "issue_voice": {
+        "title": "Antwort nur als Text",
+        "hint": "Keine kommerziell nutzbare Stimme kann das bisher sprechen. Installiere Kokoro oder KittenTTS im Modellkatalog oder wähle die Standardstimme."
       }
     }
   }

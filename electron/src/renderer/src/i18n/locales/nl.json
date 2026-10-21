@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Dat antwoord lukte niet",
         "hint": "Probeer het nog eens."
+      },
+      "issue_voice": {
+        "title": "Alleen antwoord in tekst",
+        "hint": "Geen commercieel bruikbare stem kan dit al uitspreken. Installeer Kokoro of KittenTTS in de modelcatalogus, of kies de standaardstem."
       }
     }
   }

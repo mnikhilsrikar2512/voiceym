@@ -48,7 +48,7 @@ class OmniVoiceSubprocessBackend(SubprocessBackend):
     supports_native_omnivoice_controls = True
 
     id = "omnivoice-subprocess"
-    display_name = "OmniVoice (subprocess-isolated, killable on timeout)"
+    display_name = "OmniVoice (subprocess-isolated, killable on timeout, non-commercial)"
     instruct_vocabulary = "tags"
     supports_voice_design = True
     _DEFAULT_SAMPLE_RATE = 24000
@@ -145,7 +145,7 @@ class OmniVoiceMPSSubprocessBackend(OmniVoiceSubprocessBackend):
     """
 
     id = "omnivoice"
-    display_name = "Voiceym (k2-fsa/OmniVoice, 600+ languages)"
+    display_name = "OmniVoice (k2-fsa/OmniVoice, 600+ languages, non-commercial)"
     supports_native_omnivoice_controls = True
 
     def generate(self, text: str, **kw):

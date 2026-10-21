@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Câu trả lời đó bị lỗi",
         "hint": "Hãy thử nói lại."
+      },
+      "issue_voice": {
+        "title": "Chỉ trả lời bằng văn bản",
+        "hint": "Chưa có giọng dùng thương mại nào nói được điều này. Hãy cài Kokoro hoặc KittenTTS trong Danh mục mô hình, hoặc chọn giọng mặc định."
       }
     }
   }

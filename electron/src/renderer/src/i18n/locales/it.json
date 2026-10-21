@@ -3858,6 +3858,10 @@
       "issue_turn": {
         "title": "Quella risposta non è riuscita",
         "hint": "Prova a ripeterlo."
+      },
+      "issue_voice": {
+        "title": "Risposta solo testuale",
+        "hint": "Nessuna voce per uso commerciale può ancora dirlo. Installa Kokoro o KittenTTS nel catalogo modelli, oppure scegli la voce predefinita."
       }
     }
   }

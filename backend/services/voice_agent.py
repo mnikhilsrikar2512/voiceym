@@ -195,6 +195,19 @@ KOKORO_ENGINE = "mlx-audio"
 #: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
 MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
 
+#: OmniVoice in all its forms is licensed CC-BY-NC: never chosen for a session
+#: that asked for commercial-use voices only (the Talk screen always does).
+NON_COMMERCIAL_ENGINES = frozenset({"omnivoice", "omnivoice-gguf", "omnivoice-subprocess"})
+
+
+def active_tts_engine() -> str:
+    try:
+        from services.tts_backend import active_backend_id
+
+        return active_backend_id()
+    except Exception:  # noqa: BLE001
+        return ""
+
 
 def _engine_if_available(engine_id: str) -> str:
     try:
@@ -262,6 +275,11 @@ class SessionConfig:
     multilingual_engine: str = ""
     #: Engine that speaks Hindi (Devanagari) for the built-in voice ("" = none).
     hindi_engine: str = ""
+    #: Only commercial-use voices; never fall back to OmniVoice (CC-BY-NC).
+    commercial_only: bool = False
+    #: Why this session cannot speak at all ("" = it can): "voice" when no
+    #: commercial-use engine is available, "clone" for a cloned voice without one.
+    unavailable: str = ""
     extra: dict = field(default_factory=dict)
 
     @classmethod
@@ -271,14 +289,23 @@ class SessionConfig:
             return value.strip()[:limit] if isinstance(value, str) else ""
 
         voice, engine = _s("voice"), _s("engine")
+        commercial_only = data.get("commercial_only") is True
         # A client may ask for the fast built-in voice when no cloned voice is
         # picked; a named voice or engine always wins.
-        multilingual_engine = hindi_engine = ""
+        multilingual_engine = hindi_engine = unavailable = ""
         if not voice and not engine and data.get("fast_default_voice") is True:
             engine = fast_voice_engine()
             if engine:
                 multilingual_engine = multilingual_voice_engine()
                 hindi_engine = KOKORO_ENGINE if engine == KOKORO_ENGINE else ""
+        if commercial_only:
+            if multilingual_engine in NON_COMMERCIAL_ENGINES:
+                multilingual_engine = ""
+            if engine in NON_COMMERCIAL_ENGINES or (
+                not engine and active_tts_engine() in NON_COMMERCIAL_ENGINES
+            ):
+                engine = ""
+                unavailable = "clone" if voice else "voice"
         return cls(
             instructions=_s("instructions", MAX_INSTRUCTIONS_CHARS) or DEFAULT_INSTRUCTIONS,
             voice=voice,
@@ -289,6 +316,8 @@ class SessionConfig:
             multilingual_asr=data.get("multilingual_asr") is True,
             multilingual_engine=multilingual_engine,
             hindi_engine=hindi_engine,
+            commercial_only=commercial_only,
+            unavailable=unavailable,
         )
 
 
@@ -316,6 +345,7 @@ class VoiceAgentSession:
         self._frame_rest = np.zeros(0, dtype=np.int16)
         self._playback_until = 0.0
         self._closed = False
+        self._warned: set[str] = set()
 
     # ── Transport surface ──
 
@@ -494,6 +524,21 @@ class VoiceAgentSession:
             await self._emit({"type": "response.done"})
         await self._set_state("listening")
 
+    _UNAVAILABLE = {
+        "voice": "No commercial-use voice is installed, so replies are text only. "
+                 "Install Kokoro or KittenTTS in Model Catalogue.",
+        "clone": "Cloned voices need a commercial-use cloning engine, which isn't "
+                 "installed. Pick the default voice, or install one in Model Catalogue.",
+        "language": "The voice can't speak this language yet, so that part is text only.",
+    }
+
+    async def _voice_unavailable(self, reason: str) -> None:
+        if reason in self._warned:
+            return
+        self._warned.add(reason)
+        await self._emit({"type": "error", "code": f"voice_unavailable_{reason}",
+                          "message": self._UNAVAILABLE[reason]})
+
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
         engine, language = self.config.engine, self.config.language
@@ -501,6 +546,14 @@ class VoiceAgentSession:
             engine, language = self.config.hindi_engine, "hi"
         elif self.config.multilingual_engine and needs_multilingual_voice(sentence, language):
             engine = self.config.multilingual_engine
+        elif self.config.commercial_only and engine and needs_multilingual_voice(sentence, language):
+            # The commercial-use voice can't say this script; stay silent and
+            # say why rather than reaching for the non-commercial engine.
+            await self._voice_unavailable("language")
+            return
+        if self.config.unavailable:
+            await self._voice_unavailable(self.config.unavailable)
+            return
         async for pcm in self.deps.render(
             sentence, voice=self.config.voice, engine=engine, language=language
         ):

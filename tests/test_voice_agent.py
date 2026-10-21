@@ -162,6 +162,59 @@ def test_hindi_goes_to_kokoro_other_scripts_to_the_multilingual_engine():
     assert fakes.languages == ["hi", ""]
 
 
+def test_commercial_only_never_picks_omnivoice(monkeypatch):
+    monkeypatch.setattr(va, "fast_voice_engine", lambda: "kittentts")
+    monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-gguf")
+    monkeypatch.setattr(va, "active_tts_engine", lambda: "omnivoice")
+    pick = va.SessionConfig.from_message
+    talk = pick({"fast_default_voice": True, "commercial_only": True})
+    assert (talk.engine, talk.multilingual_engine, talk.unavailable) == ("kittentts", "", "")
+    cloned = pick({"voice": "p1", "fast_default_voice": True, "commercial_only": True})
+    assert (cloned.engine, cloned.unavailable) == ("", "clone")
+    monkeypatch.setattr(va, "fast_voice_engine", lambda: "")
+    none = pick({"fast_default_voice": True, "commercial_only": True})
+    assert (none.engine, none.unavailable) == ("", "voice")
+    # An API client that names OmniVoice explicitly without the flag still gets it.
+    assert pick({"engine": "omnivoice"}).engine == "omnivoice"
+
+
+def test_commercial_only_says_why_instead_of_speaking_other_scripts():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = ["Hello there, it is lovely to meet you today. "
+                         "\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c30\u0c3e\u0c1c\u0c27\u0c3e\u0c28\u0c3f \u0c28\u0c41\u0c2f\u0c4d \u0c22\u0c3f\u0c32\u0c4d\u0c32\u0c40, \u0c05\u0c26\u0c3f \u0c1a\u0c3e\u0c32\u0c3e \u0c2a\u0c46\u0c26\u0c4d\u0c26 \u0c28\u0c17\u0c30\u0c02."]
+        config = va.SessionConfig(engine="kittentts", commercial_only=True)
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Hi")
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run())
+    assert fakes.engines == ["kittentts"]
+    assert [e["code"] for e in sink.of("error")] == ["voice_unavailable_language"]
+    assert len(sink.of("transcript.delta")) == 2
+
+
+def test_a_session_without_a_commercial_voice_answers_in_text():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = ["Sure thing. The answer is four."]
+        config = va.SessionConfig(commercial_only=True, unavailable="voice")
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Two plus two?")
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run())
+    assert fakes.rendered == []
+    assert [e["code"] for e in sink.of("error")] == ["voice_unavailable_voice"]
+    assert sink.of("response.done")
+
+
 def test_needs_multilingual_voice_by_script_or_language():
     assert not va.needs_multilingual_voice("The capital is Paris.", "")
     assert not va.needs_multilingual_voice("Café crème, s'il vous plaît.", "English")

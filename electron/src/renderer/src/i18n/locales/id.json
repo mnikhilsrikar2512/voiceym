@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Jawaban itu gagal",
         "hint": "Coba katakan sekali lagi."
+      },
+      "issue_voice": {
+        "title": "Membalas hanya dengan teks",
+        "hint": "Belum ada suara untuk penggunaan komersial yang bisa mengucapkan ini. Pasang Kokoro atau KittenTTS di Katalog Model, atau pilih suara bawaan."
       }
     }
   }

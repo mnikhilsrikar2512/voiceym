@@ -14,7 +14,7 @@ export type AgentLine = {
   pending?: boolean;
 };
 
-export type AgentIssue = 'microphone' | 'connection' | 'turn';
+export type AgentIssue = 'microphone' | 'connection' | 'turn' | 'voice';
 
 export type AgentSettings = {
   instructions: string;
@@ -126,6 +126,9 @@ export class AgentClient {
           // The built-in voice uses the backend's light engine so a live
           // conversation stays responsive; a cloned voice keeps its engine.
           fast_default_voice: !settings.voice,
+          // Talk only speaks with commercial-use voices; OmniVoice (CC-BY-NC)
+          // is never used as a fallback here.
+          commercial_only: true,
           // Auto or any non-English language hears with the multilingual
           // recogniser; the dictation model is often English/European-only.
           multilingual_asr: !/^(en|english)$/i.test(settings.language.trim()),
@@ -323,6 +326,7 @@ export class AgentClient {
         break;
       case 'error':
         if (event.code === 'turn_failed') this.publish({ issue: 'turn' });
+        else if (String(event.code).startsWith('voice_unavailable')) this.publish({ issue: 'voice' });
         break;
     }
   }

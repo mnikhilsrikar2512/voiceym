@@ -380,7 +380,7 @@ def _make_backend_class():
         """
 
         id = "omnivoice-gguf"
-        display_name = "OmniVoice (GGUF, hardware-adaptive)"
+        display_name = "OmniVoice (GGUF, hardware-adaptive, non-commercial)"
         instruct_vocabulary = "tags"
         gpu_compat = ("cuda", "mps", "cpu")
         supports_voice_design = False

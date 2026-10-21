@@ -1527,7 +1527,7 @@ class OmniVoiceBackend(TTSBackend):
     """
 
     id = "omnivoice"
-    display_name = "Voiceym (k2-fsa/OmniVoice, 600+ languages)"
+    display_name = "OmniVoice (k2-fsa/OmniVoice, 600+ languages, non-commercial)"
     instruct_vocabulary = "tags"
     supports_voice_design = True
     gpu_compat = ("cuda", "rocm", "mps", "cpu")

@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Svaret misslyckades",
         "hint": "Försök säga det igen."
+      },
+      "issue_voice": {
+        "title": "Svarar bara i text",
+        "hint": "Ingen röst för kommersiellt bruk kan säga detta än. Installera Kokoro eller KittenTTS i modellkatalogen, eller välj standardrösten."
       }
     }
   }

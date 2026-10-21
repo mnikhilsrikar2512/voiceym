@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "That reply didn't work",
         "hint": "Try saying it again."
+      },
+      "issue_voice": {
+        "title": "Replying in text only",
+        "hint": "No commercial-use voice can say this yet. Install Kokoro or KittenTTS in Model Catalogue, or pick the default voice."
       }
     }
   }

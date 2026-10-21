@@ -40,7 +40,7 @@ models:
   # ── Required ──────────────────────────────────────────────────────────
 
   - repo_id: "k2-fsa/OmniVoice"
-    label: "Voiceym TTS (k2-fsa/OmniVoice, 600+ languages, zero-shot)"
+    label: "OmniVoice TTS (k2-fsa/OmniVoice, 600+ languages, zero-shot, non-commercial)"
     role: TTS
     engines: [omnivoice, omnivoice-subprocess]
     size_gb: 2.4

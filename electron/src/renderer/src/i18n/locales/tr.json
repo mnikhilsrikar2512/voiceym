@@ -3856,6 +3856,10 @@
       "issue_turn": {
         "title": "Bu yanıt olmadı",
         "hint": "Bir daha söylemeyi dene."
+      },
+      "issue_voice": {
+        "title": "Yalnızca metinle yanıtlanıyor",
+        "hint": "Ticari kullanıma uygun hiçbir ses bunu henüz söyleyemiyor. Model Kataloğu'ndan Kokoro veya KittenTTS kurun ya da varsayılan sesi seçin."
       }
     }
   }
