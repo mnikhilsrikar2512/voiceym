@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/logo.png" alt="Voiceym" width="88" />
+  <img src="docs/logo.svg" alt="Voiceym logo: seven sound bars forming a V" width="128" height="128" />
   <h1>Voiceym</h1>
   <p><strong>A voice agent you can run anywhere, plus a private studio for voice cloning, voice design, dubbing, dictation and transcription.</strong></p>
   <p>

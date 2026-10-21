@@ -68,7 +68,8 @@ def test_brand_mark_is_shared_and_fills_the_icon() -> None:
     # mark uses the full tile and keeps only a narrow 2-unit outer margin.
     assert 'x="2" y="2" width="60" height="60"' in logo
     assert "<circle" not in logo
-    assert 'src="docs/logo.png"' in (ROOT / "README.md").read_text()
+    # The README shows the vector mark so it stays sharp at any size.
+    assert 'src="docs/logo.svg"' in (ROOT / "README.md").read_text()
 
 
 def test_python_package_metadata_points_to_voiceym() -> None:
