@@ -244,10 +244,10 @@ class SpeechRequest(BaseModel):
     """POST /v1/audio/speech — mirrors OpenAI's CreateSpeechRequest."""
 
     model: str = Field(
-        default="omnivoice",
+        default="kokoro",
         description=(
             "TTS model to use. Maps to Voiceym engine IDs: "
-            "'omnivoice', 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. "
+            "'kokoro', 'omnivoice' (non-commercial), 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. "
             "OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated "
             "snapshots) are aliases for the active engine."
         ),

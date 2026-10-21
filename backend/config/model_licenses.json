@@ -1403,6 +1403,31 @@
       }
     },
     {
+      "id": "onnx-community/Kokoro-82M-v1.0-ONNX",
+      "license": "apache-2.0",
+      "commercial_use": false,
+      "review_status": "unreviewed",
+      "credit": "hexgrad/Kokoro-82M; ONNX export by onnx-community",
+      "source_url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+      "evidence_url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/blob/1939ad2a8e416c0acfeecc08a694d14ef25f2231/README.md",
+      "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+      "engines": [
+        "kokoro"
+      ],
+      "configured_at": "backend/config/models.yaml",
+      "notes": "Apache-2.0 per the model card and the base model hexgrad/Kokoro-82M. Licence identifier is upstream model-card metadata, not verified permission for this distribution.",
+      "runtime_revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+      "runtime_pin_scope": "central",
+      "runtime_pin_source": "backend/services/hf_revisions.py",
+      "component_closure": "incomplete",
+      "commercial_inference": "unknown",
+      "commercial_outputs": "unknown",
+      "documents": [],
+      "artifacts": [],
+      "required_components": [],
+      "upstream_access": "unknown"
+    },
+    {
       "id": "openbmb/VoxCPM2",
       "license": "apache-2.0",
       "commercial_use": false,

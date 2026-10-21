@@ -584,6 +584,33 @@ SPECS: dict[str, SidecarSpec] = {
             "VoxCPM2 needs a PyTorch version that has no Intel Mac build."
         ),
     ),
+    # Commercial-use (MIT) English voice cloning. Upstream pins torch 2.6 and
+    # transformers 5.2, so it gets its own venv; a reviewed commit
+    # (2026-07-21). torch 2.6 has no +cu128 build, so the CUDA index is not
+    # forced: Linux takes PyPI's CUDA build, macOS runs on MPS, Windows on CPU.
+    # Weights (ResembleAI/chatterbox) download on the first synthesis.
+    "chatterbox": SidecarSpec(
+        engine_id="chatterbox",
+        display_name="Chatterbox",
+        repo_url="https://github.com/resemble-ai/chatterbox.git",
+        tarball_url=(
+            "https://github.com/resemble-ai/chatterbox/archive/"
+            "5de7a54aa4e5e2baadb0182dde554908b48b85c2.tar.gz"
+        ),
+        checkout_dirname="chatterbox",
+        env_var="OMNIVOICE_CHATTERBOX_DIR",
+        probe_module="chatterbox",
+        probe_code="from chatterbox.tts import ChatterboxTTS",
+        source_revision="5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+        source_required_path="src/chatterbox/tts.py",
+        docs_path="docs/engines/chatterbox.md",
+        venv_args=("--python", "3.11"),
+        install_args=("-e", "{checkout}"),
+        required_bytes=9 * _GIB,
+        host_supported=_no_intel_mac(
+            "Chatterbox pins PyTorch 2.6, which has no Intel Mac build."
+        ),
+    ),
     # Upstream is unpinned and its entry point has moved before (#1287), so the
     # install pins a reviewed commit (2026-09-06) and the sidecar drives the
     # runtime that commit ships (moss_tts_nano_runtime.NanoTTSService). Its

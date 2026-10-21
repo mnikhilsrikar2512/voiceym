@@ -132,7 +132,7 @@ it('selects an installed compatible engine without opening Settings or an agent'
       return Promise.resolve({
         tts: {
           active: null,
-          backends: [{ id: 'omnivoice', available: true, routing_status: 'native' }],
+          backends: [{ id: 'kokoro', available: true, routing_status: 'native' }],
         },
       });
     return Promise.resolve({});
@@ -146,7 +146,7 @@ it('selects an installed compatible engine without opening Settings or an agent'
   await waitFor(() =>
     expect(mock.api).toHaveBeenCalledWith('/engines/select', {
       method: 'POST',
-      body: JSON.stringify({ family: 'tts', backend_id: 'omnivoice' }),
+      body: JSON.stringify({ family: 'tts', backend_id: 'kokoro' }),
     }),
   );
   expect(listener).not.toHaveBeenCalled();
@@ -282,7 +282,7 @@ it('switches engines instead of downloading the model of an unavailable engine',
           active_model: selected,
           backends: [
             { id: 'mlx-audio', available: false, routing_status: 'unavailable' },
-            { id: 'omnivoice', available: true, routing_status: 'accelerated' },
+            { id: 'kokoro', available: true, routing_status: 'accelerated' },
           ],
         },
       });
@@ -299,7 +299,7 @@ it('switches engines instead of downloading the model of an unavailable engine',
   await waitFor(() =>
     expect(mock.api).toHaveBeenCalledWith('/engines/select', {
       method: 'POST',
-      body: JSON.stringify({ family: 'tts', backend_id: 'omnivoice' }),
+      body: JSON.stringify({ family: 'tts', backend_id: 'kokoro' }),
     }),
   );
   expect(mock.api.mock.calls.some(([path]) => path === '/models/install')).toBe(false);

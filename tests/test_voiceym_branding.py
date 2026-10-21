@@ -41,8 +41,11 @@ def test_visible_brand_surfaces_say_voiceym() -> None:
         assert "OmniVoice Gallery" not in text, path
 
     readme = (ROOT / "README.md").read_text()
-    assert "**Voiceym** (default, powered by k2-fsa/OmniVoice)" in readme
+    # The default voice is Kokoro; OmniVoice is named only as the opt-in,
+    # non-commercial engine, never as the product or its default.
+    assert "The default voice is **Kokoro**" in readme
     assert "**OmniVoice** (default)" not in readme
+    assert "non-commercial (CC-BY-NC)" in readme
 
 
 def test_brand_mark_is_shared_and_fills_the_icon() -> None:

@@ -39,13 +39,34 @@
 models:
   # ── Required ──────────────────────────────────────────────────────────
 
+  - repo_id: "onnx-community/Kokoro-82M-v1.0-ONNX"
+    label: "Kokoro TTS (82M, Apache-2.0, English, Hindi + 4 more)"
+    role: TTS
+    engines: [kokoro]
+    size_gb: 0.1
+    required: true
+    curated_on: [all]
+    required_files:
+      - "onnx/model_quantized.onnx"
+      - "tokenizer.json"
+    allow_patterns:
+      - "onnx/model_quantized.onnx"
+      - "tokenizer.json"
+      - "voices/af_heart.bin"
+      - "voices/hf_alpha.bin"
+      - "voices/ef_dora.bin"
+      - "voices/ff_siwis.bin"
+      - "voices/if_sara.bin"
+      - "voices/pf_dora.bin"
+
+  # ── Optional, non-commercial (opt-in) ─────────────────────────────────
+
   - repo_id: "k2-fsa/OmniVoice"
     label: "OmniVoice TTS (k2-fsa/OmniVoice, 600+ languages, zero-shot, non-commercial)"
     role: TTS
     engines: [omnivoice, omnivoice-subprocess]
     size_gb: 2.4
-    required: true
-    curated_on: [all]
+    note: "CC-BY-NC: non-commercial use only. Needed for voice cloning, voice design and dubbing until a commercial-use engine is installed."
 
   - repo_id: "audio-cpp/audio.cpp-gguf"
     label: "audio.cpp native bundle (Breeze-TTS-2 + Sortformer diarisation)"

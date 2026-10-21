@@ -187,9 +187,10 @@ deps_factory: Callable[[], VoiceAgentDeps] = default_deps
 #: time on 8 GB machines, where the main cloning model can stall a live turn.
 FAST_VOICE_ENGINE = "kittentts"
 
-#: Kokoro-82M through MLX-Audio (Apple Silicon, Apache-2.0): a more natural
-#: English voice that also speaks Hindi, preferred when its weights are on disk.
-KOKORO_ENGINE = "mlx-audio"
+#: Kokoro-82M on ONNX Runtime (Apache-2.0, every platform): a natural English
+#: voice that also speaks Hindi, preferred when its weights are on disk.
+KOKORO_ENGINE = "kokoro"
+
 
 #: Light multilingual engine for sentences neither voice above can say
 #: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
@@ -220,16 +221,17 @@ def _engine_if_available(engine_id: str) -> str:
 
 
 def kokoro_ready() -> bool:
-    """MLX-Audio runs here, is set to Kokoro, and Kokoro is already downloaded
+    """The Kokoro engine runs here and its model is already downloaded
     (never trigger a surprise download from a live conversation)."""
     if not _engine_if_available(KOKORO_ENGINE):
         return False
     try:
-        from services.asr_backend import _repo_installed
-        from services.tts_backend import MLXAudioBackend
+        from engines.kokoro import GRAPH_FILE, REPO_ID
+        from huggingface_hub import try_to_load_from_cache
+        from services.hf_revisions import revision_for
 
-        repo = MLXAudioBackend.CURATED_MODELS["kokoro"]
-        return MLXAudioBackend.configured_identity() == repo and _repo_installed(repo)
+        cached = try_to_load_from_cache(REPO_ID, GRAPH_FILE, revision=revision_for(REPO_ID))
+        return isinstance(cached, str)
     except Exception:  # noqa: BLE001
         return False
 
@@ -237,6 +239,15 @@ def kokoro_ready() -> bool:
 def fast_voice_engine() -> str:
     """The fast engine's id when it is installed, else "" (use the active engine)."""
     return KOKORO_ENGINE if kokoro_ready() else _engine_if_available(FAST_VOICE_ENGINE)
+
+
+#: Commercial-use (MIT) English voice cloning, when installed.
+CLONING_VOICE_ENGINE = "chatterbox"
+
+
+def cloning_voice_engine() -> str:
+    """The commercial-use cloning engine's id when it is installed, else ""."""
+    return _engine_if_available(CLONING_VOICE_ENGINE)
 
 
 def multilingual_voice_engine() -> str:
@@ -301,7 +312,11 @@ class SessionConfig:
         if commercial_only:
             if multilingual_engine in NON_COMMERCIAL_ENGINES:
                 multilingual_engine = ""
-            if engine in NON_COMMERCIAL_ENGINES or (
+            if voice and not engine:
+                # A cloned voice needs a commercial-use cloning engine.
+                engine = cloning_voice_engine()
+                unavailable = "" if engine else "clone"
+            elif engine in NON_COMMERCIAL_ENGINES or (
                 not engine and active_tts_engine() in NON_COMMERCIAL_ENGINES
             ):
                 engine = ""

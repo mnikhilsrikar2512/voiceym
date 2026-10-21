@@ -3348,6 +3348,10 @@ _LAZY_REGISTRY: dict[str, tuple[str, str]] = {
     # huggingface_hub + soundfile transitively when callers only need
     # the in-process OmniVoice. Resolves on first attribute / item access.
     "omnivoice-gguf": ("engines.omnivoice_gguf", "OmniVoiceGGUFBackend"),
+    # Default voice: Kokoro-82M (Apache-2.0) on ONNX Runtime, every platform.
+    "kokoro": ("engines.kokoro", "KokoroBackend"),
+    # Commercial-use English cloning (MIT) in its own venv (one-click install).
+    "chatterbox": ("engines.chatterbox", "ChatterboxBackend"),
     # Phase 3 Plan 03-01 (TTS-01): Supertonic-3 lives in its own engine
     # package for the same import-cycle reason as IndexTTS2 (its backend
     # module imports services.subprocess_backend which in turn imports
@@ -3477,6 +3481,8 @@ _INSTALL_HINTS: dict[str, str] = {
     "omnivoice-subprocess": "No extra install; uses the host OmniVoice install. Opt in with OMNIVOICE_TTS_BACKEND=omnivoice-subprocess (same model in a killable sidecar, for unattended reliability).",
     "cosyvoice":     "git clone --recursive FunAudioLLM/CosyVoice + pip install -r requirements.txt + SoX",
     "kittentts":     "pip install kittentts  (ONNX, CPU-only, ~80 MB)",
+    "chatterbox":    "One-click install from Model Catalogue (own venv, torch 2.6; ~3 GB weights from ResembleAI/chatterbox on first use).",
+    "kokoro":        "Bundled — ONNX on CPU with the KittenTTS dependencies; the ~95 MB model downloads from onnx-community/Kokoro-82M-v1.0-ONNX on first use.",
     "mlx-audio":     "pip install mlx-audio  (Apple Silicon only)",
     "voxcpm2":       'pip install "voxcpm>=2.0.3"  (floor: 2.0.3 fixed Apple-Silicon audio quality; CPU/MPS supported, CUDA recommended for speed)',
     "moss-tts-nano": "git clone OpenMOSS/MOSS-TTS-Nano && pip install -e .  (not on PyPI)",
@@ -3525,6 +3531,8 @@ _ENGINE_DOCS: dict[str, str] = {
     "omnivoice-gguf":       "docs/engines/omnivoice-gguf.md",
     "cosyvoice":            "docs/engines/cosyvoice.md",
     "kittentts":            "docs/engines/kittentts.md",
+    "kokoro":               "docs/engines/kokoro.md",
+    "chatterbox":           "docs/engines/chatterbox.md",
     "mlx-audio":            "docs/engines/mlx-audio.md",
     "voxcpm2":              "docs/engines/voxcpm2.md",
     "moss-tts-nano":        "docs/engines/moss-tts-nano.md",
@@ -4095,11 +4103,17 @@ def gpu_routing_verdict() -> dict:
     }
 
 
+#: The engine used when the user has not picked one: commercial-use friendly
+#: (Apache-2.0) and the same on every platform.
+DEFAULT_TTS_ENGINE = "kokoro"
+
+
 def active_backend_id() -> str:
     # Env var > persisted UI choice > default. Env wins so power-users can
     # pin a backend without the Settings picker silently undoing it.
     from core import prefs
-    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="omnivoice")
+    # Kokoro (Apache-2.0) is the default; OmniVoice (CC-BY-NC) is opt-in.
+    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default=DEFAULT_TTS_ENGINE)
 
 
 # Cached active backend instance + its id (MM2-01). Without this, every call

@@ -24,8 +24,12 @@ stay on your hardware unless you choose a cloud service.
 | Interrupt it mid-sentence, like a real conversation | Dub videos with timed speech | Local speech API and MCP server for AI tools |
 | Dictate anywhere with a floating widget | Stories, audiobooks and batch jobs | Phone companion apps (preview) |
 
-Start with **Voiceym** (default, powered by k2-fsa/OmniVoice), or choose another
-engine. See the [features and engine catalog](docs/feature-catalog.md).
+The default voice is **Kokoro** (Apache-2.0, commercial use allowed), which
+speaks English, Hindi and four more languages on any computer. Voice cloning,
+voice design and dubbing use **OmniVoice** (k2-fsa, 600+ languages), which is
+**non-commercial (CC-BY-NC)** and opt-in from the Model Catalogue; Chatterbox
+(MIT) adds commercial-use English cloning. See the
+[features and engine catalog](docs/feature-catalog.md).
 
 ## Get started
 

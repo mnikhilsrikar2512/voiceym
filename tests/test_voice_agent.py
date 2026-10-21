@@ -135,7 +135,7 @@ def test_kokoro_is_preferred_and_also_speaks_hindi(monkeypatch):
     monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-gguf")
     cfg = va.SessionConfig.from_message({"fast_default_voice": True})
     assert (cfg.engine, cfg.hindi_engine, cfg.multilingual_engine) == (
-        "mlx-audio", "mlx-audio", "omnivoice-gguf")
+        "kokoro", "kokoro", "omnivoice-gguf")
     monkeypatch.setattr(va, "kokoro_ready", lambda: False)
     monkeypatch.setattr(va, "_engine_if_available", lambda engine: engine)
     cfg = va.SessionConfig.from_message({"fast_default_voice": True})
@@ -147,7 +147,7 @@ def test_hindi_goes_to_kokoro_other_scripts_to_the_multilingual_engine():
         fakes, sink = Fakes(), Sink()
         fakes.replies = ["\u092d\u093e\u0930\u0924 \u0915\u0940 \u0930\u093e\u091c\u0927\u093e\u0928\u0940 \u0928\u0908 \u0926\u093f\u0932\u094d\u0932\u0940 \u0939\u0948\u0964 "
                          "\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c30\u0c3e\u0c1c\u0c27\u0c3e\u0c28\u0c3f \u0c28\u0c41\u0c2f\u0c4d \u0c22\u0c3f\u0c32\u0c4d\u0c32\u0c40, \u0c05\u0c26\u0c3f \u0c1a\u0c3e\u0c32\u0c3e \u0c2a\u0c46\u0c26\u0c4d\u0c26 \u0c28\u0c17\u0c30\u0c02."]
-        config = va.SessionConfig(engine="mlx-audio", hindi_engine="mlx-audio",
+        config = va.SessionConfig(engine="kokoro", hindi_engine="kokoro",
                                   multilingual_engine="omnivoice-gguf")
         session = va.VoiceAgentSession(config, sink, fakes.deps())
         await session.start()
@@ -158,7 +158,7 @@ def test_hindi_goes_to_kokoro_other_scripts_to_the_multilingual_engine():
 
     fakes = asyncio.run(run())
     assert len(fakes.rendered) == 2, fakes.rendered
-    assert fakes.engines == ["mlx-audio", "omnivoice-gguf"]
+    assert fakes.engines == ["kokoro", "omnivoice-gguf"]
     assert fakes.languages == ["hi", ""]
 
 
@@ -169,8 +169,12 @@ def test_commercial_only_never_picks_omnivoice(monkeypatch):
     pick = va.SessionConfig.from_message
     talk = pick({"fast_default_voice": True, "commercial_only": True})
     assert (talk.engine, talk.multilingual_engine, talk.unavailable) == ("kittentts", "", "")
+    monkeypatch.setattr(va, "cloning_voice_engine", lambda: "")
     cloned = pick({"voice": "p1", "fast_default_voice": True, "commercial_only": True})
     assert (cloned.engine, cloned.unavailable) == ("", "clone")
+    monkeypatch.setattr(va, "cloning_voice_engine", lambda: "chatterbox")
+    cloned = pick({"voice": "p1", "fast_default_voice": True, "commercial_only": True})
+    assert (cloned.engine, cloned.unavailable) == ("chatterbox", "")
     monkeypatch.setattr(va, "fast_voice_engine", lambda: "")
     none = pick({"fast_default_voice": True, "commercial_only": True})
     assert (none.engine, none.unavailable) == ("", "voice")

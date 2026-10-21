@@ -29,8 +29,14 @@ features:
 # readme (optional): a string that must appear in README.md (engine table row).
 # doc (optional): a repo-relative doc file that must exist.
 tts_engines:
+  - id: kokoro
+    readme: "The default voice is **Kokoro**"
+    doc: docs/engines/kokoro.md
   - id: omnivoice
-    readme: "**Voiceym** (default, powered by k2-fsa/OmniVoice)"
+    readme: "**OmniVoice** (k2-fsa, 600+ languages)"
+  - id: chatterbox
+    readme: Chatterbox
+    doc: docs/engines/chatterbox.md
   - id: omnivoice-subprocess
     doc: docs/engines/omnivoice-subprocess.md
   - id: cosyvoice

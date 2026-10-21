@@ -34,12 +34,12 @@ def _ids(payload: dict) -> set[str]:
 
 def test_required_models_is_tts_only():
     from api.routers.setup.models import REQUIRED_MODELS
-    assert [rid for rid, _ in REQUIRED_MODELS] == ["k2-fsa/OmniVoice"]
+    assert [rid for rid, _ in REQUIRED_MODELS] == ["onnx-community/Kokoro-82M-v1.0-ONNX"]
 
 
 def test_mac_arm_curates_mlx_whisper_not_ct2(client):
     ids = _ids(_recommend(client, ["darwin", "darwin-arm64"]))
-    assert "k2-fsa/OmniVoice" in ids
+    assert "onnx-community/Kokoro-82M-v1.0-ONNX" in ids
     assert "mlx-community/whisper-large-v3-mlx" in ids
     assert "mlx-community/whisper-large-v3-turbo" in ids
     # The CT2 build stays available in the full catalog but is not the
@@ -51,7 +51,7 @@ def test_mac_arm_curates_mlx_whisper_not_ct2(client):
 
 def test_cuda_curates_ct2_whisper_and_turbo(client):
     ids = _ids(_recommend(client, ["linux", "linux-x86_64", "cuda"]))
-    assert "k2-fsa/OmniVoice" in ids
+    assert "onnx-community/Kokoro-82M-v1.0-ONNX" in ids
     assert "Systran/faster-whisper-large-v3" in ids
     assert "deepdml/faster-whisper-large-v3-turbo-ct2" in ids
     assert "csukuangfj/sherpa-onnx-whisper-tiny" in ids
@@ -86,7 +86,7 @@ def test_cpu_only_curates_ct2_and_whisper_tiny(client):
 def test_only_tts_entries_are_marked_required(client):
     payload = _recommend(client, ["linux", "linux-x86_64", "cpu"])
     required = [m for m in payload["models"] if m["required"]]
-    assert [m["repo_id"] for m in required] == ["k2-fsa/OmniVoice"]
+    assert [m["repo_id"] for m in required] == ["onnx-community/Kokoro-82M-v1.0-ONNX"]
     # ASR picks are present but optional — the wizard must not gate on them.
     assert any(m["role"] == "ASR" and not m["required"] for m in payload["models"])
 
@@ -97,7 +97,7 @@ def test_models_endpoint_exposes_curated_flag(client):
     models = r.json()["models"]
     assert all("curated" in m for m in models)
     # The required TTS model is always curated.
-    tts = next(m for m in models if m["repo_id"] == "k2-fsa/OmniVoice")
+    tts = next(m for m in models if m["repo_id"] == "onnx-community/Kokoro-82M-v1.0-ONNX")
     assert tts["curated"] is True
 
 
@@ -108,4 +108,4 @@ def test_cpu_preset_lists_the_light_whisper_before_the_heavy_ones(client):
     for heavy in ("Systran/faster-whisper-large-v3", "deepdml/faster-whisper-large-v3-turbo-ct2"):
         assert small < asr.index(heavy), asr
     # The required TTS entry still leads the whole preset.
-    assert models[0]["repo_id"] == "k2-fsa/OmniVoice"
+    assert models[0]["repo_id"] == "onnx-community/Kokoro-82M-v1.0-ONNX"

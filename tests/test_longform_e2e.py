@@ -349,6 +349,8 @@ def test_off_path_emits_no_loudness_block(tmp_path, monkeypatch):
 # ── the finished render says what it is ─────────────────────────────────────
 
 def test_done_event_carries_the_title_and_how_it_was_rendered(tmp_path, monkeypatch):
+    # The recorded sampling values are OmniVoice's; it is opt-in since Kokoro became the default.
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
     from services.audiobook import AudiobookPlan, Chapter, ExpressiveOptions, Span
 
     out = tmp_path / "outputs"

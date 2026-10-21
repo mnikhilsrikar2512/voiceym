@@ -3398,6 +3398,16 @@ async def preload_model():
     if model is not None:
         return  # already loaded
 
+    # Only warm OmniVoice when the user actually chose it: it is CC-BY-NC and
+    # opt-in, and warming it otherwise spends gigabytes on an unused model.
+    try:
+        from services.tts_backend import active_backend_id
+
+        if active_backend_id() not in ("omnivoice", "omnivoice-subprocess"):
+            return
+    except Exception:  # noqa: BLE001 -- preload selection must stay best-effort
+        logger.debug("active TTS engine lookup failed", exc_info=True)
+
     # On MPS the configured ``omnivoice`` id resolves to a crash-isolated
     # sidecar. Warming the native singleton here would put the same fatal MPS
     # allocator risk back into the API process before the isolated engine is
