@@ -63,6 +63,9 @@ def _ignored_fingerprints():
     return [ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith("#")]
 
 
+_RFC6455_SAMPLE_KEY = "dGhlIHNhbXBsZSBub25jZQ=="
+
+
 def test_gitleaks_ignores_only_commit_pinned_posthog_findings():
     """An ignore entry names one finding in one commit, never a path or a rule."""
     import subprocess
@@ -84,7 +87,12 @@ def test_gitleaks_ignores_only_commit_pinned_posthog_findings():
         )
         assert shown.returncode == 0, f"cannot read the pinned commit and path: {entry}"
         source_line = shown.stdout.splitlines()[int(line) - 1]
-        # Only the retired public PostHog project token may be skipped.
+        # The RFC 6455 section 1.3 sample Sec-WebSocket-Key is a published
+        # protocol example, not a credential; nothing else but it may match.
+        if _RFC6455_SAMPLE_KEY in source_line:
+            assert re.search(r"'Sec-WebSocket-Key':\s*'" + re.escape(_RFC6455_SAMPLE_KEY) + "'", source_line), entry
+            continue
+        # Otherwise only the retired public PostHog project token may be skipped.
         token = re.search(r"phc_[A-Za-z0-9]{20,}", source_line)
         assert token, entry
         assert hashlib.sha256(token.group(0).encode()).hexdigest() in _RETIRED_TOKEN_SHA256, entry

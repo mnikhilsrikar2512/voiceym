@@ -134,6 +134,7 @@ def test_preload_never_loads_uninstalled_checkpoint(model_manager, monkeypatch):
 def test_preload_warms_up_locally_installed_checkpoint(model_manager, monkeypatch):
     """The counterpart guard: a locally present checkpoint must still warm up
     (skipping it would make the first /generate eat the full weight load)."""
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     monkeypatch.setattr(model_manager, "_checkpoint_in_local_cache", lambda c: True)
 
     loaded = SimpleNamespace(llm=object())

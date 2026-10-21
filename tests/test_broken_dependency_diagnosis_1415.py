@@ -153,6 +153,7 @@ def test_a_genuinely_missing_omnivoice_still_triggers_the_fallback(mm, monkeypat
 def test_a_failed_preload_shows_up_in_the_status(mm, monkeypatch):
     """Fail-before: the status stayed "idle" with no error, so the app looked
     healthy and produced nothing until a generation failed much later."""
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     import asyncio
 
     monkeypatch.setattr(mm, "model", None, raising=False)
@@ -181,6 +182,7 @@ def test_a_successful_preload_clears_a_previous_failure(mm, monkeypatch):
     """Driven through `preload_model()` rather than `_set_loading`, so it can
     only pass if the real success path actually clears the error a previous
     failure left behind (CodeRabbit)."""
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     import asyncio
 
     mm._set_loading("failed", "something broke", error="something broke")
@@ -221,6 +223,7 @@ def test_unloaded_model_does_not_publish_stale_ready_detail(mm, monkeypatch):
 def test_preload_oom_status_is_actionable_and_does_not_publish_allocator_details(
     mm, monkeypatch,
 ):
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     import asyncio
 
     monkeypatch.setattr(mm, "model", None, raising=False)
@@ -250,6 +253,7 @@ def test_the_fallback_detail_does_not_leak_a_path(mm, monkeypatch):
     status must not be the raw exception — those carry absolute paths, i.e.
     the user's account name, and this string is published through
     /model/status (CodeRabbit)."""
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     import asyncio
 
     monkeypatch.setattr(mm, "model", None, raising=False)

@@ -199,7 +199,11 @@ def test_generate_cpu_only_host_emits_no_routing_header(client, monkeypatch, no_
 
 
 def test_generate_default_path_still_runs_omnivoice(client, monkeypatch, tmp_path):
-    """No selection + no override → the OmniVoice model path, unchanged."""
+    """No selection + no override on an OmniVoice-default host → the OmniVoice model path."""
+    # OmniVoice is opt-in since Kokoro became the default: make it the
+    # default engine here instead of pinning it through the environment.
+    import services.tts_backend as _tts_backend
+    monkeypatch.setattr(_tts_backend, "DEFAULT_TTS_ENGINE", "omnivoice")
     # Neutralize any persisted Settings pick so the default resolution applies.
     from core import prefs as _prefs
     monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))

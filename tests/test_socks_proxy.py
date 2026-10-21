@@ -124,6 +124,7 @@ def _fail_model_info(monkeypatch):
 
 
 def test_preload_warms_up_from_cache_when_network_probe_fails(monkeypatch):
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")  # opt-in since Kokoro became the default
     # Pre-fix, ANY model_info failure silently skipped warm-up — under a SOCKS
     # proxy env that meant a fully cached model never preloaded and the first
     # /generate ate the whole load. Now a failed network probe falls back to a
