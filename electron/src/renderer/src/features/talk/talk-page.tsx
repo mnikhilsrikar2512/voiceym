@@ -14,7 +14,7 @@ import { useProfiles } from '@/hooks/use-profiles';
 import { getAgentModels } from '@/lib/api/agent';
 import { cn } from '@/lib/utils';
 import { AgentClient, type AgentSettings, type AgentSnapshot } from './agent-client';
-import { VoiceOrb } from './voice-orb';
+import { VoiceBars } from './voice-bars';
 import './talk-page.css';
 
 const SETTINGS_KEY = 'voiceym.talk.settings';
@@ -178,8 +178,8 @@ export function TalkPage() {
       </WorkspaceHeader>
       <div className={cn('talk-layout', setupOpen && 'talk-layout-with-setup')}>
         <section className="talk-stage" aria-label={t('talk.conversation')}>
-          <div className="talk-orb-wrap">
-            <VoiceOrb mode={agent.mode} level={() => client.level()} />
+          <div className="talk-presence">
+            <VoiceBars mode={agent.mode} level={() => client.level()} />
             <div className="talk-state" role="status" aria-live="polite">
               <p className="talk-state-title">{t(`talk.state.${status}.title`)}</p>
               <p className="talk-state-hint">{t(`talk.state.${status}.hint`)}</p>

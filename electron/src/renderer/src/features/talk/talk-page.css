@@ -39,25 +39,33 @@
   padding: 24px 32px 20px;
 }
 
-.talk-orb-wrap {
+.talk-presence {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 
-.talk-orb {
-  display: block;
-  width: min(100%, 320px);
-  height: 300px;
+.talk-bars {
+  position: relative;
+  width: min(100%, 240px);
+  height: 200px;
+  margin: 56px 0 48px;
 }
 
-.talk-orb[data-fallback='true'] {
+.talk-bar {
+  position: absolute;
+  width: 10.6%;
   border-radius: 999px;
-  width: 220px;
-  height: 220px;
-  margin: 40px;
-  background: radial-gradient(circle at 35% 30%, var(--brand-amber), var(--brand-rose));
+  transform: translateY(-50%);
+  transform-origin: center;
+  opacity: 0.9;
+  transition: opacity 300ms ease;
+}
+
+.talk-bars[data-mode='listening'] .talk-bar,
+.talk-bars[data-mode='speaking'] .talk-bar {
+  opacity: 1;
 }
 
 .talk-state {

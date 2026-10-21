@@ -140,9 +140,9 @@ def main() -> int:
     stdin = sys.stdin.buffer
     # Frames go down a private fd; fd 1 points at stderr so library prints
     # can't interleave with the length-prefixed frames (#1428).
-    frame_fd = os.dup(1)
+    _frame_fd = os.dup(1)
     os.dup2(2, 1)
-    stdout = os.fdopen(frame_fd, "wb")
+    stdout = os.fdopen(_frame_fd, "wb")
     _send(stdout, {"op": "ready", "engine": "chatterbox", "sample_rate": SAMPLE_RATE})
     while True:
         try:

@@ -1,7 +1,8 @@
 # Voiceym brand
 
-Voiceym uses a waveform-and-spark mark. The waveform identifies audio; the
-spark identifies creation. The product voice is clear, calm, and direct.
+Voiceym's mark is seven rounded sound bars that rise and fall like a voice and
+together form the letter V, so the same shape reads as a waveform and as the V
+of Voiceym. The product voice is clear, calm, and direct.
 
 ## Assets
 
@@ -21,21 +22,21 @@ mark:
 Export the canonical vector to the required PNG, ICO, and ICNS sizes under
 `electron/build/icons/`, then run the Electron packaging contract.
 
-Do not redraw the waveform per screen. Use `VoiceymMark` in React and the
+Do not redraw the bars per screen. Use `VoiceymMark` in React and the
 canonical SVG elsewhere so the silhouette stays recognizable at 16–512 px.
 
 ## Palette
 
 | Role | Color |
 |---|---|
-| Voice rose | `#F47FA3` |
-| Soft highlight | `#FFD0DB` |
-| Creative amber | `#F7AE73` |
-| Spark | `#FFE5B5` |
-| Plum tile | `#211B2B` → `#120F18` |
+| Voice teal | `#5EEAD4` |
+| Voice indigo | `#818CF8` |
+| Voice violet | `#E879F9` |
+| Indigo tile | `#262257` → `#0B0A1E`, with a soft indigo glow behind the bars |
 
-The mark may render in one color inside app chrome. Keep the waveform and spark
-together; do not put text inside the icon or add another enclosing ring.
+The bars use one gradient from teal to violet. The mark may render in one color
+inside app chrome. Keep all seven bars and their V shape; do not put text
+inside the icon or add another enclosing ring.
 
 ## Name and copy
 

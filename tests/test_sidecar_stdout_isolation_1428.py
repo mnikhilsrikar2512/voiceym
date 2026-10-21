@@ -40,6 +40,7 @@ SIDECARS = sorted(
 EXPECTED_SIDECARS = {
     ENGINES / "_asr_sidecar" / "main.py",
     ENGINES / "_echo" / "main.py",
+    ENGINES / "chatterbox" / "main.py",
     ENGINES / "confucius4" / "main.py",
     ENGINES / "dots_tts" / "main.py",
     ENGINES / "indextts" / "main.py",

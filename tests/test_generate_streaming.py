@@ -449,15 +449,11 @@ def test_stream_timeout_names_the_cpu_remedy_only_on_cpu(
 def test_stream_native_model_path(client, monkeypatch, tmp_path):
     """The native OmniVoice model path streams too (per-chunk generate calls
     with duration=None), and its saved take matches the classic render."""
-    # OmniVoice is opt-in since Kokoro became the default: make it the
-    # default engine here instead of pinning it through the environment.
-    import services.tts_backend as _tts_backend
-    monkeypatch.setattr(_tts_backend, "DEFAULT_TTS_ENGINE", "omnivoice")
     from unittest.mock import MagicMock
 
     from core import prefs as _prefs
     monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
 
     mock_model = MagicMock()
     mock_model.sampling_rate = 24000
