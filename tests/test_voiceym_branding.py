@@ -56,7 +56,7 @@ def test_brand_mark_is_shared_and_fills_the_icon() -> None:
     favicon = (ROOT / "electron/public/favicon.svg").read_text()
 
     # The centre bar, the point of the V, is the same in every copy.
-    signature = 'x="29" y="15" width="6" height="34"'
+    signature = 'x="29.5" y="36" width="5" height="16"'
     assert signature in mark
     assert signature in logo
     assert signature in favicon

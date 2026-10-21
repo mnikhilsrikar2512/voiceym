@@ -1,8 +1,8 @@
 # Voiceym brand
 
-Voiceym's mark is five rounded sound bars hanging from one line. Their lengths
-trace the letter V, so the same shape reads as a voice level meter and as the
-V of Voiceym. The product voice is clear, calm, and direct.
+Voiceym's mark is seven rounded sound bars that rise and fall like a voice and
+together form the letter V, so the same shape reads as a waveform and as the V
+of Voiceym. The product voice is clear, calm, and direct.
 
 ## Assets
 
@@ -32,10 +32,10 @@ canonical SVG elsewhere so the silhouette stays recognizable at 16–512 px.
 | Voice teal | `#5EEAD4` |
 | Voice indigo | `#818CF8` |
 | Voice violet | `#E879F9` |
-| Indigo tile | `#1D1A44` → `#0C0B1F` |
+| Indigo tile | `#262257` → `#0B0A1E`, with a soft indigo glow behind the bars |
 
 The bars use one gradient from teal to violet. The mark may render in one color
-inside app chrome. Keep all five bars and their V outline; do not put text
+inside app chrome. Keep all seven bars and their V shape; do not put text
 inside the icon or add another enclosing ring.
 
 ## Name and copy
