@@ -10,11 +10,12 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const scratch = mkdtempSync(join(tmpdir(), 'voiceym-site-browser-'));
+const escapeHtml = (text) =>
+  text.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
 const server = createServer((req, res) => {
+  const path = escapeHtml(req.url ?? '/');
   res.setHeader('Content-Type', 'text/html');
-  res.end(
-    `<title>${req.url}</title><h1>${req.url}</h1><a href="/two" target="_blank">Next page</a>`,
-  );
+  res.end(`<title>${path}</title><h1>${path}</h1><a href="/two" target="_blank">Next page</a>`);
 });
 let app;
 try {

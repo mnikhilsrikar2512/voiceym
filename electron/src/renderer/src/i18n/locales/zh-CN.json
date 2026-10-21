@@ -3816,8 +3816,7 @@
     "voice_default": "默认声音",
     "add_voice": "添加声音",
     "model": "语言模型",
-    "model_hint": "本机 Ollama 中的开源模型。添加模型：ollama pull <name>",
-    "model_missing": "Ollama 未运行或没有对话模型。请安装 Ollama 并运行：ollama pull llama3.2:1b",
+    "model_hint": "用 ollama pull 安装的模型都会显示在这里。模型越小，占用内存越少。",
     "language": "语言",
     "barge_in": "允许打断",
     "barge_in_hint": "在助手说话时开口会让它停下。",
@@ -3861,6 +3860,8 @@
         "title": "仅以文字回复",
         "hint": "目前没有可商用的语音能说这段内容。请在模型目录中安装 Kokoro 或 KittenTTS，或选择默认语音。"
       }
-    }
+    },
+    "model_app": "应用的语言模型",
+    "model_unavailable": "Ollama 未运行，因此对话使用应用的语言模型。"
   }
 }

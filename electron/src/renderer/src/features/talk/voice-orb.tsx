@@ -96,6 +96,15 @@ export function VoiceOrb({ mode, level }: { mode: AgentMode; level: () => number
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    // Probe on a throwaway canvas first: three.js logs console errors before it
+    // throws when WebGL is missing (software-only GPUs, some VMs and CI runners).
+    const probe = document.createElement('canvas');
+    const probeContext = probe.getContext('webgl2') ?? probe.getContext('webgl');
+    probeContext?.getExtension('WEBGL_lose_context')?.loseContext();
+    if (!probeContext) {
+      canvas.dataset.fallback = 'true';
+      return;
+    }
     let renderer: WebGLRenderer;
     try {
       renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });

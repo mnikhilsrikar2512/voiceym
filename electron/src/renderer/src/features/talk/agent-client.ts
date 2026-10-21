@@ -20,6 +20,8 @@ export type AgentSettings = {
   instructions: string;
   voice: string;
   language: string;
+  /** An Ollama model name; empty uses the app's language model. */
+  model: string;
   bargeIn: boolean;
   greet: boolean;
 };
@@ -133,6 +135,7 @@ export class AgentClient {
           // recogniser; the dictation model is often English/European-only.
           multilingual_asr: !/^(en|english)$/i.test(settings.language.trim()),
           language: settings.language,
+          model: settings.model,
           barge_in: settings.bargeIn,
           greet: settings.greet,
         }),

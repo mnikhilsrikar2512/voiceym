@@ -24,7 +24,9 @@ The LLM, ASR and TTS are injected through :class:`VoiceAgentDeps` so tests
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
+import os
 import re
 import time
 from dataclasses import dataclass, field
@@ -51,6 +53,41 @@ DEFAULT_INSTRUCTIONS = (
 )
 
 Event = Union[dict, bytes]
+
+#: Languages the light setup (Parakeet, the English voice) can't handle. Talk
+#: hears them with multilingual Whisper and speaks them with OmniVoice.
+INDIAN_LANGUAGES = {
+    "hindi": "hi", "bengali": "bn", "tamil": "ta", "telugu": "te", "marathi": "mr",
+    "gujarati": "gu", "kannada": "kn", "malayalam": "ml", "panjabi": "pa", "punjabi": "pa",
+    "urdu": "ur", "odia": "or", "assamese": "as", "nepali": "ne",
+}
+#: Voice engines that speak Indian languages, lightest first: the GGUF build of
+#: OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice itself.
+MULTILINGUAL_ENGINES = ("omnivoice-gguf", "omnivoice")
+
+
+def multilingual_engine() -> str:
+    from services.tts_backend import get_backend_class
+
+    for engine in MULTILINGUAL_ENGINES[:-1]:
+        try:
+            if get_backend_class(engine).is_available()[0]:
+                return engine
+        except Exception:  # noqa: BLE001 -- an unbuilt engine just isn't picked
+            continue
+    return MULTILINGUAL_ENGINES[-1]
+
+
+def indian_language_code(language: str) -> str | None:
+    """``"Hindi"`` or ``"hi"`` → ``"hi"``; ``None`` for any other language."""
+    value = (language or "").strip().lower()
+    if value in INDIAN_LANGUAGES.values():
+        return value
+    return INDIAN_LANGUAGES.get(value)
+
+
+def is_indian_language(language: str) -> bool:
+    return indian_language_code(language) is not None
 
 
 def system_prompt(instructions: str, language: str) -> str:
@@ -119,6 +156,8 @@ class VoiceAgentDeps:
     transcribe: Callable[[np.ndarray, str], Awaitable[str]]
     #: (text, voice=, engine=, language=) → async iterator of PCM16 at 24 kHz
     render: Callable[..., AsyncIterator[np.ndarray]]
+    #: (messages, model name) → text deltas, when the session names an Ollama model
+    model_stream: Callable[[list[dict], str], AsyncIterator[str]] | None = None
 
 
 async def _default_transcribe(pcm16k: np.ndarray, language: str, *, multilingual: bool = False) -> str:
@@ -127,12 +166,59 @@ async def _default_transcribe(pcm16k: np.ndarray, language: str, *, multilingual
 
     audio = [pcm16k.astype(np.int16).tobytes()]
     with capture_lease():
+        if is_indian_language(language):
+            # A named Indian language: Whisper with that language as a hint.
+            return await _transcribe_multilingual(pcm16k, indian_language_code(language) or "")
         if multilingual:
-            # Skip the dictation model (often English/European-only) for the
-            # multilingual Whisper tier, which detects the spoken language.
+            # Auto or another non-English language: skip the dictation model
+            # (often English/European-only) for the multilingual Whisper tier,
+            # which detects the spoken language.
             result = await _transcribe_buffer_full(audio, pcm_sr=INPUT_SAMPLE_RATE, skip_sherpa=True)
             return result.get("text", "")
         return await _transcribe_buffer(audio, pcm_sr=INPUT_SAMPLE_RATE)
+
+
+_multilingual_asr_backend = None
+
+
+def _multilingual_asr():
+    """A Whisper backend that takes a ``language`` (the dictation pick may be
+    an English/European-only model such as Parakeet)."""
+    global _multilingual_asr_backend
+    from services import asr_backend as asr
+
+    backend = asr.get_capture_asr_backend(skip_sherpa=True)
+    if "language" in inspect.signature(backend.transcribe).parameters:
+        return backend
+    if _multilingual_asr_backend is None:
+        ok, _ = asr.MLXWhisperBackend.is_available()
+        _multilingual_asr_backend = (
+            asr.MLXWhisperBackend(model_name=asr._MLX_MODEL_TURBO) if ok else asr.FasterWhisperBackend()
+        )
+    asr.ensure_backend_licence(_multilingual_asr_backend)
+    return _multilingual_asr_backend
+
+
+async def _transcribe_multilingual(pcm16k: np.ndarray, code: str) -> str:
+    from api.routers.capture_ws import _pcm16_to_wav, _result_text
+    from services.asr_backend import run_transcribe_guarded
+    from services.model_manager import _gpu_pool
+
+    path = _pcm16_to_wav(pcm16k.astype(np.int16).tobytes(), INPUT_SAMPLE_RATE)
+    if path is None:
+        return ""
+
+    def _run() -> str:
+        result = _multilingual_asr().transcribe(path, word_timestamps=False, language=code or None)
+        return _result_text(result)
+
+    try:
+        return (await run_transcribe_guarded(_gpu_pool, _run, what="Voice agent")).strip()
+    finally:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
 
 
 def to_pcm16_24k(samples, sample_rate: int) -> np.ndarray:
@@ -167,12 +253,14 @@ async def _default_render(
 
 
 def default_deps() -> VoiceAgentDeps:
+    from services import ollama_local
     from services.telephony.agent import _default_llm_stream
 
     return VoiceAgentDeps(
         llm_stream=_default_llm_stream,
         transcribe=_default_transcribe,
         render=_default_render,
+        model_stream=ollama_local.chat_stream,
     )
 
 
@@ -276,6 +364,8 @@ class SessionConfig:
     voice: str = ""
     engine: str = ""
     language: str = ""
+    #: An Ollama model to answer with; empty uses the app's language model.
+    model: str = ""
     #: Speak first when the session starts (a greeting from the LLM).
     greet: bool = False
     #: Let caller speech interrupt the agent.
@@ -326,6 +416,7 @@ class SessionConfig:
             voice=voice,
             engine=engine,
             language=_s("language", 40),
+            model=_s("model", 120),
             greet=bool(data.get("greet", False)),
             barge_in=bool(data.get("barge_in", True)),
             multilingual_asr=data.get("multilingual_asr") is True,
@@ -510,7 +601,11 @@ class VoiceAgentSession:
 
         async def _produce() -> None:
             try:
-                async for delta in self.deps.llm_stream(messages):
+                if self.config.model and self.deps.model_stream is not None:
+                    stream = self.deps.model_stream(messages, self.config.model)
+                else:
+                    stream = self.deps.llm_stream(messages)
+                async for delta in stream:
                     for sentence in chunker.push(think.feed(delta)):
                         await sentences.put(sentence)
                 for sentence in chunker.push(think.finish()) + chunker.flush():
@@ -554,9 +649,17 @@ class VoiceAgentSession:
         await self._emit({"type": "error", "code": f"voice_unavailable_{reason}",
                           "message": self._UNAVAILABLE[reason]})
 
+    def _engine(self) -> str:
+        """The voice engine for this session: the client's pick, else (for a
+        session that didn't ask for commercial-use voices only) OmniVoice for
+        an Indian language, since the light voice is English only."""
+        if self.config.engine or self.config.commercial_only:
+            return self.config.engine
+        return multilingual_engine() if is_indian_language(self.config.language) else ""
+
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
-        engine, language = self.config.engine, self.config.language
+        engine, language = self._engine(), self.config.language
         if self.config.hindi_engine and is_devanagari(sentence):
             engine, language = self.config.hindi_engine, "hi"
         elif self.config.multilingual_engine and needs_multilingual_voice(sentence, language):

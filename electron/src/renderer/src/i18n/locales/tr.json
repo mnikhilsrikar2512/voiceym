@@ -3816,8 +3816,7 @@
     "voice_default": "Varsayılan ses",
     "add_voice": "Ses ekle",
     "model": "Dil modeli",
-    "model_hint": "Bu bilgisayardaki Ollama açık kaynak modelleri. Yeni model eklemek için: ollama pull <ad>",
-    "model_missing": "Ollama çalışmıyor veya sohbet modeli yok. Ollama'yı kurun ve şunu çalıştırın: ollama pull llama3.2:1b",
+    "model_hint": "ollama pull ile kurduğun her model burada görünür. Küçük modeller daha az bellek kullanır.",
     "language": "Dil",
     "barge_in": "Sözünü kesebileyim",
     "barge_in_hint": "Üstüne konuşunca ajan durur.",
@@ -3861,6 +3860,8 @@
         "title": "Yalnızca metinle yanıtlanıyor",
         "hint": "Ticari kullanıma uygun hiçbir ses bunu henüz söyleyemiyor. Model Kataloğu'ndan Kokoro veya KittenTTS kurun ya da varsayılan sesi seçin."
       }
-    }
+    },
+    "model_app": "Uygulamanın dil modeli",
+    "model_unavailable": "Ollama çalışmıyor, bu yüzden Konuş uygulamanın dil modelini kullanıyor."
   }
 }

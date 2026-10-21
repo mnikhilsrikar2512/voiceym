@@ -3816,8 +3816,7 @@
     "voice_default": "Standaardstem",
     "add_voice": "Stem toevoegen",
     "model": "Taalmodel",
-    "model_hint": "Opensourcemodellen van Ollama op deze computer. Voeg er een toe met: ollama pull <naam>",
-    "model_missing": "Ollama draait niet of heeft geen chatmodellen. Installeer Ollama en voer uit: ollama pull llama3.2:1b",
+    "model_hint": "Elk model dat je met ollama pull installeert verschijnt hier. Kleinere modellen gebruiken minder geheugen.",
     "language": "Taal",
     "barge_in": "Onderbreken toestaan",
     "barge_in_hint": "Door de agent heen praten stopt hem.",
@@ -3861,6 +3860,8 @@
         "title": "Alleen antwoord in tekst",
         "hint": "Geen commercieel bruikbare stem kan dit al uitspreken. Installeer Kokoro of KittenTTS in de modelcatalogus, of kies de standaardstem."
       }
-    }
+    },
+    "model_app": "Het taalmodel van de app",
+    "model_unavailable": "Ollama draait niet, dus Praten gebruikt het taalmodel van de app."
   }
 }

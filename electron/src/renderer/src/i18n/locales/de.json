@@ -3816,8 +3816,7 @@
     "voice_default": "Standardstimme",
     "add_voice": "Stimme hinzufügen",
     "model": "Sprachmodell",
-    "model_hint": "Open-Source-Modelle aus Ollama auf diesem Computer. Neues Modell hinzufügen mit: ollama pull <name>",
-    "model_missing": "Ollama läuft nicht oder hat keine Chat-Modelle. Installiere Ollama und führe aus: ollama pull llama3.2:1b",
+    "model_hint": "Jedes mit ollama pull installierte Modell erscheint hier. Kleinere Modelle brauchen weniger Speicher.",
     "language": "Sprache",
     "barge_in": "Unterbrechen erlauben",
     "barge_in_hint": "Wenn du dazwischensprichst, hört der Agent auf.",
@@ -3861,6 +3860,8 @@
         "title": "Antwort nur als Text",
         "hint": "Keine kommerziell nutzbare Stimme kann das bisher sprechen. Installiere Kokoro oder KittenTTS im Modellkatalog oder wähle die Standardstimme."
       }
-    }
+    },
+    "model_app": "Sprachmodell der App",
+    "model_unavailable": "Ollama läuft nicht, daher nutzt Sprechen das Sprachmodell der App."
   }
 }

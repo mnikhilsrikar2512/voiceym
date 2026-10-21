@@ -52,7 +52,7 @@ try {
     [960, 600],
   ]) {
     await page.setViewportSize({ width, height });
-    assert.equal(await navigation.getByRole('link').count(), 10); // Talk plus the nine workspace links
+    assert.equal(await navigation.getByRole('link').count(), 10);
     assert.equal(await page.getByRole('menu').count(), 0);
     const bounds = await navigation.boundingBox();
     assert.ok(bounds && bounds.width <= (await sidebar.boundingBox()).width);

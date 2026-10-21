@@ -3816,8 +3816,7 @@
     "voice_default": "標準の声",
     "add_voice": "声を追加",
     "model": "言語モデル",
-    "model_hint": "このコンピューター上の Ollama のオープンソースモデル。追加するには: ollama pull <name>",
-    "model_missing": "Ollama が起動していないか、チャット用モデルがありません。Ollama をインストールして実行: ollama pull llama3.2:1b",
+    "model_hint": "ollama pull でインストールしたモデルがここに表示されます。小さいモデルほどメモリを使いません。",
     "language": "言語",
     "barge_in": "割り込みを許可",
     "barge_in_hint": "話しかけるとエージェントが止まります。",
@@ -3861,6 +3860,8 @@
         "title": "テキストのみで返答",
         "hint": "商用利用できる音声ではまだこれを話せません。モデルカタログで Kokoro または KittenTTS をインストールするか、既定の声を選んでください。"
       }
-    }
+    },
+    "model_app": "アプリの言語モデル",
+    "model_unavailable": "Ollama が起動していないため、会話はアプリの言語モデルを使います。"
   }
 }

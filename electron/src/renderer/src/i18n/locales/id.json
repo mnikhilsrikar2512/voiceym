@@ -3816,8 +3816,7 @@
     "voice_default": "Suara bawaan",
     "add_voice": "Tambah suara",
     "model": "Model bahasa",
-    "model_hint": "Model open source dari Ollama di komputer ini. Tambahkan dengan: ollama pull <nama>",
-    "model_missing": "Ollama tidak berjalan atau tidak punya model chat. Pasang Ollama, lalu jalankan: ollama pull llama3.2:1b",
+    "model_hint": "Setiap model yang kamu pasang dengan ollama pull muncul di sini. Model kecil memakai lebih sedikit memori.",
     "language": "Bahasa",
     "barge_in": "Boleh menyela",
     "barge_in_hint": "Bicara saat agen bicara akan menghentikannya.",
@@ -3861,6 +3860,8 @@
         "title": "Membalas hanya dengan teks",
         "hint": "Belum ada suara untuk penggunaan komersial yang bisa mengucapkan ini. Pasang Kokoro atau KittenTTS di Katalog Model, atau pilih suara bawaan."
       }
-    }
+    },
+    "model_app": "Model bahasa aplikasi",
+    "model_unavailable": "Ollama tidak berjalan, jadi Bicara memakai model bahasa aplikasi."
   }
 }

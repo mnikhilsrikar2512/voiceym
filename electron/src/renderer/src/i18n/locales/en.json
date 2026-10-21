@@ -3816,8 +3816,7 @@
     "voice_default": "Default voice",
     "add_voice": "Add a voice",
     "model": "Language model",
-    "model_hint": "Open-source models from Ollama on this computer. Add one with: ollama pull <name>",
-    "model_missing": "Ollama isn't running or has no chat models. Install Ollama, then run: ollama pull llama3.2:1b",
+    "model_hint": "Any model you install with ollama pull shows up here. Smaller models use less memory.",
     "language": "Language",
     "barge_in": "Let me interrupt it",
     "barge_in_hint": "Talking over the agent stops it.",
@@ -3861,6 +3860,8 @@
         "title": "Replying in text only",
         "hint": "No commercial-use voice can say this yet. Install Kokoro or KittenTTS in Model Catalogue, or pick the default voice."
       }
-    }
+    },
+    "model_app": "The app's language model",
+    "model_unavailable": "Ollama isn't running, so Talk uses the app's language model."
   }
 }

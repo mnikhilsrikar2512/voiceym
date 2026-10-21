@@ -3818,8 +3818,7 @@
     "voice_default": "Voix par défaut",
     "add_voice": "Ajouter une voix",
     "model": "Modèle de langage",
-    "model_hint": "Modèles open source d'Ollama sur cet ordinateur. Ajoutez-en un avec : ollama pull <nom>",
-    "model_missing": "Ollama ne tourne pas ou n'a aucun modèle de chat. Installez Ollama, puis lancez : ollama pull llama3.2:1b",
+    "model_hint": "Tout modèle installé avec ollama pull apparaît ici. Les petits modèles utilisent moins de mémoire.",
     "language": "Langue",
     "barge_in": "Pouvoir l'interrompre",
     "barge_in_hint": "Parler par-dessus l'agent l'arrête.",
@@ -3863,6 +3862,8 @@
         "title": "Réponse en texte uniquement",
         "hint": "Aucune voix utilisable commercialement ne peut encore dire cela. Installez Kokoro ou KittenTTS dans le catalogue de modèles, ou choisissez la voix par défaut."
       }
-    }
+    },
+    "model_app": "Le modèle de langage de l'app",
+    "model_unavailable": "Ollama ne tourne pas : Parler utilise le modèle de langage de l'app."
   }
 }

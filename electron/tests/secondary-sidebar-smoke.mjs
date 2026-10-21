@@ -41,7 +41,7 @@ try {
           await page.locator('[data-slot="account-corner"] button .lucide-bell').count(),
           1,
         );
-        // Voice, Stories and Dubbing are flyout group buttons; Talk and the other five are direct links.
+        // Voice, Stories and Dubbing are flyout group buttons; the other six (Talk first) are direct links.
         const compactNav = compactMain.getByRole("navigation", {
           name: "Workspaces",
         });

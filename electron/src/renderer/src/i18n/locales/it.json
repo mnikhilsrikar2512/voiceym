@@ -3818,8 +3818,7 @@
     "voice_default": "Voce predefinita",
     "add_voice": "Aggiungi una voce",
     "model": "Modello linguistico",
-    "model_hint": "Modelli open source di Ollama su questo computer. Aggiungine uno con: ollama pull <nome>",
-    "model_missing": "Ollama non è in esecuzione o non ha modelli di chat. Installa Ollama, poi esegui: ollama pull llama3.2:1b",
+    "model_hint": "Ogni modello installato con ollama pull compare qui. I modelli piccoli usano meno memoria.",
     "language": "Lingua",
     "barge_in": "Permetti di interromperlo",
     "barge_in_hint": "Se parli sopra, l'agente si ferma.",
@@ -3863,6 +3862,8 @@
         "title": "Risposta solo testuale",
         "hint": "Nessuna voce per uso commerciale può ancora dirlo. Installa Kokoro o KittenTTS nel catalogo modelli, oppure scegli la voce predefinita."
       }
-    }
+    },
+    "model_app": "Il modello linguistico dell'app",
+    "model_unavailable": "Ollama non è attivo, quindi Parla usa il modello linguistico dell'app."
   }
 }

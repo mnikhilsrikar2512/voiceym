@@ -3820,8 +3820,7 @@
     "voice_default": "Głos domyślny",
     "add_voice": "Dodaj głos",
     "model": "Model językowy",
-    "model_hint": "Modele open source z Ollama na tym komputerze. Dodaj nowy poleceniem: ollama pull <nazwa>",
-    "model_missing": "Ollama nie działa lub nie ma modeli czatu. Zainstaluj Ollama i uruchom: ollama pull llama3.2:1b",
+    "model_hint": "Każdy model zainstalowany przez ollama pull pojawi się tutaj. Mniejsze modele zużywają mniej pamięci.",
     "language": "Język",
     "barge_in": "Pozwól przerywać",
     "barge_in_hint": "Mówienie w trakcie zatrzymuje agenta.",
@@ -3865,6 +3864,8 @@
         "title": "Odpowiedź tylko tekstem",
         "hint": "Żaden głos do użytku komercyjnego nie potrafi jeszcze tego powiedzieć. Zainstaluj Kokoro lub KittenTTS w katalogu modeli albo wybierz głos domyślny."
       }
-    }
+    },
+    "model_app": "Model językowy aplikacji",
+    "model_unavailable": "Ollama nie działa, więc Rozmowa używa modelu językowego aplikacji."
   }
 }

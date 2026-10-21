@@ -3816,8 +3816,7 @@
     "voice_default": "Standardröst",
     "add_voice": "Lägg till en röst",
     "model": "Språkmodell",
-    "model_hint": "Modeller med öppen källkod från Ollama på den här datorn. Lägg till en med: ollama pull <namn>",
-    "model_missing": "Ollama körs inte eller har inga chattmodeller. Installera Ollama och kör: ollama pull llama3.2:1b",
+    "model_hint": "Alla modeller du installerar med ollama pull visas här. Mindre modeller använder mindre minne.",
     "language": "Språk",
     "barge_in": "Låt mig avbryta",
     "barge_in_hint": "Pratar du i munnen på agenten slutar den.",
@@ -3861,6 +3860,8 @@
         "title": "Svarar bara i text",
         "hint": "Ingen röst för kommersiellt bruk kan säga detta än. Installera Kokoro eller KittenTTS i modellkatalogen, eller välj standardrösten."
       }
-    }
+    },
+    "model_app": "Appens språkmodell",
+    "model_unavailable": "Ollama körs inte, så Prata använder appens språkmodell."
   }
 }

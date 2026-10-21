@@ -18201,6 +18201,27 @@
     "summary": "Transcribe Audio"
    }
   },
+  "/v1/agent/models": {
+   "get": {
+    "description": "Models installed in the local Ollama, smallest first.",
+    "operationId": "agent_models_v1_agent_models_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "title": "Response Agent Models V1 Agent Models Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Agent Models"
+   }
+  },
   "/v1/audio/capabilities": {
    "get": {
     "description": "Advertise batch, streaming, and agent-facing speech transports.",
