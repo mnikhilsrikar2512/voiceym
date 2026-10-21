@@ -8,3 +8,5 @@
 #
 # RFC 6455 sample Sec-WebSocket-Key in the fake backend test (not a secret).
 f6d634e19902c0fd0e64947e635359d5bc1f85de:electron/tests/fake-health-backend.test.mjs:generic-api-key:59
+# The same sample key, once spelled out in the allowlist guard test.
+913d7c9de6910ea7ec6324b0e7e41a949d6c2cd8:tests/test_gitleaks_allowlist.py:generic-api-key:66

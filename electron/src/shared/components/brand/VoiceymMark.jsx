@@ -1,9 +1,10 @@
 import React from 'react';
 
 /**
- * Voiceym's compact mark: a rounded speech waveform with one small spark.
- * The desktop icon uses the same silhouette on a dark tile; app chrome keeps
- * it transparent so it stays crisp at titlebar sizes and in every theme.
+ * Voiceym's compact mark: seven rounded sound bars that rise and fall like a
+ * voice and together form the letter V. The desktop icon uses the same bars on
+ * a dark tile; app chrome keeps it transparent so it stays crisp at titlebar
+ * sizes and in every theme.
  */
 export default function VoiceymMark({ className = '', title, ...props }) {
   return (
@@ -16,18 +17,15 @@ export default function VoiceymMark({ className = '', title, ...props }) {
       {...props}
     >
       {title ? <title>{title}</title> : null}
-      <path
-        d="M6 34c4 0 5-7 9-7 5 0 4 14 9 14 5 0 4-23 9-23s4 28 9 28 4-21 9-21c4 0 5 9 8 9"
-        stroke="currentColor"
-        strokeWidth="5.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M50 9c.7 4.3 3.7 7.3 8 8-4.3.7-7.3 3.7-8 8-.7-4.3-3.7-7.3-8-8 4.3-.7 7.3-3.7 8-8Z"
-        fill="currentColor"
-        opacity="0.72"
-      />
+      <g fill="currentColor">
+        <rect x="8.5" y="12" width="5" height="12" rx="2.5" opacity="0.72" />
+        <rect x="15.5" y="18" width="5" height="17" rx="2.5" opacity="0.82" />
+        <rect x="22.5" y="28.5" width="5" height="13" rx="2.5" opacity="0.92" />
+        <rect x="29.5" y="36" width="5" height="16" rx="2.5" />
+        <rect x="36.5" y="28.5" width="5" height="13" rx="2.5" opacity="0.92" />
+        <rect x="43.5" y="18" width="5" height="17" rx="2.5" opacity="0.82" />
+        <rect x="50.5" y="12" width="5" height="12" rx="2.5" opacity="0.72" />
+      </g>
     </svg>
   );
 }
