@@ -119,8 +119,10 @@ spoken with a commercial-use voice, the agent still answers, in text, and tells
 you why.
 
 **Languages.** Talk understands speech in many languages. It speaks English, Hindi,
-Spanish, French, Italian and Portuguese with Kokoro. For Hindi and other Indian
-languages, `qwen3:1.7b` answers well on an 8 GB computer.
+Spanish, French, Italian and Portuguese with Kokoro. To hear Tamil, Telugu,
+Kannada, Malayalam, Bengali, Marathi and the other Indian languages, install
+**Indic Parler-TTS** (see [Voices and licences](#voices-and-licences)). For Hindi
+and other Indian languages, `qwen3:1.7b` answers well on an 8 GB computer.
 
 **Your own apps** can talk to the same agent over a WebSocket at
 `ws://localhost:3900/v1/agent/ws`. The [voice agent guide](docs/voice-agent.md)
@@ -215,7 +217,14 @@ covers cloning, voice design and dubbing in many more languages, but it is
 |---|---|---|
 | **Kokoro** (default) | Speaking in English, Hindi and four more languages, on any computer | Apache-2.0, commercial use allowed |
 | **Chatterbox** | English voice cloning | MIT, commercial use allowed |
+| **Indic Parler-TTS** | Speaking 21 Indian languages, including Tamil and Telugu | Apache-2.0, commercial use allowed |
 | **OmniVoice** (opt-in) | Cloning, design and dubbing in 600+ languages | CC-BY-NC, **non-commercial only** |
+
+Indic Parler-TTS's download is gated: accept its terms on
+[Hugging Face](https://huggingface.co/ai4bharat/indic-parler-tts), add your
+Hugging Face token in **Settings → Credentials**, then install it from **Model
+Catalogue** (about 8 GB with its own environment). See the
+[Indic Parler-TTS guide](docs/engines/indic-parler.md).
 
 Voiceym never turns on OmniVoice for you, and Talk never uses it. If you use
 Voiceym for paid or business work, stick to the commercial-use engines. The

@@ -55,15 +55,17 @@ DEFAULT_INSTRUCTIONS = (
 Event = Union[dict, bytes]
 
 #: Languages the light setup (Parakeet, the English voice) can't handle. Talk
-#: hears them with multilingual Whisper and speaks them with OmniVoice.
+#: hears them with multilingual Whisper and speaks them with Indic Parler-TTS
+#: (or, outside commercial-only sessions, OmniVoice).
 INDIAN_LANGUAGES = {
     "hindi": "hi", "bengali": "bn", "tamil": "ta", "telugu": "te", "marathi": "mr",
     "gujarati": "gu", "kannada": "kn", "malayalam": "ml", "panjabi": "pa", "punjabi": "pa",
     "urdu": "ur", "odia": "or", "assamese": "as", "nepali": "ne",
 }
-#: Voice engines that speak Indian languages, lightest first: the GGUF build of
-#: OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice itself.
-MULTILINGUAL_ENGINES = ("omnivoice-gguf", "omnivoice")
+#: Voice engines that speak Indian languages, in order of preference: Indic
+#: Parler-TTS (Apache-2.0) when installed, the GGUF build of OmniVoice (about
+#: 0.7 GB) when its binary is installed, else OmniVoice itself.
+MULTILINGUAL_ENGINES = ("indic-parler", "omnivoice-gguf", "omnivoice")
 
 
 def multilingual_engine() -> str:
@@ -280,6 +282,10 @@ FAST_VOICE_ENGINE = "kittentts"
 KOKORO_ENGINE = "kokoro"
 
 
+#: Commercial-use (Apache-2.0) engine for the Indian languages the voices
+#: above can't say (Tamil, Telugu, Bengali and the rest), when installed.
+INDIC_VOICE_ENGINE = "indic-parler"
+
 #: Light multilingual engine for sentences neither voice above can say
 #: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
 MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
@@ -339,8 +345,9 @@ def cloning_voice_engine() -> str:
 
 
 def multilingual_voice_engine() -> str:
-    """The light multilingual engine's id when it is installed, else ""."""
-    return _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
+    """The engine for scripts the fast voice can't say: Indic Parler-TTS when
+    installed, else the light multilingual engine when installed, else ""."""
+    return _engine_if_available(INDIC_VOICE_ENGINE) or _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
 
 
 def is_devanagari(sentence: str) -> bool:
@@ -639,7 +646,8 @@ class VoiceAgentSession:
                  "Install Kokoro or KittenTTS in Model Catalogue.",
         "clone": "Cloned voices need a commercial-use cloning engine, which isn't "
                  "installed. Pick the default voice, or install one in Model Catalogue.",
-        "language": "The voice can't speak this language yet, so that part is text only.",
+        "language": "The voice can't speak this language yet, so that part is text only. "
+                    "Install Indic Parler-TTS in Model Catalogue to hear Indian languages.",
     }
 
     async def _voice_unavailable(self, reason: str) -> None:
@@ -660,7 +668,13 @@ class VoiceAgentSession:
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
         engine, language = self._engine(), self.config.language
-        if self.config.hindi_engine and is_devanagari(sentence):
+        if (
+            self.config.hindi_engine
+            and is_devanagari(sentence)
+            and (indian_language_code(language) in (None, "hi") or not self.config.multilingual_engine)
+        ):
+            # Kokoro reads Devanagari as Hindi; Marathi, Nepali and Sanskrit
+            # go to the multilingual engine below when one is installed.
             engine, language = self.config.hindi_engine, "hi"
         elif self.config.multilingual_engine and needs_multilingual_voice(sentence, language):
             engine = self.config.multilingual_engine

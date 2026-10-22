@@ -32,6 +32,7 @@ approval), [Windows](../install/windows.md), [Linux](../install/linux.md),
 | Kokoro (Apache-2.0) — **default** | [kokoro](kokoro.md) | CPU | — (preset voices; English, Hindi + 4) | installed by default |
 | OmniVoice (non-commercial, CC-BY-NC) | [omnivoice](omnivoice.md) | CUDA · MPS · CPU | ✅ | opt-in: install from Model Catalogue |
 | Chatterbox (MIT) | [chatterbox](chatterbox.md) | CUDA · MPS · CPU | ✅ English | one-click sidecar install |
+| Indic Parler-TTS (Apache-2.0) | [indic-parler](indic-parler.md) | CUDA · MPS · CPU | — (named speakers; 21 Indian languages) | one-click sidecar install + Hugging Face access |
 | VoxCPM2 | [voxcpm2](voxcpm2.md) | CUDA · MPS · CPU | ✅ + voice design | `pip install "voxcpm>=2.0.3"` |
 | MOSS-TTS-Nano | [moss-tts-nano](moss-tts-nano.md) | CUDA · CPU | ✅ (ref only) | clone + `uv pip install -e .` |
 | KittenTTS | [kittentts](kittentts.md) | CPU | — (8 preset voices) | `pip install kittentts` |

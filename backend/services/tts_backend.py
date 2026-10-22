@@ -3352,6 +3352,8 @@ _LAZY_REGISTRY: dict[str, tuple[str, str]] = {
     "kokoro": ("engines.kokoro", "KokoroBackend"),
     # Commercial-use English cloning (MIT) in its own venv (one-click install).
     "chatterbox": ("engines.chatterbox", "ChatterboxBackend"),
+    # Commercial-use Indian languages (Apache-2.0) in its own venv.
+    "indic-parler": ("engines.indic_parler", "IndicParlerBackend"),
     # Phase 3 Plan 03-01 (TTS-01): Supertonic-3 lives in its own engine
     # package for the same import-cycle reason as IndexTTS2 (its backend
     # module imports services.subprocess_backend which in turn imports
@@ -3482,6 +3484,7 @@ _INSTALL_HINTS: dict[str, str] = {
     "cosyvoice":     "git clone --recursive FunAudioLLM/CosyVoice + pip install -r requirements.txt + SoX",
     "kittentts":     "pip install kittentts  (ONNX, CPU-only, ~80 MB)",
     "chatterbox":    "One-click install from Model Catalogue (own venv, torch 2.6; ~3 GB weights from ResembleAI/chatterbox on first use).",
+    "indic-parler":  "One-click install from Model Catalogue (own venv; ~3.8 GB gated weights from ai4bharat/indic-parler-tts: accept its terms on Hugging Face and add a token first).",
     "kokoro":        "Bundled — ONNX on CPU with the KittenTTS dependencies; the ~95 MB model downloads from onnx-community/Kokoro-82M-v1.0-ONNX on first use.",
     "mlx-audio":     "pip install mlx-audio  (Apple Silicon only)",
     "voxcpm2":       'pip install "voxcpm>=2.0.3"  (floor: 2.0.3 fixed Apple-Silicon audio quality; CPU/MPS supported, CUDA recommended for speed)',
@@ -3533,6 +3536,7 @@ _ENGINE_DOCS: dict[str, str] = {
     "kittentts":            "docs/engines/kittentts.md",
     "kokoro":               "docs/engines/kokoro.md",
     "chatterbox":           "docs/engines/chatterbox.md",
+    "indic-parler":         "docs/engines/indic-parler.md",
     "mlx-audio":            "docs/engines/mlx-audio.md",
     "voxcpm2":              "docs/engines/voxcpm2.md",
     "moss-tts-nano":        "docs/engines/moss-tts-nano.md",

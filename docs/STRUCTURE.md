@@ -41,11 +41,11 @@ Voiceym/
 │   │                            opt-in analytics, version, diagnostics
 │   ├── services/                104 modules of business logic — TTS, dubbing pipeline,
 │   │                            audio DSP, GPU gateway, engine routing, model lifecycle
-│   ├── engines/                 per-engine adapters: indextts, supertonic3, confucius4,
-│   │                            dots_tts, moss_tts_v15, pockettts, audiocpp,
-│   │                            omnivoice_gguf, omnivoice_subprocess, _asr_sidecar, _echo,
-│   │                            voxcpm2_subprocess, moss_tts_nano_subprocess, cosyvoice_subprocess,
-│   │                            kokoro (default voice), chatterbox
+│   ├── engines/                 per-engine adapters: kokoro (default voice), chatterbox,
+│   │                            indic_parler, indextts, supertonic3, confucius4, dots_tts,
+│   │                            moss_tts_v15, pockettts, audiocpp, omnivoice_gguf,
+│   │                            omnivoice_subprocess, _asr_sidecar, _echo, voxcpm2_subprocess,
+│   │                            moss_tts_nano_subprocess, cosyvoice_subprocess
 │   ├── mcp_shim/                MCP server entry point (docs/mcp.md)
 │   ├── speech_client/           speech sidecar client entry point
 │   ├── schemas/                 pydantic request/response shapes
