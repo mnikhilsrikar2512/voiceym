@@ -32,3 +32,4 @@ metadata and the backend fallback mirror it.
 ### Fixed
 
 - Ending a Talk session no longer logs a server error when the client already disconnected (#1)
+- A phone call that ended normally is no longer recorded as failed when the provider had already closed the stream (#1)

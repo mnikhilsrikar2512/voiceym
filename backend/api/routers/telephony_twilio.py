@@ -346,6 +346,7 @@ async def twilio_media_stream(websocket: WebSocket):
         )
 
     outcome = "error"
+    result: dict = {}
     try:
         outcome = await session.run_call(
             websocket,
@@ -354,8 +355,12 @@ async def twilio_media_stream(websocket: WebSocket):
             responder_factory=_responder,
             max_calls=config.max_concurrent_calls(),
             max_seconds=config.max_call_seconds(),
+            result=result,
         )
     finally:
+        # A call that finished cleanly keeps its outcome even if closing the
+        # already-gone socket was cancelled before run_call could return.
+        outcome = result.get("outcome", outcome)
         agent = agent_call.get("agent")
         if agent is not None:
             # Always finalize a connected agent call — even when the stream
