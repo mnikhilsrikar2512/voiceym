@@ -19,6 +19,7 @@ assert [hashlib.sha256(r[1:-1].encode()).hexdigest() for r in _POSTHOG_ENTRIES] 
 EXPECTED_EXACT_REGEXES = {
     _POSTHOG_ENTRIES[0],
     "^528e871c2a26c4f0f7773b9754e2e1acae20899d$",
+    "^0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a$",
     "^hf_abcdefghijklmnopqrstuvwxyz01234567890abcd$",
     "^hf_abcdefghijklmnopqrstuvwxyz0123456789ABCDEF$",
     "^hf_QWERTYUIOPasdfghjklZXCVBNM0123456789xyzAB$",
