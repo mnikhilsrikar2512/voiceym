@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Svarar bara i text",
         "hint": "Ingen röst för kommersiellt bruk kan säga detta än. Installera Kokoro eller KittenTTS i modellkatalogen, eller välj standardrösten."
+      },
+      "issue_downloading": {
+        "title": "Laddar ner rösten för det här språket",
+        "hint": "En engångsnedladdning på cirka 1,5 GB. Svaren kommer som text tills den är klar, sedan talar rösten."
       }
     },
     "model_app": "Appens språkmodell",

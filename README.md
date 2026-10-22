@@ -121,7 +121,7 @@ you why.
 **Languages.** Talk understands speech in many languages. It speaks English, Hindi,
 Spanish, French, Italian and Portuguese with Kokoro. To hear Tamil, Telugu,
 Kannada, Malayalam, Bengali, Marathi and the other Indian languages, install
-**Indic Parler-TTS** (see [Voices and licences](#voices-and-licences)). For Hindi
+**Indic-TTS**, which needs no account (see [Voices and licences](#voices-and-licences)). For Hindi
 and other Indian languages, `qwen3:1.7b` answers well on an 8 GB computer.
 
 **Your own apps** can talk to the same agent over a WebSocket at
@@ -217,10 +217,15 @@ covers cloning, voice design and dubbing in many more languages, but it is
 |---|---|---|
 | **Kokoro** (default) | Speaking in English, Hindi and four more languages, on any computer | Apache-2.0, commercial use allowed |
 | **Chatterbox** | English voice cloning | MIT, commercial use allowed |
+| **Indic-TTS** | Speaking 12 Indian languages, including Tamil and Telugu, with no account | MIT, commercial use allowed |
 | **Indic Parler-TTS** | Speaking 21 Indian languages, including Tamil and Telugu | Apache-2.0, commercial use allowed |
 | **OmniVoice** (opt-in) | Cloning, design and dubbing in 600+ languages | CC-BY-NC, **non-commercial only** |
 
-Indic Parler-TTS's download is gated: accept its terms on
+Indic-TTS installs with one click from **Model Catalogue** (about 2 GB), and
+each language's voice downloads from GitHub the first time Talk needs it (about
+1.5 GB, once). See the [Indic-TTS guide](docs/engines/indic-tts.md).
+
+Indic Parler-TTS covers more languages, but its download is gated: accept its terms on
 [Hugging Face](https://huggingface.co/ai4bharat/indic-parler-tts), add your
 Hugging Face token in **Settings → Credentials**, then install it from **Model
 Catalogue** (about 8 GB with its own environment). See the

@@ -3861,6 +3861,10 @@
       "issue_voice": {
         "title": "Respuesta solo en texto",
         "hint": "Ninguna voz de uso comercial puede decir esto todavía. Instala Kokoro o KittenTTS en el catálogo de modelos, o elige la voz predeterminada."
+      },
+      "issue_downloading": {
+        "title": "Descargando la voz de este idioma",
+        "hint": "Es una descarga única de unos 1,5 GB. Las respuestas serán de texto hasta que termine; después, la voz hablará."
       }
     },
     "model_app": "El modelo de lenguaje de la app",

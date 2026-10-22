@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Yalnızca metinle yanıtlanıyor",
         "hint": "Ticari kullanıma uygun hiçbir ses bunu henüz söyleyemiyor. Model Kataloğu'ndan Kokoro veya KittenTTS kurun ya da varsayılan sesi seçin."
+      },
+      "issue_downloading": {
+        "title": "Bu dilin sesi indiriliyor",
+        "hint": "Yaklaşık 1,5 GB'lık tek seferlik bir indirme. Bitene kadar yanıtlar metin olarak gelir, sonra ses konuşur."
       }
     },
     "model_app": "Uygulamanın dil modeli",

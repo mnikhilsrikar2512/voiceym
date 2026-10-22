@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "僅以文字回覆",
         "hint": "目前沒有可商用的語音能說這段內容。請在模型目錄中安裝 Kokoro 或 KittenTTS，或選擇預設語音。"
+      },
+      "issue_downloading": {
+        "title": "正在下載此語言的語音",
+        "hint": "只需下載一次，約 1.5 GB。下載完成前以文字回覆，之後由語音朗讀。"
       }
     },
     "model_app": "應用程式的語言模型",

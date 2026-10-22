@@ -17,6 +17,7 @@ metadata and the backend fallback mirror it.
 - Voice agent: open `/agent` in a browser, or connect to `/v1/agent/ws`, to talk with a local agent that listens, answers out loud and stops when you interrupt it ([guide](docs/voice-agent.md)) (#1)
 - Talk: choose which local Ollama model answers; any model you `ollama pull` shows up in Setup (#1)
 - Indic Parler-TTS (AI4Bharat, Apache-2.0) speaks 21 Indian languages, including Tamil, Telugu, Kannada, Malayalam and Bengali, as a one-click install; Talk speaks those languages with it when it is installed (#9)
+- Indic-TTS (AI4Bharat, MIT) speaks 12 Indian languages, including Tamil, Telugu, Kannada, Malayalam and Bengali, with no account: a one-click install, and each language's voice downloads from GitHub the first time Talk needs it (#9)
 
 ### Changed
 

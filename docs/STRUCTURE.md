@@ -42,7 +42,7 @@ Voiceym/
 │   ├── services/                104 modules of business logic — TTS, dubbing pipeline,
 │   │                            audio DSP, GPU gateway, engine routing, model lifecycle
 │   ├── engines/                 per-engine adapters: kokoro (default voice), chatterbox,
-│   │                            indic_parler, indextts, supertonic3, confucius4, dots_tts,
+│   │                            indic_parler, indic_tts, indextts, supertonic3, confucius4, dots_tts,
 │   │                            moss_tts_v15, pockettts, audiocpp, omnivoice_gguf,
 │   │                            omnivoice_subprocess, _asr_sidecar, _echo, voxcpm2_subprocess,
 │   │                            moss_tts_nano_subprocess, cosyvoice_subprocess

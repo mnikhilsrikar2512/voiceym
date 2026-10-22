@@ -1188,10 +1188,10 @@ def test_verify_probe_runs_in_the_engines_venv_and_compiles(monkeypatch, engine_
 @pytest.mark.parametrize(
     ("family", "platform", "machine", "expected"),
     [
-        ("cuda", "linux", "x86_64", {"moss-tts-v15", "dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler"}),
-        ("cuda", "win32", "AMD64", {"moss-tts-v15", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler"}),
-        ("cpu", "win32", "AMD64", {"pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler"}),
-        ("mps", "darwin", "arm64", {"dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler"}),
+        ("cuda", "linux", "x86_64", {"moss-tts-v15", "dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
+        ("cuda", "win32", "AMD64", {"moss-tts-v15", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
+        ("cpu", "win32", "AMD64", {"pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
+        ("mps", "darwin", "arm64", {"dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
         # Intel Mac: PyTorch publishes no build PocketTTS, VoxCPM2,
         # MOSS-TTS-Nano, CosyVoice, Chatterbox or Indic Parler-TTS can use.
         ("cpu", "darwin", "x86_64", {"dots-tts"}),
