@@ -29,6 +29,8 @@ SAMPLE_RATE = 44_100
 _HEARTBEAT_S = 5.0
 #: The description encoder's tokenizer (the model config names it).
 _DESCRIPTION_TOKENIZER = "google/flan-t5-large"
+#: Reviewed commit of the description tokenizer (2023-07-17).
+_DESCRIPTION_TOKENIZER_REVISION = "0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a"
 
 #: Script ranges -> language, for Auto: the reply's own letters say which
 #: language to speak. Devanagari is read as Hindi unless a language is named.
@@ -180,10 +182,15 @@ def _load(stdout):
 
             path = str(_weights_dir())
             device, dtype = _device()
-            model = ParlerTTSForConditionalGeneration.from_pretrained(path, torch_dtype=dtype)
+            model = ParlerTTSForConditionalGeneration.from_pretrained(  # nosec B615
+                path, torch_dtype=dtype, local_files_only=True
+            )
             _MODEL = model.to(device).eval()
-            _TOKENIZER = AutoTokenizer.from_pretrained(path)
-            _DESC_TOKENIZER = AutoTokenizer.from_pretrained(_DESCRIPTION_TOKENIZER)
+            # Local directory written by the installer at a pinned revision.
+            _TOKENIZER = AutoTokenizer.from_pretrained(path, local_files_only=True)  # nosec B615
+            _DESC_TOKENIZER = AutoTokenizer.from_pretrained(
+                _DESCRIPTION_TOKENIZER, revision=_DESCRIPTION_TOKENIZER_REVISION
+            )
         _send(stdout, {"op": "progress", "stage": "loading_model", "percent": 100})
     return _MODEL
 
