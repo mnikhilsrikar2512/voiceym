@@ -515,8 +515,13 @@ async def run_call(
     responder_factory,
     max_calls: int,
     max_seconds: float,
+    result: dict | None = None,
 ) -> str:
     """Drive one media stream from handshake to hang-up; returns the outcome.
+
+    The outcome is also written to ``result["outcome"]`` before the socket is
+    closed, so a caller still learns how the call ended when that final close
+    is cancelled (the peer is already gone) and this coroutine never returns.
 
     ``responder_factory(start)`` receives the verified ``start`` event and
     returns the responder, or None to refuse the stream. The stream token is
@@ -644,6 +649,8 @@ async def run_call(
                 task.cancel()
         await asyncio.gather(send_task, recv_task, return_exceptions=True)
         registry.end(record, outcome)
+        if result is not None:
+            result["outcome"] = outcome
         await _close(websocket, 1000)
     logger.info("Phone call %s ended: %s (%.1fs audio)", record.call, outcome, record.audio_seconds)
     return outcome
