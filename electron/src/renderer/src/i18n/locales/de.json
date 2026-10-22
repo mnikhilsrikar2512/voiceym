@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Antwort nur als Text",
         "hint": "Keine kommerziell nutzbare Stimme kann das bisher sprechen. Installiere Kokoro oder KittenTTS im Modellkatalog oder wähle die Standardstimme."
+      },
+      "issue_downloading": {
+        "title": "Die Stimme dieser Sprache wird geladen",
+        "hint": "Ein einmaliger Download von etwa 1,5 GB. Bis er fertig ist, kommen Antworten als Text, danach spricht die Stimme."
       }
     },
     "model_app": "Sprachmodell der App",

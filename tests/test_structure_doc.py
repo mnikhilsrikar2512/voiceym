@@ -50,6 +50,7 @@ def test_every_engine_adapter_is_listed():
     engines = REPO / "backend" / "engines"
     actual = {p.name for p in engines.iterdir() if (p / "__init__.py").is_file()}
     text = STRUCTURE.read_text(encoding="utf-8")
-    listed = text[text.index("per-engine adapters:") :][:400]
+    # The list wraps over several indented lines, so look a little past it.
+    listed = text[text.index("per-engine adapters:") :][:600]
     missing = sorted(name for name in actual if name not in listed)
     assert not missing, f"docs/STRUCTURE.md does not list engine adapter(s): {missing}"

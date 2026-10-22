@@ -24,6 +24,8 @@ regexes = [
   '''^phc_kJK9nFqtwFmB4CYWS4bMDTY7z9P4KCRyiRT7CzJTXm9f$''',
   # Reviewed immutable Hugging Face commit for the Higgs tokenizer.
   '''^528e871c2a26c4f0f7773b9754e2e1acae20899d$''',
+  # Reviewed immutable Hugging Face commit for Indic Parler's flan-t5 tokenizer.
+  '''^0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a$''',
   # Deliberately synthetic fixtures that exercise HF-token redaction/storage.
   '''^hf_abcdefghijklmnopqrstuvwxyz01234567890abcd$''',
   '''^hf_abcdefghijklmnopqrstuvwxyz0123456789ABCDEF$''',

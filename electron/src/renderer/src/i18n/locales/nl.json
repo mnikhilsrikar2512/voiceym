@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Alleen antwoord in tekst",
         "hint": "Geen commercieel bruikbare stem kan dit al uitspreken. Installeer Kokoro of KittenTTS in de modelcatalogus, of kies de standaardstem."
+      },
+      "issue_downloading": {
+        "title": "De stem voor deze taal wordt gedownload",
+        "hint": "Een eenmalige download van ongeveer 1,5 GB. Tot die klaar is, komen antwoorden als tekst; daarna spreekt de stem."
       }
     },
     "model_app": "Het taalmodel van de app",

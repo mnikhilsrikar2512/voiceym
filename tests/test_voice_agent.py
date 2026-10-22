@@ -201,6 +201,44 @@ def test_commercial_only_says_why_instead_of_speaking_other_scripts():
     assert len(sink.of("transcript.delta")) == 2
 
 
+def test_commercial_only_keeps_indic_parler_for_indian_languages(monkeypatch):
+    monkeypatch.setattr(va, "kokoro_ready", lambda: True)
+    monkeypatch.setattr(va, "_engine_if_available", lambda engine: engine)
+    talk = va.SessionConfig.from_message({"fast_default_voice": True, "commercial_only": True})
+    assert (talk.engine, talk.hindi_engine, talk.multilingual_engine) == (
+        "kokoro", "kokoro", "indic-parler")
+    # Without it, the light OmniVoice build is offered, and Talk drops it.
+    monkeypatch.setattr(va, "_engine_if_available",
+                        lambda e: "" if e in ("indic-parler", "indic-tts") else e)
+    assert va.multilingual_voice_engine() == "omnivoice-gguf"
+    talk = va.SessionConfig.from_message({"fast_default_voice": True, "commercial_only": True})
+    assert talk.multilingual_engine == ""
+
+
+def test_telugu_and_marathi_go_to_indic_parler_hindi_stays_with_kokoro():
+    hindi = "\u092d\u093e\u0930\u0924 \u0915\u0940 \u0930\u093e\u091c\u0927\u093e\u0928\u0940 \u0928\u0908 \u0926\u093f\u0932\u094d\u0932\u0940 \u0939\u0948\u0964"
+    telugu = "\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c30\u0c3e\u0c1c\u0c27\u0c3e\u0c28\u0c3f \u0c28\u0c41\u0c2f\u0c4d \u0c22\u0c3f\u0c32\u0c4d\u0c32\u0c40."
+
+    async def run(language):
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = [f"{hindi} {telugu}"]
+        config = va.SessionConfig(engine="kokoro", hindi_engine="kokoro", language=language,
+                                  multilingual_engine="indic-parler", commercial_only=True)
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Capital?")
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run(""))
+    assert fakes.engines == ["kokoro", "indic-parler"]
+    assert sink.of("error") == []
+    # Marathi is written in Devanagari too: it must not be read as Hindi.
+    fakes, _ = asyncio.run(run("Marathi"))
+    assert fakes.engines == ["indic-parler", "indic-parler"]
+
+
 def test_a_session_without_a_commercial_voice_answers_in_text():
     async def run():
         fakes, sink = Fakes(), Sink()
@@ -617,3 +655,41 @@ def test_ollama_chat_stream_sends_a_short_context_and_yields_text(monkeypatch):
 
     assert asyncio.run(run()) == ["Hi ", "there."]
     assert sent["model"] == "llama3.2:1b" and sent["options"]["num_ctx"] == ollama_local.TALK_NUM_CTX
+
+
+def test_indic_tts_speaks_a_ready_voice_and_downloads_a_missing_one(monkeypatch):
+    from engines.indic_tts import voices
+
+    hindi = "भारत की राजधानी नई दिल्ली है।"
+    telugu = "భారతదేశ రాజధాని న్యూ ఢిల్లీ."
+    tamil = "இந்தியாவின் தலைநகரம் புது தில்லி."
+    started = []
+    monkeypatch.setattr(voices, "voice_installed", lambda code: code == "te")
+    monkeypatch.setattr(voices, "downloading", lambda code: False)
+    monkeypatch.setattr(voices, "last_error", lambda code: "")
+    monkeypatch.setattr(voices, "start_download", lambda code: started.append(code) or True)
+
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = [f"{hindi} {telugu} {tamil} {tamil}"]
+        config = va.SessionConfig(engine="kokoro", hindi_engine="kokoro",
+                                  multilingual_engine="indic-tts", commercial_only=True)
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("Hello?")
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run())
+    # Hindi stays with Kokoro, Telugu is spoken, Tamil waits for its voice.
+    assert fakes.engines == ["kokoro", "indic-tts"]
+    assert started == ["ta", "ta"]
+    assert [e["code"] for e in sink.of("error")] == ["voice_downloading"]
+
+
+def test_indic_tts_is_preferred_over_the_non_commercial_build(monkeypatch):
+    monkeypatch.setattr(va, "_engine_if_available",
+                        lambda e: "" if e == "indic-parler" else e)
+    assert va.multilingual_voice_engine() == "indic-tts"
+    assert "indic-tts" not in va.NON_COMMERCIAL_ENGINES

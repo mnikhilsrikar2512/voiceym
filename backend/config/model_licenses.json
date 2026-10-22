@@ -2972,6 +2972,31 @@
         ],
         "identified_components": []
       }
+    },
+    {
+      "id": "ai4bharat/indic-parler-tts",
+      "license": "apache-2.0",
+      "commercial_use": false,
+      "review_status": "unreviewed",
+      "credit": "AI4Bharat and Hugging Face, ai4bharat/indic-parler-tts",
+      "source_url": "https://huggingface.co/ai4bharat/indic-parler-tts",
+      "evidence_url": "https://huggingface.co/ai4bharat/indic-parler-tts/blob/66e3f72fc0637aeec2b5913a7f899ea5465ebe3c/README.md",
+      "revision": "66e3f72fc0637aeec2b5913a7f899ea5465ebe3c",
+      "engines": [
+        "indic-parler"
+      ],
+      "configured_at": "backend/services/sidecar_install.py:637",
+      "notes": "Apache-2.0 per the model card; the repository is gated (accept its terms on Hugging Face). Licence identifier is upstream model-card metadata, not verified permission for this distribution. The description tokenizer google/flan-t5-large (Apache-2.0) downloads on first use.",
+      "runtime_revision": "66e3f72fc0637aeec2b5913a7f899ea5465ebe3c",
+      "runtime_pin_scope": "external",
+      "runtime_pin_source": "backend/services/sidecar_install.py",
+      "component_closure": "incomplete",
+      "commercial_inference": "unknown",
+      "commercial_outputs": "unknown",
+      "documents": [],
+      "artifacts": [],
+      "required_components": [],
+      "upstream_access": "gated"
     }
   ],
   "dynamic_assets": [

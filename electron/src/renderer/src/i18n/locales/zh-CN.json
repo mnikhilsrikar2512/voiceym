@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "仅以文字回复",
         "hint": "目前没有可商用的语音能说这段内容。请在模型目录中安装 Kokoro 或 KittenTTS，或选择默认语音。"
+      },
+      "issue_downloading": {
+        "title": "正在下载此语言的语音",
+        "hint": "只需下载一次，约 1.5 GB。下载完成前以文字回复，之后由语音朗读。"
       }
     },
     "model_app": "应用的语言模型",

@@ -3858,7 +3858,11 @@
       },
       "issue_voice": {
         "title": "Replying in text only",
-        "hint": "No commercial-use voice can say this yet. Install Kokoro or KittenTTS in Model Catalogue, or pick the default voice."
+        "hint": "No commercial-use voice can say this yet. In Model Catalogue, install Kokoro, or Indic-TTS for Tamil, Telugu and other Indian languages. Or pick the default voice."
+      },
+      "issue_downloading": {
+        "title": "Downloading this language's voice",
+        "hint": "It's a one-time download of about 1.5 GB. Replies stay in text until it's ready, then the voice speaks."
       }
     },
     "model_app": "The app's language model",

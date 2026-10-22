@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Chỉ trả lời bằng văn bản",
         "hint": "Chưa có giọng dùng thương mại nào nói được điều này. Hãy cài Kokoro hoặc KittenTTS trong Danh mục mô hình, hoặc chọn giọng mặc định."
+      },
+      "issue_downloading": {
+        "title": "Đang tải giọng nói của ngôn ngữ này",
+        "hint": "Đây là lần tải duy nhất, khoảng 1,5 GB. Câu trả lời sẽ ở dạng văn bản cho đến khi tải xong, sau đó giọng nói sẽ nói."
       }
     },
     "model_app": "Mô hình ngôn ngữ của ứng dụng",

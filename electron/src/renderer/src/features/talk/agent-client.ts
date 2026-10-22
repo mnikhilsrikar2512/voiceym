@@ -14,7 +14,7 @@ export type AgentLine = {
   pending?: boolean;
 };
 
-export type AgentIssue = 'microphone' | 'connection' | 'turn' | 'voice';
+export type AgentIssue = 'microphone' | 'connection' | 'turn' | 'voice' | 'downloading';
 
 export type AgentSettings = {
   instructions: string;
@@ -329,6 +329,7 @@ export class AgentClient {
         break;
       case 'error':
         if (event.code === 'turn_failed') this.publish({ issue: 'turn' });
+        else if (event.code === 'voice_downloading') this.publish({ issue: 'downloading' });
         else if (String(event.code).startsWith('voice_unavailable')) this.publish({ issue: 'voice' });
         break;
     }

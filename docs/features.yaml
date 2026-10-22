@@ -37,6 +37,12 @@ tts_engines:
   - id: chatterbox
     readme: Chatterbox
     doc: docs/engines/chatterbox.md
+  - id: indic-parler
+    readme: Indic Parler-TTS
+    doc: docs/engines/indic-parler.md
+  - id: indic-tts
+    readme: Indic-TTS
+    doc: docs/engines/indic-tts.md
   - id: omnivoice-subprocess
     doc: docs/engines/omnivoice-subprocess.md
   - id: cosyvoice

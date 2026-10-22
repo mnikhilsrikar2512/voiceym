@@ -3859,6 +3859,10 @@
       "issue_voice": {
         "title": "Membalas hanya dengan teks",
         "hint": "Belum ada suara untuk penggunaan komersial yang bisa mengucapkan ini. Pasang Kokoro atau KittenTTS di Katalog Model, atau pilih suara bawaan."
+      },
+      "issue_downloading": {
+        "title": "Mengunduh suara bahasa ini",
+        "hint": "Unduhan sekali sekitar 1,5 GB. Balasan tetap berupa teks sampai selesai, lalu suara akan berbicara."
       }
     },
     "model_app": "Model bahasa aplikasi",

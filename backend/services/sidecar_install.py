@@ -611,6 +611,67 @@ SPECS: dict[str, SidecarSpec] = {
             "Chatterbox pins PyTorch 2.6, which has no Intel Mac build."
         ),
     ),
+    # Commercial-use (Apache-2.0) speech in 21 Indian languages. parler-tts
+    # pins transformers 4.46.1, so it gets its own venv; a reviewed commit
+    # (2024-12-10). torch is unpinned upstream, so the pair is pinned here.
+    # The weights repo is gated: the user accepts its terms on Hugging Face
+    # and adds a token, which the weights step sends (#2163).
+    "indic-parler": SidecarSpec(
+        engine_id="indic-parler",
+        display_name="Indic Parler-TTS",
+        repo_url="https://github.com/huggingface/parler-tts.git",
+        tarball_url=(
+            "https://github.com/huggingface/parler-tts/archive/"
+            "d108732cd57788ec86bc857d99a6cabd66663d68.tar.gz"
+        ),
+        checkout_dirname="indic-parler",
+        env_var="OMNIVOICE_INDIC_PARLER_DIR",
+        probe_module="parler_tts",
+        probe_code="from parler_tts import ParlerTTSForConditionalGeneration",
+        source_revision="d108732cd57788ec86bc857d99a6cabd66663d68",
+        source_required_path="parler_tts/modeling_parler_tts.py",
+        docs_path="docs/engines/indic-parler.md",
+        venv_args=("--python", "3.11"),
+        install_args=("-e", "{checkout}"),
+        torch_pins=("torch==2.7.0", "torchaudio==2.7.0"),
+        weights_repo_id="ai4bharat/indic-parler-tts",
+        weights_revision="66e3f72fc0637aeec2b5913a7f899ea5465ebe3c",
+        weights_subdir="weights",
+        weights_config_names=("config.json",),
+        # ~0.1 GB source + ~4 GB venv (torch) + ~3.8 GB float32 weights.
+        required_bytes=10 * _GIB,
+        weights_bytes=4 * _GIB,
+        dependency_bytes=4 * _GIB,
+        host_supported=_no_intel_mac(
+            "Indic Parler-TTS needs a PyTorch version that has no Intel Mac build."
+        ),
+    ),
+    # Indian languages with no account (AI4Bharat Indic-TTS, MIT) on
+    # coqui-tts (MPL-2.0), the maintained Coqui fork. Its torch lives in the
+    # [cpu] extra; the models are small enough that CPU keeps up with Talk.
+    # Each language's voice downloads from GitHub when first needed
+    # (engines/indic_tts/voices.py), into <install>/voices.
+    "indic-tts": SidecarSpec(
+        engine_id="indic-tts",
+        display_name="Indic-TTS",
+        repo_url="",
+        tarball_url="",
+        checkout_dirname="indic-tts",
+        env_var="OMNIVOICE_INDIC_TTS_DIR",
+        probe_module="TTS",
+        probe_code="from TTS.utils.synthesizer import Synthesizer",
+        has_source=False,
+        venv_args=("--python", "3.11"),
+        install_args=("coqui-tts[cpu]==0.28.0",),
+        cpu_torch_index=True,
+        docs_path="docs/engines/indic-tts.md",
+        # CPU torch + coqui-tts (~2 GB); each voice keeps ~0.5 GB and needs
+        # ~2 GB free while its 1.5 GB download unpacks.
+        required_bytes=4 * _GIB,
+        host_supported=_no_intel_mac(
+            "Indic-TTS needs a PyTorch version that has no Intel Mac build."
+        ),
+    ),
     # Upstream is unpinned and its entry point has moved before (#1287), so the
     # install pins a reviewed commit (2026-09-06) and the sidecar drives the
     # runtime that commit ships (moss_tts_nano_runtime.NanoTTSService). Its

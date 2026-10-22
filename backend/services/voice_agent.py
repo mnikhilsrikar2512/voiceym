@@ -55,15 +55,17 @@ DEFAULT_INSTRUCTIONS = (
 Event = Union[dict, bytes]
 
 #: Languages the light setup (Parakeet, the English voice) can't handle. Talk
-#: hears them with multilingual Whisper and speaks them with OmniVoice.
+#: hears them with multilingual Whisper and speaks them with Indic Parler-TTS
+#: (or, outside commercial-only sessions, OmniVoice).
 INDIAN_LANGUAGES = {
     "hindi": "hi", "bengali": "bn", "tamil": "ta", "telugu": "te", "marathi": "mr",
     "gujarati": "gu", "kannada": "kn", "malayalam": "ml", "panjabi": "pa", "punjabi": "pa",
     "urdu": "ur", "odia": "or", "assamese": "as", "nepali": "ne",
 }
-#: Voice engines that speak Indian languages, lightest first: the GGUF build of
-#: OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice itself.
-MULTILINGUAL_ENGINES = ("omnivoice-gguf", "omnivoice")
+#: Voice engines that speak Indian languages, in order of preference: Indic
+#: Parler-TTS (Apache-2.0) or Indic-TTS (MIT) when installed, the GGUF build
+#: of OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice.
+MULTILINGUAL_ENGINES = ("indic-parler", "indic-tts", "omnivoice-gguf", "omnivoice")
 
 
 def multilingual_engine() -> str:
@@ -280,6 +282,14 @@ FAST_VOICE_ENGINE = "kittentts"
 KOKORO_ENGINE = "kokoro"
 
 
+#: Commercial-use (Apache-2.0) engine for the Indian languages the voices
+#: above can't say (Tamil, Telugu, Bengali and the rest), when installed.
+INDIC_VOICE_ENGINE = "indic-parler"
+
+#: The same with no account (AI4Bharat Indic-TTS, MIT): each language's voice
+#: downloads from GitHub the first time a reply needs it.
+INDIC_TTS_ENGINE = "indic-tts"
+
 #: Light multilingual engine for sentences neither voice above can say
 #: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
 MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
@@ -339,8 +349,32 @@ def cloning_voice_engine() -> str:
 
 
 def multilingual_voice_engine() -> str:
-    """The light multilingual engine's id when it is installed, else ""."""
-    return _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
+    """The engine for scripts the fast voice can't say: Indic Parler-TTS or
+    Indic-TTS when installed, else the light multilingual engine when
+    installed, else ""."""
+    return (
+        _engine_if_available(INDIC_VOICE_ENGINE)
+        or _engine_if_available(INDIC_TTS_ENGINE)
+        or _engine_if_available(MULTILINGUAL_VOICE_ENGINE)
+    )
+
+
+def indic_tts_voice(sentence: str, language: str) -> tuple[str, str]:
+    """Indic-TTS's language for *sentence* and whether its voice is ready:
+    ``(code, "ready" | "downloading" | "failed")``, or ``("", "")`` when
+    Indic-TTS can't say it. A missing voice starts downloading in the
+    background, so a live conversation never waits on it."""
+    from engines.indic_tts import voices
+    from engines.indic_tts.indic_tts_languages import detect_language
+
+    code = detect_language(sentence, language)
+    if code is None:
+        return "", ""
+    if voices.voice_installed(code):
+        return code, "ready"
+    if voices.last_error(code) and not voices.downloading(code):
+        return code, "failed"
+    return code, "downloading" if voices.start_download(code) else "failed"
 
 
 def is_devanagari(sentence: str) -> bool:
@@ -639,7 +673,10 @@ class VoiceAgentSession:
                  "Install Kokoro or KittenTTS in Model Catalogue.",
         "clone": "Cloned voices need a commercial-use cloning engine, which isn't "
                  "installed. Pick the default voice, or install one in Model Catalogue.",
-        "language": "The voice can't speak this language yet, so that part is text only.",
+        "language": "The voice can't speak this language yet, so that part is text only. "
+                    "Install Indic-TTS in Model Catalogue to hear Indian languages.",
+        "download": "This language's voice didn't download, so replies stay in text. "
+                    "Check the connection, then start a new call to try again.",
     }
 
     async def _voice_unavailable(self, reason: str) -> None:
@@ -648,6 +685,14 @@ class VoiceAgentSession:
         self._warned.add(reason)
         await self._emit({"type": "error", "code": f"voice_unavailable_{reason}",
                           "message": self._UNAVAILABLE[reason]})
+
+    async def _voice_downloading(self, code: str) -> None:
+        if f"download:{code}" in self._warned:
+            return
+        self._warned.add(f"download:{code}")
+        await self._emit({"type": "error", "code": "voice_downloading",
+                          "message": "Downloading this language's voice (about 1.5 GB, once). "
+                                     "Replies stay in text until it's ready."})
 
     def _engine(self) -> str:
         """The voice engine for this session: the client's pick, else (for a
@@ -660,7 +705,13 @@ class VoiceAgentSession:
     async def _speak(self, sentence: str) -> None:
         await self._set_state("speaking")
         engine, language = self._engine(), self.config.language
-        if self.config.hindi_engine and is_devanagari(sentence):
+        if (
+            self.config.hindi_engine
+            and is_devanagari(sentence)
+            and (indian_language_code(language) in (None, "hi") or not self.config.multilingual_engine)
+        ):
+            # Kokoro reads Devanagari as Hindi; Marathi, Nepali and Sanskrit
+            # go to the multilingual engine below when one is installed.
             engine, language = self.config.hindi_engine, "hi"
         elif self.config.multilingual_engine and needs_multilingual_voice(sentence, language):
             engine = self.config.multilingual_engine
@@ -672,6 +723,20 @@ class VoiceAgentSession:
         if self.config.unavailable:
             await self._voice_unavailable(self.config.unavailable)
             return
+        if engine == INDIC_TTS_ENGINE:
+            code, state = indic_tts_voice(sentence, language)
+            if not code and self.config.hindi_engine and is_devanagari(sentence):
+                # Nepali, Sanskrit and unnamed Devanagari: Kokoro reads it as Hindi.
+                engine, language = self.config.hindi_engine, "hi"
+            elif not code:
+                await self._voice_unavailable("language")
+                return
+            elif state == "downloading":
+                await self._voice_downloading(code)
+                return
+            elif state == "failed":
+                await self._voice_unavailable("download")
+                return
         async for pcm in self.deps.render(
             sentence, voice=self.config.voice, engine=engine, language=language
         ):
