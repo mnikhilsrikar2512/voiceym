@@ -96,7 +96,11 @@ def system_prompt(instructions: str, language: str) -> str:
     lang = (
         f"Speak {language}."
         if language and language.lower() not in ("auto", "")
-        else "Reply in the language the user speaks."
+        else (
+            "Reply in the same language the user used. If they mix languages in a "
+            "sentence (for example Hindi or Telugu with English words), reply with the "
+            "same mix, in the same script they used."
+        )
     )
     return (
         f"{(instructions or DEFAULT_INSTRUCTIONS).strip()}\n\n"
@@ -172,6 +176,8 @@ class VoiceAgentDeps:
     render: Callable[..., AsyncIterator[np.ndarray]]
     #: (messages, model name) → text deltas, when the session names an Ollama model
     model_stream: Callable[[list[dict], str], AsyncIterator[str]] | None = None
+    #: Load the session's models in the background so the first reply is quick.
+    warm_up: Callable[["SessionConfig"], Awaitable[None]] | None = None
 
 
 async def _default_transcribe(pcm16k: np.ndarray, language: str, *, multilingual: bool = False) -> str:
@@ -188,6 +194,13 @@ async def _default_transcribe(pcm16k: np.ndarray, language: str, *, multilingual
             # (often English/European-only) for the multilingual Whisper tier,
             # which detects the spoken language.
             result = await _transcribe_buffer_full(audio, pcm_sr=INPUT_SAMPLE_RATE, skip_sherpa=True)
+            detected = str(result.get("language") or "").lower()
+            from services import indic_asr
+
+            if detected in indic_asr.MODELS and indic_asr.installed(detected):
+                # Whisper turbo found Telugu or Hindi; the model tuned for that
+                # language hears it (and mixed English words) far better.
+                return await _transcribe_multilingual(pcm16k, detected)
             return result.get("text", "")
         return await _transcribe_buffer(audio, pcm_sr=INPUT_SAMPLE_RATE)
 
@@ -272,6 +285,38 @@ async def _default_render(
         yield await asyncio.to_thread(to_pcm16_24k, wav, sr)
 
 
+async def _default_warm_up(config: "SessionConfig") -> None:
+    """Load the language model, the voice and the speech recogniser while the
+    user is still getting ready, instead of on their first sentence."""
+    from services import ollama_local
+
+    tasks = [ollama_local.warm(getattr(config, "model", "") or "")]
+
+    def _load_local() -> None:
+        try:
+            if config.engine:
+                from services.tts_backend import get_engine_instance_for
+
+                get_engine_instance_for(config.engine).ensure_ready()
+        except Exception:  # noqa: BLE001 -- warming is best-effort
+            logger.debug("voice warm-up skipped", exc_info=True)
+        try:
+            from services import asr_backend, indic_asr
+
+            code = indian_language_code(config.language)
+            if code and indic_asr.installed(code):
+                indic_asr._pipeline(code)
+            elif config.multilingual_asr or code:
+                asr_backend.get_capture_asr_backend(skip_sherpa=True)
+            else:
+                asr_backend.get_capture_asr_backend()
+        except Exception:  # noqa: BLE001
+            logger.debug("hearing warm-up skipped", exc_info=True)
+
+    tasks.append(asyncio.to_thread(_load_local))
+    await asyncio.gather(*tasks, return_exceptions=True)
+
+
 def default_deps() -> VoiceAgentDeps:
     from services import ollama_local
     from services.telephony.agent import _default_llm_stream
@@ -281,6 +326,7 @@ def default_deps() -> VoiceAgentDeps:
         transcribe=_default_transcribe,
         render=_default_render,
         model_stream=ollama_local.chat_stream,
+        warm_up=_default_warm_up,
     )
 
 
@@ -393,6 +439,9 @@ def indic_tts_voice(sentence: str, language: str) -> tuple[str, str]:
     if voices.last_error(code) and not voices.downloading(code):
         return code, "failed"
     return code, "downloading" if voices.start_download(code) else "failed"
+
+
+_NON_LATIN = re.compile(r"[^\W\d_A-Za-z\u00C0-\u024F]")
 
 
 def is_devanagari(sentence: str) -> bool:
@@ -528,11 +577,14 @@ class VoiceAgentSession:
         self._playback_until = 0.0
         self._closed = False
         self._warned: set[str] = set()
+        self._warm_task: asyncio.Task | None = None
 
     # ── Transport surface ──
 
     async def start(self) -> None:
         self._asr_task = asyncio.create_task(self._asr_worker())
+        if self.deps.warm_up is not None:
+            self._warm_task = asyncio.create_task(self.deps.warm_up(self.config))
         await self._emit({"type": "session.ready", "input_sample_rate": INPUT_SAMPLE_RATE,
                           "output_sample_rate": OUTPUT_SAMPLE_RATE})
         await self._set_state("listening")
@@ -580,6 +632,8 @@ class VoiceAgentSession:
             await self._set_state("listening")
 
     async def close(self) -> None:
+        if self._warm_task is not None and not self._warm_task.done():
+            self._warm_task.cancel()
         self._closed = True
         for task in (self._turn, self._asr_task):
             if task is not None and not task.done():
@@ -767,6 +821,15 @@ class VoiceAgentSession:
         if self.config.unavailable:
             await self._voice_unavailable(self.config.unavailable)
             return
+        if (
+            self.config.hindi_engine
+            and engine != self.config.hindi_engine
+            and not _NON_LATIN.search(sentence)
+            and is_indian_language(language)
+        ):
+            # An English sentence in a mixed Hindi/Telugu reply: the English
+            # voice says it better than the Indian-language voice would.
+            engine, language = self.config.hindi_engine, "en"
         if engine == INDIC_TTS_ENGINE:
             code, state = indic_tts_voice(sentence, language)
             if not code and self.config.hindi_engine and is_devanagari(sentence):

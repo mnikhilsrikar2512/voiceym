@@ -127,6 +127,22 @@ export function TalkPage() {
     }
   }, [wire]);
 
+  // Language, voice and model are fixed when a conversation starts, so a
+  // change mid-conversation restarts it right away (keeping the transcript)
+  // instead of silently waiting for the next one.
+  const sessionKey = `${wire.language}|${wire.voice}|${wire.model}`;
+  const startedWith = useRef(sessionKey);
+  useEffect(() => {
+    if (!client.active) {
+      startedWith.current = sessionKey;
+      return;
+    }
+    if (startedWith.current === sessionKey) return;
+    startedWith.current = sessionKey;
+    const withMic = client.state.micOn;
+    void client.stop().then(() => client.start(wire, { withMic }));
+  }, [sessionKey, wire]);
+
   const send = useCallback(async () => {
     const text = draft.trim();
     if (!text) return;
