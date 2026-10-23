@@ -381,6 +381,30 @@ def is_devanagari(sentence: str) -> bool:
     return any("\u0900" <= ch <= "\u097f" for ch in sentence)
 
 
+def talk_endpointer() -> Endpointer:
+    """End-of-turn detection tuned for a person talking to the app.
+
+    The phone defaults end a turn after 0.7 s of silence and accept 0.16 s of
+    sound as speech, which split a thinking pause or an "uh…" into its own turn
+    (each one interrupting the reply). Talk waits 1 s, needs 0.3 s of speech,
+    and accepts quieter microphones such as AirPods (16 kHz, 20 ms frames)."""
+    return Endpointer(end_frames=50, min_speech_frames=15, min_rms=200.0, noise_ratio=2.5)
+
+
+_FILLERS = frozenset({
+    "a", "ah", "aah", "eh", "er", "erm", "hm", "hmm", "huh", "mhm", "mm", "mmm",
+    "oh", "uh", "uhh", "uhm", "um", "umm",
+})
+
+
+def is_filler(text: str) -> bool:
+    """True when a transcript is only hesitation sounds ("Uh mmm", "Mm.")."""
+    import re
+
+    words = re.findall(r"[^\W\d_]+", text.lower())
+    return bool(words) and all(w in _FILLERS for w in words)
+
+
 _ENGLISH = {"", "en", "english"}
 
 
@@ -477,7 +501,7 @@ class VoiceAgentSession:
         self.state = "listening"
         self._send = send
         self._clock = clock
-        self._vad = Endpointer()
+        self._vad = talk_endpointer()
         self._history: list[dict] = []
         self._turn: asyncio.Task | None = None
         self._asr_q: asyncio.Queue = asyncio.Queue()
@@ -578,6 +602,8 @@ class VoiceAgentSession:
                 await self._emit({"type": "error", "code": "transcription_failed",
                                   "message": "Could not transcribe that; please try again."})
                 continue
+            if is_filler(text):
+                continue  # a lone "uh"/"mm" while the user thinks is not a turn
             if text and not self._closed:
                 await self._on_user_text(text)
 

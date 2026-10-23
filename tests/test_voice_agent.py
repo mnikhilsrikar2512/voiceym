@@ -257,6 +257,36 @@ def test_a_session_without_a_commercial_voice_answers_in_text():
     assert sink.of("response.done")
 
 
+def test_hesitation_sounds_are_not_turns():
+    for text in ["Uh mmm", "Uh", "Mm.", "um, uh...", "A", "hmm"]:
+        assert va.is_filler(text), text
+    for text in ["So what's the weather?", "Uh, book a table", "Hi", "\u0939\u093e\u0901"]:
+        assert not va.is_filler(text), text
+
+
+def test_talk_waits_for_a_real_pause_and_ignores_short_sounds():
+    vad = va.talk_endpointer()
+    assert vad.end_frames * 20 >= 1000 and vad.min_speech_frames * 20 >= 300
+    assert vad.min_rms < 400  # quieter microphones such as AirPods
+
+
+def test_a_filler_only_utterance_gets_no_reply():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.heard = ["Uh mmm"]
+        session = va.VoiceAgentSession(va.SessionConfig(), sink, fakes.deps())
+        await session.start()
+        audio = _tone(0.6) + _silence(1.3)
+        for i in range(0, len(audio), 999):
+            await session.push_audio(audio[i:i + 999])
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run())
+    assert fakes.llm_calls == [] and not sink.of("transcript")
+
+
 def test_needs_multilingual_voice_by_script_or_language():
     assert not va.needs_multilingual_voice("The capital is Paris.", "")
     assert not va.needs_multilingual_voice("Café crème, s'il vous plaît.", "English")
@@ -288,7 +318,7 @@ def test_multilingual_hearing_asks_for_the_multilingual_recogniser():
         fakes.heard = ["namaste"]
         session = va.VoiceAgentSession(va.SessionConfig(multilingual_asr=True), sink, fakes.deps())
         await session.start()
-        audio = _tone(0.6) + _silence(1.0)
+        audio = _tone(0.6) + _silence(1.3)
         for i in range(0, len(audio), 999):
             await session.push_audio(audio[i:i + 999])
         await _settle(session)
@@ -331,7 +361,7 @@ def test_spoken_utterance_is_transcribed_and_answered():
         await session.start()
         await session.push_audio(_silence(0.4))
         # Odd chunk sizes: frames must be reassembled across pushes.
-        audio = _tone(0.6) + _silence(1.0)
+        audio = _tone(0.6) + _silence(1.3)
         for i in range(0, len(audio), 999):
             await session.push_audio(audio[i:i + 999])
         await _settle(session)

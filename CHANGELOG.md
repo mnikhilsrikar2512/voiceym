@@ -31,5 +31,6 @@ metadata and the backend fallback mirror it.
 
 ### Fixed
 
+- Talk no longer splits a pause or an "uh" into its own turn, and hears quieter microphones such as AirPods (#1)
 - Ending a Talk session no longer logs a server error when the client already disconnected (#1)
 - A phone call that ended normally is no longer recorded as failed when the provider had already closed the stream (#1)
