@@ -102,10 +102,22 @@ def system_prompt(instructions: str, language: str) -> str:
         f"{(instructions or DEFAULT_INSTRUCTIONS).strip()}\n\n"
         "You are talking out loud with the user; everything you write is spoken.\n"
         "- Keep replies short and natural for speech: one to three sentences unless asked for more.\n"
+        "- Answer exactly what the user asked. If you didn't understand, say so briefly and ask them to repeat.\n"
         "- No markdown, lists, code blocks, emoji or URLs.\n"
         "- If you are asked whether you are a person or an AI, say truthfully that you are an AI assistant.\n"
         f"- {lang}"
     )
+
+
+_EMOJI = re.compile(
+    "[\U0001F000-\U0001FAFF\U00002600-\U000027BF\U00002B00-\U00002BFF"
+    "\U0000FE0F\U0000200D\U000020E3]+"
+)
+
+
+def strip_emoji(text: str) -> str:
+    """Small models add emoji despite the prompt; they are never spoken or shown."""
+    return re.sub(r"[ \t]{2,}", " ", _EMOJI.sub("", text))
 
 
 class ThinkFilter:
@@ -211,6 +223,12 @@ async def _transcribe_multilingual(pcm16k: np.ndarray, code: str) -> str:
         return ""
 
     def _run() -> str:
+        from services import indic_asr
+
+        # A Whisper fine-tuned for this language (Telugu, Hindi) hears it far
+        # better than the general multilingual model, when it is installed.
+        if code and indic_asr.installed(code):
+            return indic_asr.transcribe(path, code)
         result = _multilingual_asr().transcribe(path, word_timestamps=False, language=code or None)
         return _result_text(result)
 
@@ -679,7 +697,7 @@ class VoiceAgentSession:
                 sentence = await sentences.get()
                 if sentence is None:
                     break
-                sentence = sentence.strip()
+                sentence = strip_emoji(sentence).strip()
                 if not sentence:
                     continue
                 await self._speak(sentence)

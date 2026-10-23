@@ -664,6 +664,11 @@ SPECS: dict[str, SidecarSpec] = {
         venv_args=("--python", "3.11"),
         install_args=("coqui-tts[cpu]==0.28.0",),
         cpu_torch_index=True,
+        # coqui-tts refuses to import on torch 2.9+ without torchcodec (which
+        # needs FFmpeg's shared libraries); left unpinned, the resolver took
+        # torch 2.14 and every install failed at verify. 2.8 keeps soundfile I/O.
+        torch_pins=("torch==2.8.0", "torchaudio==2.8.0"),
+        install_revision="torch-2.8-v1",
         docs_path="docs/engines/indic-tts.md",
         # CPU torch + coqui-tts (~2 GB); each voice keeps ~0.5 GB and needs
         # ~2 GB free while its 1.5 GB download unpacks.

@@ -287,6 +287,12 @@ def test_a_filler_only_utterance_gets_no_reply():
     assert fakes.llm_calls == [] and not sink.of("transcript")
 
 
+def test_emoji_is_stripped_but_indian_scripts_and_punctuation_stay():
+    assert va.strip_emoji("Sure thing! \U0001F60A") == "Sure thing! "
+    assert va.strip_emoji("\u0928\u092e\u0938\u094d\u0924\u0947 \u2764\ufe0f \u0915\u0948\u0938\u0947 \u0939\u0948\u0902?") == "\u0928\u092e\u0938\u094d\u0924\u0947 \u0915\u0948\u0938\u0947 \u0939\u0948\u0902?"
+    assert va.strip_emoji("40\u00b0C, \u2014 ok.") == "40\u00b0C, \u2014 ok."
+
+
 def test_needs_multilingual_voice_by_script_or_language():
     assert not va.needs_multilingual_voice("The capital is Paris.", "")
     assert not va.needs_multilingual_voice("Café crème, s'il vous plaît.", "English")
