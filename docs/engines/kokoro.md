@@ -25,6 +25,13 @@ Nothing to install. First-run setup downloads the model from
 tokenizer and one small style file per default voice). Select it any time via
 **Model Catalogue** (TTS tab → **Use**) or `OMNIVOICE_TTS_BACKEND=kokoro`.
 
+On ARM CPUs (Apple Silicon Macs, ARM laptops) Kokoro also fetches the
+half-precision model (about 163 MB) in the background the first time it loads,
+then switches to it: ONNX Runtime has no fast 8-bit kernels on ARM, and the
+half-precision model speaks about twice as fast there, which keeps Talk's replies
+ahead of their own playback. Until it arrives, or if it can't be fetched, the
+8-bit model keeps speaking. Intel and AMD machines use the 8-bit model.
+
 ## Languages and voices
 
 | Language | Default voice | Phonemes |

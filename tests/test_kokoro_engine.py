@@ -66,3 +66,82 @@ def test_kokoro_is_the_default_engine(monkeypatch):
     monkeypatch.setattr(prefs, "get", lambda key, default=None: default)
     assert tts.active_backend_id() == "kokoro"
     assert tts.get_backend_class("kokoro").is_available()[0]
+
+
+def test_arm_cpus_prefer_the_half_precision_graph(monkeypatch):
+    import platform
+
+    mod = importlib.import_module("engines.kokoro")
+    monkeypatch.setattr(platform, "machine", lambda: "arm64")
+    assert mod.preferred_graph() == mod.FAST_GRAPH_FILE
+    monkeypatch.setattr(platform, "machine", lambda: "AMD64")
+    assert mod.preferred_graph() == mod.GRAPH_FILE
+
+
+def _loader(monkeypatch, mod, *, cached):
+    be = mod.KokoroBackend()
+    opened = []
+    monkeypatch.setattr(mod, "preferred_graph", lambda: mod.FAST_GRAPH_FILE)
+    monkeypatch.setattr(be, "_download", lambda patterns: "/models")
+    monkeypatch.setattr(mod.KokoroBackend, "_cached", staticmethod(lambda name: cached))
+    monkeypatch.setattr(mod.KokoroBackend, "_open", staticmethod(lambda path: opened.append(path) or path))
+    import builtins
+    import io
+
+    real_open = builtins.open
+    monkeypatch.setattr(
+        builtins, "open",
+        lambda path, *a, **k: io.StringIO('{"model": {"vocab": {}}}')
+        if str(path).endswith("tokenizer.json") else real_open(path, *a, **k),
+    )
+    return be, opened
+
+
+def test_a_cached_fast_graph_loads_directly(monkeypatch):
+    mod = importlib.import_module("engines.kokoro")
+    be, opened = _loader(monkeypatch, mod, cached=True)
+    upgrades = []
+    monkeypatch.setattr(be, "_upgrade_in_background", upgrades.append)
+    be._ensure_loaded()
+    assert opened == ["/models/" + mod.FAST_GRAPH_FILE] and upgrades == []
+
+
+def test_speech_starts_on_the_8bit_graph_while_the_fast_one_downloads(monkeypatch):
+    mod = importlib.import_module("engines.kokoro")
+    be, opened = _loader(monkeypatch, mod, cached=False)
+    upgrades = []
+    monkeypatch.setattr(be, "_upgrade_in_background", upgrades.append)
+    be._ensure_loaded()
+    assert opened == ["/models/" + mod.GRAPH_FILE]
+    assert upgrades == [mod.FAST_GRAPH_FILE]
+
+
+def test_the_background_upgrade_swaps_the_session_and_a_failure_keeps_it(monkeypatch):
+    import threading
+
+    import huggingface_hub
+
+    mod = importlib.import_module("engines.kokoro")
+    be = mod.KokoroBackend()
+    be._session = "8bit"
+    class InlineThread:
+        def __init__(self, target, **_kwargs):
+            self.target = target
+
+        def start(self):
+            self.target()
+
+    monkeypatch.setattr(threading, "Thread", InlineThread)
+    monkeypatch.setattr(mod.KokoroBackend, "_open", staticmethod(lambda path: "fast:" + path))
+    monkeypatch.setattr(huggingface_hub, "hf_hub_download", lambda repo, name, revision: "/c/" + name)
+    be._upgrade_in_background(mod.FAST_GRAPH_FILE)
+    assert be._session == "fast:/c/" + mod.FAST_GRAPH_FILE and not be._upgrading
+
+    be._session = "8bit"
+
+    def offline(*_a, **_k):
+        raise OSError("offline")
+
+    monkeypatch.setattr(huggingface_hub, "hf_hub_download", offline)
+    be._upgrade_in_background(mod.FAST_GRAPH_FILE)
+    assert be._session == "8bit" and not be._upgrading
