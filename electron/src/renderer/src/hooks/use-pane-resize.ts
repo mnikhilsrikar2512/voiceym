@@ -9,6 +9,7 @@ export function usePaneResize({
   maximum = Infinity,
   reserve = 320,
   enabled = true,
+  overlay = false,
 }: {
   storageKey: string;
   side: 'left' | 'right';
@@ -17,6 +18,8 @@ export function usePaneResize({
   maximum?: number;
   reserve?: number;
   enabled?: boolean;
+  /** The pane floats over the page, so the window, not its parent, bounds it. */
+  overlay?: boolean;
 }) {
   const host = useRef<HTMLElement>(null);
   const drag = useRef<{ x: number; width: number } | null>(null);
@@ -31,6 +34,13 @@ export function usePaneResize({
   });
   const width = Math.max(minimum, Math.min(preferred, limit));
   useLayoutEffect(() => {
+    if (enabled && overlay) {
+      const measure = () =>
+        setLimit(Math.max(minimum, Math.min(maximum, window.innerWidth - reserve)));
+      measure();
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
+    }
     let parent = host.current?.parentElement ?? null;
     while (
       parent &&
@@ -44,7 +54,7 @@ export function usePaneResize({
     const observer = new ResizeObserver(measure);
     observer.observe(parent);
     return () => observer.disconnect();
-  }, [enabled, maximum, minimum, reserve]);
+  }, [enabled, overlay, maximum, minimum, reserve]);
   const resize = (value: number) => {
     const next = Math.max(minimum, Math.min(value, limit));
     setPreferred(next);

@@ -80,7 +80,7 @@ export function HomePage() {
       <WorkspaceHeader>
         <h1 className="text-sm font-semibold">{t('nav.home')}</h1>
       </WorkspaceHeader>
-      <main className="min-h-0 flex-1 overflow-y-auto">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="home-page mx-auto w-full max-w-5xl px-6 py-10 sm:px-10">
           <header className="mb-8">
             <h2 className="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -123,7 +123,7 @@ export function HomePage() {
             ))}
           </ul>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

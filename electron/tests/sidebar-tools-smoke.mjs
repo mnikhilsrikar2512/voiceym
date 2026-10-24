@@ -52,7 +52,12 @@ try {
         }),
       );
       await page.goto(ui + '/#/clone');
-      const sidebar = page.locator('aside').first();
+      // The engine panel lives in the full sidebar, which opens over the page from the
+      // rail; the pointer stays on it.
+      const openSidebar = () =>
+        page.locator('[data-slot=compact-main-sidebar] [aria-expanded]').first().click();
+      await openSidebar();
+      const sidebar = page.locator('[data-slot=expanded-main-sidebar]');
       await sidebar.locator('[data-slot=engine-view-toggle]').waitFor();
       const chooseView = async (level) => {
         await sidebar
@@ -154,6 +159,7 @@ try {
         );
       }
       await page.reload();
+      await openSidebar();
       await footer.locator('[data-detail-level=details]').waitFor();
       if (platform === 'win32' && locale === 'en') {
         await page.setViewportSize({ width: 1280, height: 900 });
@@ -162,8 +168,9 @@ try {
           await footer.evaluate((el) => {
             el.scrollTop = 0;
           });
-          await page.mouse.move(800, 100);
-          await page.keyboard.press('Escape');
+          const header = await sidebar.locator('header').boundingBox();
+          await page.mouse.move(header.x + 8, header.y + header.height / 2);
+          await page.evaluate(() => document.activeElement?.blur());
           await footer.screenshot({
             path: `.tmp-sidebar-tools-${level}.png`,
             animations: 'disabled',

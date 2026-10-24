@@ -65,7 +65,11 @@ const profile = () => ({
   },
 });
 try {
-  await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
+  await page.addInitScript(() => {
+    localStorage.setItem('voiceym.setup.complete.v1', '1');
+    // Speed / quality sits in the detailed engine views, not the simple one.
+    localStorage.setItem('voiceym.engine-detail-level', 'models');
+  });
   await page.route('**/api/**', async (route) => {
     const request = route.request();
     const path = new URL(request.url()).pathname;
@@ -147,7 +151,12 @@ try {
     return route.continue();
   });
   await page.goto(ui + '/#/clone');
-  const footer = page.locator('aside').first().locator('footer');
+  // The engine panel lives in the full sidebar, which opens over the page from the rail.
+  await page
+    .locator('[data-slot=compact-main-sidebar]')
+    .getByRole('button', { name: 'Toggle Sidebar', exact: true })
+    .click();
+  const footer = page.locator('[data-slot=expanded-main-sidebar]').locator('footer');
   // Speed / quality: a radiogroup of tiers (Fast/Balanced/Quality/Max) plus a separate Auto toggle.
   const tiers = footer.getByRole('radiogroup', { name: 'Speed / quality', exact: true });
   const tier = (name) => tiers.getByRole('radio', { name, exact: true });

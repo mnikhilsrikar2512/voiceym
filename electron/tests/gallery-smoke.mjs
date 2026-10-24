@@ -120,9 +120,10 @@ try {
   await page.getByRole('button', { name: 'Use voice', exact: true }).first().click();
   await page.waitForTimeout(100);
   assert(started);
-  const cloneLink = page.getByRole('link', { name: 'Clone', exact: true });
-  if (!(await cloneLink.isVisible())) await page.getByRole('button', { name: 'Voice', exact: true }).click();
-  await cloneLink.click();
+  await page
+    .locator('[data-slot=compact-main-sidebar]')
+    .getByRole('link', { name: 'Text to speech', exact: true })
+    .click();
   await page.waitForURL('**/#/clone');
   await page.getByRole('button', { name: 'Use voice', exact: true }).first().waitFor({ state: 'detached' });
   // React flushes the unmount cleanup (which aborts the pending save) just after the page detaches.

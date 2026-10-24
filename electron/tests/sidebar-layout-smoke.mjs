@@ -13,7 +13,13 @@ const ui = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 try {
   await page.addInitScript(() => localStorage.setItem('voiceym.setup.complete.v1', '1'));
   await page.goto(ui + '/#/clone');
-  const sidebar = page.locator('aside').first();
+  // The full sidebar opens over the page from the rail; the pointer stays on it below.
+  await page
+    .locator('[data-slot=compact-main-sidebar]')
+    .getByRole('button', { name: 'Toggle Sidebar', exact: true })
+    .click();
+  const sidebar = page.locator('[data-slot=expanded-main-sidebar]');
+  await sidebar.waitFor();
   const chooseView = async (name) => {
     await sidebar
       .getByRole('radiogroup', { name: 'Tool settings', exact: true })
@@ -45,14 +51,15 @@ try {
   await speechTool.hover();
   assert.equal(await page.locator('[data-slot=tooltip-content][data-open]').count(), 0);
   await speechTool.blur();
-  await page.mouse.move(800, 100);
+  const header = await sidebar.locator('header').boundingBox();
+  await page.mouse.move(header.x + header.width / 2, header.y + header.height / 2);
   await chooseView('Simple');
   for (const [width, height] of [
     [1280, 720],
     [960, 600],
   ]) {
     await page.setViewportSize({ width, height });
-    assert.equal(await navigation.getByRole('link').count(), 10);
+    assert.equal(await navigation.getByRole('link').count(), 15);
     assert.equal(await page.getByRole('menu').count(), 0);
     const bounds = await navigation.boundingBox();
     assert.ok(bounds && bounds.width <= (await sidebar.boundingBox()).width);
@@ -86,7 +93,6 @@ try {
     await chooseView('Simple');
     await page.screenshot({ path: join(out, 'compact-' + height + '.png') });
   }
-  await navigation.getByRole('button', { name: 'Stories', exact: true }).click();
   await navigation.getByRole('link', { name: 'Stories', exact: true }).click();
   await page.waitForURL('**/#/stories');
   for (const width of [1920, 960]) {
@@ -100,11 +106,10 @@ try {
     assert.equal(await page.getByRole('heading', { name: 'Saved voices', exact: true }).count(), 1);
     if (width === 1920) {
       await openMain.click();
-      await compactMain.waitFor({ state: 'detached' });
-      const expandedMain = page.locator('.brand-sidebar').filter({ hasText: 'Saved voices' });
+      const expandedMain = page.locator('[data-slot=expanded-main-sidebar]');
       await expandedMain.waitFor();
       await expandedMain.getByRole('button', { name: 'Close' }).click();
-      await compactMain.waitFor();
+      await expandedMain.waitFor({ state: 'detached' });
     }
   }
   const macStartupPage = await browser.newPage();
@@ -182,7 +187,7 @@ try {
       });
     });
     await macPage.goto(ui + '/#/clone');
-    const macSidebar = macPage.locator('aside').first();
+    const macSidebar = macPage.locator('[data-slot=expanded-main-sidebar]');
     const macNotifications = macPage.locator('[data-slot=account-corner]');
     const macNotificationBounds = await macNotifications.boundingBox();
     assert.ok(
@@ -207,6 +212,11 @@ try {
     await macNotifications.locator('button:has(.lucide-bell)').click();
     await macPage.locator('[data-slot=popover-content][data-open]').waitFor({ state: 'visible' });
     await macPage.keyboard.press('Escape');
+    await macPage
+      .locator('[data-slot=compact-main-sidebar]')
+      .getByRole('button', { name: 'Toggle Sidebar', exact: true })
+      .click();
+    await macSidebar.waitFor();
     const brandLink = macSidebar.getByRole('link', { name: /^Voiceym v\S+/ });
     const brandBounds = await brandLink.boundingBox();
     assert.ok(brandBounds && brandBounds.x >= 96, 'macOS brand must clear the traffic lights');
@@ -276,7 +286,7 @@ try {
     await macPage.close();
   }
   console.log(
-    'Sidebar compact/expanded, macOS titlebar clearance, 9 destinations, 6 engine links, visible models, non-duplicated Profiles, settings visibility and navigation passed. ' +
+    'Sidebar compact/expanded, macOS titlebar clearance, 15 destinations, 6 engine links, visible models, non-duplicated Profiles, settings visibility and navigation passed. ' +
       out,
   );
 } finally {

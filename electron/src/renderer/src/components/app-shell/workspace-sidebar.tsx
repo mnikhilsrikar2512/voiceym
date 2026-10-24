@@ -21,6 +21,13 @@ export function versionTranslationKey(development: boolean) {
 const OPEN_DELAY_MS = 120;
 const CLOSE_DELAY_MS = 220;
 
+/** Popovers opened from the sidebar render outside it; focus moving into one
+ *  is still inside the sidebar. */
+const isSidebarLayer = (node: Node | null, sidebar: Element) =>
+  !!node &&
+  (sidebar.contains(node) ||
+    (node instanceof Element && !!node.closest('[data-slot=popover-content],[role=dialog],[role=menu]')));
+
 /**
  * The main sidebar is a slim icon rail that opens over the page while the
  * pointer (or keyboard focus) is on it, and closes when it leaves. It never
@@ -36,6 +43,7 @@ export function WorkspaceSidebar() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hovered = useRef(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const clearTimer = () => {
     if (timer.current !== null) clearTimeout(timer.current);
@@ -59,19 +67,29 @@ export function WorkspaceSidebar() {
     maximum: 360,
     reserve: 640,
     enabled: open,
+    overlay: true,
   });
   return (
     <div
       data-slot="workspace-sidebar"
       data-open={open || undefined}
       className="relative z-40 h-dvh shrink-0"
-      onMouseEnter={() => schedule(true)}
-      onMouseLeave={() => schedule(false)}
+      onMouseEnter={() => {
+        hovered.current = true;
+        schedule(true);
+      }}
+      onMouseLeave={() => {
+        hovered.current = false;
+        schedule(false);
+      }}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) schedule(false);
+        // Focus dropping to the page while the pointer rests here keeps it open.
+        const next = event.relatedTarget as Node | null;
+        if (next ? !isSidebarLayer(next, event.currentTarget) : !hovered.current) schedule(false);
       }}
       onKeyDown={(event) => {
-        if (event.key !== 'Escape' || !open) return;
+        // Escape inside one of its popovers closes only that popover.
+        if (event.key !== 'Escape' || !open || !event.currentTarget.contains(event.target as Node)) return;
         setOpen(false);
         (document.activeElement as HTMLElement | null)?.blur();
       }}
@@ -153,7 +171,7 @@ export function WorkspaceSidebar() {
           style={{ width: sidebarResize.width }}
           aria-label={t('clone.saved_profiles')}
           data-slot="expanded-main-sidebar"
-          className="brand-sidebar workspace-sidebar-overlay absolute inset-y-0 left-0 isolate grid h-full min-h-0 min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,auto)_minmax(5rem,1fr)_auto] overflow-hidden border-r border-border/50 bg-sidebar shadow-[12px_0_32px_-12px_rgb(0_0_0/0.45)]"
+          className="brand-sidebar workspace-sidebar-overlay absolute inset-y-0 start-0 isolate grid h-full min-h-0 min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,auto)_minmax(5rem,1fr)_auto] overflow-hidden border-e border-border/50 bg-sidebar shadow-[12px_0_32px_-12px_rgb(0_0_0/0.45)]"
         >
           <header
             className={cn(

@@ -88,7 +88,16 @@ try {
     [...document.querySelectorAll('audio')].some((audio) => audio.currentTime >= 0.9),
   );
   await latest.getByRole('button', { name: 'Play', exact: true }).click();
-  await page.getByRole('button', { name: 'Preview voice', exact: true }).first().click();
+  // Saved voices live in the full sidebar, which opens over the page from the rail.
+  await page
+    .locator('[data-slot=compact-main-sidebar]')
+    .getByRole('button', { name: 'Toggle Sidebar', exact: true })
+    .click();
+  await page
+    .locator('[data-slot=expanded-main-sidebar]')
+    .getByRole('button', { name: 'Preview voice', exact: true })
+    .first()
+    .click();
   await latest.getByRole('button', { name: 'Play', exact: true }).waitFor();
   await page.waitForFunction(
     () => [...document.querySelectorAll('audio')].filter((audio) => !audio.paused).length === 1,

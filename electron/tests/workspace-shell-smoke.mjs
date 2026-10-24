@@ -48,20 +48,26 @@ try {
     assert.equal(await page.locator('main h1').count(), 1);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   }
-  await nav.getByRole('button', { name: 'Voice', exact: true }).click();
-  await page.getByRole('link', { name: 'Clone', exact: true }).click();
+  await nav.getByRole('link', { name: 'Text to speech', exact: true }).click();
   await page.waitForURL('**/#/clone');
-  await compactSidebar.waitFor({ state: 'detached' });
-  const expandedSidebar = page.locator('.brand-sidebar').filter({ hasText: 'Saved voices' });
+  assert.ok(
+    await nav.evaluate((el) => el === window.originalWorkspaceNavigation),
+    'Sidebar remounted on /clone',
+  );
+  // Resting on the rail opens the full sidebar, with the saved-voice library, over the page.
+  await page.mouse.move(1000, 450);
+  await nav.getByRole('link', { name: 'Home', exact: true }).hover();
+  const expandedSidebar = page.locator('[data-slot=expanded-main-sidebar]');
   await expandedSidebar.waitFor();
   assert.ok((await expandedSidebar.boundingBox()).width >= 220);
   assert.equal(
     await expandedSidebar.getByRole('navigation', { name: 'Workspaces', exact: true }).count(),
     1,
   );
+  await expandedSidebar.getByText('Saved voices').first().waitFor();
   assert.deepEqual(errors, [], `Workspace routes emitted renderer errors:\n${errors.join('\n')}`);
   console.log(
-    'Shared compact rail stays mounted across all nine secondary workspaces and Clone restores the full library.',
+    'Shared rail stays mounted across every workspace and opens the full sidebar on hover.',
   );
 } finally {
   await browser.close();
