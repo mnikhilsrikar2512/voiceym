@@ -39,12 +39,11 @@ Voiceym/
 │   │   └── setup/               first-run wizard, model download
 │   ├── core/                    config, db, job queue, event bus, auth/CSRF, path security,
 │   │                            opt-in analytics, version, diagnostics
-│   ├── services/                103 modules of business logic — TTS, dubbing pipeline,
+│   ├── services/                101 modules of business logic — TTS, dubbing pipeline,
 │   │                            audio DSP, GPU gateway, engine routing, model lifecycle
 │   ├── engines/                 per-engine adapters: kokoro (default voice), chatterbox,
 │   │                            indic_parler, indic_tts, voxcpm2_subprocess,
-│   │                            omnivoice_subprocess, audiocpp (diarisation runtime),
-│   │                            _asr_sidecar, _echo
+│   │                            omnivoice_subprocess, _asr_sidecar, _echo
 │   ├── mcp_shim/                MCP server entry point (docs/mcp.md)
 │   ├── speech_client/           speech sidecar client entry point
 │   ├── schemas/                 pydantic request/response shapes

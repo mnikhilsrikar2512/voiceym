@@ -266,8 +266,8 @@ class TTSBackend(ABC):
 
     #: How ``instruct`` is read (#2389): ``"tags"`` for OmniVoice's closed
     #: voice-design vocabulary, which rejects anything else, or ``"freeform"``
-    #: for engines that take a written description as-is (Qwen3-TTS
-    #: VoiceDesign, VoxCPM2, audio.cpp) or ignore it. Surfaced via
+    #: for engines that take a written description as-is (VoxCPM2, Indic
+    #: Parler-TTS) or ignore it. Surfaced via
     #: ``list_backends()`` so clients reduce prose to tags only where the
     #: engine requires it.
     instruct_vocabulary: Literal["tags", "freeform"] = "freeform"

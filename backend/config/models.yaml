@@ -66,19 +66,7 @@ models:
     role: TTS
     engines: [omnivoice, omnivoice-subprocess]
     size_gb: 2.4
-    note: "CC-BY-NC: non-commercial use only. Needed for voice cloning, voice design and dubbing until a commercial-use engine is installed."
-
-  - repo_id: "audio-cpp/audio.cpp-gguf"
-    label: "Sortformer diarisation (audio.cpp, up to four speakers)"
-    role: Diarisation
-    engines: []
-    families: [diarisation]
-    size_gb: 0.13
-    required_files:
-      - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
-    allow_patterns:
-      - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
-    note: "Optional native diarisation through the audio.cpp runtime. CC-BY-NC-4.0: non-commercial use only; pyannote (MIT) is the commercial-use path."
+    note: "CC-BY-NC: non-commercial use only. Retired: kept only for installs that already use it."
 
   # ── ASR (optional — curated per platform) ─────────────────────────────
   # No ASR model is required to boot: TTS-only installs work. Dubbing,

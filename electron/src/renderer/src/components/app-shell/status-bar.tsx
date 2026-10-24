@@ -479,8 +479,7 @@ export function StatusBar({
         t(modelCatalogue.isLoading ? 'preferences.loading' : 'engineSidebar.inactive'),
       title: diarisation.data?.label || diarisationModel?.label,
       problem: diarisation.data?.reason || undefined,
-      runtime:
-        diarisation.data?.active === 'audiocpp-sortformer' ? undefined : loadedDiarisation?.device,
+      runtime: loadedDiarisation?.device,
       state: diarisation.isPending
         ? 'engineRuntime.loading'
         : diarisation.isError

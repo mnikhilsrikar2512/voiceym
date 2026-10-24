@@ -107,7 +107,6 @@ GET /dub/vtt/{job_id}
 GET /dub/vtt/{job_id}/{filename}
 GET /engines
 GET /engines/asr
-GET /engines/audiocpp/runtime/install/status
 GET /engines/diarisation
 GET /engines/effects/presets
 GET /engines/llm
@@ -237,7 +236,6 @@ POST /dub/transcribe/{job_id}
 POST /dub/translate
 POST /dub/upload
 POST /dub/use-downloaded-captions/{job_id}
-POST /engines/audiocpp/runtime/install
 POST /engines/diarisation/select
 POST /engines/select
 POST /engines/sidecar/{engine_id}/install

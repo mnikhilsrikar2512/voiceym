@@ -121,23 +121,6 @@ def test_preserves_working_nllb_language_coverage(local_inventory, monkeypatch):
     assert entry["selection"]["engine"] == "nllb"
 
 
-def test_global_sortformer_switch_releases_pyannote(monkeypatch):
-    from core import prefs
-    from services import diarization_runtime, model_manager
-    monkeypatch.setattr(profiles, "profile_state", lambda tier: {
-        "effective": {"diarisation": "fast"}, "plan": {"families": {"diarisation": {
-            "selection": {"engine": diarization_runtime.SORTFORMER, "model": "sortformer"}, "reason": "fits",
-        }}},
-    })
-    monkeypatch.setattr(diarization_runtime, "selected_backend", lambda: diarization_runtime.PYANNOTE)
-    monkeypatch.setattr(diarization_runtime, "select_backend", Mock())
-    unload = Mock()
-    monkeypatch.setattr(model_manager, "unload_diarization_pipeline", unload)
-    monkeypatch.setattr(prefs, "update_mapping", Mock())
-    profiles.activate_performance_tier("fast")
-    unload.assert_called_once_with()
-
-
 def test_language_incompatible_dictation_is_not_a_fallback(monkeypatch):
     from services import asr_backend, sherpa_dictation
     monkeypatch.setattr(asr_backend, "_locale_language", lambda: "ja")

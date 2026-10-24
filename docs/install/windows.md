@@ -16,8 +16,8 @@ launch; no toolchain is needed for the installer.
 
 ## Keep engine environments off `C:`
 
-Engine environments (VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS, plus
-the audio.cpp diarisation runtime) install under `<app data>\engines` and can reach several GB
+Engine environments (VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS)
+install under `<app data>\engines` and can reach several GB
 each. To place them on another drive, set `OMNIVOICE_ENGINES_DIR` before
 launching Voiceym, for example in PowerShell:
 

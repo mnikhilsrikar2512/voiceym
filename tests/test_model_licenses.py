@@ -46,8 +46,6 @@ AutoModel(model="example/keyword")
 AutoModel.from_pretrained("example/pretrained")
 _FW_ALIAS_REPOS = {"tiny": "example/alias"}
 ASR_MODEL = "moonshine/base"
-MANAGED_MODEL_SUBDIR = "pretrained_models/Fun-CosyVoice3-0.5B"
-GH_REPO = "0xShug0/audio.cpp"
 ''', encoding="utf-8")
     model_source = tmp_path / "omnivoice/models/model.py"
     model_source.parent.mkdir(parents=True)

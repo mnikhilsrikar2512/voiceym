@@ -168,56 +168,21 @@ def list_effects_presets():
 
 @router.get("/engines/diarisation")
 def diarisation_status():
-    """Describe the selected local diarisation runtime without loading weights."""
-    from services.diarization_runtime import (
-        PYANNOTE,
-        SORTFORMER,
-        selected_backend,
-        sortformer_status,
-    )
-
-    selected = selected_backend()
-    native = selected == SORTFORMER
-    options = []
+    """Describe the local diarisation runtime without loading weights."""
     from api.routers.setup.models import KNOWN_MODELS, cache_is_complete, is_cached
+    from services import model_manager
+    from services.diarization_runtime import PYANNOTE
+
     pyannote_repo = "pyannote/speaker-diarization-3.1"
     spec = next(model for model in KNOWN_MODELS if model["repo_id"] == pyannote_repo)
-    pyannote_installed = is_cached(pyannote_repo) and cache_is_complete(spec)
-    pyannote_reason = None if pyannote_installed else "Install the pyannote model bundle"
-    options.append({
-        "id": PYANNOTE,
-        "label": "pyannote 3.1",
-        "model": pyannote_repo,
-        "installed": pyannote_installed,
-        "reason": pyannote_reason,
-    })
-
-    native_status = sortformer_status()
-    native_installed = native_status["installed"]
-    native_model = native_status["model"]
-    native_reason = native_status["reason"]
-    options.append({
-        "id": SORTFORMER,
-        "label": "Sortformer v1 (audio.cpp)",
-        "model": native_model,
-        "model_installed": native_status["model_installed"],
-        "runtime_installed": native_status["runtime_installed"],
-        "installed": native_installed,
-        "reason": native_reason,
-    })
-
-    if native:
-        from services.diarization_native import is_running
-        return {"active": SORTFORMER, "label": "Sortformer v1 (audio.cpp)",
-                "model": native_model, "installed": native_installed, "loaded": False,
-                "model_installed": native_status["model_installed"],
-                "runtime_installed": native_status["runtime_installed"],
-                "busy": is_running(), "reason": native_reason, "options": options}
-    from services import model_manager
+    installed = is_cached(pyannote_repo) and cache_is_complete(spec)
+    reason = None if installed else "Install the pyannote model bundle"
+    option = {"id": PYANNOTE, "label": "pyannote 3.1", "model": pyannote_repo,
+              "installed": installed, "reason": reason}
     return {"active": PYANNOTE, "label": "pyannote 3.1", "model": pyannote_repo,
-            "installed": pyannote_installed,
-            "loaded": model_manager._diar_pipeline is not None, "reason": pyannote_reason,
-            "options": options}
+            "installed": installed,
+            "loaded": model_manager._diar_pipeline is not None, "reason": reason,
+            "options": [option]}
 
 
 class DiarisationSelection(BaseModel):
@@ -227,7 +192,7 @@ class DiarisationSelection(BaseModel):
 @router.post("/engines/diarisation/select", dependencies=[Depends(require_admin)])
 def select_diarisation_engine(request: DiarisationSelection):
     """Persist an installed diarisation runtime; environment overrides still win."""
-    from services.diarization_runtime import SORTFORMER, select_backend, selected_backend
+    from services.diarization_runtime import select_backend, selected_backend
 
     status = diarisation_status()
     option = next(
@@ -239,11 +204,6 @@ def select_diarisation_engine(request: DiarisationSelection):
     if not option["installed"]:
         raise HTTPException(409, option.get("reason") or "Install this diarisation engine first")
     select_backend(request.engine_id)
-    if request.engine_id == SORTFORMER:
-        # Native Sortformer is stateless. Release a previously loaded pyannote
-        # pipeline so Engine Ready cannot hide stale accelerator memory.
-        from services import model_manager
-        model_manager.unload_diarization_pipeline()
     return {
         "active": selected_backend(),
         "env_override": bool(os.environ.get("OMNIVOICE_DIARIZATION_BACKEND")),
@@ -407,32 +367,6 @@ async def uninstall_translation_engine(engine_id: str):
     if rc != 0:
         raise HTTPException(status_code=500, detail=f"pip uninstall {pkg} failed ({rc}): {out[-1000:]}")
     return {"status": "uninstalled", "engine": engine_id, "package": pkg, "log_tail": out[-800:]}
-
-
-# ── Checksummed native audio.cpp runtime install ───────────────────────────
-
-
-@router.get(
-    "/engines/audiocpp/runtime/install/status",
-    dependencies=[Depends(require_admin)],
-)
-def audiocpp_runtime_install_status(request: Request):
-    from services import audiocpp_runtime_install
-
-    return {**audiocpp_runtime_install.status(), "install_allowed": bool(request.client and is_loopback(request.client.host))}
-
-
-@router.post(
-    "/engines/audiocpp/runtime/install",
-    dependencies=[Depends(require_admin), Depends(require_desktop)],
-)
-def install_audiocpp_runtime():
-    from services import audiocpp_runtime_install
-
-    try:
-        return audiocpp_runtime_install.start_install()
-    except RuntimeError as exc:
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
 
 
 # ── One-click sidecar-engine install ────────────────

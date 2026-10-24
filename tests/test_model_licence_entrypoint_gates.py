@@ -416,9 +416,9 @@ def test_dub_diarisation_returns_typed_detail_without_loading_the_pipeline(store
     dr = _mod("services.diarization_runtime")
     loads = []
     monkeypatch.delenv("OMNIVOICE_DIARIZATION_MODEL", raising=False)
-    monkeypatch.setattr(dr, "selected_backend", lambda: dr.SORTFORMER)
+    monkeypatch.setattr(dr, "selected_model_repos", lambda: ["k2-fsa/OmniVoice"])
     monkeypatch.setattr(dc, "get_diarization_pipeline", lambda **kw: loads.append(kw) or ("pipe", None))
     pipe, detail = dc._diarization_pipeline_checked()
     assert pipe is None and detail["code"] == "model_licence_required" and loads == []
-    _accept(ma, "audio-cpp/audio.cpp-gguf")
+    _accept(ma, "k2-fsa/OmniVoice")
     assert dc._diarization_pipeline_checked() == ("pipe", None) and loads

@@ -671,9 +671,8 @@ PyTorch build and, for every engine, whether it uses the GPU.
 **Fix, by platform:**
 
 - **Windows:** PyTorch engines stay on the CPU (no ROCm wheels exist for the
-  PyTorch version Voiceym ships). Engines with their own GPU runtime — today
-  audio.cpp (Vulkan) — do use a Radeon: install its runtime from **Settings →
-  Models**. Details and the advanced, unsupported AMD-wheels route:
+  PyTorch version Voiceym ships). Details and the advanced, unsupported
+  AMD-wheels route:
   [windows.md — GPU support](windows.md#gpu-support).
 - **Linux:** set `OMNIVOICE_TORCH_VARIANT=rocm` and run setup again, or use the
   ROCm Docker image — [linux.md — AMD GPU (ROCm)](linux.md#amd-gpu-rocm). If the
@@ -1272,7 +1271,7 @@ An architecture accepted by the torch.compile preflight may still encounter inde
 
 ### Native engine installation from a remote client
 
-Sidecar and audio.cpp runtime installation is restricted to requests from the backend computer's loopback interface. An API key does not bypass this restriction. The catalogue now shows local setup guidance instead of offering a remote install that will be rejected. Open the backend through `localhost` on that computer, or follow the engine's setup guide there. In Docker, bridge-network requests may not be loopback even when the browser runs on the host; use the documented container setup rather than weakening the native-install gate.
+Sidecar engine installation is restricted to requests from the backend computer's loopback interface. An API key does not bypass this restriction. The catalogue now shows local setup guidance instead of offering a remote install that will be rejected. Open the backend through `localhost` on that computer, or follow the engine's setup guide there. In Docker, bridge-network requests may not be loopback even when the browser runs on the host; use the documented container setup rather than weakening the native-install gate.
 
 ### Dubbing extraction fails
 

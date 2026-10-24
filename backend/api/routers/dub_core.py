@@ -1973,14 +1973,7 @@ async def dub_transcribe_stream(
                 resolved = token_resolver.resolve()
 
                 if err_sentinel == DIARIZATION_ERR_MISSING:
-                    from services.diarization_runtime import SORTFORMER, selected_backend
-                    native_selected = selected_backend() == SORTFORMER
                     detail = (
-                        "Native Sortformer files are missing. Install audiocpp_cli beside "
-                        "the audio.cpp native bundle in Settings > Models > "
-                        "Diarisation, then retry transcription. "
-                        "Using silence gaps for now; rapid speaker turns may be merged."
-                    ) if native_selected else (
                         "Speaker diarization files are missing or incomplete. "
                         "Install or repair pyannote in Settings > Models > Diarisation, "
                         "then retry transcription. No models were downloaded during "
@@ -2045,13 +2038,7 @@ async def dub_transcribe_stream(
                 # provided (#274). pyannote's apply() accepts num_speakers;
                 # omit it entirely when None so we don't depend on the kwarg
                 # existing in every pyannote build.
-                from services.diarization_native import NativeSortformer
-                if isinstance(diar_pipe, NativeSortformer):
-                    diar = diar_pipe(
-                        asr_audio_target, num_speakers=num_speakers, job_id=job_id,
-                        cancel_check=lambda: bool(job.get("aborted")) or task_manager.is_cancelled(job_id),
-                    )
-                elif num_speakers:
+                if num_speakers:
                     logger.info("Diarizing with num_speakers=%d (user hint)", num_speakers)
                     diar = diar_pipe(asr_audio_target, num_speakers=num_speakers)
                 else:
@@ -2077,7 +2064,7 @@ async def dub_transcribe_stream(
                         len(asr_phrase_segments), separation,
                     )
                     return recovered_segments, None, "phrase_embeddings"
-                return resplit, None, "audiocpp-sortformer" if isinstance(diar_pipe, NativeSortformer) else "pyannote"
+                return resplit, None, "pyannote"
             except Exception as e:
                 logger.exception("Diarization failed")
                 # Inline ASR turns beat the silence-gap heuristic as a crash

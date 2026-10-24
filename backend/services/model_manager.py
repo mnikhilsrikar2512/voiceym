@@ -4475,15 +4475,6 @@ def get_diarization_pipeline(return_error: bool = False):
     a docs deeplink — issue #78.
     """
     global _diar_pipeline
-    from services.diarization_runtime import SORTFORMER, selected_backend
-    if selected_backend() == SORTFORMER:
-        try:
-            from services.diarization_native import NativeSortformer
-            pipeline = NativeSortformer()
-            return (pipeline, None) if return_error else pipeline
-        except Exception as exc:
-            logger.exception("Could not prepare native Sortformer")
-            return (None, _classify_diarization_error(exc)) if return_error else None
     if _diar_pipeline is not None:
         return (_diar_pipeline, None) if return_error else _diar_pipeline
 

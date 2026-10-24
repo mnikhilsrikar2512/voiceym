@@ -34,6 +34,7 @@ metadata and the backend fallback mirror it.
 - Voiceym now ships only voice engines that are free for commercial use: Kokoro (default), KittenTTS, VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS (#10)
 - Removed CosyVoice, GPT-SoVITS, IndexTTS, MOSS-TTS, dots.tts, Confucius4, PocketTTS, Supertonic-3, Sherpa-ONNX TTS, MLX-Audio, audio.cpp TTS and OmniVoice GGUF, so installs are smaller and simpler (#10)
 - OmniVoice (CC-BY-NC) is no longer offered for new picks; an install that already uses it keeps working (#10)
+- Removed the Sortformer speaker-diarisation runtime (non-commercial model) and the audio.cpp runtime it needed; diarisation uses pyannote (MIT), and a saved Sortformer choice switches to it (#10)
 
 ### Fixed
 

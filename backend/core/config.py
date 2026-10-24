@@ -68,7 +68,7 @@ DATA_DIR = get_app_data_dir()
 
 
 def get_engines_dir(data_dir=None):
-    """Root of the managed engine installs (venvs, checkouts, audio.cpp runtime).
+    """Root of the managed engine installs (venvs and checkouts).
 
     Defaults to ``DATA_DIR/engines`` so existing installs keep working. Set
     ``OMNIVOICE_ENGINES_DIR`` to put these multi-GB trees on another drive

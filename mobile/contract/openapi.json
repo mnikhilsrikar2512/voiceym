@@ -12364,41 +12364,9 @@
     "summary": "List Asr Backends"
    }
   },
-  "/engines/audiocpp/runtime/install": {
-   "post": {
-    "operationId": "install_audiocpp_runtime_engines_audiocpp_runtime_install_post",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Install Audiocpp Runtime"
-   }
-  },
-  "/engines/audiocpp/runtime/install/status": {
-   "get": {
-    "operationId": "audiocpp_runtime_install_status_engines_audiocpp_runtime_install_status_get",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Audiocpp Runtime Install Status"
-   }
-  },
   "/engines/diarisation": {
    "get": {
-    "description": "Describe the selected local diarisation runtime without loading weights.",
+    "description": "Describe the local diarisation runtime without loading weights.",
     "operationId": "diarisation_status_engines_diarisation_get",
     "responses": {
      "200": {

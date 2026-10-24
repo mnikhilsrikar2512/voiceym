@@ -13,10 +13,10 @@ import { useModelCatalogue } from './model-catalogue-query';
 import { familyIcons, modelFamilies, type ModelFamily } from './model-family';
 import { Link } from '@tanstack/react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { CheckIcon, ChevronRightIcon, DownloadIcon } from 'lucide-react';
+import { CheckIcon, ChevronRightIcon } from 'lucide-react';
 import { engineFamilyState, useEngines } from '@/hooks/use-engines';
 import { apiJson, describeError } from '@/lib/api/client';
 import { queryKeys } from '@/lib/query';
@@ -39,8 +39,6 @@ interface DiarisationStatus {
     id: string;
     label: string;
     model?: string | null;
-    model_installed?: boolean;
-    runtime_installed?: boolean;
     installed: boolean;
     reason?: string | null;
   }[];
@@ -55,39 +53,6 @@ export function DiarisationSettings() {
     queryKey: ['diarisation-status'],
     queryFn: () => apiJson<DiarisationStatus>('/engines/diarisation'),
   });
-  const runtime = useQuery({
-    queryKey: ['audiocpp-runtime-install'],
-    queryFn: () =>
-      apiJson<{
-        installed: boolean;
-        supported: boolean;
-        install_allowed?: boolean;
-        job: { state: string; progress: number; error?: string | null };
-      }>('/engines/audiocpp/runtime/install/status'),
-    refetchInterval: (state) => (state.state.data?.job.state === 'running' ? 1_500 : 10_000),
-  });
-  useEffect(() => {
-    if (!runtime.data?.installed) return;
-    void Promise.all([
-      client.invalidateQueries({ queryKey: ['diarisation-status'] }),
-      client.invalidateQueries({ queryKey: ['sidebar-diarisation'] }),
-      client.invalidateQueries({ queryKey: queryKeys.engines }),
-    ]);
-  }, [client, runtime.data?.installed]);
-  const runtimeRunning = busy || runtime.data?.job.state === 'running';
-  const installRuntime = async () => {
-    if (runtime.data?.install_allowed === false) return;
-    setBusy(true);
-    setFailed(null);
-    try {
-      await apiJson('/engines/audiocpp/runtime/install', { method: 'POST' });
-      await runtime.refetch();
-    } catch (error) {
-      setFailed(describeError(error));
-    } finally {
-      setBusy(false);
-    }
-  };
   const select = async (engineId: string) => {
     setBusy(true);
     setFailed(null);
@@ -141,42 +106,8 @@ export function DiarisationSettings() {
             active={query.data.active === option.id}
           >
             <span className="text-xs text-muted-foreground">
-              {option.installed
-                ? t('modelSettings.available')
-                : option.model_installed
-                  ? `${t('modelMaintenance.installed')} · ${t('modelSettings.unavailable')}`
-                  : t('modelSettings.unavailable')}
+              {option.installed ? t('modelSettings.available') : t('modelSettings.unavailable')}
             </span>
-            {option.id === 'audiocpp-sortformer' &&
-              option.model_installed &&
-              !option.runtime_installed &&
-              runtime.data?.supported === true && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={runtimeRunning || runtime.data?.install_allowed === false}
-                  title={
-                    runtime.data?.install_allowed === false
-                      ? t('engines.localInstallRequired')
-                      : undefined
-                  }
-                  onClick={() => void installRuntime()}
-                >
-                  <DownloadIcon />
-                  {runtimeRunning
-                    ? `${t('modelMaintenance.installing')} ${Math.round(
-                        (runtime.data?.job.progress || 0) * 100,
-                      )}%`
-                    : t('modelMaintenance.install')}
-                </Button>
-              )}
-            {option.id === 'audiocpp-sortformer' &&
-              !option.runtime_installed &&
-              runtime.data?.install_allowed === false && (
-                <p className="max-w-sm text-xs text-muted-foreground">
-                  {t('engines.localInstallRequired')}
-                </p>
-              )}
             {option.installed && (
               <Button
                 size="sm"
@@ -196,31 +127,12 @@ export function DiarisationSettings() {
           </SettingsRow>
         ))
       )}
-      {runtime.isError && (
-        <SettingsActionError
-          className="m-4"
-          title={t('modelMaintenance.failed')}
-          detail={describeError(runtime.error)}
-          action={
-            <Button size="xs" variant="ghost" onClick={() => void runtime.refetch()}>
-              {t('backend.retry')}
-            </Button>
-          }
-        />
-      )}
       {failed && (
         <SettingsActionError
           className="m-4"
           title={t('modelSettings.failed')}
           detail={failed}
           onDismiss={() => setFailed(null)}
-        />
-      )}
-      {runtime.data?.job.state === 'error' && runtime.data.job.error && (
-        <SettingsActionError
-          className="m-4"
-          title={t('modelMaintenance.failed')}
-          detail={runtime.data.job.error}
         />
       )}
     </SettingsSection>

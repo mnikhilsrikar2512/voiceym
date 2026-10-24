@@ -112,8 +112,8 @@ def _amd_unusable_note() -> str:
             "AMD GPU detected, but this install's PyTorch (the NVIDIA CUDA or "
             "CPU-only build) cannot drive it, and no ROCm build of the PyTorch "
             "version Voiceym ships exists for Windows. PyTorch "
-            "engines run on the CPU; audio.cpp (Vulkan) can use the GPU - see "
-            "Settings > Performance for the per-engine list."
+            "engines run on the CPU - see Settings > Performance for the "
+            "per-engine list."
         )
     return (
         "AMD GPU detected but torch was installed with CUDA wheels. Set "
