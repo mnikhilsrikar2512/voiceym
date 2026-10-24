@@ -46,6 +46,7 @@ metadata and the backend fallback mirror it.
 ### Docs
 
 - README lists the setup, run, build and test commands for macOS, Windows and iOS, and docs/TEST-CASES.md adds step-by-step manual test cases for each (#10)
+- README is reorganised like a product page, with an overview, platform support, quick start, an engine and licence table and an architecture overview; the test cases add the automated checks to run first, a test record and a sign-off table
 
 ### Fixed
 
