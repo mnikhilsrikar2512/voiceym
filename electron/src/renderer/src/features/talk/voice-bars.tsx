@@ -36,12 +36,14 @@ export function VoiceBars({ mode, level }: { mode: AgentMode; level: () => numbe
         if (!bar) return;
         let scale = 1;
         if (!reduceMotion.matches) {
+          // Bars only ever grow from their rest length, so the V keeps its
+          // shape: shrinking below rest read as the mark contracting.
           if (current === 'thinking' || current === 'connecting') {
-            scale = 0.8 + 0.35 * Math.max(0, Math.sin(t * 5 - i * 0.7));
+            scale = 1 + 0.18 * Math.max(0, Math.sin(t * 5 - i * 0.7));
           } else if (live) {
             // Neighbouring bars move a little out of step, like a waveform.
             const jitter = 0.55 + 0.45 * Math.sin(t * 9 + i * 1.9);
-            scale = Math.min(1.8, 0.7 + smoothed * 1.6 * jitter);
+            scale = Math.min(1.45, 1 + smoothed * 0.9 * jitter);
           } else {
             scale = 0.94 + 0.06 * Math.sin(t * 1.2 + i * 0.5);
           }

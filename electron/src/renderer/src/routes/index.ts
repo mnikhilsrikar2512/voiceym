@@ -2,6 +2,7 @@ import { createRootRoute, createRoute, lazyRouteComponent, redirect } from '@tan
 import { AppShell } from '@/components/app-shell/app-shell';
 import { readLastSettingsRoute } from '@/lib/settings-route';
 
+const HomePage = lazyRouteComponent(() => import('@/features/home/home-page'), 'HomePage');
 const TalkPage = lazyRouteComponent(() => import('@/features/talk/talk-page'), 'TalkPage');
 
 const ClonePage = lazyRouteComponent(() => import('@/features/clone/clone-page'), 'ClonePage');
@@ -52,6 +53,12 @@ export const rootRoute = createRootRoute({ component: AppShell });
 export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
+  component: HomePage,
+});
+
+export const talkRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/talk',
   component: TalkPage,
 });
 
@@ -283,6 +290,7 @@ export const routeTree = rootRoute.addChildren([
   audiobookRoute,
   projectsRoute,
   indexRoute,
+  talkRoute,
   cloneRoute,
   savedVoicesRoute,
   pronunciationRoute,

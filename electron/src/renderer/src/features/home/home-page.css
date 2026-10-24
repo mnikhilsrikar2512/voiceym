@@ -1,0 +1,74 @@
+/* Task cards: one quiet lift on hover, nothing else moves (owner rule: motion
+   only where it carries meaning). */
+.home-task {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border-radius: 0.875rem;
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  padding: 1.1rem 1.1rem 1.2rem;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.home-task:hover {
+  border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
+  background: color-mix(in oklab, var(--primary) 6%, var(--card));
+  transform: translateY(-1px);
+}
+
+.home-task:focus-visible,
+.home-link:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.home-task-icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.7rem;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: var(--primary);
+}
+
+.home-task-arrow {
+  opacity: 0;
+  color: var(--primary);
+  transition: opacity 150ms ease;
+}
+
+.home-task:is(:hover, :focus-visible) .home-task-arrow {
+  opacity: 1;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  outline: none;
+  transition: background-color 150ms ease;
+}
+
+.home-link:hover {
+  background: var(--sidebar-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-task,
+  .home-task-arrow,
+  .home-link {
+    transition: none;
+  }
+
+  .home-task:hover {
+    transform: none;
+  }
+}

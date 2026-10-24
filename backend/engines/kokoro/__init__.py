@@ -8,7 +8,9 @@ Italian and Portuguese use espeak-ng phonemes, as upstream Kokoro does.
 
 Weights come from ``onnx-community/Kokoro-82M-v1.0-ONNX`` on the Hugging Face
 Hub: the 8-bit model (~92 MB), the tokenizer and one ~0.5 MB style file per
-voice, fetched only for the voices actually used.
+voice, fetched only for the voices actually used. ARM CPUs (Apple Silicon)
+use the half-precision model (~163 MB) instead, fetched in the background the
+first time, because ONNX Runtime runs it about twice as fast there.
 """
 from __future__ import annotations
 
@@ -24,6 +26,10 @@ logger = logging.getLogger("omnivoice.tts")
 
 REPO_ID = "onnx-community/Kokoro-82M-v1.0-ONNX"
 GRAPH_FILE = "onnx/model_quantized.onnx"
+#: Half-precision export. ONNX Runtime has no fast 8-bit kernels on ARM CPUs,
+#: where this runs about 2.2x faster (an M-series Mac: 1.1 s instead of 2.4 s
+#: for 4.4 s of speech), keeping a live reply ahead of its own playback.
+FAST_GRAPH_FILE = "onnx/model_fp16.onnx"
 TOKENIZER_FILE = "tokenizer.json"
 SAMPLE_RATE = 24000
 #: The model's positional limit, minus the two boundary tokens.
@@ -51,6 +57,13 @@ _DEVANAGARI = re.compile(r"[ऀ-ॿ]")
 _SENTENCE = re.compile(r"(?<=[.!?।॥])\s+")
 
 
+def preferred_graph() -> str:
+    """The graph this CPU runs fastest: half precision on ARM, 8-bit elsewhere."""
+    import platform
+
+    return FAST_GRAPH_FILE if platform.machine().lower() in ("arm64", "aarch64") else GRAPH_FILE
+
+
 def required_patterns(voices: list[str]) -> list[str]:
     return [GRAPH_FILE, TOKENIZER_FILE, *(f"voices/{v}.bin" for v in voices)]
 
@@ -73,6 +86,7 @@ class KokoroBackend(TTSBackend):
         self._voices: dict[str, object] = {}
         self._g2p: dict[str, object] = {}
         self._lock = threading.Lock()
+        self._upgrading = False
 
     @classmethod
     def is_available(cls) -> tuple[bool, str]:
@@ -107,18 +121,63 @@ class KokoroBackend(TTSBackend):
     def _ensure_loaded(self):
         if self._session is not None:
             return
-        import onnxruntime as ort
-
         defaults = sorted({voice for voice, _ in LANGUAGES.values()})
         self._dir = self._download(required_patterns(defaults))
         with open(f"{self._dir}/{TOKENIZER_FILE}", encoding="utf-8") as f:
             self._vocab = json.load(f)["model"]["vocab"]
+        fast = preferred_graph() != GRAPH_FILE
+        graph = FAST_GRAPH_FILE if fast and self._cached(FAST_GRAPH_FILE) else GRAPH_FILE
+        logger.info("Loading Kokoro from %s (%s)", REPO_ID, graph)
+        self._session = self._open(f"{self._dir}/{graph}")
+        if fast and graph != FAST_GRAPH_FILE:
+            self._upgrade_in_background(FAST_GRAPH_FILE)
+
+    @staticmethod
+    def _open(path: str):
+        import onnxruntime as ort
+
         options = ort.SessionOptions()
         options.log_severity_level = 3
-        logger.info("Loading Kokoro from %s", REPO_ID)
-        self._session = ort.InferenceSession(
-            f"{self._dir}/{GRAPH_FILE}", sess_options=options, providers=["CPUExecutionProvider"]
-        )
+        return ort.InferenceSession(path, sess_options=options, providers=["CPUExecutionProvider"])
+
+    @staticmethod
+    def _cached(filename: str) -> bool:
+        from huggingface_hub import try_to_load_from_cache
+
+        from services.hf_revisions import revision_for
+
+        try:
+            return isinstance(
+                try_to_load_from_cache(REPO_ID, filename, revision=revision_for(REPO_ID)), str
+            )
+        except Exception:  # noqa: BLE001 -- an unreadable cache counts as not cached
+            return False
+
+    def _upgrade_in_background(self, filename: str) -> None:
+        """Fetch the faster graph without delaying speech, then switch to it.
+        A failed fetch (offline, say) just keeps the 8-bit model."""
+        if self._upgrading:
+            return
+        self._upgrading = True
+
+        def run() -> None:
+            try:
+                from huggingface_hub import hf_hub_download
+
+                from services.hf_revisions import revision_for
+
+                path = hf_hub_download(REPO_ID, filename, revision=revision_for(REPO_ID))
+                session = self._open(path)
+                with self._lock:
+                    if self._session is not None:  # not unloaded meanwhile
+                        self._session = session
+                logger.info("Kokoro switched to %s", filename)
+            except Exception:  # noqa: BLE001 -- the loaded model keeps working
+                logger.info("Kokoro keeps the 8-bit model; %s was not fetched", filename, exc_info=True)
+            finally:
+                self._upgrading = False
+
+        threading.Thread(target=run, name="kokoro-upgrade", daemon=True).start()
 
     def unload(self) -> None:
         self._session = None

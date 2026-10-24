@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 const base = process.env.VOICEYM_UI_URL || 'http://localhost:3912';
 const routes = [
   '/',
+  '/talk',
   '/clone',
   '/design',
   '/personas',

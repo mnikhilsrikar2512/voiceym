@@ -1,11 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 // The main navigation sits directly under the sidebar header, above the voice
 // library, so its position never depends on how tall the library is.
 
 const route = vi.hoisted(() => ({ pathname: '/clone' }));
-const sidebar = vi.hoisted(() => ({ compact: false, setOpen: vi.fn() }));
 vi.mock('@tanstack/react-router', () => ({
   useRouterState: ({ select }: any) => select({ location: route }),
   Link: ({ to, children, ...props }: any) => (
@@ -43,50 +42,70 @@ vi.mock('./workspace-menu', () => ({
 vi.mock('./status-bar', () => ({ StatusBar: () => <div data-testid="status" /> }));
 vi.mock('./system-notifications', () => ({ SystemNotifications: () => null }));
 
-vi.mock('./use-workspace-sidebar', () => ({
-  useWorkspaceSidebarState: () => ({
-    compact: sidebar.compact,
-    compactViewport: false,
-    forceExpanded: false,
-    secondaryWorkspace: false,
-    setOpen: sidebar.setOpen,
-  }),
-}));
 import { versionTranslationKey, WorkspaceSidebar } from './workspace-sidebar';
 
 beforeEach(() => {
-  sidebar.compact = false;
-  sidebar.setOpen.mockClear();
-  vi.stubGlobal('matchMedia', () => ({
-    matches: false,
-    addEventListener() {},
-    removeEventListener() {},
-  }));
+  vi.useFakeTimers();
+  route.pathname = '/clone';
+});
+afterEach(() => {
+  vi.useRealTimers();
 });
 
-it('expands the compact rail on double-click without changing single-click navigation', () => {
-  sidebar.compact = true;
+const host = () => document.querySelector('[data-slot="workspace-sidebar"]') as HTMLElement;
+const expanded = () => screen.queryByRole('complementary', { name: 'clone.saved_profiles' });
+
+function openByHover() {
+  fireEvent.mouseEnter(host());
+  act(() => vi.advanceTimersByTime(200));
+}
+
+it('shows only the icon rail until the pointer rests on it', () => {
   render(<WorkspaceSidebar />);
-  const rail = screen.getByRole('complementary', { name: 'clone.saved_profiles' });
-  fireEvent.click(rail);
-  expect(sidebar.setOpen).not.toHaveBeenCalled();
-  fireEvent.doubleClick(rail);
-  expect(sidebar.setOpen).toHaveBeenCalledWith(true);
+  expect(screen.getByRole('complementary', { name: 'nav.workspaces' })).toBeInTheDocument();
+  expect(expanded()).toBeNull();
+  openByHover();
+  expect(expanded()).toBeInTheDocument();
 });
 
-it('places the navigation above the voice library in the expanded sidebar', () => {
+it('closes when the pointer leaves, but not on a quick pass back', () => {
   render(<WorkspaceSidebar />);
-  const navigation = screen.getByTestId('navigation');
+  openByHover();
+  fireEvent.mouseLeave(host());
+  act(() => vi.advanceTimersByTime(100));
+  fireEvent.mouseEnter(host());
+  act(() => vi.advanceTimersByTime(300));
+  expect(expanded()).toBeInTheDocument();
+  fireEvent.mouseLeave(host());
+  act(() => vi.advanceTimersByTime(300));
+  expect(expanded()).toBeNull();
+});
+
+it('opens from the rail button for touch and keyboard, and closes on Escape', () => {
+  render(<WorkspaceSidebar />);
+  fireEvent.click(screen.getByRole('button', { name: 'clone.toggle_sidebar' }));
+  expect(expanded()).toBeInTheDocument();
+  fireEvent.keyDown(host(), { key: 'Escape' });
+  expect(expanded()).toBeNull();
+});
+
+it('places the navigation above the voice library in the open sidebar', () => {
+  render(<WorkspaceSidebar />);
+  openByHover();
+  const navigation = screen.getAllByTestId('navigation').at(-1)!;
   const library = screen.getByTestId('library');
-  const status = screen.getByTestId('status');
+  const statuses = screen.getAllByTestId('status');
   expect(
     navigation.compareDocumentPosition(library) & Node.DOCUMENT_POSITION_FOLLOWING,
   ).toBeTruthy();
-  expect(library.compareDocumentPosition(status) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(
+    library.compareDocumentPosition(statuses.at(-1)!) & Node.DOCUMENT_POSITION_FOLLOWING,
+  ).toBeTruthy();
 });
 
-it('shows the app version beneath the brand name in the expanded sidebar', () => {
+it('shows the app version beneath the brand name in the open sidebar', () => {
   render(<WorkspaceSidebar />);
+  openByHover();
   const brand = screen.getByRole('link', { name: 'app.name v0.5.7 · Dev' });
   expect(brand).toHaveTextContent('app.name');
   expect(brand).toHaveTextContent('v0.5.7 · Dev');

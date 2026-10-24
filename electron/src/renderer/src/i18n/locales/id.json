@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "Desain",
     "save_failed": "Gagal menyimpan profil suara",
-    "engine_cannot_design": "{{engine}} tidak dapat mendesain suara karena memerlukan klip referensi. Beralihlah ke mesin yang mendukung Desain Suara, seperti OmniVoice, atau kloning suara sebagai gantinya.",
-    "engine_cannot_reuse_sample": "{{engine}} tidak dapat menggunakan audio referensi, sehingga tidak dapat membuat ulang suara tersimpan ini dari sampelnya. Beralihlah ke mesin yang mendukung kloning suara, seperti OmniVoice."
+    "engine_cannot_design": "{{engine}} tidak dapat mendesain suara karena memerlukan klip referensi. Beralihlah ke mesin yang mendukung Desain Suara, seperti VoxCPM2 / Indic Parler-TTS, atau kloning suara sebagai gantinya.",
+    "engine_cannot_reuse_sample": "{{engine}} tidak dapat menggunakan audio referensi, sehingga tidak dapat membuat ulang suara tersimpan ini dari sampelnya. Beralihlah ke mesin yang mendukung kloning suara, seperti VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Pengaturan waktu",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "Pengaturan aplikasi — pilihan mesin, default suara, opsi tersimpan",
     "reset_scope_history": "Generasi & riwayat sulih suara, beserta audionya",
     "reset_scope_content": "Suara, proyek, audio yang dihasilkan, dan database aplikasi",
-    "reset_scope_engines": "Mesin sespan terpasang (IndexTTS-2 dan kawan-kawan)",
+    "reset_scope_engines": "Mesin sespan terpasang (VoxCPM2, Chatterbox dan kawan-kawan)",
     "reset_scope_tools": "Alat audio yang diunduh (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Bobot model yang diunduh",
     "reset_scope_caches": "Cache dan file sementara",
@@ -2208,7 +2208,15 @@
     "clone": "Kloning suara",
     "primary": "Navigasi utama",
     "calls": "Panggilan",
-    "talk": "Bicara"
+    "talk": "Bicara",
+    "section_create": "Buat",
+    "section_library": "Pustaka",
+    "section_more": "Lainnya",
+    "speak": "Teks ke suara",
+    "design_voice": "Rancang suara",
+    "my_voices": "Suara saya",
+    "voice_gallery": "Galeri suara",
+    "dub_video": "Sulih suara video"
   },
   "profiles": {
     "locked": "Suara terkunci! Identitas sekarang konsisten di semua generasi.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "Semuanya baik-baik saja — lanjutkan",
     "check_arch_label": "Windows di ARM",
     "check_arch_detail": "PC Windows ARM64 — backend AI berjalan sebagai x64 di bawah emulasi Windows, hanya CPU (tanpa akselerasi GPU/NPU).",
-    "check_arch_fix": "Pembuatan suara berfungsi tetapi lebih lambat. Pilih mesin suara ringan (KittenTTS, Supertonic-3, PocketTTS) dan model Whisper kecil."
+    "check_arch_fix": "Pembuatan suara berfungsi tetapi lebih lambat. Pilih mesin suara ringan (Kokoro, KittenTTS) dan model Whisper kecil."
   },
   "consent": {
     "title": "Bantu meningkatkan Voiceym?",
@@ -2858,7 +2866,7 @@
     "fast": "Cepat",
     "balanced": "Seimbang",
     "quality": "Kualitas",
-    "hint": "Berlaku untuk sampling OmniVoice dan decoding Faster-Whisper / NLLB. Mesin lain mempertahankan pengaturannya.",
+    "hint": "Berlaku untuk sampling VoxCPM2 dan decoding Faster-Whisper / NLLB. Mesin lain mempertahankan pengaturannya.",
     "auto": "Otomatis"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "Model bahasa aplikasi",
     "model_unavailable": "Ollama tidak berjalan, jadi Bicara memakai model bahasa aplikasi."
+  },
+  "navHint": {
+    "home": "Pilih apa yang ingin Anda lakukan",
+    "talk": "Lakukan percakapan lisan",
+    "speak": "Bacakan teks dengan suara apa pun",
+    "design": "Buat suara dari deskripsi",
+    "dub": "Terjemahkan dan sulih suara video",
+    "transcribe": "Ubah ucapan menjadi teks",
+    "audiobook": "Bacakan buku atau teks panjang",
+    "stories": "Beri setiap tokoh suara",
+    "batch": "Sulih suara banyak video sekaligus",
+    "my_voices": "Suara yang Anda simpan atau kloning",
+    "gallery": "Jelajahi suara siap pakai",
+    "projects": "Semua yang telah Anda buat",
+    "workflows": "Otomatiskan panggilan dan tugas multi-langkah",
+    "tools": "Konversi, pangkas, dan periksa audio",
+    "integrations": "Hubungkan ke aplikasi lain"
+  },
+  "home": {
+    "title": "Apa yang ingin Anda lakukan?",
+    "subtitle": "Semuanya berjalan di komputer ini. Pilih tugas untuk memulai.",
+    "tasks": "Tugas",
+    "more": "Lainnya",
+    "talk_title": "Bicara dengan asisten",
+    "talk_desc": "Bicara dalam bahasa apa pun dan dengar jawabannya.",
+    "speak_title": "Ubah teks menjadi suara",
+    "speak_desc": "Ketik atau tempel teks lalu dengarkan dengan suara pilihan Anda.",
+    "clone_title": "Kloning suara",
+    "clone_desc": "Salin suara dari rekaman 5–15 detik.",
+    "design_title": "Rancang suara baru",
+    "design_desc": "Jelaskan suara yang Anda inginkan dengan kata-kata sederhana.",
+    "dub_title": "Sulih suara video",
+    "dub_desc": "Terjemahkan video dan beri trek suara baru.",
+    "transcribe_title": "Transkripsikan ucapan",
+    "transcribe_desc": "Ubah rekaman atau ucapan langsung menjadi teks.",
+    "audiobook_title": "Buat buku audio",
+    "audiobook_desc": "Bacakan buku atau dokumen panjang, bab demi bab.",
+    "stories_title": "Suarakan cerita",
+    "stories_desc": "Beri setiap tokoh dalam naskah suaranya sendiri."
   }
 }

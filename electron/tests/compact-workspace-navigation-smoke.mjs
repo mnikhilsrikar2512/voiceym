@@ -27,23 +27,23 @@ try {
     },
   );
   const routes = [
-    ['Voice', 'Clone', '/clone'],
-    ['Voice', 'Design', '/design'],
-    ['Voice', 'Saved', '/personas'],
-    ['Voice', 'Gallery', '/gallery'],
-    ['Stories', 'Stories', '/stories'],
-    ['Stories', 'Audiobook', '/audiobook'],
-    ['Dubbing', 'Dubbing', '/dub'],
-    ['Dubbing', 'Batch Dubbing', '/batch'],
+    ['Text to speech', '/clone'],
+    ['Design a voice', '/design'],
+    ['My voices', '/personas'],
+    ['Voice gallery', '/gallery'],
+    ['Stories', '/stories'],
+    ['Audiobook', '/audiobook'],
+    ['Dub a video', '/dub'],
+    ['Batch Dubbing', '/batch'],
   ];
-  for (const [group, item, path] of routes) {
+  // Every rail icon goes straight to its page: no groups to open first.
+  for (const [item, path] of routes) {
     await page.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3912') + '/#/design');
     const rail = page.locator('[data-slot=compact-main-sidebar]');
     await rail.waitFor();
-    await rail.getByRole('button', { name: group, exact: true }).click();
-    const link = page.getByRole('link', { name: item, exact: true });
+    const link = rail.getByRole('link', { name: item, exact: true });
     await link.waitFor();
-    if (process.env.VOICEYM_SCREENSHOT && item === 'Clone')
+    if (process.env.VOICEYM_SCREENSHOT && item === 'Text to speech')
       await page.screenshot({ path: process.env.VOICEYM_SCREENSHOT, animations: 'disabled' });
     await link.click();
     await page.waitForURL('**/#' + path, { timeout: 3000 });
@@ -51,33 +51,35 @@ try {
   await page.goto((process.env.VOICEYM_UI_URL || 'http://localhost:3912') + '/#/design');
   const rail = page.locator('[data-slot=compact-main-sidebar]');
   await rail.waitFor();
-  const voice = rail.getByRole('button', { name: 'Voice', exact: true });
+  const overlay = page.locator('[data-slot=expanded-main-sidebar]');
+  // Resting on the rail opens the sidebar over the page; leaving closes it.
   await page.mouse.move(1100, 400);
-  await voice.hover();
-  const clone = page.getByRole('link', { name: 'Clone', exact: true });
-  await clone.waitFor();
-  assert.equal(await voice.getAttribute('aria-expanded'), 'true');
-  await clone.hover();
-  await page.waitForTimeout(250);
-  assert.equal(await clone.isVisible(), true, 'flyout should remain open while moving into it');
+  await rail.getByRole('link', { name: 'Talk', exact: true }).hover();
+  await overlay.waitFor();
+  const named = overlay.getByRole('link', { name: 'Text to speech', exact: true });
+  await named.hover();
+  await page.waitForTimeout(300);
+  assert.equal(await named.isVisible(), true, 'sidebar should stay open while moving into it');
   await page.mouse.move(1100, 400);
-  await clone.waitFor({ state: 'hidden' });
-  await voice.focus();
+  await overlay.waitFor({ state: 'detached' });
+  // Keyboard and touch: the rail's top button opens it and focuses the first page.
+  const toggle = rail.getByRole('button', { name: 'Toggle Sidebar', exact: true });
+  await toggle.focus();
   await page.keyboard.press('Enter');
-  await clone.waitFor();
+  await overlay.waitFor();
+  await page.waitForFunction(() =>
+    document.querySelector('[data-slot=expanded-main-sidebar] nav')?.contains(document.activeElement),
+  );
   await page.keyboard.press('Escape');
-  await clone.waitFor({ state: 'hidden' });
-  assert.equal(await voice.evaluate((element) => element === document.activeElement), true);
-  await page.keyboard.press('ArrowRight');
-  await clone.waitFor();
-  assert.equal(await clone.evaluate((element) => element === document.activeElement), true);
-  await page.keyboard.press('ArrowLeft');
-  await clone.waitFor({ state: 'hidden' });
-  assert.equal(await voice.evaluate((element) => element === document.activeElement), true);
-  await voice.dblclick();
-  await rail.waitFor({ state: 'hidden' });
-  assert.equal((await page.getByRole('button', { name: 'Close', exact: true }).count()) > 0, true);
-  console.log('PASS: compact flyout hover transit, dismissal, and keyboard access');
+  await overlay.waitFor({ state: 'detached' });
+  // Choosing a page closes it.
+  await toggle.click();
+  await overlay.waitFor();
+  await overlay.getByRole('link', { name: 'Stories', exact: true }).click();
+  await page.waitForURL('**/#/stories', { timeout: 3000 });
+  await page.mouse.move(1100, 400);
+  await overlay.waitFor({ state: 'detached' });
+  console.log('PASS: rail links, hover sidebar, and keyboard access');
   console.log(`PASS: ${routes.length} compact navigation destinations`);
 } finally {
   await browser.close();

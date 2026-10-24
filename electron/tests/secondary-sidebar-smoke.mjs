@@ -31,72 +31,52 @@ try {
       await sideCandidates.first().waitFor({ state: "attached" });
       await sideCandidates.first().getByRole("separator").waitFor({ state: "visible" });
       const compactMain = page.locator("[data-slot=compact-main-sidebar]");
-      if (width <= 1680) {
-        await compactMain.waitFor();
-        assert.equal(Math.round((await compactMain.boundingBox()).width), 48);
-        // The notifications bell lives in the top-right account corner on every page and
-        // platform, not in the sidebar.
-        assert.equal(await compactMain.locator("button .lucide-bell").count(), 0);
-        assert.equal(
-          await page.locator('[data-slot="account-corner"] button .lucide-bell').count(),
-          1,
-        );
-        // Voice, Stories and Dubbing are flyout group buttons; the other six (Talk first) are direct links.
-        const compactNav = compactMain.getByRole("navigation", {
-          name: "Workspaces",
-        });
-        assert.equal(await compactNav.getByRole("button").count(), 3);
-        assert.equal(await compactNav.getByRole("link").count(), 6);
-        assert.equal(
-          await page
-            .locator(".brand-sidebar")
-            .filter({ hasText: "Saved voices" })
-            .count(),
-          0,
-        );
-        const openMain = compactMain.getByRole("button", {
-          name: "Toggle Sidebar",
-        });
-        await openMain.click();
-        await compactMain.waitFor({ state: "detached" });
-        const expandedMain = page
-          .locator(".brand-sidebar")
-          .filter({ hasText: "Saved voices" });
-        await expandedMain.waitFor();
-        const before = await expandedMain.boundingBox();
-        const separator = expandedMain.getByRole("separator");
-        await separator.focus();
-        const currentWidth = Number(
-          await separator.getAttribute("aria-valuenow"),
-        );
-        const minimumWidth = Number(
-          await separator.getAttribute("aria-valuemin"),
-        );
-        const maximumWidth = Number(
-          await separator.getAttribute("aria-valuemax"),
-        );
-        const grow = currentWidth <= minimumWidth;
-        await separator.press(grow ? "ArrowRight" : "ArrowLeft");
-        const after = await expandedMain.boundingBox();
-        const resizeDelta = Math.round(Math.abs(before.width - after.width));
-        assert.ok(
-          resizeDelta > 0 && resizeDelta <= 20,
-          `${route} main sidebar did not resize: ${before.width}px -> ${after.width}px (now ${currentWidth}, min ${minimumWidth}, max ${maximumWidth})`,
-        );
-        await expandedMain.getByRole("button", { name: "Close" }).click();
-        await compactMain.waitFor();
-      } else {
-        assert.equal(await compactMain.count(), 0);
-        const expandedMain = page
-          .locator(".brand-sidebar")
-          .filter({ hasText: "Saved voices" });
-        assert.equal(await expandedMain.count(), 1);
-        assert.equal(await expandedMain.locator("button .lucide-bell").count(), 0);
-        assert.equal(
-          await page.locator('[data-slot="account-corner"] button .lucide-bell').count(),
-          1,
-        );
-      }
+      // The main sidebar is a slim rail at every width; it opens over the page on demand.
+      await compactMain.waitFor();
+      assert.equal(Math.round((await compactMain.boundingBox()).width), 48);
+      // The notifications bell lives in the top-right account corner on every page and
+      // platform, not in the sidebar.
+      assert.equal(await compactMain.locator("button .lucide-bell").count(), 0);
+      assert.equal(
+        await page.locator('[data-slot="account-corner"] button .lucide-bell').count(),
+        1,
+      );
+      // Every destination is a direct link: no group buttons to discover.
+      const compactNav = compactMain.getByRole("navigation", {
+        name: "Workspaces",
+      });
+      assert.equal(await compactNav.getByRole("button").count(), 0);
+      assert.equal(await compactNav.getByRole("link").count(), 15);
+      const expandedMain = page.locator("[data-slot=expanded-main-sidebar]");
+      assert.equal(await expandedMain.count(), 0);
+      await compactMain
+        .getByRole("button", { name: "Toggle Sidebar" })
+        .click();
+      await expandedMain.waitFor();
+      await expandedMain.getByText("Saved voices").first().waitFor();
+      const before = await expandedMain.boundingBox();
+      const separator = expandedMain.getByRole("separator");
+      await separator.focus();
+      const currentWidth = Number(
+        await separator.getAttribute("aria-valuenow"),
+      );
+      const minimumWidth = Number(
+        await separator.getAttribute("aria-valuemin"),
+      );
+      const maximumWidth = Number(
+        await separator.getAttribute("aria-valuemax"),
+      );
+      const grow = currentWidth <= minimumWidth;
+      await separator.press(grow ? "ArrowRight" : "ArrowLeft");
+      const after = await expandedMain.boundingBox();
+      const resizeDelta = Math.round(Math.abs(before.width - after.width));
+      assert.ok(
+        resizeDelta > 0 && resizeDelta <= 20,
+        `${route} main sidebar did not resize: ${before.width}px -> ${after.width}px (now ${currentWidth}, min ${minimumWidth}, max ${maximumWidth})`,
+      );
+      await expandedMain.getByRole("button", { name: "Close" }).click();
+      await expandedMain.waitFor({ state: "detached" });
+      await page.mouse.move(width - 10, 450);
       await page.waitForFunction(() => {
         const elements = document.querySelectorAll(
           '[data-slot="secondary-sidebar"]',
@@ -149,14 +129,17 @@ try {
   await page.goto(baseUrl + "/#/audiobook");
   await page
     .locator("[data-slot=compact-main-sidebar]")
-    .getByRole("button", { name: "Voice", exact: true })
+    .getByRole("link", { name: "Text to speech", exact: true })
     .click();
-  await page.getByRole("link", { name: "Clone", exact: true }).click();
   await page.waitForURL("**/#/clone");
   assert.equal(
     await page.locator("[data-slot=compact-main-sidebar]").count(),
-    0,
+    1,
   );
+  await page
+    .locator("[data-slot=compact-main-sidebar]")
+    .getByRole("button", { name: "Toggle Sidebar" })
+    .click();
   await page.getByRole("tab", { name: "Saved voices", exact: true }).waitFor();
   await page.setViewportSize({ width: 640, height: 900 });
   for (const route of [

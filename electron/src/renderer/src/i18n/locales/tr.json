@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "Tasarla",
     "save_failed": "Ses profili kaydedilemedi",
-    "engine_cannot_design": "{{engine}} referans klip gerektirdiği için ses tasarlayamaz. OmniVoice gibi ses tasarımını destekleyen bir motora geçin ya da bunun yerine bir ses klonlayın.",
-    "engine_cannot_reuse_sample": "{{engine}} referans ses kullanamadığı için kayıtlı bu sesi örneğinden yeniden oluşturamaz. OmniVoice gibi ses klonlamayı destekleyen bir motora geçin."
+    "engine_cannot_design": "{{engine}} referans klip gerektirdiği için ses tasarlayamaz. VoxCPM2 / Indic Parler-TTS gibi ses tasarımını destekleyen bir motora geçin ya da bunun yerine bir ses klonlayın.",
+    "engine_cannot_reuse_sample": "{{engine}} referans ses kullanamadığı için kayıtlı bu sesi örneğinden yeniden oluşturamaz. VoxCPM2 / Chatterbox gibi ses klonlamayı destekleyen bir motora geçin."
   },
   "dub": {
     "timing_label": "Zamanlama",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "Uygulama ayarları — motor seçenekleri, ses varsayılanları, kayıtlı seçenekler",
     "reset_scope_history": "Nesil ve dublaj geçmişi, sesleriyle birlikte",
     "reset_scope_content": "Sesler, projeler, oluşturulan ses ve uygulama veritabanı",
-    "reset_scope_engines": "Yüklü sepet motorları (IndexTTS-2 ve arkadaşları)",
+    "reset_scope_engines": "Yüklü sepet motorları (VoxCPM2, Chatterbox ve arkadaşları)",
     "reset_scope_tools": "İndirilen ses araçları (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "İndirilen model ağırlıkları",
     "reset_scope_caches": "Önbellekler ve geçici dosyalar",
@@ -2208,7 +2208,15 @@
     "clone": "Ses klonlama",
     "primary": "Ana gezinme",
     "calls": "Aramalar",
-    "talk": "Konuş"
+    "talk": "Konuş",
+    "section_create": "Oluştur",
+    "section_library": "Kitaplık",
+    "section_more": "Daha fazla",
+    "speak": "Metinden konuşmaya",
+    "design_voice": "Ses tasarla",
+    "my_voices": "Seslerim",
+    "voice_gallery": "Ses galerisi",
+    "dub_video": "Video seslendir"
   },
   "profiles": {
     "locked": "Ses kilitli! Kimlik artık tüm nesiller arasında tutarlıdır.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "Her şey yolunda - devam et",
     "check_arch_label": "ARM üzerinde Windows",
     "check_arch_detail": "ARM64 Windows bilgisayar — yapay zekâ arka ucu Windows emülasyonu altında x64 olarak ve yalnızca CPU ile çalışır (GPU/NPU hızlandırması yok).",
-    "check_arch_fix": "Ses üretimi çalışır ancak daha yavaştır. Hafif bir ses motoru (KittenTTS, Supertonic-3, PocketTTS) ve küçük bir Whisper modeli tercih edin."
+    "check_arch_fix": "Ses üretimi çalışır ancak daha yavaştır. Hafif bir ses motoru (Kokoro, KittenTTS) ve küçük bir Whisper modeli tercih edin."
   },
   "consent": {
     "title": "Voiceym'un gelişmesine yardım eder misiniz?",
@@ -2858,7 +2866,7 @@
     "fast": "Hızlı",
     "balanced": "Dengeli",
     "quality": "Kalite",
-    "hint": "OmniVoice örnekleme ve Faster-Whisper / NLLB kod çözme için geçerlidir. Diğer motorlar mevcut ayarlarını korur.",
+    "hint": "VoxCPM2 örnekleme ve Faster-Whisper / NLLB kod çözme için geçerlidir. Diğer motorlar mevcut ayarlarını korur.",
     "auto": "Otomatik"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "Uygulamanın dil modeli",
     "model_unavailable": "Ollama çalışmıyor, bu yüzden Konuş uygulamanın dil modelini kullanıyor."
+  },
+  "navHint": {
+    "home": "Ne yapmak istediğinizi seçin",
+    "talk": "Sesli bir sohbet edin",
+    "speak": "Metni herhangi bir sesle okutun",
+    "design": "Açıklamadan bir ses oluşturun",
+    "dub": "Bir videoyu çevirip yeniden seslendirin",
+    "transcribe": "Konuşmayı metne dönüştürün",
+    "audiobook": "Bir kitabı veya uzun metni seslendirin",
+    "stories": "Her karaktere bir ses verin",
+    "batch": "Birçok videoyu aynı anda seslendirin",
+    "my_voices": "Kaydettiğiniz veya klonladığınız sesler",
+    "gallery": "Hazır seslere göz atın",
+    "projects": "Oluşturduğunuz her şey",
+    "workflows": "Aramaları ve çok adımlı işleri otomatikleştirin",
+    "tools": "Sesi dönüştürün, kırpın ve inceleyin",
+    "integrations": "Diğer uygulamalara bağlanın"
+  },
+  "home": {
+    "title": "Ne yapmak istersiniz?",
+    "subtitle": "Her şey bu bilgisayarda çalışır. Başlamak için bir görev seçin.",
+    "tasks": "Görevler",
+    "more": "Daha fazla",
+    "talk_title": "Bir asistanla konuşun",
+    "talk_desc": "Herhangi bir dilde konuşun ve yanıtı sesli dinleyin.",
+    "speak_title": "Metni konuşmaya dönüştürün",
+    "speak_desc": "Metni yazın veya yapıştırın, seçtiğiniz sesle dinleyin.",
+    "clone_title": "Bir sesi klonlayın",
+    "clone_desc": "5–15 saniyelik bir kayıttan bir sesi kopyalayın.",
+    "design_title": "Yeni bir ses tasarlayın",
+    "design_desc": "İstediğiniz sesi basit kelimelerle tarif edin.",
+    "dub_title": "Video seslendirin",
+    "dub_desc": "Bir videoyu çevirin ve yeni bir ses kanalı ekleyin.",
+    "transcribe_title": "Konuşmayı yazıya dökün",
+    "transcribe_desc": "Bir kaydı veya canlı konuşmayı metne dönüştürün.",
+    "audiobook_title": "Sesli kitap yapın",
+    "audiobook_desc": "Bir kitabı veya uzun belgeyi bölüm bölüm seslendirin.",
+    "stories_title": "Bir hikâyeyi seslendirin",
+    "stories_desc": "Senaryodaki her karaktere kendi sesini verin."
   }
 }

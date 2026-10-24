@@ -306,7 +306,15 @@
     "batch_dub": "Batch Dubbing",
     "transcribe": "Transcribe",
     "calls": "Calls",
-    "talk": "Talk"
+    "talk": "Talk",
+    "section_create": "Create",
+    "section_library": "Library",
+    "section_more": "More",
+    "speak": "Text to speech",
+    "design_voice": "Design a voice",
+    "my_voices": "My voices",
+    "voice_gallery": "Voice gallery",
+    "dub_video": "Dub a video"
   },
   "backend": {
     "starting": "Starting the local engine…",
@@ -807,8 +815,8 @@
   "designWorkspace": {
     "title": "Design",
     "save_failed": "Failed to save voice profile",
-    "engine_cannot_design": "{{engine}} can't design voices because it needs a reference clip. Switch to an engine that supports Voice Design, such as OmniVoice, or clone a voice instead.",
-    "engine_cannot_reuse_sample": "{{engine}} can't use reference audio, so it can't re-render this saved voice from its sample. Switch to an engine that supports voice cloning, such as OmniVoice."
+    "engine_cannot_design": "{{engine}} can't design voices because it needs a reference clip. Switch to an engine that supports Voice Design, such as VoxCPM2 / Indic Parler-TTS, or clone a voice instead.",
+    "engine_cannot_reuse_sample": "{{engine}} can't use reference audio, so it can't re-render this saved voice from its sample. Switch to an engine that supports voice cloning, such as VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Timing",
@@ -1247,7 +1255,7 @@
     "reset_scope_settings": "App settings — engine choices, voice defaults, saved options",
     "reset_scope_history": "Generation & dub history, with their audio",
     "reset_scope_content": "Voices, projects, generated audio, and the app database",
-    "reset_scope_engines": "Installed sidecar engines (IndexTTS-2 and friends)",
+    "reset_scope_engines": "Installed sidecar engines (VoxCPM2, Chatterbox and friends)",
     "reset_scope_tools": "Downloaded audio tools (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Downloaded model weights",
     "reset_scope_caches": "Caches and temporary files",
@@ -2344,7 +2352,7 @@
     "continue_ok": "All good — continue",
     "check_arch_label": "Windows on ARM",
     "check_arch_detail": "ARM64 Windows PC — the AI backend runs as x64 under Windows emulation, CPU only (no GPU/NPU acceleration).",
-    "check_arch_fix": "Voice generation works but is slower. Prefer a lightweight voice engine (KittenTTS, Supertonic-3, PocketTTS) and a small Whisper model."
+    "check_arch_fix": "Voice generation works but is slower. Prefer a lightweight voice engine (Kokoro, KittenTTS) and a small Whisper model."
   },
   "consent": {
     "title": "Help improve Voiceym?",
@@ -2904,7 +2912,7 @@
     "fast": "Fast",
     "balanced": "Balanced",
     "quality": "Quality",
-    "hint": "Applies to OmniVoice sampling and Faster-Whisper / NLLB decoding. Other engines keep their current settings.",
+    "hint": "Applies to VoxCPM2 sampling and Faster-Whisper / NLLB decoding. Other engines keep their current settings.",
     "auto": "Auto"
   },
   "network": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "The app's language model",
     "model_unavailable": "Ollama isn't running, so Talk uses the app's language model."
+  },
+  "navHint": {
+    "home": "Pick what you want to do",
+    "talk": "Have a spoken conversation",
+    "speak": "Read text aloud in any voice",
+    "design": "Create a voice from a description",
+    "dub": "Translate and re-voice a video",
+    "transcribe": "Turn speech into text",
+    "audiobook": "Narrate a book or long text",
+    "stories": "Give each character a voice",
+    "batch": "Dub many videos at once",
+    "my_voices": "Voices you saved or cloned",
+    "gallery": "Browse ready-made voices",
+    "projects": "Everything you have made",
+    "workflows": "Automate calls and multi-step tasks",
+    "tools": "Convert, trim and inspect audio",
+    "integrations": "Connect to other apps"
+  },
+  "home": {
+    "title": "What would you like to do?",
+    "subtitle": "Everything runs on this computer. Pick a task to get started.",
+    "tasks": "Tasks",
+    "more": "More",
+    "talk_title": "Talk with an assistant",
+    "talk_desc": "Speak in any language and hear it answer out loud.",
+    "speak_title": "Turn text into speech",
+    "speak_desc": "Type or paste text and hear it read in the voice you choose.",
+    "clone_title": "Clone a voice",
+    "clone_desc": "Copy a voice from a 5–15 second recording.",
+    "design_title": "Design a new voice",
+    "design_desc": "Describe the voice you want in plain words.",
+    "dub_title": "Dub a video",
+    "dub_desc": "Translate a video and give it a new voice track.",
+    "transcribe_title": "Transcribe speech",
+    "transcribe_desc": "Turn a recording or live speech into text.",
+    "audiobook_title": "Make an audiobook",
+    "audiobook_desc": "Narrate a book or long document, chapter by chapter.",
+    "stories_title": "Voice a story",
+    "stories_desc": "Give every character in a script its own voice."
   }
 }

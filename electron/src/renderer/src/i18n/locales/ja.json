@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "デザイン",
     "save_failed": "音声プロファイルの保存に失敗しました",
-    "engine_cannot_design": "{{engine}} は参照クリップが必要なため、音声をデザインできません。OmniVoice などボイスデザインに対応したエンジンに切り替えるか、代わりに音声をクローンしてください。",
-    "engine_cannot_reuse_sample": "{{engine}} は参照音声を使用できないため、この保存済みの音声をそのサンプルから再生成できません。OmniVoice など音声クローンに対応したエンジンに切り替えてください。"
+    "engine_cannot_design": "{{engine}} は参照クリップが必要なため、音声をデザインできません。VoxCPM2 / Indic Parler-TTS などボイスデザインに対応したエンジンに切り替えるか、代わりに音声をクローンしてください。",
+    "engine_cannot_reuse_sample": "{{engine}} は参照音声を使用できないため、この保存済みの音声をそのサンプルから再生成できません。VoxCPM2 / Chatterbox など音声クローンに対応したエンジンに切り替えてください。"
   },
   "dub": {
     "timing_label": "タイミング",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "アプリ設定 - エンジンの選択、音声のデフォルト、保存されたオプション",
     "reset_scope_history": "生成とダブの歴史、音声付き",
     "reset_scope_content": "音声、プロジェクト、生成されたオーディオ、アプリ データベース",
-    "reset_scope_engines": "インストールされたサイドカー エンジン (IndexTTS-2 とその仲間)",
+    "reset_scope_engines": "インストールされたサイドカー エンジン (VoxCPM2, Chatterbox とその仲間)",
     "reset_scope_tools": "ダウンロードされたオーディオ ツール (ffmpeg、ffprobe、yt-dlp)",
     "reset_scope_models": "ダウンロードされたモデルの重み",
     "reset_scope_caches": "キャッシュと一時ファイル",
@@ -2208,7 +2208,15 @@
     "primary": "メインナビゲーション",
     "dictation": "音声入力",
     "calls": "通話",
-    "talk": "会話"
+    "talk": "会話",
+    "section_create": "作成",
+    "section_library": "ライブラリ",
+    "section_more": "その他",
+    "speak": "テキスト読み上げ",
+    "design_voice": "声をデザイン",
+    "my_voices": "マイボイス",
+    "voice_gallery": "ボイスギャラリー",
+    "dub_video": "動画を吹き替え"
   },
   "profiles": {
     "locked": "音声ロックされてる！アイデンティティはすべての世代にわたって一貫しています。",
@@ -2281,7 +2289,7 @@
     "continue_ok": "大丈夫です — 続けてください",
     "check_arch_label": "ARM 版 Windows",
     "check_arch_detail": "ARM64 の Windows PC です。AI バックエンドは Windows のエミュレーション上で x64 として動作し、CPU のみを使用します（GPU/NPU による高速化はありません）。",
-    "check_arch_fix": "音声生成は動作しますが、速度は遅くなります。軽量な音声エンジン（KittenTTS、Supertonic-3、PocketTTS）と小さな Whisper モデルをおすすめします。"
+    "check_arch_fix": "音声生成は動作しますが、速度は遅くなります。軽量な音声エンジン（Kokoro、KittenTTS）と小さな Whisper モデルをおすすめします。"
   },
   "consent": {
     "title": "Voiceym の改善に協力しますか？",
@@ -2858,7 +2866,7 @@
     "fast": "高速",
     "balanced": "バランス",
     "quality": "品質",
-    "hint": "OmniVoice のサンプリングと Faster-Whisper / NLLB のデコードに適用されます。他のエンジンは現在の設定を維持します。",
+    "hint": "VoxCPM2 のサンプリングと Faster-Whisper / NLLB のデコードに適用されます。他のエンジンは現在の設定を維持します。",
     "auto": "自動"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "アプリの言語モデル",
     "model_unavailable": "Ollama が起動していないため、会話はアプリの言語モデルを使います。"
+  },
+  "navHint": {
+    "home": "やりたいことを選ぶ",
+    "talk": "音声で会話する",
+    "speak": "好きな声でテキストを読み上げる",
+    "design": "説明から声を作る",
+    "dub": "動画を翻訳して吹き替える",
+    "transcribe": "音声を文字にする",
+    "audiobook": "本や長い文章を朗読する",
+    "stories": "登場人物ごとに声を付ける",
+    "batch": "複数の動画をまとめて吹き替える",
+    "my_voices": "保存・クローンした声",
+    "gallery": "すぐ使える声を探す",
+    "projects": "作成したものすべて",
+    "workflows": "通話や複数ステップの作業を自動化",
+    "tools": "音声の変換・トリミング・確認",
+    "integrations": "他のアプリと連携"
+  },
+  "home": {
+    "title": "何をしますか？",
+    "subtitle": "すべてこのコンピューター上で動作します。タスクを選んで始めましょう。",
+    "tasks": "タスク",
+    "more": "その他",
+    "talk_title": "アシスタントと話す",
+    "talk_desc": "どの言語でも話しかけると声で答えます。",
+    "speak_title": "テキストを音声にする",
+    "speak_desc": "テキストを入力または貼り付けて、選んだ声で聞きます。",
+    "clone_title": "声をクローンする",
+    "clone_desc": "5〜15秒の録音から声をコピーします。",
+    "design_title": "新しい声をデザインする",
+    "design_desc": "欲しい声を簡単な言葉で説明します。",
+    "dub_title": "動画を吹き替える",
+    "dub_desc": "動画を翻訳し、新しい音声トラックを付けます。",
+    "transcribe_title": "音声を文字起こしする",
+    "transcribe_desc": "録音やライブの音声をテキストにします。",
+    "audiobook_title": "オーディオブックを作る",
+    "audiobook_desc": "本や長い文書を章ごとに朗読します。",
+    "stories_title": "物語に声を付ける",
+    "stories_desc": "台本の登場人物それぞれに専用の声を付けます。"
   }
 }

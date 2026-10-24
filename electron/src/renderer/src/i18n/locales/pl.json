@@ -625,8 +625,8 @@
   "designWorkspace": {
     "title": "Projektuj",
     "save_failed": "Nie udało się zapisać profilu głosowego",
-    "engine_cannot_design": "{{engine}} nie może projektować głosów, ponieważ wymaga klipu referencyjnego. Wybierz silnik obsługujący projektowanie głosu, np. OmniVoice, albo sklonuj głos.",
-    "engine_cannot_reuse_sample": "{{engine}} nie może używać dźwięku referencyjnego, więc nie odtworzy tego zapisanego głosu z jego próbki. Wybierz silnik obsługujący klonowanie głosu, np. OmniVoice."
+    "engine_cannot_design": "{{engine}} nie może projektować głosów, ponieważ wymaga klipu referencyjnego. Wybierz silnik obsługujący projektowanie głosu, np. VoxCPM2 / Indic Parler-TTS, albo sklonuj głos.",
+    "engine_cannot_reuse_sample": "{{engine}} nie może używać dźwięku referencyjnego, więc nie odtworzy tego zapisanego głosu z jego próbki. Wybierz silnik obsługujący klonowanie głosu, np. VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Synchronizacja",
@@ -1103,7 +1103,7 @@
     "reset_scope_settings": "Ustawienia aplikacji — opcje silnika, domyślne ustawienia głosu, zapisane opcje",
     "reset_scope_history": "Historia generacji i dubu wraz z dźwiękiem",
     "reset_scope_content": "Głosy, projekty, wygenerowany dźwięk i baza danych aplikacji",
-    "reset_scope_engines": "Zainstalowane silniki wózka bocznego (IndexTTS-2 i przyjaciele)",
+    "reset_scope_engines": "Zainstalowane silniki wózka bocznego (VoxCPM2, Chatterbox i przyjaciele)",
     "reset_scope_tools": "Pobrane narzędzia audio (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Pobrano wagi modeli",
     "reset_scope_caches": "Pamięci podręczne i pliki tymczasowe",
@@ -2212,7 +2212,15 @@
     "primary": "Nawigacja główna",
     "dictation": "Dyktowanie",
     "calls": "Połączenia",
-    "talk": "Rozmowa"
+    "talk": "Rozmowa",
+    "section_create": "Twórz",
+    "section_library": "Biblioteka",
+    "section_more": "Więcej",
+    "speak": "Tekst na mowę",
+    "design_voice": "Zaprojektuj głos",
+    "my_voices": "Moje głosy",
+    "voice_gallery": "Galeria głosów",
+    "dub_video": "Dubbinguj wideo"
   },
   "profiles": {
     "locked": "Głos zablokowany! Tożsamość jest teraz spójna we wszystkich pokoleniach.",
@@ -2285,7 +2293,7 @@
     "continue_ok": "Wszystko w porządku — kontynuuj",
     "check_arch_label": "Windows na ARM",
     "check_arch_detail": "Komputer z Windows ARM64 — backend AI działa jako x64 w emulacji Windows, wyłącznie na CPU (bez przyspieszenia GPU/NPU).",
-    "check_arch_fix": "Generowanie mowy działa, ale wolniej. Wybierz lekki silnik głosu (KittenTTS, Supertonic-3, PocketTTS) i mały model Whisper."
+    "check_arch_fix": "Generowanie mowy działa, ale wolniej. Wybierz lekki silnik głosu (Kokoro, KittenTTS) i mały model Whisper."
   },
   "consent": {
     "title": "Pomóc ulepszyć Voiceym?",
@@ -2862,7 +2870,7 @@
     "fast": "Szybko",
     "balanced": "Zrównoważony",
     "quality": "Jakość",
-    "hint": "Dotyczy próbkowania OmniVoice i dekodowania Faster-Whisper / NLLB. Inne silniki zachowują swoje aktualne ustawienia.",
+    "hint": "Dotyczy próbkowania VoxCPM2 i dekodowania Faster-Whisper / NLLB. Inne silniki zachowują swoje aktualne ustawienia.",
     "auto": "Auto"
   },
   "recording": {
@@ -3871,5 +3879,44 @@
     },
     "model_app": "Model językowy aplikacji",
     "model_unavailable": "Ollama nie działa, więc Rozmowa używa modelu językowego aplikacji."
+  },
+  "navHint": {
+    "home": "Wybierz, co chcesz zrobić",
+    "talk": "Prowadź rozmowę głosową",
+    "speak": "Czytaj tekst na głos dowolnym głosem",
+    "design": "Utwórz głos na podstawie opisu",
+    "dub": "Przetłumacz i zdubbinguj wideo",
+    "transcribe": "Zamień mowę na tekst",
+    "audiobook": "Przeczytaj książkę lub długi tekst",
+    "stories": "Nadaj każdej postaci głos",
+    "batch": "Dubbinguj wiele filmów naraz",
+    "my_voices": "Zapisane lub sklonowane głosy",
+    "gallery": "Przeglądaj gotowe głosy",
+    "projects": "Wszystko, co utworzyłeś",
+    "workflows": "Automatyzuj rozmowy i zadania wieloetapowe",
+    "tools": "Konwertuj, przycinaj i sprawdzaj dźwięk",
+    "integrations": "Połącz z innymi aplikacjami"
+  },
+  "home": {
+    "title": "Co chcesz zrobić?",
+    "subtitle": "Wszystko działa na tym komputerze. Wybierz zadanie, aby zacząć.",
+    "tasks": "Zadania",
+    "more": "Więcej",
+    "talk_title": "Porozmawiaj z asystentem",
+    "talk_desc": "Mów w dowolnym języku i słuchaj odpowiedzi na głos.",
+    "speak_title": "Zamień tekst na mowę",
+    "speak_desc": "Wpisz lub wklej tekst i posłuchaj go wybranym głosem.",
+    "clone_title": "Sklonuj głos",
+    "clone_desc": "Skopiuj głos z nagrania trwającego 5–15 sekund.",
+    "design_title": "Zaprojektuj nowy głos",
+    "design_desc": "Opisz prostymi słowami głos, którego chcesz.",
+    "dub_title": "Dubbinguj wideo",
+    "dub_desc": "Przetłumacz wideo i nadaj mu nową ścieżkę głosową.",
+    "transcribe_title": "Transkrybuj mowę",
+    "transcribe_desc": "Zamień nagranie lub mowę na żywo w tekst.",
+    "audiobook_title": "Utwórz audiobook",
+    "audiobook_desc": "Przeczytaj książkę lub długi dokument, rozdział po rozdziale.",
+    "stories_title": "Udźwiękowij historię",
+    "stories_desc": "Nadaj każdej postaci w scenariuszu własny głos."
   }
 }

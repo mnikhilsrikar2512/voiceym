@@ -175,13 +175,8 @@ try {
   await page
     .getByRole('button', { name: 'Renamed book fixture', exact: true })
     .waitFor({ state: 'detached' });
-  // The icon rail shows Stories as a group flyout; open it, then pick the Stories editor.
   await page
-    .getByRole('navigation', { name: 'Workspaces', exact: true })
-    .getByRole('button', { name: 'Stories', exact: true })
-    .click();
-  await page
-    .getByRole('dialog')
+    .locator('[data-slot=compact-main-sidebar]')
     .getByRole('link', { name: 'Stories', exact: true })
     .click();
   await page

@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "디자인",
     "save_failed": "음성 프로필을 저장하지 못했습니다.",
-    "engine_cannot_design": "{{engine}}은(는) 참조 클립이 필요해서 음성을 디자인할 수 없습니다. OmniVoice처럼 음성 디자인을 지원하는 엔진으로 전환하거나, 대신 음성을 복제하세요.",
-    "engine_cannot_reuse_sample": "{{engine}}은(는) 참조 오디오를 사용할 수 없어 저장된 이 음성을 샘플로 다시 생성할 수 없습니다. OmniVoice처럼 음성 복제를 지원하는 엔진으로 전환하세요."
+    "engine_cannot_design": "{{engine}}은(는) 참조 클립이 필요해서 음성을 디자인할 수 없습니다. VoxCPM2 / Indic Parler-TTS처럼 음성 디자인을 지원하는 엔진으로 전환하거나, 대신 음성을 복제하세요.",
+    "engine_cannot_reuse_sample": "{{engine}}은(는) 참조 오디오를 사용할 수 없어 저장된 이 음성을 샘플로 다시 생성할 수 없습니다. VoxCPM2 / Chatterbox처럼 음성 복제를 지원하는 엔진으로 전환하세요."
   },
   "dub": {
     "timing_label": "타이밍",
@@ -1118,7 +1118,7 @@
     "reset_scope_settings": "앱 설정 — 엔진 선택, 음성 기본값, 저장된 옵션",
     "reset_scope_history": "생성 및 더빙 기록과 관련 오디오",
     "reset_scope_content": "음성, 프로젝트, 생성된 오디오, 앱 데이터베이스",
-    "reset_scope_engines": "설치된 사이드카 엔진(IndexTTS-2 등)",
+    "reset_scope_engines": "설치된 사이드카 엔진(VoxCPM2, Chatterbox 등)",
     "reset_scope_tools": "다운로드한 오디오 도구(ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "다운로드한 모델 가중치",
     "reset_scope_caches": "캐시 및 임시 파일",
@@ -2208,7 +2208,15 @@
     "design": "음성 디자인",
     "primary": "기본 탐색",
     "calls": "통화",
-    "talk": "대화"
+    "talk": "대화",
+    "section_create": "만들기",
+    "section_library": "라이브러리",
+    "section_more": "더 보기",
+    "speak": "텍스트 음성 변환",
+    "design_voice": "목소리 디자인",
+    "my_voices": "내 목소리",
+    "voice_gallery": "목소리 갤러리",
+    "dub_video": "동영상 더빙"
   },
   "profiles": {
     "locked": "음성이 잠겼습니다! 이제 모든 생성 결과에서 음성 정체성이 일관되게 유지됩니다.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "모두 괜찮습니다 — 계속하세요",
     "check_arch_label": "ARM용 Windows",
     "check_arch_detail": "ARM64 Windows PC입니다. AI 백엔드는 Windows 에뮬레이션에서 x64로 실행되며 CPU만 사용합니다(GPU/NPU 가속 없음).",
-    "check_arch_fix": "음성 생성은 동작하지만 더 느립니다. 가벼운 음성 엔진(KittenTTS, Supertonic-3, PocketTTS)과 작은 Whisper 모델을 사용하세요."
+    "check_arch_fix": "음성 생성은 동작하지만 더 느립니다. 가벼운 음성 엔진(Kokoro, KittenTTS)과 작은 Whisper 모델을 사용하세요."
   },
   "consent": {
     "title": "Voiceym 개선에 참여하시겠어요?",
@@ -2858,7 +2866,7 @@
     "fast": "빠르게",
     "balanced": "균형",
     "quality": "품질",
-    "hint": "OmniVoice 샘플링과 Faster-Whisper / NLLB 디코딩에 적용됩니다. 다른 엔진은 현재 설정을 유지합니다.",
+    "hint": "VoxCPM2 샘플링과 Faster-Whisper / NLLB 디코딩에 적용됩니다. 다른 엔진은 현재 설정을 유지합니다.",
     "auto": "자동"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "앱의 언어 모델",
     "model_unavailable": "Ollama가 실행 중이 아니어서 대화는 앱의 언어 모델을 사용합니다."
+  },
+  "navHint": {
+    "home": "하고 싶은 일을 고르세요",
+    "talk": "음성으로 대화하기",
+    "speak": "원하는 목소리로 텍스트 읽기",
+    "design": "설명으로 목소리 만들기",
+    "dub": "동영상을 번역하고 다시 더빙하기",
+    "transcribe": "말을 텍스트로 바꾸기",
+    "audiobook": "책이나 긴 글 낭독하기",
+    "stories": "등장인물마다 목소리 지정",
+    "batch": "여러 동영상을 한 번에 더빙",
+    "my_voices": "저장하거나 복제한 목소리",
+    "gallery": "준비된 목소리 둘러보기",
+    "projects": "만든 모든 것",
+    "workflows": "통화와 여러 단계 작업 자동화",
+    "tools": "오디오 변환, 자르기, 검사",
+    "integrations": "다른 앱과 연결"
+  },
+  "home": {
+    "title": "무엇을 하시겠어요?",
+    "subtitle": "모든 작업은 이 컴퓨터에서 실행됩니다. 시작할 작업을 고르세요.",
+    "tasks": "작업",
+    "more": "더 보기",
+    "talk_title": "어시스턴트와 대화하기",
+    "talk_desc": "어떤 언어로든 말하면 소리로 답합니다.",
+    "speak_title": "텍스트를 음성으로 바꾸기",
+    "speak_desc": "텍스트를 입력하거나 붙여 넣고 고른 목소리로 들어 보세요.",
+    "clone_title": "목소리 복제하기",
+    "clone_desc": "5–15초 녹음으로 목소리를 복제합니다.",
+    "design_title": "새 목소리 디자인하기",
+    "design_desc": "원하는 목소리를 쉬운 말로 설명하세요.",
+    "dub_title": "동영상 더빙하기",
+    "dub_desc": "동영상을 번역하고 새 음성 트랙을 입힙니다.",
+    "transcribe_title": "음성 받아쓰기",
+    "transcribe_desc": "녹음이나 실시간 음성을 텍스트로 바꿉니다.",
+    "audiobook_title": "오디오북 만들기",
+    "audiobook_desc": "책이나 긴 문서를 장별로 낭독합니다.",
+    "stories_title": "이야기에 목소리 입히기",
+    "stories_desc": "대본 속 등장인물마다 고유한 목소리를 줍니다."
   }
 }
