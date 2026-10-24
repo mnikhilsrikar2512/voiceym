@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "Designa",
     "save_failed": "Det gick inte att spara röstprofilen",
-    "engine_cannot_design": "{{engine}} kan inte designa röster eftersom den behöver ett referensklipp. Byt till en motor som stöder röstdesign, till exempel OmniVoice, eller klona en röst i stället.",
-    "engine_cannot_reuse_sample": "{{engine}} kan inte använda referensljud och kan därför inte återskapa den sparade rösten från dess exempel. Byt till en motor som stöder röstkloning, till exempel OmniVoice."
+    "engine_cannot_design": "{{engine}} kan inte designa röster eftersom den behöver ett referensklipp. Byt till en motor som stöder röstdesign, till exempel VoxCPM2 / Indic Parler-TTS, eller klona en röst i stället.",
+    "engine_cannot_reuse_sample": "{{engine}} kan inte använda referensljud och kan därför inte återskapa den sparade rösten från dess exempel. Byt till en motor som stöder röstkloning, till exempel VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Tajming",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "Appinställningar – motorval, röststandarder, sparade alternativ",
     "reset_scope_history": "Generations- och dubbhistorik, med deras ljud",
     "reset_scope_content": "Röster, projekt, genererat ljud och appdatabasen",
-    "reset_scope_engines": "Installerade sidovagnsmotorer (IndexTTS-2 och vänner)",
+    "reset_scope_engines": "Installerade sidovagnsmotorer (VoxCPM2, Chatterbox och vänner)",
     "reset_scope_tools": "Nedladdade ljudverktyg (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Nedladdade modellvikter",
     "reset_scope_caches": "Cache och temporära filer",
@@ -2208,7 +2208,15 @@
     "clone": "Röstkloning",
     "primary": "Huvudnavigering",
     "calls": "Samtal",
-    "talk": "Prata"
+    "talk": "Prata",
+    "section_create": "Skapa",
+    "section_library": "Bibliotek",
+    "section_more": "Mer",
+    "speak": "Text till tal",
+    "design_voice": "Designa en röst",
+    "my_voices": "Mina röster",
+    "voice_gallery": "Röstgalleri",
+    "dub_video": "Dubba en video"
   },
   "profiles": {
     "locked": "Rösten låst! Identiteten är nu konsekvent över alla generationer.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "Allt bra - fortsätt",
     "check_arch_label": "Windows på ARM",
     "check_arch_detail": "Windows-dator med ARM64: AI-backend körs som x64 under Windows-emulering, endast på CPU (ingen GPU-/NPU-acceleration).",
-    "check_arch_fix": "Röstgenerering fungerar men är långsammare. Välj en lätt röstmotor (KittenTTS, Supertonic-3, PocketTTS) och en liten Whisper-modell."
+    "check_arch_fix": "Röstgenerering fungerar men är långsammare. Välj en lätt röstmotor (Kokoro, KittenTTS) och en liten Whisper-modell."
   },
   "consent": {
     "title": "Hjälpa till att förbättra Voiceym?",
@@ -2858,7 +2866,7 @@
     "fast": "Snabb",
     "balanced": "Balanserad",
     "quality": "Kvalitet",
-    "hint": "Gäller OmniVoice sampling och Faster-Whisper / NLLB avkodning. Andra motorer behåller sina nuvarande inställningar.",
+    "hint": "Gäller VoxCPM2 sampling och Faster-Whisper / NLLB avkodning. Andra motorer behåller sina nuvarande inställningar.",
     "auto": "Auto"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "Appens språkmodell",
     "model_unavailable": "Ollama körs inte, så Prata använder appens språkmodell."
+  },
+  "navHint": {
+    "home": "Välj vad du vill göra",
+    "talk": "Ha ett talat samtal",
+    "speak": "Läs upp text med valfri röst",
+    "design": "Skapa en röst från en beskrivning",
+    "dub": "Översätt och dubba om en video",
+    "transcribe": "Gör tal till text",
+    "audiobook": "Berätta en bok eller lång text",
+    "stories": "Ge varje karaktär en röst",
+    "batch": "Dubba många videor samtidigt",
+    "my_voices": "Röster du har sparat eller klonat",
+    "gallery": "Bläddra bland färdiga röster",
+    "projects": "Allt du har skapat",
+    "workflows": "Automatisera samtal och uppgifter i flera steg",
+    "tools": "Konvertera, klipp och granska ljud",
+    "integrations": "Anslut till andra appar"
+  },
+  "home": {
+    "title": "Vad vill du göra?",
+    "subtitle": "Allt körs på den här datorn. Välj en uppgift för att börja.",
+    "tasks": "Uppgifter",
+    "more": "Mer",
+    "talk_title": "Prata med en assistent",
+    "talk_desc": "Tala på valfritt språk och hör svaret högt.",
+    "speak_title": "Gör text till tal",
+    "speak_desc": "Skriv eller klistra in text och hör den med rösten du väljer.",
+    "clone_title": "Klona en röst",
+    "clone_desc": "Kopiera en röst från en inspelning på 5–15 sekunder.",
+    "design_title": "Designa en ny röst",
+    "design_desc": "Beskriv rösten du vill ha med enkla ord.",
+    "dub_title": "Dubba en video",
+    "dub_desc": "Översätt en video och ge den ett nytt röstspår.",
+    "transcribe_title": "Transkribera tal",
+    "transcribe_desc": "Gör en inspelning eller livetal till text.",
+    "audiobook_title": "Gör en ljudbok",
+    "audiobook_desc": "Berätta en bok eller ett långt dokument, kapitel för kapitel.",
+    "stories_title": "Ge en berättelse röst",
+    "stories_desc": "Ge varje karaktär i ett manus sin egen röst."
   }
 }

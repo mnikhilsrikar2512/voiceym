@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "Ontwerpen",
     "save_failed": "Kan stemprofiel niet opslaan",
-    "engine_cannot_design": "{{engine}} kan geen stemmen ontwerpen, omdat het een referentieclip nodig heeft. Kies een engine die stemontwerp ondersteunt, zoals OmniVoice, of kloon in plaats daarvan een stem.",
-    "engine_cannot_reuse_sample": "{{engine}} kan geen referentieaudio gebruiken en deze opgeslagen stem dus niet opnieuw maken uit het voorbeeld. Kies een engine die stemklonen ondersteunt, zoals OmniVoice."
+    "engine_cannot_design": "{{engine}} kan geen stemmen ontwerpen, omdat het een referentieclip nodig heeft. Kies een engine die stemontwerp ondersteunt, zoals VoxCPM2 / Indic Parler-TTS, of kloon in plaats daarvan een stem.",
+    "engine_cannot_reuse_sample": "{{engine}} kan geen referentieaudio gebruiken en deze opgeslagen stem dus niet opnieuw maken uit het voorbeeld. Kies een engine die stemklonen ondersteunt, zoals VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Timing",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "App-instellingen - enginekeuzes, stemstandaarden, opgeslagen opties",
     "reset_scope_history": "Generatie- en dubgeschiedenis, met hun audio",
     "reset_scope_content": "Stemmen, projecten, gegenereerde audio en de app-database",
-    "reset_scope_engines": "Geïnstalleerde zijspanmotoren (IndexTTS-2 en vrienden)",
+    "reset_scope_engines": "Geïnstalleerde zijspanmotoren (VoxCPM2, Chatterbox en vrienden)",
     "reset_scope_tools": "Gedownloade audiotools (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Gedownloade modelgewichten",
     "reset_scope_caches": "Caches en tijdelijke bestanden",
@@ -2208,7 +2208,15 @@
     "primary": "Hoofdnavigatie",
     "dictation": "Dicteren",
     "calls": "Oproepen",
-    "talk": "Praten"
+    "talk": "Praten",
+    "section_create": "Maken",
+    "section_library": "Bibliotheek",
+    "section_more": "Meer",
+    "speak": "Tekst naar spraak",
+    "design_voice": "Stem ontwerpen",
+    "my_voices": "Mijn stemmen",
+    "voice_gallery": "Stemmengalerij",
+    "dub_video": "Video nasynchroniseren"
   },
   "profiles": {
     "locked": "Stem vergrendeld! Identiteit is nu consistent voor alle generaties.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "Alles goed - ga door",
     "check_arch_label": "Windows op ARM",
     "check_arch_detail": "ARM64-Windows-pc: de AI-backend draait als x64 onder Windows-emulatie, alleen op de CPU (geen GPU-/NPU-versnelling).",
-    "check_arch_fix": "Spraakgeneratie werkt, maar is trager. Kies een lichte spraakengine (KittenTTS, Supertonic-3, PocketTTS) en een klein Whisper-model."
+    "check_arch_fix": "Spraakgeneratie werkt, maar is trager. Kies een lichte spraakengine (Kokoro, KittenTTS) en een klein Whisper-model."
   },
   "consent": {
     "title": "Helpen Voiceym te verbeteren?",
@@ -2858,7 +2866,7 @@
     "fast": "Snel",
     "balanced": "Gebalanceerd",
     "quality": "Kwaliteit",
-    "hint": "Geldt voor OmniVoice-sampling en Faster-Whisper / NLLB-decodering. Andere engines behouden hun instellingen.",
+    "hint": "Geldt voor VoxCPM2-sampling en Faster-Whisper / NLLB-decodering. Andere engines behouden hun instellingen.",
     "auto": "Auto"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "Het taalmodel van de app",
     "model_unavailable": "Ollama draait niet, dus Praten gebruikt het taalmodel van de app."
+  },
+  "navHint": {
+    "home": "Kies wat je wilt doen",
+    "talk": "Voer een gesproken gesprek",
+    "speak": "Lees tekst voor met elke stem",
+    "design": "Maak een stem op basis van een beschrijving",
+    "dub": "Vertaal een video en spreek hem opnieuw in",
+    "transcribe": "Zet spraak om in tekst",
+    "audiobook": "Vertel een boek of lange tekst",
+    "stories": "Geef elk personage een stem",
+    "batch": "Synchroniseer veel video's tegelijk",
+    "my_voices": "Stemmen die je hebt opgeslagen of gekloond",
+    "gallery": "Bekijk kant-en-klare stemmen",
+    "projects": "Alles wat je hebt gemaakt",
+    "workflows": "Automatiseer gesprekken en taken met meerdere stappen",
+    "tools": "Audio omzetten, inkorten en inspecteren",
+    "integrations": "Verbind met andere apps"
+  },
+  "home": {
+    "title": "Wat wil je doen?",
+    "subtitle": "Alles draait op deze computer. Kies een taak om te beginnen.",
+    "tasks": "Taken",
+    "more": "Meer",
+    "talk_title": "Praat met een assistent",
+    "talk_desc": "Spreek in elke taal en hoor het antwoord hardop.",
+    "speak_title": "Zet tekst om in spraak",
+    "speak_desc": "Typ of plak tekst en hoor hem in de stem die je kiest.",
+    "clone_title": "Kloon een stem",
+    "clone_desc": "Kopieer een stem uit een opname van 5–15 seconden.",
+    "design_title": "Ontwerp een nieuwe stem",
+    "design_desc": "Beschrijf in gewone woorden de stem die je wilt.",
+    "dub_title": "Synchroniseer een video",
+    "dub_desc": "Vertaal een video en geef hem een nieuw stemspoor.",
+    "transcribe_title": "Transcribeer spraak",
+    "transcribe_desc": "Zet een opname of live spraak om in tekst.",
+    "audiobook_title": "Maak een luisterboek",
+    "audiobook_desc": "Vertel een boek of lang document, hoofdstuk voor hoofdstuk.",
+    "stories_title": "Geef een verhaal een stem",
+    "stories_desc": "Geef elk personage in een script een eigen stem."
   }
 }

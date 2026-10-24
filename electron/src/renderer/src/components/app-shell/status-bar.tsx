@@ -622,12 +622,13 @@ export function StatusBar({
             {viewControl}
           </div>
         )}
-        {isBackendReachable(status.stage) && (
+        {/* The simple view keeps the sidebar for navigation; speed/quality
+            lives in the detailed views and Settings → Performance. */}
+        {isBackendReachable(status.stage) && level !== 'simple' && (
           <PerformanceProfile
             onApplied={(applied) => {
               appliedRefreshStarted.current = presetRefreshing;
               setAppliedProfile(applied);
-              if (level === 'simple') chooseLevel('models');
             }}
           />
         )}

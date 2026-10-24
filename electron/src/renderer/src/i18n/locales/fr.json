@@ -623,8 +623,8 @@
   "designWorkspace": {
     "title": "Concevoir",
     "save_failed": "Échec de l'enregistrement du profil vocal",
-    "engine_cannot_design": "{{engine}} ne peut pas concevoir de voix, car il a besoin d'un extrait de référence. Choisissez un moteur compatible avec la conception de voix, comme OmniVoice, ou clonez plutôt une voix.",
-    "engine_cannot_reuse_sample": "{{engine}} ne peut pas utiliser d'audio de référence ; il ne peut donc pas régénérer cette voix enregistrée à partir de son échantillon. Choisissez un moteur compatible avec le clonage de voix, comme OmniVoice."
+    "engine_cannot_design": "{{engine}} ne peut pas concevoir de voix, car il a besoin d'un extrait de référence. Choisissez un moteur compatible avec la conception de voix, comme VoxCPM2 / Indic Parler-TTS, ou clonez plutôt une voix.",
+    "engine_cannot_reuse_sample": "{{engine}} ne peut pas utiliser d'audio de référence ; il ne peut donc pas régénérer cette voix enregistrée à partir de son échantillon. Choisissez un moteur compatible avec le clonage de voix, comme VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Synchronisation",
@@ -1101,7 +1101,7 @@
     "reset_scope_settings": "Paramètres de l'application : choix du moteur, paramètres vocaux par défaut, options enregistrées",
     "reset_scope_history": "Historique de génération et de doublage, avec leur audio",
     "reset_scope_content": "Voix, projets, audio généré et base de données de l'application",
-    "reset_scope_engines": "Moteurs side-car installés (IndexTTS-2 et amis)",
+    "reset_scope_engines": "Moteurs side-car installés (VoxCPM2, Chatterbox et amis)",
     "reset_scope_tools": "Outils audio téléchargés (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Poids du modèle téléchargé",
     "reset_scope_caches": "Caches et fichiers temporaires",
@@ -2210,7 +2210,15 @@
     "clone": "Clonage vocal",
     "primary": "Navigation principale",
     "calls": "Appels",
-    "talk": "Parler"
+    "talk": "Parler",
+    "section_create": "Créer",
+    "section_library": "Bibliothèque",
+    "section_more": "Plus",
+    "speak": "Synthèse vocale",
+    "design_voice": "Concevoir une voix",
+    "my_voices": "Mes voix",
+    "voice_gallery": "Galerie de voix",
+    "dub_video": "Doubler une vidéo"
   },
   "profiles": {
     "locked": "Voix verrouillée ! L’identité est désormais cohérente à travers toutes les générations.",
@@ -2283,7 +2291,7 @@
     "continue_ok": "Tout va bien - continuez",
     "check_arch_label": "Windows sur ARM",
     "check_arch_detail": "PC Windows ARM64 : le backend IA s’exécute en x64 sous l’émulation Windows, sur CPU uniquement (sans accélération GPU/NPU).",
-    "check_arch_fix": "La génération vocale fonctionne mais est plus lente. Privilégiez un moteur vocal léger (KittenTTS, Supertonic-3, PocketTTS) et un petit modèle Whisper."
+    "check_arch_fix": "La génération vocale fonctionne mais est plus lente. Privilégiez un moteur vocal léger (Kokoro, KittenTTS) et un petit modèle Whisper."
   },
   "consent": {
     "title": "Aider à améliorer Voiceym ?",
@@ -2860,7 +2868,7 @@
     "fast": "Rapide",
     "balanced": "Équilibré",
     "quality": "Qualité",
-    "hint": "S'applique à l'échantillonnage OmniVoice et au décodage Faster-Whisper / NLLB. Les autres moteurs conservent leurs paramètres actuels.",
+    "hint": "S'applique à l'échantillonnage VoxCPM2 et au décodage Faster-Whisper / NLLB. Les autres moteurs conservent leurs paramètres actuels.",
     "auto": "Auto"
   },
   "recording": {
@@ -3869,5 +3877,44 @@
     },
     "model_app": "Le modèle de langage de l'app",
     "model_unavailable": "Ollama ne tourne pas : Parler utilise le modèle de langage de l'app."
+  },
+  "navHint": {
+    "home": "Choisissez ce que vous voulez faire",
+    "talk": "Avoir une conversation à voix haute",
+    "speak": "Lire un texte avec n'importe quelle voix",
+    "design": "Créer une voix à partir d'une description",
+    "dub": "Traduire et redoubler une vidéo",
+    "transcribe": "Transformer la parole en texte",
+    "audiobook": "Raconter un livre ou un long texte",
+    "stories": "Donner une voix à chaque personnage",
+    "batch": "Doubler plusieurs vidéos à la fois",
+    "my_voices": "Les voix enregistrées ou clonées",
+    "gallery": "Parcourir des voix prêtes à l'emploi",
+    "projects": "Tout ce que vous avez créé",
+    "workflows": "Automatiser les appels et les tâches en plusieurs étapes",
+    "tools": "Convertir, couper et inspecter l'audio",
+    "integrations": "Connecter à d'autres applications"
+  },
+  "home": {
+    "title": "Que voulez-vous faire ?",
+    "subtitle": "Tout fonctionne sur cet ordinateur. Choisissez une tâche pour commencer.",
+    "tasks": "Tâches",
+    "more": "Plus",
+    "talk_title": "Parler avec un assistant",
+    "talk_desc": "Parlez dans n'importe quelle langue et entendez la réponse.",
+    "speak_title": "Transformer du texte en voix",
+    "speak_desc": "Saisissez ou collez un texte et écoutez-le avec la voix choisie.",
+    "clone_title": "Cloner une voix",
+    "clone_desc": "Copiez une voix à partir d'un enregistrement de 5 à 15 secondes.",
+    "design_title": "Concevoir une nouvelle voix",
+    "design_desc": "Décrivez simplement la voix que vous voulez.",
+    "dub_title": "Doubler une vidéo",
+    "dub_desc": "Traduisez une vidéo et donnez-lui une nouvelle piste vocale.",
+    "transcribe_title": "Transcrire la parole",
+    "transcribe_desc": "Transformez un enregistrement ou la parole en direct en texte.",
+    "audiobook_title": "Créer un livre audio",
+    "audiobook_desc": "Racontez un livre ou un long document, chapitre par chapitre.",
+    "stories_title": "Mettre une histoire en voix",
+    "stories_desc": "Donnez à chaque personnage d'un script sa propre voix."
   }
 }

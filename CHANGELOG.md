@@ -21,6 +21,10 @@ metadata and the backend fallback mirror it.
 
 ### Changed
 
+- Voiceym opens on a new Home page that asks what you'd like to do and explains each task in one line; Talk moves to its own page (#10)
+- The sidebar lists every page by name under Create, Library and More, each with a short description, instead of collapsed groups (#10)
+- The sidebar's simple view leaves speed/quality to the detailed views and Settings → Performance, so the menu fits (#10)
+- Messages that pointed to removed engines now name VoxCPM2, Chatterbox, Indic Parler-TTS or Kokoro, and Voice Design offers a Change engine button (#10)
 - Talk's default voice uses the light KittenTTS engine, so conversations stay responsive on 8 GB machines; cloned voices keep their engine (#1)
 - Talk hears any language with multilingual Whisper unless set to English, and its default voice speaks Hindi with Kokoro and other scripts with VoxCPM2 when installed (#1)
 - Kokoro picks a native voice for the requested language instead of reading everything in its American voice (#1)

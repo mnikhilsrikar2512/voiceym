@@ -97,12 +97,16 @@ can also use LM Studio, llama.cpp, vLLM or a cloud provider from
 
 ## How to use Voiceym
 
-The sidebar groups everything Voiceym can do. Press **Cmd/Ctrl+K** anywhere to
-search for a page or action, and **Cmd/Ctrl+1–9** to jump between workspaces.
+Voiceym opens on **Home**, which asks what you would like to do and links each
+task (talk, text to speech, cloning, voice design, dubbing, transcription,
+audiobooks, stories) to its page with a one-line description. The sidebar lists
+every page by name under **Create**, **Library** and **More**; hover an item to
+see what it does. Press **Cmd/Ctrl+K** anywhere to search for a page or action,
+and **Cmd/Ctrl+1–9** to jump between workspaces.
 
 ### Talk to the voice agent
 
-**Talk** is the home screen.
+Open **Talk** from Home or the sidebar.
 
 1. Open **Agent setup** and write the agent's **Instructions**, for example
    "You are a friendly English tutor. Keep answers short."

@@ -533,9 +533,9 @@ export function DesignPage() {
                   <Link
                     to="/settings/models/$family"
                     params={{ family: 'tts' }}
-                    className={buttonVariants({ variant: 'ghost', size: 'xs' })}
+                    className={buttonVariants({ variant: 'outline', size: 'sm' })}
                   >
-                    {t('engineSidebar.tts')}
+                    {t('modelSettings.change')}
                   </Link>
                 </div>
               )}

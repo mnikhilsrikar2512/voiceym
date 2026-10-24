@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "設計聲音",
     "save_failed": "儲存語音設定檔失敗",
-    "engine_cannot_design": "{{engine}} 需要參考音訊片段，無法設計聲音。請切換到支援聲音設計的引擎（例如 OmniVoice），或改為複製聲音。",
-    "engine_cannot_reuse_sample": "{{engine}} 無法使用參考音訊，因此不能用樣本重新產生這個已儲存的聲音。請切換到支援聲音複製的引擎（例如 OmniVoice）。"
+    "engine_cannot_design": "{{engine}} 需要參考音訊片段，無法設計聲音。請切換到支援聲音設計的引擎（例如 VoxCPM2 / Indic Parler-TTS），或改為複製聲音。",
+    "engine_cannot_reuse_sample": "{{engine}} 無法使用參考音訊，因此不能用樣本重新產生這個已儲存的聲音。請切換到支援聲音複製的引擎（例如 VoxCPM2 / Chatterbox）。"
   },
   "dub": {
     "timing_label": "時間匹配",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "應用程式設定 — 引擎選擇、語音預設值、已儲存的選項",
     "reset_scope_history": "世代與配音歷史，及其音頻",
     "reset_scope_content": "聲音、專案、產生的音訊和應用程式資料庫",
-    "reset_scope_engines": "已安裝邊車引擎（IndexTTS-2 和朋友）",
+    "reset_scope_engines": "已安裝邊車引擎（VoxCPM2, Chatterbox 和朋友）",
     "reset_scope_tools": "下載的音訊工具（ffmpeg、ffprobe、yt-dlp）",
     "reset_scope_models": "下載的模型權重",
     "reset_scope_caches": "快取和暫存文件",
@@ -2208,7 +2208,15 @@
     "primary": "主要導覽",
     "dictation": "聽寫",
     "calls": "通話",
-    "talk": "對話"
+    "talk": "對話",
+    "section_create": "建立",
+    "section_library": "資料庫",
+    "section_more": "更多",
+    "speak": "文字轉語音",
+    "design_voice": "設計聲音",
+    "my_voices": "我的聲音",
+    "voice_gallery": "聲音庫",
+    "dub_video": "影片配音"
   },
   "profiles": {
     "locked": "語音鎖定！現在，各代的身份都是一致的。",
@@ -2281,7 +2289,7 @@
     "continue_ok": "一切順利——繼續",
     "check_arch_label": "ARM 版 Windows",
     "check_arch_detail": "這是 ARM64 Windows 電腦：AI 後端在 Windows 模擬下以 x64 執行，僅使用 CPU（無 GPU/NPU 加速）。",
-    "check_arch_fix": "語音生成可以使用，但速度較慢。建議選擇輕量語音引擎（KittenTTS、Supertonic-3、PocketTTS）和小型 Whisper 模型。"
+    "check_arch_fix": "語音生成可以使用，但速度較慢。建議選擇輕量語音引擎（Kokoro、KittenTTS）和小型 Whisper 模型。"
   },
   "consent": {
     "title": "協助改進 Voiceym？",
@@ -2858,7 +2866,7 @@
     "fast": "快速",
     "balanced": "均衡",
     "quality": "品質",
-    "hint": "適用於 OmniVoice 取樣和 Faster-Whisper / NLLB 解碼。其他引擎保留目前設定。",
+    "hint": "適用於 VoxCPM2 取樣和 Faster-Whisper / NLLB 解碼。其他引擎保留目前設定。",
     "auto": "自動"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "應用程式的語言模型",
     "model_unavailable": "Ollama 未執行，因此對話使用應用程式的語言模型。"
+  },
+  "navHint": {
+    "home": "選擇你想做的事",
+    "talk": "進行語音對話",
+    "speak": "用任意聲音朗讀文字",
+    "design": "依描述建立聲音",
+    "dub": "翻譯影片並重新配音",
+    "transcribe": "把語音轉成文字",
+    "audiobook": "朗讀一本書或長文",
+    "stories": "為每個角色配聲音",
+    "batch": "一次為多部影片配音",
+    "my_voices": "你儲存或複製的聲音",
+    "gallery": "瀏覽現成的聲音",
+    "projects": "你建立的所有內容",
+    "workflows": "自動化通話與多步驟工作",
+    "tools": "轉換、剪輯與檢查音訊",
+    "integrations": "連接其他應用程式"
+  },
+  "home": {
+    "title": "你想做什麼？",
+    "subtitle": "一切都在這台電腦上執行。選擇一項工作開始吧。",
+    "tasks": "工作",
+    "more": "更多",
+    "talk_title": "和助理對話",
+    "talk_desc": "用任何語言說話，聽它大聲回答。",
+    "speak_title": "把文字變成語音",
+    "speak_desc": "輸入或貼上文字，用你選的聲音聆聽。",
+    "clone_title": "複製聲音",
+    "clone_desc": "用 5–15 秒的錄音複製一個聲音。",
+    "design_title": "設計新聲音",
+    "design_desc": "用簡單的話描述你想要的聲音。",
+    "dub_title": "為影片配音",
+    "dub_desc": "翻譯影片並配上新的語音。",
+    "transcribe_title": "語音轉文字",
+    "transcribe_desc": "把錄音或即時語音轉成文字。",
+    "audiobook_title": "製作有聲書",
+    "audiobook_desc": "逐章朗讀一本書或長文件。",
+    "stories_title": "為故事配音",
+    "stories_desc": "為劇本中的每個角色配上專屬聲音。"
   }
 }

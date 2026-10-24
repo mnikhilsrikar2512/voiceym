@@ -25,6 +25,7 @@ import {
   HomeIcon,
   LayersIcon,
   LibraryIcon,
+  MessagesSquareIcon,
   MicIcon,
   PhoneCallIcon,
   PlayIcon,
@@ -106,10 +107,17 @@ export function CommandPalette() {
   const source: CommandItem[] = [
     {
       id: 'home',
-      label: t('app.name'),
+      label: t('nav.home'),
       group: workspaceGroup,
       icon: HomeIcon,
       run: () => navigate({ to: '/' }),
+    },
+    {
+      id: 'talk',
+      label: t('nav.talk'),
+      group: workspaceGroup,
+      icon: MessagesSquareIcon,
+      run: () => navigate({ to: '/talk' }),
     },
     {
       id: 'clone',

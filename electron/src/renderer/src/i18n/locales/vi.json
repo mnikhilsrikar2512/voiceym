@@ -621,8 +621,8 @@
   "designWorkspace": {
     "title": "Thiết kế",
     "save_failed": "Không lưu được hồ sơ giọng nói",
-    "engine_cannot_design": "{{engine}} không thể thiết kế giọng nói vì cần một đoạn âm thanh tham chiếu. Hãy chuyển sang công cụ hỗ trợ thiết kế giọng nói, chẳng hạn OmniVoice, hoặc nhân bản một giọng nói.",
-    "engine_cannot_reuse_sample": "{{engine}} không thể dùng âm thanh tham chiếu nên không thể tạo lại giọng đã lưu này từ mẫu của nó. Hãy chuyển sang công cụ hỗ trợ nhân bản giọng nói, chẳng hạn OmniVoice."
+    "engine_cannot_design": "{{engine}} không thể thiết kế giọng nói vì cần một đoạn âm thanh tham chiếu. Hãy chuyển sang công cụ hỗ trợ thiết kế giọng nói, chẳng hạn VoxCPM2 / Indic Parler-TTS, hoặc nhân bản một giọng nói.",
+    "engine_cannot_reuse_sample": "{{engine}} không thể dùng âm thanh tham chiếu nên không thể tạo lại giọng đã lưu này từ mẫu của nó. Hãy chuyển sang công cụ hỗ trợ nhân bản giọng nói, chẳng hạn VoxCPM2 / Chatterbox."
   },
   "dub": {
     "timing_label": "Căn thời gian",
@@ -1099,7 +1099,7 @@
     "reset_scope_settings": "Cài đặt ứng dụng — lựa chọn công cụ, mặc định giọng nói, tùy chọn đã lưu",
     "reset_scope_history": "Lịch sử thế hệ và lồng tiếng, cùng với âm thanh của chúng",
     "reset_scope_content": "Giọng nói, dự án, âm thanh được tạo và cơ sở dữ liệu ứng dụng",
-    "reset_scope_engines": "Đã cài đặt động cơ sidecar (IndexTTS-2 và bạn bè)",
+    "reset_scope_engines": "Đã cài đặt động cơ sidecar (VoxCPM2, Chatterbox và bạn bè)",
     "reset_scope_tools": "Các công cụ âm thanh đã tải xuống (ffmpeg, ffprobe, yt-dlp)",
     "reset_scope_models": "Trọng lượng mô hình đã tải xuống",
     "reset_scope_caches": "Bộ nhớ đệm và tệp tạm thời",
@@ -2208,7 +2208,15 @@
     "primary": "Điều hướng chính",
     "dictation": "Nhập liệu bằng giọng nói",
     "calls": "Cuộc gọi",
-    "talk": "Trò chuyện"
+    "talk": "Trò chuyện",
+    "section_create": "Tạo",
+    "section_library": "Thư viện",
+    "section_more": "Thêm",
+    "speak": "Chuyển văn bản thành giọng nói",
+    "design_voice": "Thiết kế giọng",
+    "my_voices": "Giọng của tôi",
+    "voice_gallery": "Thư viện giọng",
+    "dub_video": "Lồng tiếng video"
   },
   "profiles": {
     "locked": "Giọng nói bị khóa! Bản sắc bây giờ nhất quán qua tất cả các thế hệ.",
@@ -2281,7 +2289,7 @@
     "continue_ok": "Tất cả đều tốt - tiếp tục",
     "check_arch_label": "Windows trên ARM",
     "check_arch_detail": "PC Windows ARM64 — backend AI chạy dưới dạng x64 trong trình giả lập của Windows, chỉ dùng CPU (không tăng tốc GPU/NPU).",
-    "check_arch_fix": "Tạo giọng nói vẫn hoạt động nhưng chậm hơn. Nên chọn công cụ giọng nói nhẹ (KittenTTS, Supertonic-3, PocketTTS) và mô hình Whisper nhỏ."
+    "check_arch_fix": "Tạo giọng nói vẫn hoạt động nhưng chậm hơn. Nên chọn công cụ giọng nói nhẹ (Kokoro, KittenTTS) và mô hình Whisper nhỏ."
   },
   "consent": {
     "title": "Giúp cải thiện Voiceym?",
@@ -2858,7 +2866,7 @@
     "fast": "Nhanh",
     "balanced": "Cân bằng",
     "quality": "Chất lượng",
-    "hint": "Áp dụng cho lấy mẫu OmniVoice và giải mã Faster-Whisper / NLLB. Các công cụ khác giữ nguyên cài đặt hiện tại của chúng.",
+    "hint": "Áp dụng cho lấy mẫu VoxCPM2 và giải mã Faster-Whisper / NLLB. Các công cụ khác giữ nguyên cài đặt hiện tại của chúng.",
     "auto": "Tự động"
   },
   "recording": {
@@ -3867,5 +3875,44 @@
     },
     "model_app": "Mô hình ngôn ngữ của ứng dụng",
     "model_unavailable": "Ollama chưa chạy nên Trò chuyện dùng mô hình ngôn ngữ của ứng dụng."
+  },
+  "navHint": {
+    "home": "Chọn việc bạn muốn làm",
+    "talk": "Trò chuyện bằng giọng nói",
+    "speak": "Đọc văn bản bằng bất kỳ giọng nào",
+    "design": "Tạo giọng từ mô tả",
+    "dub": "Dịch và lồng tiếng lại video",
+    "transcribe": "Chuyển lời nói thành văn bản",
+    "audiobook": "Đọc một cuốn sách hoặc văn bản dài",
+    "stories": "Gán giọng cho từng nhân vật",
+    "batch": "Lồng tiếng nhiều video cùng lúc",
+    "my_voices": "Giọng bạn đã lưu hoặc nhân bản",
+    "gallery": "Duyệt các giọng có sẵn",
+    "projects": "Mọi thứ bạn đã tạo",
+    "workflows": "Tự động hóa cuộc gọi và tác vụ nhiều bước",
+    "tools": "Chuyển đổi, cắt và kiểm tra âm thanh",
+    "integrations": "Kết nối với ứng dụng khác"
+  },
+  "home": {
+    "title": "Bạn muốn làm gì?",
+    "subtitle": "Mọi thứ chạy trên máy tính này. Chọn một việc để bắt đầu.",
+    "tasks": "Công việc",
+    "more": "Thêm",
+    "talk_title": "Trò chuyện với trợ lý",
+    "talk_desc": "Nói bằng bất kỳ ngôn ngữ nào và nghe câu trả lời.",
+    "speak_title": "Chuyển văn bản thành giọng nói",
+    "speak_desc": "Nhập hoặc dán văn bản và nghe bằng giọng bạn chọn.",
+    "clone_title": "Nhân bản giọng",
+    "clone_desc": "Sao chép giọng từ bản ghi dài 5–15 giây.",
+    "design_title": "Thiết kế giọng mới",
+    "design_desc": "Mô tả giọng bạn muốn bằng lời đơn giản.",
+    "dub_title": "Lồng tiếng video",
+    "dub_desc": "Dịch video và thêm một bản giọng mới.",
+    "transcribe_title": "Phiên âm lời nói",
+    "transcribe_desc": "Chuyển bản ghi hoặc lời nói trực tiếp thành văn bản.",
+    "audiobook_title": "Làm sách nói",
+    "audiobook_desc": "Đọc một cuốn sách hoặc tài liệu dài theo từng chương.",
+    "stories_title": "Lồng tiếng cho câu chuyện",
+    "stories_desc": "Gán cho mỗi nhân vật trong kịch bản một giọng riêng."
   }
 }
