@@ -14,6 +14,36 @@ How to use this file:
 - A failure is anything that differs from **Expected**, including a missing
   explanation or a dead end.
 
+## Test record
+
+Fill this in at the top of your copy.
+
+| Field | Value |
+|---|---|
+| Tester | |
+| Date | |
+| Voiceym version or commit | |
+| macOS computer (chip, memory, macOS version) | |
+| Windows computer (CPU, GPU, memory, Windows version) | |
+| iOS device or simulator (model, iOS version) | |
+| Language model used for Talk | |
+
+## Automated checks first
+
+Run these from the `voiceym` folder before the manual cases. Each should
+finish without failures. On Windows, join commands with `;` instead of `&&`.
+
+| ID | Platform | Command | Expected |
+|---|---|---|---|
+| AUTO-01 | macOS, Windows | `bun install && bun run setup:api` | Finishes; Windows picks CUDA with an NVIDIA GPU, otherwise CPU |
+| AUTO-02 | macOS, Windows | `uv run pytest tests/ backend/tests/ -q` (with `HF_HUB_OFFLINE=1`) | All tests pass |
+| AUTO-03 | macOS, Windows | `bun run typecheck && bun run lint` | No type errors; lint reports no errors |
+| AUTO-04 | macOS, Windows | `bun run test` | All app unit tests and translation checks pass |
+| AUTO-05 | macOS, Windows | `bun run --cwd electron test:desktop-ui` | Desktop UI tests pass and end on Home |
+| AUTO-06 | macOS, Windows | `uv run python scripts/check-docs-drift.py` | Docs match the engines |
+| AUTO-07 | iOS | `mobile/ios/scripts/check-swift.sh build && mobile/ios/scripts/check-swift.sh test` | The Swift package builds and its tests pass |
+| AUTO-08 | iOS | `xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj -scheme Voiceym -destination 'platform=iOS Simulator,name=iPhone 16' test` | The app builds and its UI tests pass |
+
 ## Before you start
 
 | Need | Notes |
@@ -54,6 +84,8 @@ How to use this file:
 | NAV-10 | All | Switch the app language to Arabic (Settings → General). | Text is right-to-left and the sidebar opens from the right edge. |
 | NAV-11 | All | Press Cmd/Ctrl+K and type "talk". | The command palette finds Talk and opens it. |
 | NAV-12 | All | Resize the window to about 700 px wide. | Home cards reflow into fewer columns; nothing overlaps or scrolls sideways. |
+| NAV-13 | All | Open the sidebar and drag its right edge. | The sidebar gets wider or narrower and keeps that width next time. |
+| NAV-14 | All | Collapse and reopen a page's own side panel with its panel button. | The panel collapses to a slim strip and reopens at the same width. |
 
 ## 3. Talk (voice agent)
 
@@ -89,6 +121,7 @@ model**.
 | CLN-02 | All | Generate speech with the cloned voice (needs Chatterbox or VoxCPM2 installed). | It sounds like the recording. Without a cloning engine, a message explains what to install. |
 | DSN-01 | All | Open **Design a voice** with only Kokoro installed. | A message names VoxCPM2 / Indic Parler-TTS and offers **Change engine**. |
 | DSN-02 | All | Install VoxCPM2, describe a voice ("a warm elderly storyteller"), generate. | A matching voice speaks; it can be saved as a profile. |
+| CLN-03 | All | Rename a saved voice, then delete it. | The new name shows in every voice picker; delete removes it everywhere. |
 | GAL-01 | All | Open **Voice gallery** and preview a voice. | The preview plays; **Use voice** adds it to My voices. |
 
 ## 5. Dubbing, transcription and long-form
@@ -101,6 +134,11 @@ model**.
 | TRN-02 | All | Upload an audio file to transcribe. | A transcript with timings appears. |
 | LNG-01 | All | Open **Audiobook**, load the sample, generate one chapter. | Audio is produced per chapter and can be exported. |
 | LNG-02 | All | Open **Stories**, add two lines with different voices, generate. | Each line uses its own voice. |
+| LNG-03 | All | Start a long render, switch to another page, come back, then stop and resume it. | The render keeps going in the background and resumes where it stopped. |
+| DUB-03 | All | **Batch Dubbing**: queue two files into two languages. | Four jobs run, each with visible progress. |
+| WFL-01 | All | **Workflows**: build Speak → Normalize on the canvas and run it over two scripts. | Two clips are produced and can be exported. |
+| WFL-02 | All | Make one step fail, fix the cause and press **Retry**. | Only the failed step reruns; finished clips are reused. |
+| PRJ-01 | All | Save a dubbing project, quit, and reopen it from **Projects**. | The project opens with its edits. |
 
 ## 6. Settings, models and storage
 
@@ -154,6 +192,22 @@ device** pill and choose **Network**.
 | IOS-11 | iOS | **Settings**: change theme and language; tap **Disconnect**. | Theme and language apply; Disconnect clears the saved connection. |
 | IOS-12 | iOS | Use the largest Dynamic Type size and VoiceOver. | Text scales and scrolls; every control has a spoken label. |
 | IOS-13 | iOS | Rotate an iPad and use split view. | Layout adapts without clipped controls. |
+
+## 10. Accessibility and reliability
+
+| ID | Platform | Steps | Expected |
+|---|---|---|---|
+| ACC-01 | All | Use Home and the sidebar with the keyboard only. | Every control can be reached and shows a visible focus ring. |
+| ACC-02 | All | Turn on VoiceOver (macOS) or Narrator (Windows) on Home. | Headings, links and buttons are read with their names. |
+| REL-01 | All | Quit the app during a model download, then reopen it. | The download resumes or can be restarted; nothing is left half-installed. |
+
+## Sign-off
+
+| Platform | Passed | Failed | Skipped | Ready to release? |
+|---|---|---|---|---|
+| macOS | | | | |
+| Windows | | | | |
+| iOS | | | | |
 
 ## Reporting a failure
 
