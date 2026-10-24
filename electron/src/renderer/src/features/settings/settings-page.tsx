@@ -72,7 +72,7 @@ import { SettingsContent, SettingsRow, SettingsSection } from './settings-layout
 import i18n, { APP_LANGUAGE_ITEMS, APP_LANGUAGES, setAppLanguage, type AppLocale } from '@/i18n';
 import { setReviewMode, useReviewMode } from '@/hooks/use-review-mode';
 import { rememberSettingsRoute } from '@/lib/settings-route';
-import { setWorkspace, useWorkspace } from '@/lib/store/workspace';
+
 
 const sections = ['general', 'appearance'] as const;
 const fields = {
@@ -264,7 +264,6 @@ export function SettingsPage() {
   }, [pathname, target]);
   const { mode, setTheme, updateTheme } = useTheme();
   const appearance = useAppearance();
-  const workspace = useWorkspace();
   const reviewMode = useReviewMode();
   const targetIds: Record<string, string> = {
     theme: 'theme-label',
@@ -618,17 +617,6 @@ export function SettingsPage() {
                       aria-labelledby="glass-label"
                       checked={appearance.glass}
                       onCheckedChange={(glass) => appearance.update({ glass })}
-                    />
-                  </SettingsRow>
-                  <SettingsRow
-                    id="sidebar-expanded-label"
-                    title={t('preferences.sidebar_expanded')}
-                    description={t('preferences.sidebar_expanded_hint')}
-                  >
-                    <Switch
-                      aria-labelledby="sidebar-expanded-label"
-                      checked={!workspace.autoCollapseSidebar}
-                      onCheckedChange={(keep) => setWorkspace({ autoCollapseSidebar: !keep })}
                     />
                   </SettingsRow>
                   <PalettePicker appearance="light" />

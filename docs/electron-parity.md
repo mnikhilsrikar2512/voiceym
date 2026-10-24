@@ -92,4 +92,4 @@ In the compact rail, Voice, Stories and Dubbing open flyouts on mouse hover or c
 
 ## Sidebar expansion preference
 
-Settings → Appearance → Keep sidebar expanded persists the choice locally. It disables automatic compaction on narrower secondary-pane workspaces; the default remains automatic. The explicit close control still works, and the Profiles workspace still avoids duplicating its voice library. The header toggle and sidebar share one state. A compact rail can reopen itself on every desktop platform, using the brand icon on Windows/Linux.
+The main sidebar is a slim icon rail on every page. Resting the pointer on it opens the full sidebar (navigation, voice library and engine status) over the workspace, without taking its width, and moving away closes it. Touch and keyboard users open it with the rail's top button; Escape closes it.

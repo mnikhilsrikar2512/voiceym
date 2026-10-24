@@ -99,9 +99,11 @@ can also use LM Studio, llama.cpp, vLLM or a cloud provider from
 
 Voiceym opens on **Home**, which asks what you would like to do and links each
 task (talk, text to speech, cloning, voice design, dubbing, transcription,
-audiobooks, stories) to its page with a one-line description. The sidebar lists
-every page by name under **Create**, **Library** and **More**; hover an item to
-see what it does. Press **Cmd/Ctrl+K** anywhere to search for a page or action,
+audiobooks, stories) to its page with a one-line description. The sidebar is a slim
+icon rail; rest the pointer on it to open the full menu, which lists every page
+by name under **Create**, **Library** and **More** (hover an item to see what it
+does), and move away to close it. Each page's own side panel collapses with its
+panel button. Press **Cmd/Ctrl+K** anywhere to search for a page or action,
 and **Cmd/Ctrl+1–9** to jump between workspaces.
 
 ### Talk to the voice agent
