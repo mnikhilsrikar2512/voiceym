@@ -43,6 +43,10 @@ metadata and the backend fallback mirror it.
 - OmniVoice (CC-BY-NC) is no longer offered for new picks; an install that already uses it keeps working (#10)
 - Removed the Sortformer speaker-diarisation runtime (non-commercial model) and the audio.cpp runtime it needed; diarisation uses pyannote (MIT), and a saved Sortformer choice switches to it (#10)
 
+### Docs
+
+- README lists the setup, run, build and test commands for macOS, Windows and iOS, and docs/TEST-CASES.md adds step-by-step manual test cases for each (#10)
+
 ### Fixed
 
 - Talk on Auto detects each sentence's language, re-hears Telugu or Hindi with its tuned model, replies in the same mix of languages, and reads English parts with the English voice (#10)
