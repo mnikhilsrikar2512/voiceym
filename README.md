@@ -95,6 +95,102 @@ Every model you pull appears in **Talk → Agent setup → Language model**. You
 can also use LM Studio, llama.cpp, vLLM or a cloud provider from
 **Settings → Models**.
 
+## Commands by platform
+
+Run every command from the repository folder unless it says otherwise.
+
+### macOS (Apple Silicon)
+
+```bash
+# One-time tools
+xcode-select --install
+brew install git node bun uv ollama
+
+# Get, set up and run
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd voiceym
+bun install
+bun run setup:api            # Python backend in .venv (managed by uv)
+ollama pull qwen3:1.7b       # language model for Talk
+bun run dev                  # desktop app with hot reload; starts the backend
+
+# Browser instead of the desktop window (http://localhost:3901)
+bun run dev:web
+
+# Package a DMG/zip into electron/release/ (not published)
+bun run dist
+```
+
+### Windows (PowerShell)
+
+```powershell
+# One-time tools
+winget install --id Git.Git -e
+winget install OpenJS.NodeJS.LTS
+powershell -c "irm bun.sh/install.ps1 | iex"
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+winget install Ollama.Ollama
+# Also: Visual Studio 2022 Build Tools with "Desktop development with C++"
+
+# Get, set up and run (open a new PowerShell after installing the tools)
+git clone https://github.com/mnikhilsrikar2512/voiceym.git
+cd voiceym
+bun install
+bun run setup:api
+ollama pull qwen3:1.7b
+bun run dev
+
+# Browser instead of the desktop window (http://localhost:3901)
+bun run dev:web
+
+# Package an NSIS installer into electron\release\ (not published)
+bun run dist
+```
+
+To keep engine environments off `C:`, set `OMNIVOICE_ENGINES_DIR` first; see
+the [Windows guide](docs/install/windows.md).
+
+### iOS (iPhone and iPad companion, from a Mac)
+
+The iOS app pairs with a running Voiceym desktop: on the computer, open the
+sidebar, click the **Local device** pill and choose **Network**, then tap
+**Scan QR code** in the app ([pairing guide](docs/mobile.md)). Building needs
+full Xcode with an iOS 17+ simulator or device.
+
+```bash
+brew install xcodegen
+mobile/ios/scripts/check-swift.sh build          # build the shared Swift package
+mobile/ios/scripts/check-swift.sh test           # its unit tests
+xcodegen generate --spec mobile/ios/Voiceym/project.yml
+open mobile/ios/Voiceym/Voiceym.xcodeproj        # run the Voiceym scheme
+
+# Command-line simulator build and UI tests
+xcrun simctl list devices available              # pick an installed simulator
+xcodebuild -project mobile/ios/Voiceym/Voiceym.xcodeproj -scheme Voiceym \
+  -destination 'platform=iOS Simulator,name=iPhone 16' test
+```
+
+More detail: [mobile/ios/README.md](mobile/ios/README.md).
+
+### Run the tests
+
+Automated checks (the same ones CI runs) work on macOS, Windows and Linux:
+
+```bash
+bun run typecheck                                  # TypeScript
+bun run lint                                       # oxlint
+bun run test                                       # app unit tests + translation checks
+uv run pytest tests/ -q                            # backend tests
+uv run pytest backend/tests/ -q                    # backend isolated-session tests
+uv run python scripts/check-docs-drift.py          # docs match the engines
+```
+
+On Windows, set `$env:HF_HUB_OFFLINE = "1"` (macOS/Linux:
+`HF_HUB_OFFLINE=1`) before the pytest commands so no model downloads during
+tests. The browser smoke tests are described in
+[CONTRIBUTING](.github/CONTRIBUTING.md). Step-by-step manual checks for
+macOS, Windows and iOS are in **[docs/TEST-CASES.md](docs/TEST-CASES.md)**.
+
 ## How to use Voiceym
 
 Voiceym opens on **Home**, which asks what you would like to do and links each
@@ -274,6 +370,7 @@ and the [model download guide](docs/downloading-models.md).
 | Models and audio quality | [Engine guides](docs/engines/README.md) · [Benchmarks](docs/benchmarks.md) |
 | Integrations | [Local API](docs/speech-platform.md) · [MCP](docs/mcp.md) · [Examples](examples/README.md) |
 | Phone companion (preview) | [iOS and Android apps](docs/mobile.md) |
+| Testing | [Commands](#run-the-tests) · [Manual test cases (macOS, Windows, iOS)](docs/TEST-CASES.md) |
 | Development | [Contributing](.github/CONTRIBUTING.md) · [Electron app](electron/README.md) · [Brand](docs/branding.md) |
 
 ## License and responsible use
