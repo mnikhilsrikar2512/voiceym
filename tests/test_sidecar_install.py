@@ -1979,3 +1979,14 @@ def test_engines_dir_env_relocates_managed_roots(monkeypatch, tmp_path):
     elsewhere = tmp_path / "bigdrive"
     monkeypatch.setenv("OMNIVOICE_ENGINES_DIR", str(elsewhere))
     assert si.managed_root(spec) == elsewhere / spec.engine_id
+
+
+def test_indic_tts_pins_a_torch_coqui_can_import():
+    """coqui-tts raises at import on torch 2.9+ without torchcodec, so an
+    unpinned resolve (torch 2.14) failed every Indic-TTS install at verify."""
+    spec = si.SPECS["indic-tts"]
+    pins = dict(p.split("==") for p in spec.torch_pins)
+    assert set(pins) == {"torch", "torchaudio"}
+    major, minor = (int(x) for x in pins["torch"].split(".")[:2])
+    assert (major, minor) < (2, 9)
+    assert spec.install_revision  # existing failed installs re-run with the pin

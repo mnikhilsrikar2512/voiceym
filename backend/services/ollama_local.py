@@ -72,6 +72,23 @@ async def list_models() -> dict:
     }
 
 
+#: A spoken reply is a few sentences; capping it keeps a rambling model fast.
+TALK_MAX_TOKENS = 220
+
+
+async def warm(model: str) -> None:
+    """Load ``model`` into memory now (an empty generate), so the first reply
+    doesn't wait for it. Best-effort: a failure only means a slower first turn."""
+    if not model:
+        return
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(5.0, read=180.0)) as client:
+            await client.post(base_url() + "/api/generate",
+                              json={"model": model, "keep_alive": TALK_KEEP_ALIVE})
+    except httpx.HTTPError:
+        pass  # Ollama is down or slow; the first reply loads the model instead.
+
+
 async def chat_stream(messages: list[dict], model: str) -> AsyncIterator[str]:
     """Stream a reply from ``model`` as text deltas."""
     body = {
@@ -79,14 +96,29 @@ async def chat_stream(messages: list[dict], model: str) -> AsyncIterator[str]:
         "messages": messages,
         "stream": True,
         "keep_alive": TALK_KEEP_ALIVE,
-        "options": {"num_ctx": TALK_NUM_CTX, "temperature": 0.4},
+        # Reasoning models (Qwen3, …) otherwise think silently before every
+        # spoken reply, which is most of the wait; Talk needs a direct answer.
+        "think": False,
+        "options": {"num_ctx": TALK_NUM_CTX, "temperature": 0.4, "num_predict": TALK_MAX_TOKENS},
     }
     timeout = httpx.Timeout(10.0, read=120.0)
     async with httpx.AsyncClient(timeout=timeout) as client:
-        async with client.stream("POST", base_url() + "/api/chat", json=body) as response:
+        response_cm = client.stream("POST", base_url() + "/api/chat", json=body)
+        response = await response_cm.__aenter__()
+        if response.status_code >= 400:
+            detail = (await response.aread()).decode("utf-8", "replace")[:200]
+            await response_cm.__aexit__(None, None, None)
+            if "think" not in detail.lower():
+                raise RuntimeError(f"Ollama returned {response.status_code}: {detail}")
+            # An Ollama or model without the think option: ask again without it.
+            body.pop("think")
+            response_cm = client.stream("POST", base_url() + "/api/chat", json=body)
+            response = await response_cm.__aenter__()
             if response.status_code >= 400:
                 detail = (await response.aread()).decode("utf-8", "replace")[:200]
+                await response_cm.__aexit__(None, None, None)
                 raise RuntimeError(f"Ollama returned {response.status_code}: {detail}")
+        try:
             async for line in response.aiter_lines():
                 if not line.strip():
                     continue
@@ -98,3 +130,5 @@ async def chat_stream(messages: list[dict], model: str) -> AsyncIterator[str]:
                     yield text
                 if chunk.get("done"):
                     return
+        finally:
+            await response_cm.__aexit__(None, None, None)

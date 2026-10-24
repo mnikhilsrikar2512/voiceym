@@ -274,6 +274,24 @@ models:
     tag: streaming
     note: "Tiny Chinese streaming model, very low latency. CPU. Requires sherpa-onnx."
 
+  - repo_id: "vasista22/whisper-telugu-small"
+    label: "Whisper small for Telugu (SPRING Lab, IIT Madras; Talk hearing)"
+    role: ASR
+    engines: []
+    size_gb: 1.0
+    required_files: ["config.json", "pytorch_model.bin"]
+    allow_patterns: ["config.json", "generation_config.json", "preprocessor_config.json", "pytorch_model.bin", "added_tokens.json", "merges.txt", "normalizer.json", "special_tokens_map.json", "tokenizer_config.json", "vocab.json"]
+    note: "Apache-2.0. Talk uses it to hear Telugu when the language is Telugu; far more accurate than general Whisper."
+
+  - repo_id: "vasista22/whisper-hindi-small"
+    label: "Whisper small for Hindi (SPRING Lab, IIT Madras; Talk hearing)"
+    role: ASR
+    engines: []
+    size_gb: 1.0
+    required_files: ["config.json", "pytorch_model.bin"]
+    allow_patterns: ["config.json", "generation_config.json", "preprocessor_config.json", "pytorch_model.bin", "added_tokens.json", "merges.txt", "normalizer.json", "special_tokens_map.json", "tokenizer_config.json", "vocab.json"]
+    note: "Apache-2.0. Talk uses it to hear Hindi when the language is Hindi."
+
   - repo_id: "csukuangfj/sherpa-onnx-whisper-tiny"
     label: "Whisper Tiny (sherpa-onnx — dictation, 90+ langs)"
     role: ASR

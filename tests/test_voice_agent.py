@@ -99,7 +99,7 @@ def test_system_prompt_keeps_the_users_instructions_and_speech_rules():
     prompt = va.system_prompt("You are a pizza ordering assistant.", "hi")
     assert prompt.startswith("You are a pizza ordering assistant.")
     assert "Speak hi." in prompt and "markdown" in prompt
-    assert "language the user speaks" in va.system_prompt("", "auto")
+    assert "same language the user used" in va.system_prompt("", "auto")
 
 
 def test_session_config_is_bounded_and_defaults_sensibly():
@@ -257,6 +257,104 @@ def test_a_session_without_a_commercial_voice_answers_in_text():
     assert sink.of("response.done")
 
 
+def test_hesitation_sounds_are_not_turns():
+    for text in ["Uh mmm", "Uh", "Mm.", "um, uh...", "A", "hmm"]:
+        assert va.is_filler(text), text
+    for text in ["So what's the weather?", "Uh, book a table", "Hi", "\u0939\u093e\u0901"]:
+        assert not va.is_filler(text), text
+
+
+def test_talk_waits_for_a_real_pause_and_ignores_short_sounds():
+    vad = va.talk_endpointer()
+    assert vad.end_frames * 20 >= 1000 and vad.min_speech_frames * 20 >= 300
+    assert vad.min_rms < 400  # quieter microphones such as AirPods
+
+
+def test_a_filler_only_utterance_gets_no_reply():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.heard = ["Uh mmm"]
+        session = va.VoiceAgentSession(va.SessionConfig(), sink, fakes.deps())
+        await session.start()
+        audio = _tone(0.6) + _silence(1.3)
+        for i in range(0, len(audio), 999):
+            await session.push_audio(audio[i:i + 999])
+        await _settle(session)
+        await session.close()
+        return fakes, sink
+
+    fakes, sink = asyncio.run(run())
+    assert fakes.llm_calls == [] and not sink.of("transcript")
+
+
+def test_emoji_is_stripped_but_indian_scripts_and_punctuation_stay():
+    assert va.strip_emoji("Sure thing! \U0001F60A") == "Sure thing! "
+    assert va.strip_emoji("\u0928\u092e\u0938\u094d\u0924\u0947 \u2764\ufe0f \u0915\u0948\u0938\u0947 \u0939\u0948\u0902?") == "\u0928\u092e\u0938\u094d\u0924\u0947 \u0915\u0948\u0938\u0947 \u0939\u0948\u0902?"
+    assert va.strip_emoji("40\u00b0C, \u2014 ok.") == "40\u00b0C, \u2014 ok."
+
+
+def test_auto_asks_for_replies_in_the_users_language_mix():
+    prompt = va.system_prompt("", "")
+    assert "mix languages" in prompt and "same mix" in prompt
+
+
+def test_english_sentences_in_a_telugu_reply_use_the_english_voice():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        fakes.replies = ["Hyderabad weather today is very pleasant and sunny. "
+                         "\u0c2e\u0c40\u0c30\u0c41 \u0c0e\u0c32\u0c3e \u0c09\u0c28\u0c4d\u0c28\u0c3e\u0c30\u0c41, \u0c2c\u0c3e\u0c17\u0c41\u0c28\u0c4d\u0c28\u0c3e\u0c30\u0c3e?"]
+        config = va.SessionConfig(engine="kokoro", hindi_engine="kokoro",
+                                  multilingual_engine="indic-tts-test", language="Telugu")
+        session = va.VoiceAgentSession(config, sink, fakes.deps())
+        await session.start()
+        await session.push_text("weather?")
+        await _settle(session)
+        await session.close()
+        return fakes
+
+    fakes = asyncio.run(run())
+    assert len(fakes.rendered) == 2, fakes.rendered
+    assert (fakes.engines[0], fakes.languages[0]) == ("kokoro", "en")
+    assert fakes.engines[1] == "indic-tts-test"
+
+
+def test_a_session_warms_its_models_when_it_starts():
+    async def run():
+        fakes, sink = Fakes(), Sink()
+        warmed = []
+        deps = fakes.deps()
+
+        async def warm(config):
+            warmed.append(config.language)
+
+        deps.warm_up = warm
+        session = va.VoiceAgentSession(va.SessionConfig(language="Hindi"), sink, deps)
+        await session.start()
+        await asyncio.sleep(0)
+        await session.close()
+        return warmed
+
+    assert asyncio.run(run()) == ["Hindi"]
+
+
+def test_auto_rehears_detected_telugu_with_its_tuned_model(monkeypatch):
+    import api.routers.capture_ws as cws
+    from services import indic_asr
+
+    async def full(audio, **kw):
+        return {"text": "weather alarm", "language": "te"}
+
+    async def tuned(pcm, code):
+        return "\u0c35\u0c3e\u0c24\u0c3e\u0c35\u0c30\u0c23\u0c02"
+
+    monkeypatch.setattr(cws, "_transcribe_buffer_full", full)
+    monkeypatch.setattr(indic_asr, "installed", lambda code: True)
+    monkeypatch.setattr(va, "_transcribe_multilingual", tuned)
+    pcm = np.zeros(16000, dtype=np.int16)
+    text = asyncio.run(va._default_transcribe(pcm, "", multilingual=True))
+    assert text == "\u0c35\u0c3e\u0c24\u0c3e\u0c35\u0c30\u0c23\u0c02"
+
+
 def test_needs_multilingual_voice_by_script_or_language():
     assert not va.needs_multilingual_voice("The capital is Paris.", "")
     assert not va.needs_multilingual_voice("Café crème, s'il vous plaît.", "English")
@@ -288,7 +386,7 @@ def test_multilingual_hearing_asks_for_the_multilingual_recogniser():
         fakes.heard = ["namaste"]
         session = va.VoiceAgentSession(va.SessionConfig(multilingual_asr=True), sink, fakes.deps())
         await session.start()
-        audio = _tone(0.6) + _silence(1.0)
+        audio = _tone(0.6) + _silence(1.3)
         for i in range(0, len(audio), 999):
             await session.push_audio(audio[i:i + 999])
         await _settle(session)
@@ -331,7 +429,7 @@ def test_spoken_utterance_is_transcribed_and_answered():
         await session.start()
         await session.push_audio(_silence(0.4))
         # Odd chunk sizes: frames must be reassembled across pushes.
-        audio = _tone(0.6) + _silence(1.0)
+        audio = _tone(0.6) + _silence(1.3)
         for i in range(0, len(audio), 999):
             await session.push_audio(audio[i:i + 999])
         await _settle(session)

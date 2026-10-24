@@ -31,5 +31,10 @@ metadata and the backend fallback mirror it.
 
 ### Fixed
 
+- Talk on Auto detects each sentence's language, re-hears Telugu or Hindi with its tuned model, replies in the same mix of languages, and reads English parts with the English voice (#10)
+- Talk answers sooner: models load when a conversation starts, reasoning models skip silent thinking, replies are capped, and changing language, voice or model restarts the conversation at once (#10)
+- Talk hears Telugu and Hindi with Whisper fine-tuned for each language (SPRING Lab, IIT Madras) when installed, and never speaks emoji (#10)
+- The Indic-TTS install no longer fails at verify: it pins a PyTorch that coqui-tts can import (#10)
+- Talk no longer splits a pause or an "uh" into its own turn, and hears quieter microphones such as AirPods (#10)
 - Ending a Talk session no longer logs a server error when the client already disconnected (#1)
 - A phone call that ended normally is no longer recorded as failed when the provider had already closed the stream (#1)
