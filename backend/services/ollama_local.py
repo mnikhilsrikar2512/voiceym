@@ -86,7 +86,7 @@ async def warm(model: str) -> None:
             await client.post(base_url() + "/api/generate",
                               json={"model": model, "keep_alive": TALK_KEEP_ALIVE})
     except httpx.HTTPError:
-        pass
+        pass  # Ollama is down or slow; the first reply loads the model instead.
 
 
 async def chat_stream(messages: list[dict], model: str) -> AsyncIterator[str]:
