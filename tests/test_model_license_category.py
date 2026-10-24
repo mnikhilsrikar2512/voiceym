@@ -38,17 +38,29 @@ def test_restrictive_review_status_overrides_permissive_licence(status):
     assert ml.license_category({"license": "mit", "commercial_inference": status}) == "noncommercial"
 
 
+def _registry_with_variants(*variants):
+    """The real registry with the Kokoro record carrying the given variants."""
+    import copy
+
+    registry = copy.deepcopy(ml.load_registry())
+    row = next(r for r in registry["models"] if r["id"] == "onnx-community/Kokoro-82M-v1.0-ONNX")
+    row["variants"] = [dict(v) for v in variants]
+    return registry
+
+
 def test_restricted_variant_makes_the_whole_repo_noncommercial():
-    registry = ml.load_registry()
-    info = ml.disclosure("audio-cpp/audio.cpp-gguf", registry)
+    registry = _registry_with_variants(
+        {"id": "kokoro:restricted", "commercial_inference": "noncommercial_current_upstream_terms"})
+    info = ml.disclosure("onnx-community/Kokoro-82M-v1.0-ONNX", registry)
     assert info["license_category"] == "noncommercial"
     assert {v["license_category"] for v in info["variants"]} == {"noncommercial"}
 
 
 def test_variant_without_own_terms_inherits_repo_category():
-    info = ml.disclosure("kyutai/pocket-tts", ml.load_registry())
-    assert info["license_category"] == "commercial"
-    assert {v["license_category"] for v in info["variants"]} == {"commercial"}
+    registry = _registry_with_variants({"id": "kokoro:plain"})
+    info = ml.disclosure("onnx-community/Kokoro-82M-v1.0-ONNX", registry)
+    assert info["variants"]
+    assert {v["license_category"] for v in info["variants"]} == {info["license_category"]}
 
 
 def test_missing_record_and_invalid_registry_are_unknown():

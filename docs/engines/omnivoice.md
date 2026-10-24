@@ -13,9 +13,10 @@ and dictation all run on it out of the box.
   ~6 GB VRAM or more.
 - You just installed Voiceym — it's already selected.
 
-For low-VRAM or CPU-only machines, the
-[OmniVoice GGUF](omnivoice-gguf.md) variant runs the same model through a
-quantized native binary with a much smaller memory footprint.
+OmniVoice is retired: it is non-commercial (CC-BY-NC), so it is no longer
+offered for new picks. Installs that already use it keep working. For
+commercial use pick [Kokoro](kokoro.md) (default), [VoxCPM2](voxcpm2.md) or
+[Chatterbox](chatterbox.md).
 
 ## Requirements
 
@@ -122,8 +123,8 @@ The env var overrides the persisted UI choice.
   try [VoxCPM2](voxcpm2.md).
 - Below the 6 GB VRAM floor on a CUDA or ROCm card, expect very slow renders;
   they get the longer CPU compute-time budget rather than the accelerated one,
-  but can still time out. Prefer [OmniVoice GGUF](omnivoice-gguf.md) or a CPU
-  engine such as [PocketTTS](pockettts.md).
+  but can still time out. Prefer a CPU engine such as [Kokoro](kokoro.md) or
+  [KittenTTS](kittentts.md).
 
 ## Troubleshooting
 

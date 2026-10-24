@@ -16,7 +16,9 @@ import {
 import { apiJson, describeError } from '@/lib/api/client';
 import { queryKeys } from '@/lib/query';
 
-type LicensedEngine = 'supertonic3' | 'pockettts';
+// Engines that need a local licence acceptance before first use. None of the
+// shipped commercial-use engines do; an entry here adds one.
+type LicensedEngine = string;
 
 const LICENSES: Record<
   LicensedEngine,
@@ -27,54 +29,7 @@ const LICENSES: Record<
     footer: string;
     acceptedToast: string;
   }
-> = {
-  supertonic3: {
-    title: 'license.title',
-    intro: 'license.intro',
-    sections: [
-      {
-        heading: 'license.sdk_heading',
-        description: 'license.sdk_desc',
-        link: 'license.read_mit',
-        url: 'https://github.com/supertone-inc/supertonic/blob/main/LICENSE',
-      },
-      {
-        heading: 'license.model_heading',
-        description: 'license.model_desc',
-        link: 'license.read_openrail',
-        url: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
-      },
-    ],
-    footer: 'license.footer',
-    acceptedToast: 'license.accepted_toast',
-  },
-  pockettts: {
-    title: 'license.pockettts_title',
-    intro: 'license.pockettts_intro',
-    sections: [
-      {
-        heading: 'license.sdk_heading',
-        description: 'license.pockettts_sdk_desc',
-        link: 'license.read_mit',
-        url: 'https://github.com/kyutai-labs/pocket-tts/blob/main/LICENSE',
-      },
-      {
-        heading: 'license.pockettts_model_heading',
-        description: 'license.pockettts_model_desc',
-        link: 'license.read_cc_by',
-        url: 'https://huggingface.co/kyutai/pocket-tts',
-      },
-      {
-        heading: 'license.gate_heading',
-        description: 'license.gate_desc',
-        link: 'license.review_access_conditions',
-        url: 'https://huggingface.co/kyutai/pocket-tts',
-      },
-    ],
-    footer: 'license.pockettts_footer',
-    acceptedToast: 'license.pockettts_accepted_toast',
-  },
-};
+> = {};
 
 export function licensedEngine(
   id: string,
@@ -82,7 +37,7 @@ export function licensedEngine(
   accepted?: boolean,
 ): LicensedEngine | null {
   if (!(id in LICENSES) || required !== true || accepted === true) return null;
-  return id as LicensedEngine;
+  return id;
 }
 
 export function EngineLicense({ id, name }: { id: LicensedEngine; name: string }) {

@@ -145,7 +145,7 @@ def test_engines_tts_lists_all_backends(client):
     r = client.get("/engines/tts")
     assert r.status_code == 200
     ids = {b["id"] for b in r.json()["backends"]}
-    assert {"omnivoice", "voxcpm2", "moss-tts-nano"}.issubset(ids)
+    assert {"kokoro", "voxcpm2", "chatterbox"}.issubset(ids)
 
 
 def test_engines_select_refuses_unavailable_backend(client):

@@ -39,13 +39,11 @@ Voiceym/
 │   │   └── setup/               first-run wizard, model download
 │   ├── core/                    config, db, job queue, event bus, auth/CSRF, path security,
 │   │                            opt-in analytics, version, diagnostics
-│   ├── services/                105 modules of business logic — TTS, dubbing pipeline,
+│   ├── services/                101 modules of business logic — TTS, dubbing pipeline,
 │   │                            audio DSP, GPU gateway, engine routing, model lifecycle
 │   ├── engines/                 per-engine adapters: kokoro (default voice), chatterbox,
-│   │                            indic_parler, indic_tts, indextts, supertonic3, confucius4, dots_tts,
-│   │                            moss_tts_v15, pockettts, audiocpp, omnivoice_gguf,
-│   │                            omnivoice_subprocess, _asr_sidecar, _echo, voxcpm2_subprocess,
-│   │                            moss_tts_nano_subprocess, cosyvoice_subprocess
+│   │                            indic_parler, indic_tts, voxcpm2_subprocess,
+│   │                            omnivoice_subprocess, _asr_sidecar, _echo
 │   ├── mcp_shim/                MCP server entry point (docs/mcp.md)
 │   ├── speech_client/           speech sidecar client entry point
 │   ├── schemas/                 pydantic request/response shapes
@@ -94,10 +92,7 @@ Voiceym/
 │   ├── setup.py                 `bun run setup:api` post-sync platform setup (incl. ROCm opt-in)
 │   ├── electron-smoke-test.mjs  `bun run smoke-test` packaged-app launch check
 │   ├── prepare_electron_release.py, check_electron_release_assets.py   release asset gates
-│   ├── check-docs-drift.py      the docs-drift.yml checker (docs/features.yaml is canonical)
-│   └── build-omnivoice-tts.sh   builds the bin/ sidecars
-│
-├── bin/                         ⟵ prebuilt omnivoice-tts sidecars, one per platform
+│   └── check-docs-drift.py      the docs-drift.yml checker (docs/features.yaml is canonical)
 │
 ├── .agents/skills/              ⟵ canonical skill copies (vite, fastapi-python), pinned by
 │                                   skills-lock.json — followed by path, never symlinked
@@ -133,8 +128,8 @@ Voiceym/
 │                                   DB + HF cache live here when running via compose
 │
 ├── .github/workflows/           ⟵ ci, electron-build, electron-release, docker, security,
-│                                   docs-drift, evals, install-smoke, build-omnivoice-tts,
-│                                   cla, commit-identity, cosyvoice-dependencies
+│                                   docs-drift, evals, install-smoke,
+│                                   cla, commit-identity
 └── .git/
 ```
 
@@ -167,7 +162,6 @@ Three homes, each with its own runner. CI runs all three inside the single `test
 | The TTS model (independent of the studio) | `omnivoice/` |
 | A new TTS/ASR engine adapter | `backend/engines/<engine>/` |
 | Everything executable but not user-facing | `scripts/` |
-| Prebuilt platform sidecars | `bin/` |
 | Python tests | `tests/` (or `backend/tests/` when the isolated session is required) |
 | Electron / UI unit tests | next to the module, as `*.test.ts(x)` |
 | Developer + user docs (Markdown) | `docs/` |

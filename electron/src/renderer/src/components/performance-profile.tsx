@@ -126,7 +126,6 @@ export function PerformanceProfile({
         'faster-whisper': 'Faster-Whisper',
         'sherpa-onnx': 'Sherpa-ONNX',
         pyannote: 'pyannote',
-        'audiocpp-sortformer': 'Sortformer',
         nllb: 'NLLB-200',
       }[target.engine] || target.engine
     : null;

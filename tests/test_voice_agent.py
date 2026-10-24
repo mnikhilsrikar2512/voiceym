@@ -164,7 +164,7 @@ def test_hindi_goes_to_kokoro_other_scripts_to_the_multilingual_engine():
 
 def test_commercial_only_never_picks_omnivoice(monkeypatch):
     monkeypatch.setattr(va, "fast_voice_engine", lambda: "kittentts")
-    monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-gguf")
+    monkeypatch.setattr(va, "multilingual_voice_engine", lambda: "omnivoice-subprocess")
     monkeypatch.setattr(va, "active_tts_engine", lambda: "omnivoice")
     pick = va.SessionConfig.from_message
     talk = pick({"fast_default_voice": True, "commercial_only": True})
@@ -207,12 +207,12 @@ def test_commercial_only_keeps_indic_parler_for_indian_languages(monkeypatch):
     talk = va.SessionConfig.from_message({"fast_default_voice": True, "commercial_only": True})
     assert (talk.engine, talk.hindi_engine, talk.multilingual_engine) == (
         "kokoro", "kokoro", "indic-parler")
-    # Without it, the light OmniVoice build is offered, and Talk drops it.
+    # Without them, VoxCPM2 (Apache-2.0) speaks the other scripts.
     monkeypatch.setattr(va, "_engine_if_available",
                         lambda e: "" if e in ("indic-parler", "indic-tts") else e)
-    assert va.multilingual_voice_engine() == "omnivoice-gguf"
+    assert va.multilingual_voice_engine() == "voxcpm2"
     talk = va.SessionConfig.from_message({"fast_default_voice": True, "commercial_only": True})
-    assert talk.multilingual_engine == ""
+    assert talk.multilingual_engine == "voxcpm2"
 
 
 def test_telugu_and_marathi_go_to_indic_parler_hindi_stays_with_kokoro():

@@ -41,8 +41,8 @@ _PERFORMANCE_TARGETS = {
         "max": {"decoding_method": "modified_beam_search", "max_active_paths": 8, "engine": "sherpa-onnx"},
     },
     "diarisation": {
-        "fast": {"engine": "audiocpp-sortformer"},
-        "balanced": {"engine": "audiocpp-sortformer"},
+        "fast": {"engine": "pyannote"},
+        "balanced": {"engine": "pyannote"},
         "quality": {"engine": "pyannote"},
         "max": {"engine": "pyannote"},
     },
@@ -325,13 +325,7 @@ def profile_state(choice: str | None = None) -> dict:
             "engine": diarization_runtime.selected_backend()
             if diarisation_choices
             else "inactive",
-            "model": (
-                diarization_runtime.SORTFORMER_REPO
-                if diarization_runtime.selected_backend() == diarization_runtime.SORTFORMER
-                else "pyannote/speaker-diarization-3.1"
-            )
-            if diarisation_choices
-            else None,
+            "model": "pyannote/speaker-diarization-3.1" if diarisation_choices else None,
         },
         "translation": {
             "engine": translation_engine,
@@ -413,10 +407,6 @@ def activate_performance_tier(tier: str, family: str | None = None) -> dict:
             engine = _PERFORMANCE_TARGETS["diarisation"][tier]["engine"]
             if engine in installed:
                 diarization_runtime.select_backend(engine)
-                if engine == diarization_runtime.SORTFORMER:
-                    from services import model_manager
-
-                    model_manager.unload_diarization_pipeline()
                 activated["diarisation"] = {"engine": engine}
     return activated
 
@@ -451,9 +441,6 @@ def _activate_budgeted_profile(tier: str) -> dict:
         elif family == "diarisation":
             if diarization_runtime.selected_backend() != engine:
                 diarization_runtime.select_backend(engine)
-            if engine == diarization_runtime.SORTFORMER:
-                from services import model_manager
-                model_manager.unload_diarization_pipeline()
         activated[family] = selected
     # Audio hot paths read the applied result, without probing model inventory.
     prefs.update_mapping(_PERFORMANCE_PROFILE_KEY, {"resolved": state["effective"]})

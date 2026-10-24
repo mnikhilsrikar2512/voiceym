@@ -146,8 +146,9 @@ are mirrored on GHCR at
 - **⚡ GPU Auto-Detect** — CUDA · ROCm · CPU, with auto-offload on ≤8 GB cards.
 - **🧩 Extensible** — subclass `TTSBackend` to add any engine in ~50 lines.
 
-Multiple TTS engines ship out of the box (IndexTTS, CosyVoice, Supertonic-3, and
-more), auto-detected and selectable in Settings.
+Commercial-use TTS engines ship out of the box (Kokoro by default, plus
+KittenTTS, VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS), auto-detected and
+selectable in Settings.
 
 ---
 

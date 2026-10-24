@@ -593,18 +593,15 @@ Or sidestep cuDNN 8 entirely: switch the ASR backend to **PyTorch Whisper** in
 torch) and needs no cuDNN-8 DLL — it loads its Whisper pipeline on demand (no
 extra env var).
 
-## 11. IndexTTS / CosyVoice / ChatterboxTTS clash
+## 11. Engine dependency clash
 
-**Symptom:** installing one of these engines breaks the others — e.g. after
-installing CosyVoice, IndexTTS errors out with import conflicts.
+**Symptom:** installing one engine breaks another with import conflicts.
 
-**Cause:** these engines pin incompatible transformer / torch versions inside
-their own engine venvs. Pre-v0.3 they shared a single venv.
+**Cause:** engines pin incompatible transformers / torch versions.
 
-**Fix:** Phase 2 ships subprocess isolation per engine (each engine runs in
-its own venv). For v0.3, workaround: install only one of the conflicting
-engines per Voiceym copy. See [docs/engines/cosyvoice.md](../engines/cosyvoice.md)
-for the dedicated CosyVoice path.
+**Fix:** sidecar engines (Chatterbox, VoxCPM2, Indic Parler-TTS, Indic-TTS)
+each install into their own venv from **Settings → Models**, so they never
+share packages. Reinstall the affected engine there.
 
 
 **Same class, ASR side:** the `nemo-parakeet` ASR engine has the identical
@@ -613,8 +610,8 @@ hard-pins `transformers>=4.57,<4.58`, which is unsatisfiable alongside
 Voiceym's own `transformers>=5.3` requirement. Installing it into the
 shared venv breaks the backend outright. Do not `pip install nemo_toolkit`
 into Voiceym's environment; if you want to try it, use a separate Python
-environment. Isolated-venv support for this engine (matching CosyVoice/
-dots-tts) is planned.
+environment. Isolated-venv support for this engine (matching the sidecar
+TTS engines) is planned.
 
 ## 12. CUDA PyTorch wheel download fails on first run
 
@@ -674,9 +671,8 @@ PyTorch build and, for every engine, whether it uses the GPU.
 **Fix, by platform:**
 
 - **Windows:** PyTorch engines stay on the CPU (no ROCm wheels exist for the
-  PyTorch version Voiceym ships). Engines with their own GPU runtime — today
-  audio.cpp (Vulkan) — do use a Radeon: install its runtime from **Settings →
-  Models**. Details and the advanced, unsupported AMD-wheels route:
+  PyTorch version Voiceym ships). Details and the advanced, unsupported
+  AMD-wheels route:
   [windows.md — GPU support](windows.md#gpu-support).
 - **Linux:** set `OMNIVOICE_TORCH_VARIANT=rocm` and run setup again, or use the
   ROCm Docker image — [linux.md — AMD GPU (ROCm)](linux.md#amd-gpu-rocm). If the
@@ -1275,7 +1271,7 @@ An architecture accepted by the torch.compile preflight may still encounter inde
 
 ### Native engine installation from a remote client
 
-Sidecar and audio.cpp runtime installation is restricted to requests from the backend computer's loopback interface. An API key does not bypass this restriction. The catalogue now shows local setup guidance instead of offering a remote install that will be rejected. Open the backend through `localhost` on that computer, or follow the engine's setup guide there. In Docker, bridge-network requests may not be loopback even when the browser runs on the host; use the documented container setup rather than weakening the native-install gate.
+Sidecar engine installation is restricted to requests from the backend computer's loopback interface. An API key does not bypass this restriction. The catalogue now shows local setup guidance instead of offering a remote install that will be rejected. Open the backend through `localhost` on that computer, or follow the engine's setup guide there. In Docker, bridge-network requests may not be loopback even when the browser runs on the host; use the documented container setup rather than weakening the native-install gate.
 
 ### Dubbing extraction fails
 

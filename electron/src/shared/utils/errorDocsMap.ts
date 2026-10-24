@@ -80,7 +80,7 @@ export function classifyError(error: unknown): ErrorClass | null {
   ) {
     return 'POCKETTTS_GATED_WEIGHTS';
   }
-  const diarisation = /pyannote|diari[sz]ation|sortformer/.test(lower);
+  const diarisation = /pyannote|diari[sz]ation/.test(lower);
   const accessFailure =
     /gated|unauthorized|forbidden|401|403|accept the|license|user conditions/.test(lower);
   if (diarisation && !accessFailure) {

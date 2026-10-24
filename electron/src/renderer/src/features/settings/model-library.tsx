@@ -881,10 +881,8 @@ export function ModelLibrary({
       dictationPrefs.data.model_id === model.dictation_id;
     const activeDiarisationModel =
       family === 'diarisation' &&
-      ((diarisation.data?.active === 'pyannote' &&
-        model.repo_id === 'pyannote/speaker-diarization-3.1') ||
-        (diarisation.data?.active === 'audiocpp-sortformer' &&
-          model.families?.includes('diarisation')));
+      diarisation.data?.active === 'pyannote' &&
+      model.repo_id === 'pyannote/speaker-diarization-3.1';
     const eta = (() => {
       const seconds = job?.eta_seconds;
       if (!seconds || seconds <= 0) return '';

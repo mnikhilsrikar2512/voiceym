@@ -58,8 +58,8 @@ def provider_failure(kind: str) -> dict[str, str]:
 _CPU_GENERATION_TIMEOUT_DETAIL = (
     "Generation ran out of time on this computer's CPU, which renders much "
     "more slowly than a GPU. The backend is still running. To get it through: "
-    "try a shorter passage, pick a CPU-tuned engine (OmniVoice GGUF or "
-    "Supertonic-3), or raise \"CPU budget\" in Settings → Performance & Device "
+    "try a shorter passage, pick a CPU-friendly engine (Kokoro or "
+    "KittenTTS), or raise \"CPU budget\" in Settings → Performance & Device "
     "and restart the backend."
 )
 

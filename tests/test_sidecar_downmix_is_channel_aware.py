@@ -11,8 +11,8 @@ today, since every engine returns mono — which is exactly why it could sit the
 being wrong: nothing runs it, so nothing reports it, and the first engine or SDK
 version to emit stereo gets noise with no error anywhere.
 
-The sidecars run under *different interpreters* (confucius4 and dots.tts each
-have their own venv), so they cannot import a shared helper — the duplication is
+The sidecars run under *different interpreters* (each engine sidecar has its
+own venv), so they cannot import a shared helper — the duplication is
 structural and cannot be refactored away. This test is the mitigation: it holds
 all of them to the same behaviour at once, so a sixth copy pasted into a new
 sidecar fails here rather than shipping.
@@ -32,14 +32,8 @@ torch = pytest.importorskip("torch")
 
 _ROOT = Path(__file__).resolve().parent.parent / "backend" / "engines"
 
-#: (sidecar module path, conversion function name). PocketTTS is absent on
-#: purpose: it raises on multi-channel input instead of downmixing, which is
-#: also correct, and tests/test_pockettts_sidecar.py pins that.
+#: (sidecar module path, conversion function name).
 _SIDECARS = [
-    ("moss_tts_v15/main.py", "_tensor_to_pcm_b64"),
-    ("dots_tts/main.py", "_tensor_to_pcm_b64"),
-    ("supertonic3/sidecar.py", "_wav_float_to_pcm_b64"),
-    ("confucius4/main.py", "_tensor_to_pcm_b64"),
     ("omnivoice_subprocess/main.py", "_tensor_to_pcm_b64"),
 ]
 

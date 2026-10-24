@@ -116,11 +116,6 @@ def test_pep562_exports_are_backed_by_lazy_attribute_resolvers():
     assert "if name in __all__:" in package
     assert "return getattr(_m, name)" in package
 
-    backend = _source("backend/engines/omnivoice_gguf/backend.py")
-    assert '"OmniVoiceGGUFBackend",' in backend
-    assert 'if name == "OmniVoiceGGUFBackend":' in backend
-    assert "return _make_backend_class()" in backend
-
 
 def test_secret_error_logs_never_include_plaintext_or_ciphertext_variables():
     _, body = _function("backend/services/settings_store.py", "get_secret")

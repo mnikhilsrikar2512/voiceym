@@ -94,7 +94,7 @@ body:
     id: engine
     attributes:
       label: Active TTS/ASR engine
-      description: Settings → Engines (e.g. omnivoice, cosyvoice, indextts2, whisperx).
+      description: Settings → Engines (e.g. kokoro, voxcpm2, chatterbox, whisperx).
       placeholder: "omnivoice"
   - type: textarea
     id: logs

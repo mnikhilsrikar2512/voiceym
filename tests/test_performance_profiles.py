@@ -22,46 +22,16 @@ def test_diarisation_is_applicable_only_with_a_real_runtime_choice(monkeypatch):
         "installed_backends",
         lambda: {diarization_runtime.PYANNOTE},
     )
-    assert "diarisation" not in profiles.profile_state()["applicable_families"]
-
-    monkeypatch.setattr(
-        diarization_runtime,
-        "installed_backends",
-        lambda: {diarization_runtime.PYANNOTE, diarization_runtime.SORTFORMER},
-    )
     state = profiles.profile_state()
+    # One diarisation runtime ships, so a tier has nothing to switch there.
     assert "diarisation" in state["implemented_families"]
-    assert "diarisation" in state["applicable_families"]
-    assert state["targets"]["diarisation"]["engine"] == diarization_runtime.SORTFORMER
+    assert "diarisation" not in state["applicable_families"]
     assert state["selections"]["tts"] == {
         "engine": "omnivoice",
         "model": "k2-fsa/OmniVoice",
     }
     assert state["selections"]["dictation"]["model"] == "sherpa-parakeet-tdt-v3"
     assert state["selections"]["translation"]["model"] == "facebook/nllb-200-distilled-600M"
-
-
-def test_diarisation_preset_switches_only_between_installed_runtimes(monkeypatch):
-    from services import diarization_runtime, model_manager
-
-    monkeypatch.delenv("OMNIVOICE_DIARIZATION_BACKEND", raising=False)
-    monkeypatch.setattr(
-        diarization_runtime,
-        "installed_backends",
-        lambda: {diarization_runtime.PYANNOTE, diarization_runtime.SORTFORMER},
-    )
-    selected = []
-    monkeypatch.setattr(diarization_runtime, "select_backend", selected.append)
-    unloaded = []
-    monkeypatch.setattr(model_manager, "unload_diarization_pipeline", lambda: unloaded.append(True))
-
-    fast = profiles.activate_performance_tier("fast", "diarisation")
-    quality = profiles.activate_performance_tier("quality", "diarisation")
-
-    assert selected == [diarization_runtime.SORTFORMER, diarization_runtime.PYANNOTE]
-    assert unloaded == [True]
-    assert fast == {"diarisation": {"engine": diarization_runtime.SORTFORMER}}
-    assert quality == {"diarisation": {"engine": diarization_runtime.PYANNOTE}}
 
 
 def test_diarisation_preset_respects_external_runtime_pin(monkeypatch):

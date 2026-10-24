@@ -196,46 +196,6 @@ class SidecarSpec:
     host_supported: Callable[[], tuple[bool, str]] = field(default=lambda: (True, ""))
 
 
-def _indextts_invalidate() -> None:
-    from engines.indextts import bootstrap
-    bootstrap.invalidate()
-
-
-def _indextts_installed() -> bool:
-    from engines.indextts.bootstrap import is_indextts_installed
-    return is_indextts_installed()
-
-
-def _moss_invalidate() -> None:
-    from engines.moss_tts_v15 import bootstrap
-    bootstrap.invalidate()
-
-
-def _moss_installed() -> bool:
-    from engines.moss_tts_v15.bootstrap import is_moss_tts_v15_installed
-    return is_moss_tts_v15_installed()
-
-
-def _confucius4_invalidate() -> None:
-    from engines.confucius4 import bootstrap
-    bootstrap.invalidate()
-
-
-def _confucius4_installed() -> bool:
-    from engines.confucius4.bootstrap import is_confucius4_installed
-    return is_confucius4_installed()
-
-
-def _dots_invalidate() -> None:
-    from engines.dots_tts import bootstrap
-    bootstrap.invalidate()
-
-
-def _dots_installed() -> bool:
-    from engines.dots_tts.bootstrap import is_dots_tts_installed
-    return is_dots_tts_installed()
-
-
 def _host_family() -> str:
     """The accelerator family this host runs, or "cpu" when it cannot tell."""
     try:
@@ -338,25 +298,6 @@ def _venv_torch_is_rocm(venv_dir: Path) -> bool:
     return bool(venv_torch_hip(venv_dir))
 
 
-def _moss_host() -> tuple[bool, str]:
-    if _host_family() == "cuda":
-        return True, ""
-    return False, (
-        "MOSS-TTS-v1.5's one-click install uses its CUDA build of PyTorch, and "
-        "this machine has no NVIDIA GPU available. Its guide covers a manual "
-        "CPU install."
-    )
-
-
-def _dots_host() -> tuple[bool, str]:
-    if sys.platform != "win32":
-        return True, ""
-    return False, (
-        "dots.tts publishes no Windows install. Run Voiceym on Linux or "
-        "macOS, or under WSL2, to use it."
-    )
-
-
 def _no_intel_mac(message: str) -> Callable[[], tuple[bool, str]]:
     """A host gate for an engine whose pinned PyTorch has no Intel Mac build
     (PyTorch stopped publishing macOS x86_64 wheels after 2.2)."""
@@ -381,185 +322,7 @@ def _in_app_env(module: str) -> Callable[[], bool]:
     return probe
 
 
-# The trimmed CosyVoice requirements ship with the app (see that file for
-# what was dropped from upstream's list and why).
-_COSYVOICE_REQUIREMENTS = str(
-    Path(__file__).resolve().parents[1] / "engines" / "cosyvoice_subprocess" / "requirements.txt"
-)
-
-
 SPECS: dict[str, SidecarSpec] = {
-    "indextts2": SidecarSpec(
-        engine_id="indextts2",
-        display_name="IndexTTS 2.5",
-        repo_url="https://github.com/index-tts/index-tts.git",
-        tarball_url=(
-            "https://github.com/index-tts/index-tts/archive/"
-            "bf2e967fac7933197143b017a60820b1ad40c448.tar.gz"
-        ),
-        checkout_dirname="index-tts-2.5",
-        env_var="OMNIVOICE_INDEXTTS_DIR",
-        probe_module="indextts.infer_v2_5",
-        venv_args=("--python", "3.11"),
-        compatible_python=("3.10", "3.11"),
-        repo_ref="indextts-2.5",
-        source_revision="bf2e967fac7933197143b017a60820b1ad40c448",
-        source_required_path="indextts/infer_v2_5.py",
-        weights_repo_id="IndexTeam/IndexTTS-2.5",
-        weights_revision="d0aa86e75bb6f3437f3831e95056fa72842d89ef",
-        weights_subdir="checkpoints",
-        weights_config_names=("config.yaml", "config_v2_5.yaml"),
-        docs_path="docs/engines/indextts.md",
-        # ~0.1 GB source + up to ~6 GB venv (torch + transformers<5) +
-        # ~6 GB weights. Deliberately conservative; the preflight subtracts
-        # whatever a partial install already put on disk.
-        required_bytes=12 * _GIB,
-        weights_bytes=6 * _GIB,
-        dependency_bytes=6 * _GIB,
-        potentially_shared_bytes=None,
-        temporary_free_bytes=12 * _GIB,
-        disk_confidence="estimated",
-        invalidate=_indextts_invalidate,
-        installed_probe=_indextts_installed,
-        # Installed before the completion marker existed; its weights
-        # marker already proves a finished install.
-        requires_install_marker=False,
-        # Upstream routes torch/torchaudio to the cu128 index on Linux and
-        # Windows, which sees no AMD GPU — take the ROCm build on ROCm hosts.
-        uses_rocm_index=True,
-    ),
-    # Pinned to the upstream commits current on 2026-09-10. Weights are not
-    # fetched here: each engine downloads them into the shared HF cache on its
-    # first synthesis, as its manual install always has.
-    "moss-tts-v15": SidecarSpec(
-        engine_id="moss-tts-v15",
-        display_name="MOSS-TTS-v1.5",
-        repo_url="https://github.com/OpenMOSS/MOSS-TTS.git",
-        tarball_url=(
-            "https://github.com/OpenMOSS/MOSS-TTS/archive/"
-            "934d6826b084c46a0d033402174d5f8ac4ed2519.tar.gz"
-        ),
-        checkout_dirname="MOSS-TTS",
-        env_var="OMNIVOICE_MOSS_TTS_V15_DIR",
-        probe_module="transformers",
-        probe_code="import transformers, torch",
-        source_revision="934d6826b084c46a0d033402174d5f8ac4ed2519",
-        source_required_path="pyproject.toml",
-        venv_args=("--python", "3.11"),
-        # == permits the +cu128 decoder, which requires NVIDIA NPP even
-        # for CPU reference-audio decoding. === excludes that local build.
-        install_args=("-e", "{checkout}[torch-runtime]", "torchcodec===0.8.1"),
-        install_revision="cpu-decoder-v1",
-        uses_cuda_index=True,
-        host_supported=_moss_host,
-        docs_path="docs/engines/moss-tts-v15.md",
-        # ~7 GB CUDA torch venv now, ~16 GB of weights on first synthesis.
-        required_bytes=24 * _GIB,
-        dependency_bytes=8 * _GIB,
-        temporary_free_bytes=8 * _GIB,
-        disk_confidence="estimated",
-        invalidate=_moss_invalidate,
-        installed_probe=_moss_installed,
-    ),
-    "confucius4-tts": SidecarSpec(
-        engine_id="confucius4-tts",
-        display_name="Confucius4-TTS",
-        repo_url="https://github.com/netease-youdao/Confucius4-TTS.git",
-        tarball_url=(
-            "https://github.com/netease-youdao/Confucius4-TTS/archive/"
-            "4fb32c481302d8858c3aec6a1c2a8b4cea8894c0.tar.gz"
-        ),
-        checkout_dirname="Confucius4-TTS",
-        env_var="OMNIVOICE_CONFUCIUS4_TTS_DIR",
-        probe_module="confuciustts",
-        # Upstream is not pip-installable; the package resolves from the
-        # checkout on sys.path, exactly as the engine's sidecar imports it.
-        probe_code="import sys; sys.path.insert(0, {checkout_repr}); import confuciustts",
-        source_revision="4fb32c481302d8858c3aec6a1c2a8b4cea8894c0",
-        # No pyproject.toml upstream: requirements.txt is its manifest.
-        source_manifest="requirements.txt",
-        source_required_path="setup.py",
-        venv_args=("--python", "3.10"),
-        install_args=("-r", "{checkout}/requirements.txt"),
-        # torch==2.7.0: CPU-only from PyPI on Windows; the CUDA index supplies
-        # 2.7.0+cu128, which satisfies the same pin.
-        uses_cuda_index=True,
-        docs_path="docs/engines/confucius4-tts.md",
-        # ~7 GB venv now, ~5 GB of weights on first synthesis.
-        required_bytes=14 * _GIB,
-        dependency_bytes=8 * _GIB,
-        temporary_free_bytes=8 * _GIB,
-        disk_confidence="estimated",
-        invalidate=_confucius4_invalidate,
-        installed_probe=_confucius4_installed,
-    ),
-    "dots-tts": SidecarSpec(
-        engine_id="dots-tts",
-        display_name="dots.tts",
-        repo_url="https://github.com/rednote-hilab/dots.tts.git",
-        tarball_url=(
-            "https://github.com/rednote-hilab/dots.tts/archive/"
-            "32407a55228630475c48ecdb2c4e2c0f9c09e030.tar.gz"
-        ),
-        checkout_dirname="dots.tts",
-        env_var="OMNIVOICE_DOTS_TTS_DIR",
-        probe_module="dots_tts.runtime",
-        source_revision="32407a55228630475c48ecdb2c4e2c0f9c09e030",
-        source_required_path="constraints/recommended.txt",
-        # Upstream requires-python is >=3.10,<3.13.
-        venv_args=("--python", "3.11"),
-        install_args=("-e", "{checkout}", "-c", "{checkout_uri}/constraints/recommended.txt"),
-        host_supported=_dots_host,
-        docs_path="docs/engines/dots-tts.md",
-        # ~7 GB venv now, ~9 GB checkpoint on first synthesis.
-        required_bytes=18 * _GIB,
-        dependency_bytes=8 * _GIB,
-        temporary_free_bytes=8 * _GIB,
-        disk_confidence="estimated",
-        invalidate=_dots_invalidate,
-        installed_probe=_dots_installed,
-    ),
-    # PyPI packages rather than repositories: nothing to clone, and the managed
-    # root holds only the engine's own venv. The pins are the app's own
-    # optional extras (a test ties the two together), so the engine runs the
-    # same wheel whichever way it was installed.
-    "supertonic3": SidecarSpec(
-        engine_id="supertonic3",
-        display_name="Supertonic-3",
-        repo_url="",
-        tarball_url="",
-        checkout_dirname="supertonic3",
-        env_var="OMNIVOICE_SUPERTONIC3_DIR",
-        probe_module="supertonic",
-        has_source=False,
-        venv_args=("--python", "3.11"),
-        install_args=("supertonic==1.3.1",),
-        docs_path="docs/engines/supertonic3.md",
-        # onnxruntime + numpy + huggingface_hub, no torch. The ~400 MB of
-        # weights download on first synthesis into the shared HF cache.
-        required_bytes=1 * _GIB,
-        installed_probe=_in_app_env("supertonic"),
-    ),
-    "pockettts": SidecarSpec(
-        engine_id="pockettts",
-        display_name="PocketTTS",
-        repo_url="",
-        tarball_url="",
-        checkout_dirname="pockettts",
-        env_var="OMNIVOICE_POCKETTTS_DIR",
-        probe_module="pocket_tts",
-        has_source=False,
-        venv_args=("--python", "3.11"),
-        install_args=("pocket-tts==2.1.0",),
-        cpu_torch_index=True,
-        docs_path="docs/engines/pockettts.md",
-        # CPU torch + scipy. The gated weights download on first use.
-        required_bytes=3 * _GIB,
-        installed_probe=_in_app_env("pocket_tts"),
-        host_supported=_no_intel_mac(
-            "PocketTTS needs a PyTorch version that has no Intel Mac build."
-        ),
-    ),
     # Run in a sidecar from its own venv (engines/voxcpm2_subprocess). voxcpm
     # leaves torch unpinned, so the pair is pinned here; each build of it was
     # resolved with voxcpm==2.0.3 on 2026-09-10 (Windows and Linux: +cu128 and
@@ -677,119 +440,6 @@ SPECS: dict[str, SidecarSpec] = {
             "Indic-TTS needs a PyTorch version that has no Intel Mac build."
         ),
     ),
-    # Upstream is unpinned and its entry point has moved before (#1287), so the
-    # install pins a reviewed commit (2026-09-06) and the sidecar drives the
-    # runtime that commit ships (moss_tts_nano_runtime.NanoTTSService). Its
-    # pyproject pins torch==2.7.0 exactly, so the CUDA index yields +cu128.
-    "moss-tts-nano": SidecarSpec(
-        engine_id="moss-tts-nano",
-        display_name="MOSS-TTS-Nano",
-        repo_url="https://github.com/OpenMOSS/MOSS-TTS-Nano.git",
-        tarball_url=(
-            "https://github.com/OpenMOSS/MOSS-TTS-Nano/archive/"
-            "8b7bcc9341b3b4ef3a3a58ba1338a7d85ff133eb.tar.gz"
-        ),
-        checkout_dirname="MOSS-TTS-Nano",
-        env_var="OMNIVOICE_MOSS_TTS_NANO_DIR",
-        probe_module="moss_tts_nano_runtime",
-        probe_code=(
-            "import moss_tts_nano_runtime, torchaudio\n"
-            "if not torchaudio.list_audio_backends():\n"
-            "    raise RuntimeError('torchaudio has no I/O backend (install soundfile)')"
-        ),
-        source_revision="8b7bcc9341b3b4ef3a3a58ba1338a7d85ff133eb",
-        source_required_path="moss_tts_nano_runtime.py",
-        docs_path="docs/engines/moss-tts-nano.md",
-        venv_args=("--python", "3.11"),
-        # Upstream's pyproject pins torchaudio==2.7.0 but ships no I/O backend
-        # — torchaudio 2.7 dispatches load/save to soundfile/torchcodec, and
-        # the engine cannot read its own bundled reference clip without one
-        # (#2100). Pulling soundfile alongside the editable install keeps
-        # every audio read inside this engine's own venv.
-        install_args=("-e", "{checkout}", "soundfile"),
-        install_revision="audio-backend-v1",
-        uses_cuda_index=True,
-        # torch 2.7 (CUDA build on NVIDIA hosts) + transformers + onnxruntime.
-        # The model and its audio tokenizer download on first synthesis.
-        required_bytes=8 * _GIB,
-        installed_probe=_in_app_env("moss_tts_nano"),
-        host_supported=_no_intel_mac(
-            "MOSS-TTS-Nano pins a PyTorch version that has no Intel Mac build."
-        ),
-    ),
-    # A reviewed commit (2026-05-25) plus the Matcha-TTS submodule it imports.
-    # No pyproject: its dependencies come from the trimmed requirements file,
-    # and like upstream's example.py the sidecar puts the checkout and
-    # third_party/Matcha-TTS on sys.path. Only the CosyVoice 3 weights it loads
-    # are downloaded (about 5.4 of 9.8 GB).
-    "cosyvoice": SidecarSpec(
-        engine_id="cosyvoice",
-        display_name="CosyVoice 3",
-        repo_url="https://github.com/FunAudioLLM/CosyVoice.git",
-        tarball_url=(
-            "https://github.com/FunAudioLLM/CosyVoice/archive/"
-            "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc.tar.gz"
-        ),
-        checkout_dirname="CosyVoice",
-        env_var="OMNIVOICE_COSYVOICE_DIR",
-        probe_module="cosyvoice",
-        probe_code=(
-            "import os, sys; c = {checkout_repr}; "
-            "sys.path[:0] = [c, os.path.join(c, 'third_party', 'Matcha-TTS')]; "
-            "from cosyvoice.cli.cosyvoice import AutoModel; "
-            "import cosyvoice.dataset.processor; import matcha.utils"
-        ),
-        source_revision="074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
-        source_manifest="requirements.txt",
-        source_required_path="cosyvoice/cli/cosyvoice.py",
-        extra_sources=(
-            ExtraSource(
-                path="third_party/Matcha-TTS",
-                revision="dd9105b34bf2be2230f4aa1e4769fb586a3c824e",
-                tarball_url=(
-                    "https://github.com/shivammehta25/Matcha-TTS/archive/"
-                    "dd9105b34bf2be2230f4aa1e4769fb586a3c824e.tar.gz"
-                ),
-                required_path="matcha/__init__.py",
-            ),
-            ExtraSource(
-                path="third_party/PyWorld",
-                revision="f31ad88d543fdaebbda2d0c9a5e4d4f991ae0b6c",
-                tarball_url="https://github.com/JeremyCCHsu/Python-Wrapper-for-World-Vocoder/archive/f31ad88d543fdaebbda2d0c9a5e4d4f991ae0b6c.tar.gz",
-                required_path="pyworld/__init__.py",
-            ),
-            ExtraSource(
-                path="third_party/PyWorld/lib/World",
-                revision="d625e7608ca23a870018f01e7c562ac683d9847f",
-                tarball_url="https://github.com/mmorise/World/archive/d625e7608ca23a870018f01e7c562ac683d9847f.tar.gz",
-                required_path="src/dio.cpp",
-            ),
-        ),
-        venv_args=("--python", "3.10"),
-        install_args=("-r", _COSYVOICE_REQUIREMENTS, "{checkout}/third_party/PyWorld"),
-        install_revision="security-floors-v3",
-        torch_pins=("torch==2.7.0", "torchaudio==2.7.0"),
-        weights_repo_id="FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
-        weights_revision="29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
-        weights_subdir="pretrained_models/Fun-CosyVoice3-0.5B",
-        weights_config_names=("cosyvoice3.yaml",),
-        # Also a Model Catalogue download used by the in-process engine.
-        weights_catalogue_download=True,
-        weights_allow_patterns=(
-            "cosyvoice3.yaml", "config.json", "configuration.json",
-            "campplus.onnx", "speech_tokenizer_v3.onnx",
-            "llm.pt", "flow.pt", "hift.pt", "CosyVoice-BlankEN/*",
-        ),
-        docs_path="docs/engines/cosyvoice.md",
-        # ~0.1 GB source + ~7 GB venv (CUDA torch) + ~5.4 GB weights.
-        required_bytes=14 * _GIB,
-        weights_bytes=6 * _GIB,
-        dependency_bytes=7 * _GIB,
-        installed_probe=_in_app_env("cosyvoice"),
-        host_supported=_no_intel_mac(
-            "CosyVoice 3 needs a PyTorch version that has no Intel Mac build."
-        ),
-    ),
 }
 
 
@@ -876,8 +526,6 @@ def engine_venv_python(env_var: str) -> Optional[Path]:
 
 def _legacy_managed_checkouts(spec: SidecarSpec) -> tuple[Path, ...]:
     """App-owned predecessor checkouts retained during in-place upgrades."""
-    if spec.engine_id == "indextts2":
-        return (managed_root(spec) / "index-tts",)
     return ()
 
 
@@ -1720,10 +1368,6 @@ def _step_install_deps(spec: SidecarSpec, job: dict) -> None:
     uv = _locate_uv()
     _log(job, f"Installing {spec.display_name} into its venv (this can take several minutes) …")
     target = [_expand(arg, checkout) for arg in spec.install_args]
-    if spec.engine_id == "dots-tts":
-        from engines.dots_tts.install import compatible_constraints
-        constraint = compatible_constraints(checkout / "constraints" / "recommended.txt")
-        target[target.index("-c") + 1] = constraint.resolve().as_uri()
     if _rocm_index_url() and spec.uses_rocm_index:
         target += _rocm_pin_args()
     elif spec.torch_pins:
@@ -1751,13 +1395,6 @@ def _step_install_deps(spec: SidecarSpec, job: dict) -> None:
             "Usually a network hiccup — re-run the install to resume. Behind a "
             "proxy, set HTTPS_PROXY in Settings → Environment first."
         )
-        if spec.engine_id == "dots-tts":
-            hint = (
-                "If the log mentions pynini or fst/util.h, install OpenFst and a "
-                "C++ compiler first (macOS: brew install openfst; Debian/Ubuntu: "
-                "sudo apt install libfst-dev libfst-tools build-essential), then "
-                "retry. See docs/engines/dots-tts.md for include/library paths. "
-            ) + hint
         if sys.platform == "win32":
             # Packages built from source (openai-whisper, for CosyVoice) nest
             # deep build folders under uv's cache; past Windows' 260-character

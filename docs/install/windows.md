@@ -16,8 +16,8 @@ launch; no toolchain is needed for the installer.
 
 ## Keep engine environments off `C:`
 
-Engine environments (IndexTTS, CosyVoice, MOSS-TTS and other sidecars, plus the
-audio.cpp runtime) install under `<app data>\engines` and can reach several GB
+Engine environments (VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS)
+install under `<app data>\engines` and can reach several GB
 each. To place them on another drive, set `OMNIVOICE_ENGINES_DIR` before
 launching Voiceym, for example in PowerShell:
 
@@ -60,8 +60,8 @@ app on the CPU, just slower (integrated graphics are not used for AI work).
 On first run the runtime installer detects that no NVIDIA driver is present and
 installs the small CPU build of PyTorch instead of the multi-GB CUDA one, so
 the download is much smaller and needs about 5 GiB free instead of 9 GiB. For
-the best experience on a CPU, pick a light voice engine (KittenTTS,
-Supertonic-3, PocketTTS) and a small Whisper model in the Model Catalogue; the
+the best experience on a CPU, pick a light voice engine (Kokoro or
+KittenTTS) and a small Whisper model in the Model Catalogue; the
 setup screen lists them as its CPU preset. Set `OMNIVOICE_TORCH_VARIANT=cuda`
 (or `cpu`) before launching to override the detection.
 Source setup (`bun run setup:api`) also selects locked CPU wheels when NVIDIA
@@ -115,10 +115,8 @@ option (`OMNIVOICE_TORCH_VARIANT=rocm`) is Linux-only — it is ignored on Windo
 rather than failing setup. (The Ryzen AI NPU is likewise not used.) Everything
 still works on CPU, just slower. What you can do today:
 
-- **Use an engine with its own GPU runtime.** [audio.cpp](../engines/audio-cpp.md)
-  (Breeze-TTS-2) ships a Vulkan build that runs on Radeon GPUs: install the
-  runtime from **Settings → Models**. Voiceym picks the discrete GPU
-  automatically.
+- **Use a CPU-friendly engine.** [Kokoro](../engines/kokoro.md) (the default)
+  and [KittenTTS](../engines/kittentts.md) run in real time on the CPU.
 - **Run on Linux** (native, or the ROCm Docker image) for ROCm acceleration of
   the PyTorch engines — see [linux.md — AMD GPU (ROCm)](linux.md#amd-gpu-rocm).
 - **Advanced / unsupported: AMD's own Windows ROCm wheels.** AMD publishes
@@ -198,7 +196,7 @@ Full HF token guide: [docs/setup/huggingface-token.md](../setup/huggingface-toke
 
 <a id="torch-compile-oom"></a>
 
-On Windows, certain TTS engines (notably IndexTTS 2.5 and some CosyVoice paths)
+On Windows, certain TTS engines can
 trigger `torch.compile` / Triton kernel compilation during the first
 synthesise call. On machines with <16 GB VRAM, that compile step can OOM
 *before* the audio render even begins — the error usually surfaces as

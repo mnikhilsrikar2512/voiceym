@@ -15,9 +15,7 @@ from services import tts_backend, asr_backend, llm_backend
 def test_tts_registry_lists_all_backends():
     rows = tts_backend.list_backends()
     ids = {r["id"] for r in rows}
-    # Core set must exist; optional engines (kittentts, mlx-audio) may be
-    # added as platform support lands — only assert the baseline.
-    assert {"omnivoice", "voxcpm2", "moss-tts-nano"}.issubset(ids)
+    assert {"kokoro", "kittentts", "voxcpm2", "chatterbox", "indic-parler", "indic-tts"} == ids
     for r in rows:
         assert set(r) >= {"id", "display_name", "available", "reason"}
         evidence = r["execution_evidence"]
@@ -51,20 +49,6 @@ def test_tts_voxcpm2_upgrade_hint_reaches_list_backends(monkeypatch):
     assert 'pip install --upgrade "voxcpm>=2.0.3"' in entry["hint"]
 
 
-def test_tts_moss_nano_unavailable_message_points_to_install():
-    ok, msg = tts_backend.MossTTSNanoBackend.is_available()
-    if not ok:
-        # Either transformers is missing or the moss_tts_nano package itself.
-        assert "moss_tts_nano" in msg or "transformers" in msg
-
-
-def test_tts_moss_nano_language_count():
-    # Non-redundant niche: 20 langs including Arabic/Hebrew/Persian/Korean.
-    langs = tts_backend.MossTTSNanoBackend().supported_languages
-    assert len(langs) == 20
-    assert {"ar", "he", "fa", "ko", "tr"}.issubset(set(langs))
-
-
 def test_tts_active_backend_env_override(monkeypatch):
     monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "voxcpm2")
     assert tts_backend.active_backend_id() == "voxcpm2"
@@ -82,37 +66,6 @@ def test_tts_active_backend_env_override(monkeypatch):
 # these deterministic whether or not sherpa-onnx is installed on CI.
 
 
-def test_tts_sherpa_unavailable_without_model_env(monkeypatch):
-    monkeypatch.setitem(sys.modules, "sherpa_onnx", types.ModuleType("sherpa_onnx"))
-    monkeypatch.delenv("OMNIVOICE_SHERPA_MODEL", raising=False)
-    ok, msg = tts_backend.SherpaOnnxBackend.is_available()
-    assert ok is False
-    assert "OMNIVOICE_SHERPA_MODEL" in msg   # names the exact env var
-    assert "model.onnx" in msg               # says what to point it at
-
-
-def test_tts_sherpa_unavailable_when_model_dir_lacks_onnx(monkeypatch, tmp_path):
-    monkeypatch.setitem(sys.modules, "sherpa_onnx", types.ModuleType("sherpa_onnx"))
-    monkeypatch.setenv("OMNIVOICE_SHERPA_MODEL", str(tmp_path))  # empty dir
-    ok, msg = tts_backend.SherpaOnnxBackend.is_available()
-    assert ok is False
-    assert "model.onnx" in msg
-
-
-def test_tts_sherpa_available_when_model_env_points_at_model(monkeypatch, tmp_path):
-    monkeypatch.setitem(sys.modules, "sherpa_onnx", types.ModuleType("sherpa_onnx"))
-    (tmp_path / "model.onnx").write_bytes(b"")
-    monkeypatch.setenv("OMNIVOICE_SHERPA_MODEL", str(tmp_path))
-    ok, _msg = tts_backend.SherpaOnnxBackend.is_available()
-    assert ok is True
-
-
-def test_tts_sherpa_setup_snippet_registered():
-    # The Compat Matrix's copy-paste setup line must exist for the now
-    # path-gated engine (parity with Confucius4/dots/MOSS).
-    assert "OMNIVOICE_SHERPA_MODEL" in tts_backend._SETUP_SNIPPETS["sherpa-onnx"]
-
-
 def test_tts_active_backend_prefs_fallback(monkeypatch, tmp_path):
     from core import prefs as _prefs
     monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
@@ -127,7 +80,6 @@ def test_tts_active_backend_prefs_fallback(monkeypatch, tmp_path):
 def test_tts_sample_rate_per_backend():
     assert tts_backend.OmniVoiceBackend().sample_rate == 24000
     assert tts_backend.VoxCPM2Backend().sample_rate == 48000
-    assert tts_backend.MossTTSNanoBackend().sample_rate == 48000
 
 
 def test_tts_unknown_backend_raises():
@@ -141,58 +93,6 @@ def test_tts_unknown_backend_raises():
 # OMNIVOICE_MLX_AUDIO_MODEL, invisible to Settings and unchangeable without
 # restarting the process with an env var set. It must now mirror
 # active_backend_id()'s env > prefs > default resolution.
-
-
-def test_mlx_audio_model_id_resolves_via_prefs(monkeypatch, tmp_path):
-    from core import prefs as _prefs
-    monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_MLX_AUDIO_MODEL", raising=False)
-    _prefs.set_("mlx_audio_model_id", "outetts")
-    be = tts_backend.MLXAudioBackend()
-    assert be._model_id == tts_backend.MLXAudioBackend.CURATED_MODELS["outetts"]
-
-
-def test_mlx_audio_model_id_env_overrides_prefs(monkeypatch, tmp_path):
-    from core import prefs as _prefs
-    monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    _prefs.set_("mlx_audio_model_id", "outetts")
-    monkeypatch.setenv("OMNIVOICE_MLX_AUDIO_MODEL", "csm")
-    be = tts_backend.MLXAudioBackend()
-    assert be._model_id == tts_backend.MLXAudioBackend.CURATED_MODELS["csm"]
-
-
-def test_mlx_audio_model_id_defaults_to_kokoro(monkeypatch, tmp_path):
-    from core import prefs as _prefs
-    monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_MLX_AUDIO_MODEL", raising=False)
-    be = tts_backend.MLXAudioBackend()
-    assert be._model_id == tts_backend.MLXAudioBackend.CURATED_MODELS["kokoro"]
-
-
-def test_get_active_tts_backend_reconstructs_on_mlx_model_switch(monkeypatch, tmp_path):
-    """A curated-model-only change (same backend id 'mlx-audio') must
-    invalidate the cached instance too — otherwise picking a different
-    curated model in Settings has no effect until an app restart."""
-    from core import prefs as _prefs
-    monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_MLX_AUDIO_MODEL", raising=False)
-    monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
-    _prefs.set_("tts_backend", "mlx-audio")
-    _prefs.set_("mlx_audio_model_id", "kokoro")
-    tts_backend.reset_active_backend()
-    try:
-        be1 = tts_backend.get_active_tts_backend()
-        assert be1._model_id == tts_backend.MLXAudioBackend.CURATED_MODELS["kokoro"]
-        # Same instance on a repeat call with nothing changed (still cached).
-        assert tts_backend.get_active_tts_backend() is be1
-
-        _prefs.set_("mlx_audio_model_id", "outetts")
-        be2 = tts_backend.get_active_tts_backend()
-        assert be2 is not be1
-        assert be2._model_id == tts_backend.MLXAudioBackend.CURATED_MODELS["outetts"]
-    finally:
-        tts_backend.reset_active_backend()
-        _prefs.set_("tts_backend", "omnivoice")
 
 
 # ── ASR ─────────────────────────────────────────────────────────────────────
@@ -389,330 +289,54 @@ def test_hf_retry_is_single_shot():
 # installed (every non-macOS-ARM CI runner).
 
 
-def test_mlx_audio_kokoro_resolves_supported_language_names():
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    resolve = tts_backend.resolve_kokoro_lang_code
-    assert resolve("English") == "a"
-    assert resolve("Spanish") == "e"
-    assert resolve("French") == "f"
-    assert resolve("Hindi") == "h"
-    assert resolve("Italian") == "i"
-    assert resolve("Portuguese") == "p"
-    assert resolve("Japanese") == "j"
-    assert resolve("Chinese") == "z"
-    # Some callers may already pass an ISO code — those resolve unchanged
-    # through Kokoro's own ALIASES table, not just our full-name map.
-    assert resolve("es") == "e"
-    assert resolve("en-gb") == "b"
-
-
-@pytest.mark.parametrize("language", ["Dutch", "German"])
-def test_mlx_audio_kokoro_rejects_unsupported_language_cleanly(language):
-    # The literal #977 report case ("Dutch") plus one more Kokoro doesn't
-    # support ("German") — neither's first two letters happen to alias to a
-    # valid Kokoro code, so both used to crash.
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    with pytest.raises(ValueError) as ei:
-        tts_backend.resolve_kokoro_lang_code(language)
-    msg = str(ei.value)
-    assert language in msg
-    assert "Kokoro" in msg
-    assert "English" in msg  # names what Kokoro DOES support
-
-
 # The label derivation takes the tables as arguments, so it runs on every
 # platform — unlike the resolution tests above, which need the real
 # Apple-Silicon-only package. The bug it guards is invisible on the runners
 # that skip.
 
 
-def test_kokoro_resolves_british_english_label(monkeypatch):
-    pipeline = types.ModuleType("mlx_audio.tts.models.kokoro.pipeline")
-    pipeline.ALIASES = {"en-gb": "b"}
-    pipeline.LANG_CODES = {"b": "British English"}
-    monkeypatch.setitem(sys.modules, "mlx_audio.tts.models.kokoro.pipeline", pipeline)
-    assert tts_backend.resolve_kokoro_lang_code("British English") == "b"
+class _PickedModelBackend(tts_backend.TTSBackend):
+    """An engine whose model is a construction-time preference."""
 
+    id = "picked-model"
+    sample_rate = 24000
 
-def test_kokoro_advertised_labels_round_trip_through_installed_table(monkeypatch):
-    pipeline = types.ModuleType("mlx_audio.tts.models.kokoro.pipeline")
-    pipeline.ALIASES = {"en": "a", "en-gb": "b", "xx": "x"}
-    pipeline.LANG_CODES = {"a": "American English", "b": "British English", "x": "Newly Added Language"}
-    monkeypatch.setitem(sys.modules, "mlx_audio.tts.models.kokoro.pipeline", pipeline)
-    labels = tts_backend._kokoro_supported_labels(pipeline.ALIASES, pipeline.LANG_CODES)
-    assert {tts_backend.resolve_kokoro_lang_code(label) for label in labels} == {"a", "b", "x"}
+    def __init__(self):
+        self._built = os.environ.get("VOICEYM_TEST_PICKED_MODEL")
 
+    @classmethod
+    def configured_identity(cls):
+        return os.environ.get("VOICEYM_TEST_PICKED_MODEL")
 
-def test_kokoro_supported_labels_name_a_code_only_an_alias_reaches():
-    """A code reached only through an alias is still named.
+    def built_identity(self):
+        return self._built
 
-    British English is `en-gb` -> "b". The supported list must include it
-    alongside the other installed language codes.
-    """
-    aliases = {"en": "a", "en-gb": "b", "es": "e"}
-    lang_codes = {"a": "American English", "b": "British English", "e": "es"}
-    labels = tts_backend._kokoro_supported_labels(aliases, lang_codes)
-    assert "British English" in labels
-    assert "English" in labels  # the full name a caller can pass
-    assert "Spanish" in labels
+    @classmethod
+    def is_available(cls):
+        return True, ""
 
+    def supported_languages(self):
+        return ["en"]
 
-def test_kokoro_supported_labels_track_the_installed_table():
-    """A language a later mlx-audio adds appears without editing our map.
-
-    That is the whole point of reading the vendored table rather than a
-    hardcoded one.
-    """
-    aliases = {"en": "a", "xx": "x"}
-    lang_codes = {"a": "American English", "x": "Newly Added Language"}
-    assert "Newly Added Language" in tts_backend._kokoro_supported_labels(aliases, lang_codes)
-
-
-def test_kokoro_supported_labels_prefer_the_passable_full_name():
-    """The label is the name a caller can actually pass.
-
-    `LANG_CODES` describes Spanish as the ISO tag "es", but "Spanish" is what
-    the frontend sends, so that is the more useful label to print.
-    """
-    labels = tts_backend._kokoro_supported_labels({"es": "e"}, {"e": "es"})
-    assert labels == ["Spanish"]
-
-
-def test_kokoro_supported_labels_skip_codes_the_installed_table_lacks():
-    """An install exposing one language is not described as supporting eight.
-
-    Our map knows eight; the installed table is what decides.
-    """
-    labels = tts_backend._kokoro_supported_labels({"it": "i"}, {"i": "it"})
-    assert labels == ["Italian"]
-
-
-def test_mlx_audio_kokoro_error_names_british_english():
-    """The real message names British English, which it previously omitted."""
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    with pytest.raises(ValueError) as ei:
-        tts_backend.resolve_kokoro_lang_code("Persian")
-    # Reachable as "en-gb" and previously missing from the message.
-    assert "British English" in str(ei.value)
-
-
-def test_mlx_audio_generate_rejects_unsupported_kokoro_language_before_calling_model():
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS["kokoro"]
-    backend._ensure_loaded = lambda: None  # never actually load the model
-
-    def _boom_generate(**kw):
-        raise AssertionError("model.generate() must not run for a rejected language")
-
-    backend._model = types.SimpleNamespace(generate=_boom_generate)
-
-    with pytest.raises(ValueError, match="Dutch"):
-        backend.generate("hello", language="Dutch")
-
-
-def test_mlx_audio_generate_passes_ref_text_through_for_cloning():
-    # #1012/#1013: MLXAudioBackend.generate() read voice/ref_audio/language/
-    # speed from kwargs but silently dropped ref_text — CSM (sesame.py) only
-    # builds its cloning context when BOTH ref_audio and ref_text are
-    # present, so cloning on CSM always raised an opaque
-    # "IndexError: list index out of range" deep inside mlx-audio instead of
-    # ever attempting the clone. Community-diagnosed with the exact fix.
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    backend = tts_backend.MLXAudioBackend()
-    backend._ensure_loaded = lambda: None
-
-    captured = {}
-
-    def _fake_generate(**kw):
-        captured.update(kw)
-        return iter([types.SimpleNamespace(audio=__import__("numpy").zeros(4))])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("hello", ref_audio="/tmp/ref.wav", ref_text="the reference line")
-
-    assert captured.get("ref_text") == "the reference line"
-    assert captured.get("ref_audio") == "/tmp/ref.wav"
-
-
-def test_mlx_audio_generate_omits_ref_text_without_ref_audio():
-    # ref_text alone (no ref_audio) means nothing to CSM's context builder —
-    # don't pass a stray kwarg an engine that isn't cloning doesn't expect.
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    backend = tts_backend.MLXAudioBackend()
-    backend._ensure_loaded = lambda: None
-
-    captured = {}
-
-    def _fake_generate(**kw):
-        captured.update(kw)
-        return iter([types.SimpleNamespace(audio=__import__("numpy").zeros(4))])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("hello", ref_text="orphaned text, no audio")
-
-    assert "ref_text" not in captured
-
-
-def test_mlx_audio_generate_design_path_unaffected_without_any_ref():
-    # Absorbed from community PR #1015 (MahdiHedhli) — the design/instruct
-    # path (no ref_audio, no ref_text at all) must stay untouched by the
-    # ref_text forwarding fix; neither kwarg may leak into the model call.
-    pytest.importorskip("mlx_audio", reason="mlx-audio is Apple-Silicon-only")
-    backend = tts_backend.MLXAudioBackend()
-    backend._ensure_loaded = lambda: None
-
-    captured = {}
-
-    def _fake_generate(**kw):
-        captured.update(kw)
-        return iter([types.SimpleNamespace(audio=__import__("numpy").zeros(4))])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("hello")
-
-    assert "ref_text" not in captured
-    assert "ref_audio" not in captured
-
-
-@pytest.mark.parametrize("language", ["Auto", "auto", " AUTO ", " ", "", None])
-@pytest.mark.parametrize("model", ["kokoro", "qwen3-tts"])
-def test_mlx_audio_generate_auto_language_skips_lang_code_entirely(language, model):
-    # Matches the "Auto" convention other engines in this file use
-    # (OmniVoiceBackend.generate(), _run_backend_inference) — never resolved,
-    # never forwarded as lang_code.
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS[model]
-    backend._ensure_loaded = lambda: None
-    seen_kwargs = {}
-
-    def _fake_generate(**kw):
-        seen_kwargs.update(kw)
-        return iter([types.SimpleNamespace(audio=[0.0, 0.0, 0.0, 0.0])])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("hello", language=language, instruct="a warm narrator")
-    assert "lang_code" not in seen_kwargs
-
-
-@pytest.mark.parametrize("language, expected", [("German", "german"), ("de", "german"), ("pt-BR", "portuguese"), ("Chinese", "chinese")])
-def test_mlx_audio_generate_non_kokoro_model_ignores_kokoro_validation(language, expected):
-    # Qwen3-TTS (and CSM/Dia/Chatterbox/MeloTTS/OuteTTS) don't use Kokoro's
-    # lang_code convention — a language Kokoro would reject must NOT be
-    # rejected when a different curated model is active (#977 nuance).
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS["qwen3-tts"]
-    backend._ensure_loaded = lambda: None
-    seen_kwargs = {}
-
-    def _fake_generate(**kw):
-        seen_kwargs.update(kw)
-        return iter([types.SimpleNamespace(audio=[0.0, 0.0, 0.0, 0.0])])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    # The curated qwen3-tts model is the VoiceDesign variant, which cannot
-    # generate without a description — mlx-audio raises outright. This test
-    # passed without one only because `instruct` was being dropped before it
-    # ever reached the library (#1405); supply one so the scenario is real.
-    # German: documented for Qwen3-TTS, absent from Kokoro's table.
-    backend.generate("hello", language=language, instruct="a warm narrator")  # must not raise
-    assert seen_kwargs.get("lang_code") == expected
-    assert seen_kwargs.get("instruct") == "a warm narrator"
-
-
-def test_mlx_audio_generate_rejects_language_outside_curated_model_set():
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS["qwen3-tts"]
-    backend._ensure_loaded = lambda: None
-    backend._model = types.SimpleNamespace(generate=lambda **kw: iter([]))
-    with pytest.raises(ValueError, match="support language='Dutch'"):
-        backend.generate("hello", language="Dutch", instruct="a warm narrator")
-
-
-@pytest.mark.parametrize("sample_rate", [24000, 48000])
-def test_outetts_reference_uses_shared_decoder_and_downmixes(monkeypatch, sample_rate):
-    import numpy as np
-    import torch
-    from services import audio_io
-
-    core = types.ModuleType("mlx.core")
-    core.array = np.asarray
-    mlx = types.ModuleType("mlx")
-    mlx.core = core
-    utils = types.ModuleType("mlx_audio.utils")
-    resampled = []
-
-    def resample(audio, source_rate, target_rate, axis):
-        resampled.append((source_rate, target_rate, axis))
-        return audio[::2]
-
-    utils.resample_audio = resample
-    monkeypatch.setitem(sys.modules, "mlx", mlx)
-    monkeypatch.setitem(sys.modules, "mlx.core", core)
-    monkeypatch.setitem(sys.modules, "mlx_audio.utils", utils)
-    decoded = []
-
-    def load(path):
-        decoded.append(path)
-        return torch.tensor([[0.0, 0.2, 0.4, 0.6], [0.2, 0.4, 0.6, 0.8]]), sample_rate
-
-    monkeypatch.setattr(audio_io, "load_audio", load)
-    result = tts_backend._outetts_reference_array("compressed-reference.m4a")
-    expected = [0.1, 0.3, 0.5, 0.7] if sample_rate == 24000 else [0.1, 0.5]
-    np.testing.assert_allclose(result, expected, atol=1e-7)
-    assert result.dtype == np.float32
-    assert decoded == ["compressed-reference.m4a"]
-    assert resampled == ([] if sample_rate == 24000 else [(48000, 24000, 0)])
-
-
-def test_mlx_audio_outetts_receives_reference_as_array(monkeypatch):
-    # mlx-audio's OuteTTS crashes on a file path (UnboundLocalError: resampled_audio).
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS["outetts"]
-    backend._ensure_loaded = lambda: None
-    loaded = object()
-    monkeypatch.setattr(tts_backend, "_outetts_reference_array", lambda path: (path, loaded))
-    seen = {}
-
-    def _fake_generate(**kw):
-        seen.update(kw)
-        return iter([types.SimpleNamespace(audio=[0.0, 0.0])])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("hello", ref_audio="/tmp/ref.wav")
-    assert seen["ref_audio"] == ("/tmp/ref.wav", loaded)
-
-
-def test_mlx_audio_eos_ids_accept_single_int_from_transformers_5(monkeypatch):
-    import sys
-
-    module = types.ModuleType("mlx_audio.lm.generate")
-    module._eos_ids = lambda tokenizer: set(tokenizer.eos_token_ids)
-    package = types.ModuleType("mlx_audio.lm")
-    package.generate = module
-    monkeypatch.setitem(sys.modules, "mlx_audio.lm", package)
-    monkeypatch.setitem(sys.modules, "mlx_audio.lm.generate", module)
-    tts_backend._harden_mlx_audio_eos_ids()
-    tts_backend._harden_mlx_audio_eos_ids()  # idempotent
-    assert module._eos_ids(types.SimpleNamespace(eos_token_ids=7)) == {7}
-    assert module._eos_ids(types.SimpleNamespace(eos_token_ids=[1, 2])) == {1, 2}
+    def generate(self, *args, **kwargs):  # pragma: no cover - never synthesizes
+        raise NotImplementedError
 
 
 def test_cached_engine_follows_a_model_switch(monkeypatch):
-    # Selecting another curated mlx-audio model must not keep synthesizing
-    # with the model the cached instance was built for.
+    # Selecting another model must not keep synthesizing with the model the
+    # cached instance was built for.
     monkeypatch.setattr(tts_backend, "_ENGINE_INSTANCES", {})
     monkeypatch.setattr(tts_backend, "_ENGINE_LAST_USED", {})
     monkeypatch.setattr(tts_backend, "_ENGINE_IN_USE", {})
-    monkeypatch.setenv("OMNIVOICE_MLX_AUDIO_MODEL", "kokoro")
-    first = tts_backend.get_engine_instance(tts_backend.MLXAudioBackend)
+    monkeypatch.setenv("VOICEYM_TEST_PICKED_MODEL", "first")
+    first = tts_backend.get_engine_instance(_PickedModelBackend)
     unloaded = []
     first.unload = lambda: unloaded.append(True)
-    assert tts_backend.get_engine_instance(tts_backend.MLXAudioBackend) is first
-    monkeypatch.setenv("OMNIVOICE_MLX_AUDIO_MODEL", "outetts")
-    second = tts_backend.get_engine_instance(tts_backend.MLXAudioBackend)
+    assert tts_backend.get_engine_instance(_PickedModelBackend) is first
+    monkeypatch.setenv("VOICEYM_TEST_PICKED_MODEL", "second")
+    second = tts_backend.get_engine_instance(_PickedModelBackend)
     assert second is not first
-    assert second.model_identity() == tts_backend.MLXAudioBackend.CURATED_MODELS["outetts"]
+    assert second.built_identity() == "second"
     assert unloaded == [True]
 
 
@@ -720,68 +344,28 @@ def test_model_switch_never_unloads_an_engine_mid_job(monkeypatch):
     monkeypatch.setattr(tts_backend, "_ENGINE_INSTANCES", {})
     monkeypatch.setattr(tts_backend, "_ENGINE_LAST_USED", {})
     monkeypatch.setattr(tts_backend, "_ENGINE_IN_USE", {})
-    monkeypatch.setenv("OMNIVOICE_MLX_AUDIO_MODEL", "kokoro")
-    first = tts_backend.get_engine_instance(tts_backend.MLXAudioBackend)
+    monkeypatch.setenv("VOICEYM_TEST_PICKED_MODEL", "first")
+    first = tts_backend.get_engine_instance(_PickedModelBackend)
     unloaded = []
     first.unload = lambda: unloaded.append(True)
     with tts_backend.engine_in_use(first):
-        monkeypatch.setenv("OMNIVOICE_MLX_AUDIO_MODEL", "csm")
-        second = tts_backend.get_engine_instance(tts_backend.MLXAudioBackend)
+        monkeypatch.setenv("VOICEYM_TEST_PICKED_MODEL", "second")
+        second = tts_backend.get_engine_instance(_PickedModelBackend)
         assert not unloaded
     assert unloaded == [True]
     assert second is not first
 
 
-def test_melotts_names_its_missing_text_package(monkeypatch):
-    import sys
 
-    monkeypatch.setitem(sys.modules, "g2p_en", None)  # import raises ImportError
-    with pytest.raises(RuntimeError, match="g2p_en"):
-        tts_backend._ensure_melotts_text_frontend()
+def test_every_listed_tts_engine_is_free_for_commercial_use(monkeypatch):
+    """Only commercial-use engines are offered (owner rule, 2026-10-24): every
+    model a listed engine loads must be in the commercial licence category,
+    which is exactly what needs no licence acceptance."""
+    from services import model_acceptance
 
-
-def test_melotts_reports_missing_nltk_data_without_downloading(monkeypatch, tmp_path):
-    import sys
-
-    from importlib.machinery import ModuleSpec
-    fake_g2p = types.ModuleType("g2p_en")
-    fake_g2p.__spec__ = ModuleSpec("g2p_en", loader=None)
-    monkeypatch.setitem(sys.modules, "g2p_en", fake_g2p)
-    downloads = []
-
-    def _find(lookup):
-        if not any(lookup.endswith(name) for name, _ in downloads):
-            raise LookupError(lookup)
-
-    fake_nltk = types.SimpleNamespace(
-        data=types.SimpleNamespace(path=[], find=_find),
-        download=lambda package, download_dir, quiet: downloads.append((package, download_dir)) or True,
-    )
-    monkeypatch.setitem(sys.modules, "nltk", fake_nltk)
-    monkeypatch.setattr("core.config.DATA_DIR", str(tmp_path))
-    with pytest.raises(RuntimeError, match="nltk.downloader"):
-        tts_backend._ensure_melotts_text_frontend()
-    assert downloads == []
-    assert fake_nltk.data.path[0] == str(tmp_path / "nltk_data")
-    fake_nltk.data.find = lambda lookup: object()
-    tts_backend._ensure_melotts_text_frontend()
-    assert downloads == []
-
-
-
-def test_mlx_audio_dia_receives_speaker_tagged_text():
-    backend = tts_backend.MLXAudioBackend()
-    backend._model_id = backend.CURATED_MODELS["dia"]
-    backend._ensure_loaded = lambda: None
-    seen = {}
-
-    def _fake_generate(**kw):
-        seen.update(kw)
-        return iter([types.SimpleNamespace(audio=[0.0, 0.0])])
-
-    backend._model = types.SimpleNamespace(generate=_fake_generate)
-    backend.generate("Hello there.", ref_audio="/tmp/ref.wav", ref_text="Earlier words.")
-    assert seen["text"] == "[S1] Hello there."
-    assert seen["ref_text"] == "[S1] Earlier words."
-    backend.generate("[S1] Hi. [S2] Hey.")
-    assert seen["text"] == "[S1] Hi. [S2] Hey."
+    monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
+    monkeypatch.setattr("core.prefs.get", lambda key, default=None: default)
+    for row in tts_backend.list_backends():
+        for repo in model_acceptance.repos_for_engine(row["id"]):
+            assert model_acceptance.status(repo)["required"] is False, (row["id"], repo)
+    assert model_acceptance.status("k2-fsa/OmniVoice")["required"] is True

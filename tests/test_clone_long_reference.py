@@ -428,7 +428,7 @@ def test_model_limit_matches_advertised_engine_limit():
 
 
 def test_list_backends_exposes_reference_limits():
-    by_id = {entry["id"]: entry for entry in _tts().list_backends()}
+    by_id = {entry["id"]: entry for entry in _tts().list_backends(include_hidden=True)}
     assert by_id["omnivoice"]["max_ref_seconds"] == 20.0
     assert by_id["omnivoice"]["ref_strategy"] == "best_window"
     assert by_id["voxcpm2"]["max_ref_seconds"] == 30.0

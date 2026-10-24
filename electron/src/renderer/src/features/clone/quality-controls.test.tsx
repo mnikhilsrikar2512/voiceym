@@ -113,21 +113,21 @@ it('hides unsupported sampling controls and disables quality changes while gener
   expect(screen.getByRole('switch')).toHaveAttribute('aria-disabled', 'true');
 });
 
-it.each(['omnivoice-subprocess', 'voxcpm2', 'dots-tts', 'supertonic3'])(
+it.each(['omnivoice-subprocess', 'voxcpm2'])(
   'offers only supported sampling ranges for %s',
   async (id) => {
     engine.id = id;
     render(<QualityControls />);
     open();
     const steps = await screen.findByRole('slider', { name: 'cloneQuality.effort' });
-    expect(steps).toHaveAttribute('max', id === 'supertonic3' ? '12' : '64');
+    expect(steps).toHaveAttribute('max', '64');
     await act(async () => {
       fireEvent.keyDown(steps, { key: 'Home' });
     });
     await act(async () => {
       fireEvent.keyDown(steps, { key: 'End' });
     });
-    expect(cloneSettingsStore.state.steps).toBe(id === 'supertonic3' ? 12 : 64);
+    expect(cloneSettingsStore.state.steps).toBe(64);
   },
 );
 

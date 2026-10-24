@@ -79,23 +79,6 @@ def test_python_package_metadata_points_to_voiceym() -> None:
     assert '"Upstream TTS Model" = "https://github.com/k2-fsa/OmniVoice"' in pyproject
 
 
-def test_engine_help_names_the_app_not_the_upstream_model() -> None:
-    paths = (
-        "backend/engines/confucius4/__init__.py",
-        "backend/engines/confucius4/bootstrap.py",
-        "backend/engines/dots_tts/__init__.py",
-        "backend/engines/dots_tts/bootstrap.py",
-        "backend/engines/indextts/__init__.py",
-        "backend/engines/indextts/bootstrap.py",
-        "backend/engines/moss_tts_v15/__init__.py",
-        "backend/engines/moss_tts_v15/bootstrap.py",
-    )
-    stale_help = re.compile(r"(?:restart|reinstall|re-launch|Run) OmniVoice")
-    for path in paths:
-        text = (ROOT / path).read_text()
-        assert not stale_help.search(text), path
-
-
 def test_compatibility_identifiers_stay_stable() -> None:
     package = json.loads((ROOT / "package.json").read_text())
     assert package["name"] == "omnivoice-studio-monorepo"

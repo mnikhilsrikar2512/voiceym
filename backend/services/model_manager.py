@@ -1239,7 +1239,7 @@ def _timeout_guidance(
         return common + (
             "this machine renders on CPU, where long generations are "
             "compute-bound. For a durable fix try shorter text or a lighter "
-            "engine (OmniVoice GGUF and Supertonic-3 are CPU-tuned). If you "
+            "engine (Kokoro and KittenTTS are CPU-friendly). If you "
             "expect very long single generations, raise \"CPU budget\" "
             "(the compute-time budget) in Settings → Performance & Device "
             "and restart the backend."
@@ -1261,8 +1261,8 @@ def _timeout_guidance(
             f"{device_name or 'this GPU'} has {vram_gb:.1f} GB of VRAM and "
             f"this engine wants about {min_vram_gb:.0f} GB — generations here "
             f"are slow enough to hit the limit even with nothing else loaded. "
-            f"The durable fix is a lighter engine (OmniVoice GGUF and "
-            f"Supertonic-3 are tuned for small/no GPU) or shorter text; "
+            f"The durable fix is a lighter engine (Kokoro and KittenTTS "
+            f"run well with a small or no GPU) or shorter text; "
             f"Flush caches / Unload the resident model (top toolbar or "
             f"Model Catalogue) frees what little headroom there is. (Raise "
             f"the compute-time budget in Settings → Performance & Device if "
@@ -4475,15 +4475,6 @@ def get_diarization_pipeline(return_error: bool = False):
     a docs deeplink — issue #78.
     """
     global _diar_pipeline
-    from services.diarization_runtime import SORTFORMER, selected_backend
-    if selected_backend() == SORTFORMER:
-        try:
-            from services.diarization_native import NativeSortformer
-            pipeline = NativeSortformer()
-            return (pipeline, None) if return_error else pipeline
-        except Exception as exc:
-            logger.exception("Could not prepare native Sortformer")
-            return (None, _classify_diarization_error(exc)) if return_error else None
     if _diar_pipeline is not None:
         return (_diar_pipeline, None) if return_error else _diar_pipeline
 

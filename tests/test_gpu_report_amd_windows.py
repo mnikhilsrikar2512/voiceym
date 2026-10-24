@@ -396,53 +396,6 @@ def _fake_venv(tmp_path, version_py: str):
     (tmp_path / ".venv" / "bin" / "python").write_text("")
 
 
-def test_indextts_does_not_claim_rocm_when_its_venv_holds_a_cuda_torch(tmp_path, monkeypatch):
-    """PR #2423 review: gpu_compat claims ROCm because the installer provisions a
-    ROCm torch - but a venv that predates that (or a user-managed clone) still
-    has the CUDA wheel, which sees no AMD GPU. Routing must not report
-    acceleration for it."""
-    from engines.indextts import IndexTTS2Backend, bootstrap
-
-    rocm_caps = HostCaps(family="rocm", available_families=("rocm", "cpu"), device_name="RX 6800 XT")
-    monkeypatch.setenv("OMNIVOICE_INDEXTTS_DIR", str(tmp_path))
-    monkeypatch.setattr(bootstrap, "_resolved_python", None)
-
-    _fake_venv(tmp_path, "__version__ = '2.8.0+cu128'\ncuda = '12.8'\nhip = None\n")
-    cuda_only = IndexTTS2Backend.runtime_compute_profile(rocm_caps)
-    assert cuda_only["routing_status"] == "cpu_fallback"
-    assert "rocm" not in cuda_only["gpu_compat"]
-
-    _fake_venv(tmp_path, "__version__ = '2.8.0+rocm6.4'\ncuda = None\nhip = '6.4.43482'\n")
-    rocm = IndexTTS2Backend.runtime_compute_profile(rocm_caps)
-    assert rocm["routing_status"] == "accelerated"
-    assert rocm["effective_device"] == "rocm"
-
-
-def test_indextts_keeps_its_claim_when_the_venv_cannot_be_inspected(tmp_path, monkeypatch):
-    from engines.indextts import IndexTTS2Backend, bootstrap
-
-    monkeypatch.setenv("OMNIVOICE_INDEXTTS_DIR", str(tmp_path))  # no .venv at all
-    monkeypatch.setattr(bootstrap, "_resolved_python", None)
-    rocm_caps = HostCaps(family="rocm", available_families=("rocm", "cpu"))
-    assert IndexTTS2Backend.runtime_compute_profile(rocm_caps)["routing_status"] == "accelerated"
-    # Never narrowed off a ROCm host either.
-    cuda_caps = HostCaps(family="cuda", available_families=("cuda", "cpu"))
-    assert IndexTTS2Backend.runtime_compute_profile(cuda_caps)["routing_status"] == "accelerated"
-
-
-def test_indextts_inspects_the_managed_default_venv_too(tmp_path, monkeypatch):
-    """Review: with no OMNIVOICE_INDEXTTS_DIR, bootstrap falls back to the
-    package's own venv - a CUDA torch there must not be reported as GPU use."""
-    from engines.indextts import IndexTTS2Backend, bootstrap
-
-    monkeypatch.delenv("OMNIVOICE_INDEXTTS_DIR", raising=False)
-    monkeypatch.setattr(bootstrap, "_resolved_python", None)
-    monkeypatch.setattr(bootstrap, "_ENGINES_VENV_DIR", tmp_path / ".venv")
-    _fake_venv(tmp_path, "__version__ = '2.8.0+cu128'\ncuda = '12.8'\nhip = None\n")
-    caps = HostCaps(family="rocm", available_families=("rocm", "cpu"))
-    assert IndexTTS2Backend.runtime_compute_profile(caps)["routing_status"] == "cpu_fallback"
-
-
 def test_linux_intel_arc_is_found_without_a_vram_figure(tmp_path, symlink_or_skip):
     """i915/xe expose no mem_info_vram_total, so Arc used to read 0 GB and be
     dropped as noise. A card behind a bridge is discrete; the iGPU at 00:02.0

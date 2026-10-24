@@ -112,8 +112,8 @@ def _amd_unusable_note() -> str:
             "AMD GPU detected, but this install's PyTorch (the NVIDIA CUDA or "
             "CPU-only build) cannot drive it, and no ROCm build of the PyTorch "
             "version Voiceym ships exists for Windows. PyTorch "
-            "engines run on the CPU; audio.cpp (Vulkan) can use the GPU - see "
-            "Settings > Performance for the per-engine list."
+            "engines run on the CPU - see Settings > Performance for the "
+            "per-engine list."
         )
     return (
         "AMD GPU detected but torch was installed with CUDA wheels. Set "
@@ -518,8 +518,8 @@ def preflight():
             "detail": "ARM64 Windows PC — the AI backend runs as x64 under "
                       "Windows emulation, CPU only (no GPU/NPU acceleration).",
             "fix": "Everything works but generation is slower. Prefer a "
-                   "lightweight voice engine (KittenTTS, Supertonic-3, "
-                   "PocketTTS) and a small Whisper model.",
+                   "lightweight voice engine (Kokoro or KittenTTS) and a "
+                   "small Whisper model.",
         })
 
     # ── Media engine (ffmpeg/ffprobe/yt-dlp) — deliberately NOT a check row.
@@ -582,7 +582,7 @@ def preflight():
         gpu_fix = (
             "Everything works on CPU, just ~10× slower than a GPU — integrated "
             "graphics are not used for AI. For the best CPU experience pick a "
-            "lightweight voice engine (KittenTTS, Supertonic-3, PocketTTS) and a "
+            "lightweight voice engine (Kokoro or KittenTTS) and a "
             "small Whisper model in the Model Catalogue. If you have an "
             "NVIDIA/AMD card, check drivers are installed."
         )

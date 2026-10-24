@@ -20,7 +20,7 @@ import importlib  # noqa: E402
 
 pytestmark = pytest.mark.model_licence_gate  # real enforcement, see conftest
 
-GATED_REPO = "IndexTeam/IndexTTS-2.5"  # indextts2: unknown category, gated
+GATED_REPO = "k2-fsa/OmniVoice"  # omnivoice: non-commercial, gated
 
 
 # Resolved per test, not at collection: a suite that purges and re-imports the
@@ -80,7 +80,7 @@ def engine_cache(tts_backend):
 
 
 def test_unaccepted_engine_refused_before_construction(store, engine_cache, ma, tts_backend):
-    cls = _engine("indextts2")
+    cls = _engine("omnivoice-subprocess")
     with pytest.raises(ma.ModelLicenceNotAccepted) as err:
         tts_backend.get_engine_instance(cls)
     assert cls.built == 0
@@ -89,7 +89,7 @@ def test_unaccepted_engine_refused_before_construction(store, engine_cache, ma, 
 
 
 def test_accepted_engine_is_built_once(store, engine_cache, ma, tts_backend):
-    cls = _engine("indextts2")
+    cls = _engine("omnivoice-subprocess")
     _accept(ma, GATED_REPO)
     first = tts_backend.get_engine_instance(cls)
     assert tts_backend.get_engine_instance(cls) is first
@@ -103,7 +103,7 @@ def test_commercial_engine_needs_no_acceptance(store, engine_cache, tts_backend)
 
 
 def test_revocation_stops_a_cached_instance(store, engine_cache, ma, tts_backend):
-    cls = _engine("indextts2")
+    cls = _engine("omnivoice-subprocess")
     _accept(ma, GATED_REPO)
     tts_backend.get_engine_instance(cls)
     ma.revoke(GATED_REPO)
@@ -112,19 +112,19 @@ def test_revocation_stops_a_cached_instance(store, engine_cache, ma, tts_backend
 
 
 def test_engine_id_lookup_goes_through_the_gate(store, engine_cache, monkeypatch, ma, tts_backend):
-    cls = _engine("indextts2")
+    cls = _engine("omnivoice-subprocess")
     monkeypatch.setattr(tts_backend, "get_backend_class", lambda engine_id: cls)
     with pytest.raises(ma.ModelLicenceNotAccepted):
-        tts_backend.get_engine_instance_for("indextts2")
+        tts_backend.get_engine_instance_for("omnivoice-subprocess")
     assert cls.built == 0
 
 
-@pytest.mark.parametrize(("identity", "gated"), [
-    ("mlx-community/Kokoro-82M-bf16", False),          # Apache-2.0
-    ("mlx-community/Llama-OuteTTS-1.0-1B-4bit", True),  # non-commercial
+@pytest.mark.parametrize(("engine_id", "identity", "gated"), [
+    ("kokoro", "onnx-community/Kokoro-82M-v1.0-ONNX", False),  # Apache-2.0
+    ("omnivoice-subprocess", "k2-fsa/OmniVoice", True),          # non-commercial
 ])
-def test_preference_dependent_engine_gates_the_selected_model(store, engine_cache, identity, gated, ma, tts_backend):
-    cls = _engine("mlx-audio", identity)
+def test_preference_dependent_engine_gates_the_selected_model(store, engine_cache, engine_id, identity, gated, ma, tts_backend):
+    cls = _engine(engine_id, identity)
     if gated:
         with pytest.raises(ma.ModelLicenceNotAccepted) as err:
             tts_backend.get_engine_instance(cls)
@@ -135,19 +135,17 @@ def test_preference_dependent_engine_gates_the_selected_model(store, engine_cach
 
 @pytest.fixture
 def active_slot(monkeypatch, tts_backend):
-    saved = (tts_backend._active_instance, tts_backend._active_instance_id,
-             tts_backend._active_mlx_model_key)
+    saved = (tts_backend._active_instance, tts_backend._active_instance_id)
     yield monkeypatch
-    (tts_backend._active_instance, tts_backend._active_instance_id,
-     tts_backend._active_mlx_model_key) = saved
+    tts_backend._active_instance, tts_backend._active_instance_id = saved
 
 
 def test_active_backend_refusal_keeps_the_working_engine(store, active_slot, ma, tts_backend):
     working = _engine("kittentts")
     current = working()
     tts_backend._active_instance, tts_backend._active_instance_id = current, "kittentts"
-    gated = _engine("indextts2")
-    active_slot.setattr(tts_backend, "active_backend_id", lambda: "indextts2")
+    gated = _engine("omnivoice-subprocess")
+    active_slot.setattr(tts_backend, "active_backend_id", lambda: "omnivoice-subprocess")
     active_slot.setattr(tts_backend, "get_backend_class", lambda engine_id: gated)
 
     with pytest.raises(ma.ModelLicenceNotAccepted):
@@ -158,8 +156,8 @@ def test_active_backend_refusal_keeps_the_working_engine(store, active_slot, ma,
 
 
 def test_active_backend_revocation_applies_to_cached_instance(store, active_slot, ma, tts_backend):
-    gated = _engine("indextts2")
-    active_slot.setattr(tts_backend, "active_backend_id", lambda: "indextts2")
+    gated = _engine("omnivoice-subprocess")
+    active_slot.setattr(tts_backend, "active_backend_id", lambda: "omnivoice-subprocess")
     active_slot.setattr(tts_backend, "get_backend_class", lambda engine_id: gated)
     tts_backend._active_instance = tts_backend._active_instance_id = None
     _accept(ma, GATED_REPO)

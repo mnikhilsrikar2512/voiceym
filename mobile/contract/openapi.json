@@ -3954,7 +3954,7 @@
         "type": "null"
        }
       ],
-      "description": "OmniVoice GGUF extension: long-form internal chunk duration.",
+      "description": "Voiceym extension: long-form internal chunk duration.",
       "title": "Chunk Duration"
      },
      "chunk_threshold": {
@@ -3967,7 +3967,7 @@
         "type": "null"
        }
       ],
-      "description": "OmniVoice GGUF extension: long-form internal chunk threshold.",
+      "description": "Voiceym extension: long-form internal chunk threshold.",
       "title": "Chunk Threshold"
      },
      "denoise": {
@@ -4060,7 +4060,7 @@
      },
      "model": {
       "default": "kokoro",
-      "description": "TTS model to use. Maps to Voiceym engine IDs: 'kokoro', 'omnivoice' (non-commercial), 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
+      "description": "TTS model to use. Maps to Voiceym engine IDs: 'kokoro', 'voxcpm2', 'chatterbox', 'indic-parler', 'indic-tts', 'kittentts'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
       "title": "Model",
       "type": "string"
      },
@@ -12364,41 +12364,9 @@
     "summary": "List Asr Backends"
    }
   },
-  "/engines/audiocpp/runtime/install": {
-   "post": {
-    "operationId": "install_audiocpp_runtime_engines_audiocpp_runtime_install_post",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Install Audiocpp Runtime"
-   }
-  },
-  "/engines/audiocpp/runtime/install/status": {
-   "get": {
-    "operationId": "audiocpp_runtime_install_status_engines_audiocpp_runtime_install_status_get",
-    "responses": {
-     "200": {
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      },
-      "description": "Successful Response"
-     }
-    },
-    "summary": "Audiocpp Runtime Install Status"
-   }
-  },
   "/engines/diarisation": {
    "get": {
-    "description": "Describe the selected local diarisation runtime without loading weights.",
+    "description": "Describe the local diarisation runtime without loading weights.",
     "operationId": "diarisation_status_engines_diarisation_get",
     "responses": {
      "200": {

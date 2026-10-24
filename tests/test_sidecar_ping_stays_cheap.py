@@ -35,7 +35,7 @@ class _WatchTorch(importlib.abc.MetaPathFinder):
 
 
 def test_sidecars_were_discovered():
-    assert len(SIDECARS) >= 8
+    assert len(SIDECARS) >= 4
 
 
 @pytest.mark.parametrize("script", SIDECARS, ids=lambda p: p.parent.name)

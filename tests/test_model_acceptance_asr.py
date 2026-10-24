@@ -45,7 +45,6 @@ GATED_MLX = "mlx-community/whisper-large-v3-turbo"        # unknown → gated
 COMMERCIAL_MLX = "mlx-community/whisper-large-v3-mlx"      # MIT → open
 GATED_SHERPA = "sherpa-whisper-tiny"                       # unknown → gated
 COMMERCIAL_SHERPA = "sherpa-zipformer-en-20m"              # Apache → open
-SORTFORMER = "audio-cpp/audio.cpp-gguf"                    # non-commercial
 
 
 @pytest.fixture
@@ -238,46 +237,13 @@ def test_faster_whisper_selection_asks_for_unaccepted_terms(store, monkeypatch):
 
 # ── Diarisation ─────────────────────────────────────────────────────────────
 
-def test_diarisation_gates_only_the_selected_model(store, monkeypatch):
+def test_diarisation_needs_no_licence_acceptance(store, monkeypatch):
     from services import diarization_runtime as dr
 
-    monkeypatch.delenv("OMNIVOICE_DIARIZATION_MODEL", raising=False)
-    monkeypatch.setattr(dr, "selected_backend", lambda: dr.SORTFORMER)
-    with pytest.raises(ma.ModelLicenceNotAccepted):
-        dr.ensure_selected_accepted()
-    monkeypatch.setattr(dr, "selected_backend", lambda: dr.PYANNOTE)
-    dr.ensure_selected_accepted()  # MIT pyannote: never blocked by Sortformer
-    monkeypatch.setattr(dr, "selected_backend", lambda: dr.SORTFORMER)
-    _accept(SORTFORMER)
+    # A saved choice from an older release still resolves to MIT pyannote.
+    monkeypatch.setenv("OMNIVOICE_DIARIZATION_BACKEND", "audiocpp-sortformer")
+    assert dr.selected_backend() == dr.PYANNOTE
     dr.ensure_selected_accepted()
-
-
-def test_native_sortformer_refuses_before_touching_the_model(store, monkeypatch):
-    import types
-
-    from services import diarization_native
-    from services import diarization_runtime as dr
-
-    # The audio.cpp bootstrap pulls in the TTS stack; only its name is needed.
-    monkeypatch.setitem(
-        sys.modules, "engines.audiocpp.bootstrap",
-        types.SimpleNamespace(resolve_server_binary=lambda: None),
-    )
-    monkeypatch.delenv("OMNIVOICE_DIARIZATION_MODEL", raising=False)
-    touched: list[bool] = []
-
-    def model_path():
-        touched.append(True)
-        raise FileNotFoundError
-
-    monkeypatch.setattr(dr, "sortformer_model_path", model_path)
-    with pytest.raises(ma.ModelLicenceNotAccepted):
-        diarization_native.NativeSortformer()
-    assert touched == []
-    _accept(SORTFORMER)
-    with pytest.raises(FileNotFoundError):
-        diarization_native.NativeSortformer()
-    assert touched == [True]
 
 
 # ── NLLB translation and router propagation ─────────────────────────────────

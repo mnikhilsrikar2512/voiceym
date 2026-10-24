@@ -85,74 +85,6 @@ def test_main_py_bootstrap_adds_backend_dir():
 # ── #42 — IndexTTS is_available() graceful conflict detection ────────────────
 
 
-def test_indextts_is_available_returns_tuple():
-    """is_available() must always return (bool, str)."""
-    ok, msg = tts_backend.IndexTTS2Backend.is_available()
-    assert isinstance(ok, bool)
-    assert isinstance(msg, str)
-    assert len(msg) > 0
-
-
-def test_indextts_unavailable_message_is_actionable():
-    """When IndexTTS is not installed, the message should guide the user.
-
-    Plan 02-03 migrated IndexTTS to a subprocess + dedicated venv (closes
-    #42 properly). The unavailable message is no longer about the
-    transformers conflict — it's about the venv not existing — and it
-    must point the user at the install docs.
-    """
-    ok, msg = tts_backend.IndexTTS2Backend.is_available()
-    if not ok:
-        # Must point at the env-var-driven install path OR the docs.
-        msg_lower = msg.lower()
-        assert (
-            "omnivoice_indextts_dir" in msg_lower
-            or "docs/engines/indextts.md" in msg_lower
-            or "uv pip install" in msg_lower
-            or "git clone" in msg_lower
-            or "conflict" in msg_lower
-        ), f"is_available() failure message not actionable: {msg!r}"
-
-
-def test_indextts_no_inprocess_import_attempted():
-    """The new IndexTTS2Backend must NOT attempt `import indextts` at any point.
-
-    Plan 02-03 closes #42 by running IndexTTS in a subprocess with its
-    own venv — the parent's transformers>=5.3 never touches
-    transformers<5. We assert by patching builtins.__import__: if
-    is_available() triggers an indextts.* import, the assertion fires.
-    """
-    calls: list[str] = []
-    original_import = (
-        __builtins__.__import__
-        if hasattr(__builtins__, "__import__")
-        else __import__
-    )
-
-    def tracking_import(name, *args, **kwargs):
-        if name.startswith("indextts"):
-            calls.append(name)
-        return original_import(name, *args, **kwargs)
-
-    with mock.patch("builtins.__import__", side_effect=tracking_import):
-        ok, msg = tts_backend.IndexTTS2Backend.is_available()
-
-    assert calls == [], (
-        f"IndexTTS2Backend.is_available() must not import indextts.* in the "
-        f"parent process (Plan 02-03 / #42); got imports: {calls}"
-    )
-    assert isinstance(ok, bool)
-    assert isinstance(msg, str)
-
-
-def test_indextts_docstring_warns_about_uv_sync():
-    """The docstring should warn users NOT to use uv sync --all-extras."""
-    doc = tts_backend.IndexTTS2Backend.__doc__
-    assert doc is not None
-    assert "uv pip install -e" in doc
-    assert "uv sync --all-extras" in doc  # warning about NOT using it
-
-
 # ── #45 — install_hint in list_backends() ────────────────────────────────────
 
 
@@ -178,16 +110,6 @@ def test_install_hints_cover_all_registered_backends():
     rows = tts_backend.list_backends()
     missing = [r["id"] for r in rows if r.get("install_hint") is None]
     assert missing == [], f"Backends missing install_hint: {missing}"
-
-
-def test_indextts_install_hint_warns_about_sync():
-    """IndexTTS hint should recommend `uv pip install` not `uv sync --all-extras`."""
-    rows = tts_backend.list_backends()
-    idx_row = next((r for r in rows if r["id"] == "indextts2"), None)
-    assert idx_row is not None, "indextts2 not in registry"
-    hint = idx_row["install_hint"]
-    assert "uv pip install" in hint
-    assert "NOT" in hint or "not" in hint.lower()
 
 
 def test_voxcpm_install_hint_uses_correct_package_name():
@@ -218,9 +140,9 @@ def test_list_backends_shape_unchanged():
 
 
 def test_registry_minimum_engine_count():
-    """We must have at least 9 engines registered."""
+    """Every shipped commercial-use engine is registered."""
     rows = tts_backend.list_backends()
-    assert len(rows) >= 9, f"Only {len(rows)} engines registered, expected ≥ 9"
+    assert len(rows) >= 6, f"Only {len(rows)} engines registered, expected ≥ 6"
 
 
 def test_all_backends_is_available_returns_tuple():

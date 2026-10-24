@@ -13,19 +13,18 @@ def _tts():
     return importlib.import_module("services.tts_backend")
 
 
-def test_catalogue_lists_supertonic3_presets():
-    entries = {e["id"]: e for e in _tts().list_backends()}
-    from engines.supertonic3 import constants
-
-    entry = entries["supertonic3"]
-    assert entry["preset_voices"] == constants.VOICE_PRESETS
-    assert entry["default_voice"] == constants.DEFAULT_VOICE
+def test_catalogue_lists_kittentts_presets():
+    tts = _tts()
+    entry = {e["id"]: e for e in tts.list_backends()}["kittentts"]
+    assert entry["preset_voices"] == tts.preset_voices_of(tts.KittenTTSBackend)
+    assert entry["preset_voices"]
+    assert entry["default_voice"] == tts.KittenTTSBackend.DEFAULT_VOICE
 
 
 def test_engines_without_presets_list_none():
     entries = {e["id"]: e for e in _tts().list_backends()}
-    assert entries["omnivoice"]["preset_voices"] == []
-    assert entries["omnivoice"]["default_voice"] is None
+    assert entries["voxcpm2"]["preset_voices"] == []
+    assert entries["voxcpm2"]["default_voice"] is None
 
 
 def _engine():

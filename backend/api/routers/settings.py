@@ -934,7 +934,7 @@ def set_llm_skill(skill_id: str, body: _LLMSkillBody):
 
 
 # ── License acceptance (Phase 3 Plan 03-01 / TTS-05) ──────────────────────
-# Frontend ``SupertonicLicenseDialog`` flips the engine-license bit via this
+# An engine licence dialog flips the engine-license bit via this
 # endpoint. The handler is loopback-gated (router-level dep) and the
 # engine_id is allow-listed so an arbitrary string cannot be persisted.
 # Threat T-03-04 in the plan frontmatter: this is an honest-acknowledgment

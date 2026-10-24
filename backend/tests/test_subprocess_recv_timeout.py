@@ -2,8 +2,7 @@
 
 #1611 raised IndexTTS's deadline because a healthy synthesis was being killed at
 60s. That fixed the reported engine and left the class default alone, so four
-more engines — confucius4, dots_tts, moss_tts_v15, supertonic3 — inherited the
-same 60s and were killed the same way.
+more engines inherited the same 60s and were killed the same way.
 
 60s is the ``health_check`` ping budget. Inheriting it as a *generation*
 deadline puts the sidecar watchdog five to ten times below
@@ -17,11 +16,6 @@ omission, which is the part #1611 could not do by fixing one engine.
 """
 import pytest
 
-
-
-# The engines named in #2103 that inherited the ping budget. Listed explicitly
-# so the regression is legible even if the registry is reorganised later.
-REGRESSED_ENGINE_IDS = ("confucius4-tts", "dots-tts", "moss-tts-v15", "supertonic3")
 
 
 def _subprocess_backend_classes():
@@ -55,16 +49,6 @@ def test_default_generate_deadline_covers_the_cpu_job_budget():
     from services.subprocess_backend import SubprocessBackend
     assert GENERATE_RECV_TIMEOUT_S >= 600.0
     assert SubprocessBackend.recv_timeout_s == GENERATE_RECV_TIMEOUT_S
-
-
-@pytest.mark.parametrize("engine_id", REGRESSED_ENGINE_IDS)
-def test_regressed_engines_no_longer_inherit_the_ping_budget(engine_id):
-    from services.subprocess_backend import RECV_TIMEOUT_S
-    cls = _subprocess_backend_classes().get(engine_id)
-    if cls is None:
-        pytest.fail(f"{engine_id} is not registered in this build")
-    # Read through an instance: several engines expose the hook as a property.
-    assert cls.__new__(cls).recv_timeout_s > RECV_TIMEOUT_S
 
 
 def test_no_registered_sidecar_undercuts_the_accelerated_job_budget():

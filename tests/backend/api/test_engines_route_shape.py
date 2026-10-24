@@ -139,73 +139,6 @@ def test_llm_entries_are_network_n_a(fresh_app):
         assert entry["gpu_compat"] == []
 
 
-def test_diarisation_status_distinguishes_model_from_native_runtime(
-    fresh_app, monkeypatch
-):
-    from services import diarization_runtime
-
-    monkeypatch.setattr(
-        diarization_runtime,
-        "selected_backend",
-        lambda: diarization_runtime.SORTFORMER,
-    )
-    monkeypatch.setattr(
-        diarization_runtime,
-        "sortformer_status",
-        lambda: {
-            "model": diarization_runtime.SORTFORMER_REPO,
-            "model_installed": True,
-            "runtime_installed": False,
-            "installed": False,
-            "reason": (
-                "The Sortformer model is installed. Install the audio.cpp runtime to use it"
-            ),
-        },
-    )
-
-    response = _client(fresh_app).get("/engines/diarisation")
-
-    assert response.status_code == 200
-    body = response.json()
-    assert body["model"] == diarization_runtime.SORTFORMER_REPO
-    assert body["model_installed"] is True
-    assert body["runtime_installed"] is False
-    assert body["installed"] is False
-    assert body["reason"] == (
-        "The Sortformer model is installed. Install the audio.cpp runtime to use it"
-    )
-    native = next(item for item in body["options"] if item["id"] == body["active"])
-    assert native["model_installed"] is True
-    assert native["runtime_installed"] is False
-
-
-def test_audiocpp_runtime_installer_routes_are_desktop_scoped(
-    fresh_app, monkeypatch
-):
-    from services import audiocpp_runtime_install
-
-    payload = {
-        "supported": True,
-        "installed": False,
-        "managed": False,
-        "version": None,
-        "platform": "windows-x64",
-        "job": {"state": "idle", "progress": 0.0, "error": None},
-    }
-    monkeypatch.setattr(audiocpp_runtime_install, "status", lambda: payload)
-    monkeypatch.setattr(
-        audiocpp_runtime_install,
-        "start_install",
-        lambda: {"status": "started", **payload},
-    )
-    client = _client(fresh_app)
-
-    assert client.get("/engines/audiocpp/runtime/install/status").json() == {**payload, "install_allowed": True}
-    response = client.post("/engines/audiocpp/runtime/install")
-    assert response.status_code == 200
-    assert response.json()["status"] == "started"
-
-
 def test_engine_discovery_omits_service_diagnostics(fresh_app, monkeypatch):
     from api.routers import engines
 
@@ -285,17 +218,8 @@ def test_engine_discovery_preserves_routing_outcome_without_diagnostics(
     assert "/home/alice" not in repr(body)
 
 
-def test_indextts2_entry_has_subprocess_isolation_mode(fresh_app):
-    """Cross-checks Plan 02-03's IndexTTS subprocess migration via the API."""
-    client = _client(fresh_app)
-    r = client.get("/engines")
-    assert r.status_code == 200
-    by_id = {b["id"]: b for b in r.json()["tts"]["backends"]}
-    assert "indextts2" in by_id
-    assert by_id["indextts2"]["isolation_mode"] == "subprocess"
-
-
 def test_omnivoice_entry_has_in_process_isolation_mode(fresh_app, monkeypatch):
+    monkeypatch.setattr("services.tts_backend.UNLISTED_ENGINES", frozenset())  # list OmniVoice
     _force_cpu_host(monkeypatch)
     client = _client(fresh_app)
     r = client.get("/engines")
@@ -303,6 +227,24 @@ def test_omnivoice_entry_has_in_process_isolation_mode(fresh_app, monkeypatch):
     by_id = {b["id"]: b for b in r.json()["tts"]["backends"]}
     assert "omnivoice" in by_id
     assert by_id["omnivoice"]["isolation_mode"] == "in-process"
+
+
+def test_retired_omnivoice_is_listed_only_while_it_is_the_active_engine(
+    fresh_app, monkeypatch
+):
+    """OmniVoice (CC-BY-NC) is not offered for new picks, but an install that
+    already uses it must still see and keep its engine."""
+    _force_cpu_host(monkeypatch)
+    client = _client(fresh_app)
+    monkeypatch.delenv("OMNIVOICE_TTS_BACKEND", raising=False)
+    monkeypatch.setattr("core.prefs.get", lambda key, default=None: default)
+    ids = {b["id"] for b in client.get("/engines/tts").json()["backends"]}
+    assert "omnivoice" not in ids and "omnivoice-subprocess" not in ids
+    assert "kokoro" in ids
+
+    monkeypatch.setenv("OMNIVOICE_TTS_BACKEND", "omnivoice")
+    ids = {b["id"] for b in client.get("/engines/tts").json()["backends"]}
+    assert "omnivoice" in ids and "omnivoice-subprocess" not in ids
 
 
 def test_mps_picker_hides_redundant_omnivoice_sidecar_but_api_accepts_it(
@@ -350,6 +292,7 @@ def test_mps_picker_hides_redundant_omnivoice_sidecar_but_api_accepts_it(
 
 def test_gpu_compat_omnivoice_variants_include_rocm(fresh_app, monkeypatch):
     """Both OmniVoice paths use torch's HIP-backed CUDA device on ROCm."""
+    monkeypatch.setattr("services.tts_backend.UNLISTED_ENGINES", frozenset())  # list OmniVoice
     _force_host(monkeypatch, "rocm")
     client = _client(fresh_app)
     r = client.get("/engines")
@@ -376,6 +319,7 @@ def _force_cpu_host(monkeypatch):
 
 
 def test_omnivoice_variants_route_to_rocm(fresh_app, monkeypatch):
+    monkeypatch.setattr("services.tts_backend.UNLISTED_ENGINES", frozenset())  # list OmniVoice
     _force_host(monkeypatch, "rocm")
 
     body = _client(fresh_app).get("/engines").json()
@@ -574,167 +518,22 @@ def test_get_engines_asr_family_shape(fresh_app):
         assert not missing, f"asr entry {entry['id']!r} missing: {missing}"
 
 
-# ── #981 — mlx-audio curated-model selection via /engines/select ───────────
-#
-# mlx-audio multiplexes 7+ curated models behind one backend id. Before this
-# fix there was NO way anywhere in the UI/API to pick which curated model
-# actually loads — it always defaulted to Kokoro even if the user had
-# downloaded e.g. Llama-OuteTTS via the engine's Weights list in Model Catalogue.
-
-
-def _make_mlx_audio_available(monkeypatch):
-    """mlx-audio is Apple-Silicon-gated; force is_available()=True + a
-    CPU-friendly host so the routing gate doesn't block these tests on
-    non-mac CI runners."""
-    from services import tts_backend as tts_mod
-    monkeypatch.setattr(
-        tts_mod.MLXAudioBackend, "is_available",
-        classmethod(lambda cls: (True, "ready")),
-    )
-    _force_cpu_host(monkeypatch)
-
-
-def test_select_mlx_audio_unknown_model_id_is_400(fresh_app, monkeypatch):
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={"family": "tts", "backend_id": "mlx-audio", "model_id": "not-a-real-model"},
-    )
-    assert r.status_code == 400
-    assert "Unknown mlx-audio model" in r.json()["detail"]
-
-
-def test_select_mlx_audio_curated_key_persists(fresh_app, monkeypatch):
-    from core import prefs as _prefs
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={"family": "tts", "backend_id": "mlx-audio", "model_id": "outetts"},
-    )
-    assert r.status_code == 200, r.text
-    assert _prefs.get("mlx_audio_model_id") == "outetts"
-    assert _prefs.get("tts_backend") == "mlx-audio"
-
-
-def test_select_mlx_audio_raw_repo_id_accepted(fresh_app, monkeypatch):
-    """MLXAudioBackend already tolerates a raw HF repo id, not just a
-    curated key (tts_backend.py ~733) — the API must too."""
-    from core import prefs as _prefs
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={
-            "family": "tts", "backend_id": "mlx-audio",
-            "model_id": "mlx-community/Some-Other-Model-4bit",
-        },
-    )
-    assert r.status_code == 200, r.text
-    assert _prefs.get("mlx_audio_model_id") == "mlx-community/Some-Other-Model-4bit"
-
-
-def test_select_mlx_audio_repo_id_accepts_underscore_prefixes(fresh_app, monkeypatch):
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={
-            "family": "tts", "backend_id": "mlx-audio",
-            "model_id": "_owner/_repo",
-        },
-    )
-    assert r.status_code == 200, r.text
-
-
-@pytest.mark.parametrize(
-    "model_id",
-    [
-        "owner/repo/extra",
-        "-owner/repo",
-        "owner/.repo",
-        "owner/repo--name",
-        "owner/repo..name",
-        "owner/repo.",
-        "owner/repo.git",
-        f"owner/{'a' * 97}",
-        "-" * 100_000,
-    ],
-    ids=lambda value: value if len(value) < 100 else f"oversized-{len(value)}",
-)
-def test_select_mlx_audio_rejects_malformed_repo_ids(fresh_app, monkeypatch, model_id):
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={"family": "tts", "backend_id": "mlx-audio", "model_id": model_id},
-    )
-    assert r.status_code == 400
-    assert len(r.content) < 256
-    assert model_id[:100] not in r.text
-
-
-def test_hf_repo_id_size_bound_precedes_library_validation(fresh_app, monkeypatch):
-    from api.routers import engines as engines_router
-
-    def unexpected_validation(_value):
-        raise AssertionError("oversized repo id reached the library validator")
-
-    monkeypatch.setattr(
-        engines_router.hf_utils,
-        "validate_repo_id",
-        unexpected_validation,
-    )
-
-    assert not engines_router._is_hf_repo_id("-" * 100_000)
-
-
-def test_select_mlx_audio_without_model_id_does_not_touch_pref(fresh_app, monkeypatch):
-    """Selecting mlx-audio without a model_id (e.g. an older frontend) must
-    leave any existing mlx_audio_model_id pref untouched."""
-    from core import prefs as _prefs
-    _prefs.set_("mlx_audio_model_id", "csm")
-    _make_mlx_audio_available(monkeypatch)
-    r = _client(fresh_app).post(
-        "/engines/select", json={"family": "tts", "backend_id": "mlx-audio"})
-    assert r.status_code == 200, r.text
-    assert _prefs.get("mlx_audio_model_id") == "csm"
-
-
-def test_select_model_id_ignored_for_non_mlx_audio_backend(fresh_app):
-    """model_id is only meaningful for mlx-audio; picking a different TTS
-    backend with a model_id set must not persist a stray pref."""
-    from core import prefs as _prefs
-    r = _client(fresh_app).post(
-        "/engines/select",
-        json={"family": "tts", "backend_id": "omnivoice", "model_id": "kokoro"},
-    )
-    assert r.status_code == 200, r.text
-    assert _prefs.get("mlx_audio_model_id") is None
-
-
-def test_engines_response_curated_models_only_on_mlx_audio(fresh_app):
-    client = _client(fresh_app)
-    body = client.get("/engines").json()
-    by_id = {b["id"]: b for b in body["tts"]["backends"]}
-    assert "curated_models" in by_id["mlx-audio"]
-    assert "active_model_id" in by_id["mlx-audio"]
-    assert "curated_models" not in by_id["omnivoice"]
-    assert "active_model_id" not in by_id["omnivoice"]
-
-
 # ── /engines/{id}/health round-trip ────────────────────────────────────────
 
 
 def test_engine_health_subprocess_success(fresh_app, monkeypatch):
-    """Mock IndexTTS2Backend.health_check so we don't spawn a real sidecar."""
+    """Mock the sidecar's health_check so we don't spawn a real one."""
     from services.tts_backend import _REGISTRY
 
     # Resolve the lazy entry without spawning anything heavy.
-    cls = _REGISTRY["indextts2"]
+    cls = _REGISTRY["chatterbox"]
     monkeypatch.setattr(cls, "health_check", lambda self: (True, "pong"))
 
     client = _client(fresh_app)
-    r = client.get("/engines/indextts2/health")
+    r = client.get("/engines/chatterbox/health")
     assert r.status_code == 200
     body = r.json()
-    assert body["id"] == "indextts2"
+    assert body["id"] == "chatterbox"
     assert body["ok"] is True
     assert body["message"] == "Healthy"
     assert isinstance(body["latency_ms"], (int, float))
@@ -796,8 +595,8 @@ def test_server_mode_engine_mutations_require_api_key(fresh_app, monkeypatch):
     requests = [
         ("post", "/engines/translation/deep-translator/install", None),
         ("delete", "/engines/translation/deep-translator", None),
-        ("post", "/engines/sidecar/indextts2/install", None),
-        ("delete", "/engines/sidecar/indextts2/install", None),
+        ("post", "/engines/sidecar/chatterbox/install", None),
+        ("delete", "/engines/sidecar/chatterbox/install", None),
         ("post", "/engines/omnivoice/selftest", None),
         ("post", "/engines/select", {}),
     ]
@@ -824,7 +623,7 @@ def test_server_mode_sidecar_install_stays_desktop_only(fresh_app, monkeypatch):
     client = _client(fresh_app, host="172.17.0.1")
 
     response = client.post(
-        "/engines/sidecar/indextts2/install",
+        "/engines/sidecar/chatterbox/install",
         headers={"authorization": "Bearer s3cret"},
     )
 
@@ -842,7 +641,7 @@ def test_engine_health_caches_instance_across_calls(fresh_app, monkeypatch):
     from api.routers import engines as engines_router
     from services.tts_backend import _REGISTRY
 
-    cls = _REGISTRY["indextts2"]
+    cls = _REGISTRY["chatterbox"]
     call_count = {"n": 0}
     monkeypatch.setattr(cls, "health_check", lambda self: (True, "pong"))
     # Clear the cache so the first call constructs an instance.
@@ -856,8 +655,8 @@ def test_engine_health_caches_instance_across_calls(fresh_app, monkeypatch):
     monkeypatch.setattr(cls, "__init__", _counting_init)
 
     client = _client(fresh_app)
-    r1 = client.get("/engines/indextts2/health")
-    r2 = client.get("/engines/indextts2/health")
+    r1 = client.get("/engines/chatterbox/health")
+    r2 = client.get("/engines/chatterbox/health")
     assert r1.status_code == 200 and r2.status_code == 200
     assert call_count["n"] == 1, (
         f"expected exactly one IndexTTS2Backend() construction across "
@@ -1052,12 +851,8 @@ def test_setup_snippet_present_for_path_gated_engines(fresh_app):
     # Every entry carries the key (None for engines with no path gate).
     for entry in by_id.values():
         assert "setup_snippet" in entry
-    # IndexTTS-2 is path-gated → exact export line, single-sourced in the backend.
-    assert by_id["indextts2"]["setup_snippet"] == (
-        "export OMNIVOICE_INDEXTTS_DIR=/path/to/index-tts"
-    )
     # A bundled engine has no path gate → null.
-    assert by_id["omnivoice"]["setup_snippet"] is None
+    assert by_id["kokoro"]["setup_snippet"] is None
 
 
 # ── HF-token leak prevention (T-02-12) ─────────────────────────────────────
@@ -1121,14 +916,14 @@ def test_no_hf_token_leak_in_health_response(fresh_app, monkeypatch):
     """The health route's message field runs through the same redactor."""
     from services.tts_backend import _REGISTRY
 
-    cls = _REGISTRY["indextts2"]
+    cls = _REGISTRY["chatterbox"]
     monkeypatch.setattr(
         cls, "health_check",
         lambda self: (False, f"sidecar 401 for {SAMPLE_HF_TOKEN}"),
     )
 
     client = _client(fresh_app)
-    r = client.get("/engines/indextts2/health")
+    r = client.get("/engines/chatterbox/health")
     assert r.status_code == 200
     body = r.json()
     assert body["ok"] is False

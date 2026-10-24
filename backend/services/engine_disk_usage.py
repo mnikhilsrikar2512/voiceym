@@ -33,20 +33,10 @@ _ESTIMATES: dict[str, dict] = {
         "destination": "hf_model_cache",
         "deduplication": None,
     },
-    "audiocpp": {
-        "package_download_bytes": None,
-        "unique_installed_bytes": None,
-        "potentially_shared_bytes": None,
-        "temporary_free_bytes": None,
-        "confidence": "estimated",
-        "destination": "hf_model_cache",
-        "deduplication": None,
-    },
 }
 _MODEL_REPOS = {
     "omnivoice": "k2-fsa/OmniVoice",
     "kittentts": "KittenML/kitten-tts-mini-0.8",
-    "audiocpp": "audio-cpp/audio.cpp-gguf",
 }
 
 

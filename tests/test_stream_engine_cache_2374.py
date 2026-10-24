@@ -142,30 +142,6 @@ def test_explicit_omnivoice_override_keeps_lazy_core_path(engines, monkeypatch):
     assert FakeOmni.constructed == 1
 
 
-def test_stream_follows_active_model_change_without_unloading_in_flight(monkeypatch):
-    from api.routers.tts_stream import _resolve_stream_backend
-    from services import tts_backend
-
-    monkeypatch.setattr(tts_backend, '_active_instance', None)
-    monkeypatch.setattr(tts_backend, '_active_instance_id', None)
-    monkeypatch.setattr(tts_backend, '_active_mlx_model_key', None)
-    monkeypatch.setattr(tts_backend, '_ENGINE_IN_USE', {})
-    monkeypatch.setattr(tts_backend, '_RETIRED_ENGINES', {})
-    monkeypatch.setattr(tts_backend, 'active_backend_id', lambda: 'mlx-audio')
-    monkeypatch.setenv('OMNIVOICE_MLX_AUDIO_MODEL', 'kokoro')
-    first = tts_backend.get_active_tts_backend()
-    unloaded = []
-    first.unload = lambda: unloaded.append(True)
-    with tts_backend.engine_in_use(first):
-        monkeypatch.setenv('OMNIVOICE_MLX_AUDIO_MODEL', 'outetts')
-        second = asyncio.run(_resolve_stream_backend('mlx-audio'))
-        assert second is not first
-        assert second is tts_backend._active_instance
-        assert second.model_identity() == second.CURATED_MODELS['outetts']
-        assert not unloaded
-    assert unloaded == [True]
-
-
 def test_resolver_does_not_invoke_eviction_during_another_stream(engines, monkeypatch):
     from api.routers.tts_stream import _resolve_stream_backend
     from services import engine_memory

@@ -22,8 +22,6 @@ import threading
 from time import perf_counter
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from huggingface_hub import utils as hf_utils
-from huggingface_hub.errors import HFValidationError
 from pydantic import BaseModel, Field
 
 from api.dependencies import require_admin, require_admin_action, require_desktop, is_loopback
@@ -72,11 +70,6 @@ def _family_payload(family: str, module):
         if active in {"omnivoice", "omnivoice-subprocess"}:
             from services.model_manager import resolve_omnivoice_checkpoint
             model = resolve_omnivoice_checkpoint()
-        elif active == "mlx-audio":
-            from core import prefs
-            cls = tts_backend.MLXAudioBackend
-            key = prefs.resolve("mlx_audio_model_id", env="OMNIVOICE_MLX_AUDIO_MODEL", default=cls.DEFAULT_MODEL_KEY)
-            model = cls.CURATED_MODELS.get(key, key)
         else:
             instance = getattr(tts_backend, "_active_instance", None)
             if instance is not None and getattr(tts_backend, "_active_instance_id", None) == active:
@@ -93,9 +86,6 @@ def _family_payload(family: str, module):
                 backend["output_channels"] = 1 if backend["output_sample_rate"] else None
             if engine_id == active:
                 backend["supported_language_names"] = tts_backend.language_options(active)
-            if engine_id == active == "mlx-audio":
-                # Constructor resolves model preferences only; never loads weights.
-                backend["supports_cloning"] = tts_backend.MLXAudioBackend().supports_cloning
             if engine_id in LICENSE_GATED_ENGINES:
                 backend["license_required"] = True
                 try:
@@ -115,17 +105,6 @@ def _family_payload(family: str, module):
         "env_override": bool(os.environ.get(f"OMNIVOICE_{family.upper()}_BACKEND")),
         "backends": backends,
     }
-
-def _is_hf_repo_id(value: str) -> bool:
-    """Validate the route's ``owner/repo`` contract in bounded time."""
-    if not isinstance(value, str) or len(value) > 96 or value.count("/") != 1:
-        return False
-    try:
-        hf_utils.validate_repo_id(value)
-    except (HFValidationError, TypeError):
-        return False
-    return True
-
 
 def _request_install_capability(payload, request):
     allowed = bool(request and request.client and is_loopback(request.client.host))
@@ -189,56 +168,21 @@ def list_effects_presets():
 
 @router.get("/engines/diarisation")
 def diarisation_status():
-    """Describe the selected local diarisation runtime without loading weights."""
-    from services.diarization_runtime import (
-        PYANNOTE,
-        SORTFORMER,
-        selected_backend,
-        sortformer_status,
-    )
-
-    selected = selected_backend()
-    native = selected == SORTFORMER
-    options = []
+    """Describe the local diarisation runtime without loading weights."""
     from api.routers.setup.models import KNOWN_MODELS, cache_is_complete, is_cached
+    from services import model_manager
+    from services.diarization_runtime import PYANNOTE
+
     pyannote_repo = "pyannote/speaker-diarization-3.1"
     spec = next(model for model in KNOWN_MODELS if model["repo_id"] == pyannote_repo)
-    pyannote_installed = is_cached(pyannote_repo) and cache_is_complete(spec)
-    pyannote_reason = None if pyannote_installed else "Install the pyannote model bundle"
-    options.append({
-        "id": PYANNOTE,
-        "label": "pyannote 3.1",
-        "model": pyannote_repo,
-        "installed": pyannote_installed,
-        "reason": pyannote_reason,
-    })
-
-    native_status = sortformer_status()
-    native_installed = native_status["installed"]
-    native_model = native_status["model"]
-    native_reason = native_status["reason"]
-    options.append({
-        "id": SORTFORMER,
-        "label": "Sortformer v1 (audio.cpp)",
-        "model": native_model,
-        "model_installed": native_status["model_installed"],
-        "runtime_installed": native_status["runtime_installed"],
-        "installed": native_installed,
-        "reason": native_reason,
-    })
-
-    if native:
-        from services.diarization_native import is_running
-        return {"active": SORTFORMER, "label": "Sortformer v1 (audio.cpp)",
-                "model": native_model, "installed": native_installed, "loaded": False,
-                "model_installed": native_status["model_installed"],
-                "runtime_installed": native_status["runtime_installed"],
-                "busy": is_running(), "reason": native_reason, "options": options}
-    from services import model_manager
+    installed = is_cached(pyannote_repo) and cache_is_complete(spec)
+    reason = None if installed else "Install the pyannote model bundle"
+    option = {"id": PYANNOTE, "label": "pyannote 3.1", "model": pyannote_repo,
+              "installed": installed, "reason": reason}
     return {"active": PYANNOTE, "label": "pyannote 3.1", "model": pyannote_repo,
-            "installed": pyannote_installed,
-            "loaded": model_manager._diar_pipeline is not None, "reason": pyannote_reason,
-            "options": options}
+            "installed": installed,
+            "loaded": model_manager._diar_pipeline is not None, "reason": reason,
+            "options": [option]}
 
 
 class DiarisationSelection(BaseModel):
@@ -248,7 +192,7 @@ class DiarisationSelection(BaseModel):
 @router.post("/engines/diarisation/select", dependencies=[Depends(require_admin)])
 def select_diarisation_engine(request: DiarisationSelection):
     """Persist an installed diarisation runtime; environment overrides still win."""
-    from services.diarization_runtime import SORTFORMER, select_backend, selected_backend
+    from services.diarization_runtime import select_backend, selected_backend
 
     status = diarisation_status()
     option = next(
@@ -260,11 +204,6 @@ def select_diarisation_engine(request: DiarisationSelection):
     if not option["installed"]:
         raise HTTPException(409, option.get("reason") or "Install this diarisation engine first")
     select_backend(request.engine_id)
-    if request.engine_id == SORTFORMER:
-        # Native Sortformer is stateless. Release a previously loaded pyannote
-        # pipeline so Engine Ready cannot hide stale accelerator memory.
-        from services import model_manager
-        model_manager.unload_diarization_pipeline()
     return {
         "active": selected_backend(),
         "env_override": bool(os.environ.get("OMNIVOICE_DIARIZATION_BACKEND")),
@@ -430,33 +369,7 @@ async def uninstall_translation_engine(engine_id: str):
     return {"status": "uninstalled", "engine": engine_id, "package": pkg, "log_tail": out[-800:]}
 
 
-# ── Checksummed native audio.cpp runtime install ───────────────────────────
-
-
-@router.get(
-    "/engines/audiocpp/runtime/install/status",
-    dependencies=[Depends(require_admin)],
-)
-def audiocpp_runtime_install_status(request: Request):
-    from services import audiocpp_runtime_install
-
-    return {**audiocpp_runtime_install.status(), "install_allowed": bool(request.client and is_loopback(request.client.host))}
-
-
-@router.post(
-    "/engines/audiocpp/runtime/install",
-    dependencies=[Depends(require_admin), Depends(require_desktop)],
-)
-def install_audiocpp_runtime():
-    from services import audiocpp_runtime_install
-
-    try:
-        return audiocpp_runtime_install.start_install()
-    except RuntimeError as exc:
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
-
-
-# ── One-click sidecar-engine install (IndexTTS-2 & friends) ────────────────
+# ── One-click sidecar-engine install ────────────────
 #
 # Sidecar engines (dedicated venv + source checkout + weights, isolated from
 # the parent's transformers>=5.3) used to require four manual terminal steps.
@@ -862,10 +775,7 @@ def engine_selftest(engine_id: str):
 class SelectEngineRequest(BaseModel):
     family: str   # "tts" | "asr" | "llm"
     backend_id: str
-    # Only meaningful for family="tts", backend_id="mlx-audio" (#981) — picks
-    # which of mlx-audio's curated models is actually loaded. A curated key
-    # ("kokoro") or a raw HF repo id ("mlx-community/Kokoro-82M-bf16") — the
-    # same tolerance MLXAudioBackend.__init__ already has. Ignored otherwise.
+    # ASR only: the CTranslate2 Whisper model to load. Ignored otherwise.
     model_id: str | None = None
 
 
@@ -921,24 +831,6 @@ def select_engine(req: SelectEngineRequest):
             f"Backend {req.backend_id} can't run on this machine: {why}. "
             f"Pick an engine with a CPU path, or one that supports this host's GPU.",
         )
-    # #981: mlx-audio multiplexes 7+ curated models behind one backend id —
-    # persist the model pick alongside the backend id so the UI can actually
-    # select which curated model gets loaded (previously it always defaulted
-    # to Kokoro no matter what the user downloaded in the engine's Weights list in Model Catalogue).
-    if req.family == "tts" and req.backend_id == "mlx-audio" and req.model_id is not None:
-        known_keys = tts_backend.MLXAudioBackend.CURATED_MODELS
-        # Accept a curated key OR a raw HF repo id ("owner/name") — the same
-        # tolerance MLXAudioBackend.__init__ already has for power users.
-        # Anything else (typo'd key, malformed id) is rejected outright
-        # rather than silently persisted as a "custom repo" that then fails
-        # to resolve at load time.
-        if req.model_id not in known_keys and not _is_hf_repo_id(req.model_id):
-            raise HTTPException(
-                400,
-                "Unknown mlx-audio model. Expected a curated model key or a "
-                "Hugging Face repo ID like 'owner/name'.",
-            )
-        prefs.set_("mlx_audio_model_id", req.model_id)
     if req.family == "asr" and req.model_id is not None:
         if req.backend_id not in {"faster-whisper", "faster-whisper-isolated"}:
             raise HTTPException(400, "This ASR engine does not accept a CTranslate2 model")

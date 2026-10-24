@@ -281,7 +281,7 @@ def test_preflight_amd_flags_warn_when_no_rocm_torch():
 
 
 @pytest.mark.parametrize("platform_, expect", [
-    ("win32", "audio.cpp"),
+    ("win32", "Settings > Performance"),
     ("linux", "OMNIVOICE_TORCH_VARIANT=rocm"),
 ])
 def test_preflight_sees_a_radeon_without_rocm_smi(monkeypatch, platform_, expect):

@@ -65,17 +65,8 @@ Install pyannote from Settings > Models > Diarisation after completing the acces
 
 Dubbing resolves all three files from the local cache and does not download models during a job. Once installed, the bundle can run without retaining an HF token. Missing files prompt installation or repair; transcription continues with the existing silence-gap fallback and its accuracy caveat. A runtime load failure is reported separately from missing files.
 
-## Native Sortformer adapter
+## Runtime
 
-The shared diarisation path also supports audio.cpp Sortformer v1. Install the reviewed model and its checksummed native runtime in **Settings → Models → Diarisation**, then select Sortformer on that page. Voiceym resolves the installed Q8 GGUF locally and persists the choice; it never downloads a model while transcribing. `OMNIVOICE_DIARIZATION_BACKEND` and `OMNIVOICE_DIARIZATION_MODEL` remain authoritative overrides for managed deployments.
-
-The adapter normalizes input to mono 16 kHz, converts sample-based turns to the shared annotation format, and contains the native process with a ten-minute timeout. Sortformer supports up to four speakers but cannot enforce the existing exact-speaker-count setting; requesting that setting follows the existing fallback/warning path. Its accelerator graph grows from the default 20-second context for clips up to 120 seconds. Longer recordings require pyannote until locally converted Sortformer v2.1 streaming weights can be distributed. No binary or model is downloaded implicitly. The model's CC-BY-NC-4.0 restrictions apply; see the upstream audio.cpp model card. Native process status and cancellation are wired into the shared job lifecycle.
-
-Run `uv run --no-sync python scripts/smoke_sortformer.py <local-media> --min-speakers 2`
-to verify an installed runtime against local media. Add `--seconds 120 --cancel-after 0.5`
-to verify process cancellation. The smoke writes only a normalized temporary clip and never
-downloads models or changes app data. On the maintained Windows RTX 4090 fixture, v0.7.4
-processed a real 60-second Dubbing source through Vulkan in 3.27 seconds, returned 16 bounded
-turns, and cancelled the 120-second variant in 1.2 seconds without leaving a registered process.
-
-audio.cpp v0.7.4 contains the newer Sortformer v2.1 streaming runtime. Its NVIDIA Open Model License checkpoint currently has no redistributable GGUF package, so Voiceym does not advertise a download that upstream cannot legally supply. A locally converted mixed F16/F32 checkpoint is the planned long-recording path once the model can be offered through an explicit local-package workflow.
+pyannote (MIT) is the only diarisation runtime. The audio.cpp Sortformer runtime
+was removed because its model is licensed for non-commercial use only; a saved
+Sortformer choice from an older release uses pyannote.

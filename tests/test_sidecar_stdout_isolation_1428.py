@@ -41,18 +41,10 @@ EXPECTED_SIDECARS = {
     ENGINES / "_asr_sidecar" / "main.py",
     ENGINES / "_echo" / "main.py",
     ENGINES / "chatterbox" / "main.py",
-    ENGINES / "confucius4" / "main.py",
-    ENGINES / "dots_tts" / "main.py",
-    ENGINES / "indextts" / "main.py",
     ENGINES / "indic_parler" / "main.py",
     ENGINES / "indic_tts" / "main.py",
-    ENGINES / "moss_tts_v15" / "main.py",
     ENGINES / "omnivoice_subprocess" / "main.py",
-    ENGINES / "pockettts" / "main.py",
     ENGINES / "voxcpm2_subprocess" / "main.py",
-    ENGINES / "moss_tts_nano_subprocess" / "main.py",
-    ENGINES / "cosyvoice_subprocess" / "main.py",
-    ENGINES / "supertonic3" / "sidecar.py",
 }
 
 

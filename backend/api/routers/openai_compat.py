@@ -247,7 +247,7 @@ class SpeechRequest(BaseModel):
         default="kokoro",
         description=(
             "TTS model to use. Maps to Voiceym engine IDs: "
-            "'kokoro', 'omnivoice' (non-commercial), 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. "
+            "'kokoro', 'voxcpm2', 'chatterbox', 'indic-parler', 'indic-tts', 'kittentts'. "
             "OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated "
             "snapshots) are aliases for the active engine."
         ),
@@ -319,12 +319,12 @@ class SpeechRequest(BaseModel):
     chunk_duration: Optional[float] = Field(
         default=None,
         ge=0,
-        description="OmniVoice GGUF extension: long-form internal chunk duration.",
+        description="Voiceym extension: long-form internal chunk duration.",
     )
     chunk_threshold: Optional[float] = Field(
         default=None,
         ge=0,
-        description="OmniVoice GGUF extension: long-form internal chunk threshold.",
+        description="Voiceym extension: long-form internal chunk threshold.",
     )
     # #1014: these two were silently DISCARDED before (pydantic ignores
     # undeclared fields) — a 200 OK that quietly dropped the caller's quality
@@ -382,7 +382,7 @@ def _known_engine_ids() -> str:
         from services.tts_backend import list_backends
         return ", ".join(b["id"] for b in list_backends())
     except Exception:
-        return "omnivoice, voxcpm2, cosyvoice, kittentts, indextts2"
+        return "kokoro, voxcpm2, chatterbox, indic-parler, indic-tts, kittentts"
 
 
 def _resolve_engine(model_id: str):

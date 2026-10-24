@@ -1,7 +1,7 @@
 """#2389 — free-form voice descriptions were reduced to OmniVoice's tag set.
 
-Only the OmniVoice family parses a closed voice-design vocabulary. Qwen3-TTS
-VoiceDesign (mlx-audio), VoxCPM2 and audio.cpp read the description as written,
+Only the OmniVoice family parses a closed voice-design vocabulary. VoxCPM2 and
+Indic Parler-TTS read the description as written,
 yet every client path ran it through the OmniVoice sanitizer first. Engines now
 declare ``instruct_vocabulary``; the catalogue surfaces it so clients reduce
 prose to tags only where the engine requires it.
@@ -19,7 +19,7 @@ def test_catalogue_reports_vocabulary():
     _, entries = _registry()
     assert entries["omnivoice"]["instruct_vocabulary"] == "tags"
     assert entries["voxcpm2"]["instruct_vocabulary"] == "freeform"
-    assert entries["mlx-audio"]["instruct_vocabulary"] == "freeform"
+    assert entries["indic-parler"]["instruct_vocabulary"] == "freeform"
 
 
 def test_every_omnivoice_engine_declares_tags():
@@ -38,7 +38,7 @@ def test_openai_route_keeps_prose_for_freeform_engines():
     tts_backend, _ = _registry()
     compat = importlib.import_module("api.routers.openai_compat")
     prose = "An elderly Scottish woman with a raspy, low voice"
-    assert compat._engine_instructions(tts_backend.MLXAudioBackend, prose) == prose
+    assert compat._engine_instructions(tts_backend.VoxCPM2Backend, prose) == prose
     assert (
         compat._engine_instructions(tts_backend.OmniVoiceBackend, "female, whisper, speak cheerfully")
         == "female, whisper"
