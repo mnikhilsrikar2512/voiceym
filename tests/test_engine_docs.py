@@ -56,8 +56,8 @@ def test_docs_url_is_built_from_the_project_link_constant():
     tb = _registry()
     from core import links
 
-    url = tb._engine_docs_url("cosyvoice")
-    assert url == f"{links.PROJECT_REPO_BLOB_MAIN}/docs/engines/cosyvoice.md"
+    url = tb._engine_docs_url("chatterbox")
+    assert url == f"{links.PROJECT_REPO_BLOB_MAIN}/docs/engines/chatterbox.md"
     # An id the registry does not carry gets no link rather than a 404 URL.
     assert tb._engine_docs_url("not-an-engine") is None
 

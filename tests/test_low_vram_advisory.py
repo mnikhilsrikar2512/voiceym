@@ -114,7 +114,7 @@ def test_kernel_risk_still_outranks_the_vram_caveat():
 def test_the_matrix_payload_carries_the_floor():
     from services.tts_backend import list_backends
 
-    entry = next(b for b in list_backends() if b["id"] == "omnivoice")
+    entry = next(b for b in list_backends(include_hidden=True) if b["id"] == "omnivoice")
     assert entry["min_vram_gb"] == OmniVoiceBackend.min_vram_gb
     # Engines without a floor report null, not 0.0 — "unknown", not "none".
     assert all(b.get("min_vram_gb") != 0.0 for b in list_backends())

@@ -17,7 +17,7 @@ body:
         - App won't launch / blank or broken window
         - Python / uv environment bootstrap
         - Model download (HuggingFace)
-        - Engine install (CosyVoice / IndexTTS / MLX / etc.)
+        - Engine install (VoxCPM2 / Chatterbox / Indic-TTS / etc.)
         - First synthesis / dub never completes
         - Other
     validations:

@@ -82,31 +82,3 @@ def test_speech_maps_invalid_binary_to_503_with_repair_hint(client, monkeypatch)
     assert "placeholder" in detail
     assert "Exec format error" not in detail
 
-
-def test_speech_gguf_placeholder_rejected_at_engine_selection(client, monkeypatch):
-    """Selecting the GGUF engine explicitly while bin/ holds a 0-byte
-    placeholder must 400 at _resolve_engine (is_available now tells the
-    truth) with the actionable reason — never reach the exec path."""
-    from engines.omnivoice_gguf import backend as gguf_backend
-
-    placeholder_dir = None
-    import tempfile
-    from pathlib import Path
-
-    placeholder_dir = Path(tempfile.mkdtemp(prefix="gguf-placeholder-"))
-    placeholder = placeholder_dir / "omnivoice-tts-darwin-arm64"
-    placeholder.write_bytes(b"")
-    placeholder.chmod(0o755)
-
-    monkeypatch.setattr(gguf_backend, "_binary_path", lambda slug=None: placeholder)
-    monkeypatch.setattr(gguf_backend, "_load_checksum_manifest", lambda: {})
-    monkeypatch.setattr(gguf_backend, "_is_macos_quarantined", lambda p: False)
-
-    res = client.post("/v1/audio/speech", json={
-        "model": "omnivoice-gguf", "input": "hello",
-        "response_format": "wav",
-    })
-    assert res.status_code == 400, res.text
-    detail = res.json()["detail"]
-    assert "not available" in detail
-    assert "build-omnivoice-tts.sh" in detail

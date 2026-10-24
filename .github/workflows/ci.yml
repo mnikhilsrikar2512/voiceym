@@ -90,7 +90,7 @@ jobs:
           version: 1.0
 
       - name: Install Python deps
-        # `--all-extras` installs optional engine deps (e.g. `supertonic`)
+        # `--all-extras` installs optional deps (e.g. `eval`)
         # so their tests can exercise the real import path, not the
         # "package not installed" fallback. Smoke job below stays on bare
         # `uv sync` because smoke only hits /health + fixture profiles.
@@ -463,13 +463,11 @@ jobs:
           packages: ffmpeg libsndfile1
           version: 1.0
 
-      - name: Install Python deps (including PocketTTS)
-        # PocketTTS is an opt-in engine, but installing its pinned extra here
-        # proves that the same dependency set resolves on every supported local
-        # backend host. The Intel-Mac leg separately pins the documented
-        # unsupported contract: its UI is a remote-backend client only (#889).
+      - name: Install Python deps
+        # The Intel-Mac leg separately pins the documented unsupported
+        # contract: its UI is a remote-backend client only (#889).
         if: matrix.backend_supported
-        run: bash scripts/uv-sync-retry.sh --extra pockettts
+        run: bash scripts/uv-sync-retry.sh
 
       - name: Verify the documented Intel Mac contract
         if: ${{ !matrix.backend_supported }}
@@ -478,16 +476,10 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import platform
-          import tomllib
 
           assert platform.system() == "Darwin"
           assert platform.machine() == "x86_64"
           root = Path.cwd()
-          project = tomllib.loads((root / "pyproject.toml").read_text("utf-8"))
-          extra = project["project"]["optional-dependencies"]["pockettts"]
-          assert extra == [
-              "pocket-tts==2.1.0 ; sys_platform != 'darwin' or platform_machine != 'x86_64'"
-          ]
           docs = (root / "docs/install/macos.md").read_text("utf-8")
           assert "Intel Macs are not supported" in docs
           PY
@@ -498,7 +490,7 @@ jobs:
         run: uv run --no-sync pytest tests/smoke/ tests/test_hf_token_cache_paths.py tests/test_win_accept_guard.py -q --tb=short
         env:
           HF_HUB_OFFLINE: "1"  # same no-silent-downloads guard as the main pytest job
-          HF_HUB_CACHE: ${{ runner.temp }}/pockettts-empty-hf-cache
+          HF_HUB_CACHE: ${{ runner.temp }}/empty-hf-cache
 
       # The isolated backend session, on Windows. The `test` job runs it on
       # Linux only, which is how four tests that CANNOT pass on Windows shipped

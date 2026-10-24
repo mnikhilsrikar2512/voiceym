@@ -120,22 +120,8 @@ def no_omnivoice_model_manager(monkeypatch):
 def test_cloning_capable_engine_ids_excludes_fixed_voice_engines():
     tb = _tts_mod()
     ids = set(tb.cloning_capable_engine_ids())
-    assert ids.isdisjoint({"kittentts", "supertonic3", "sherpa-onnx"})
-    assert {"omnivoice", "voxcpm2", "cosyvoice", "gpt-sovits"}.issubset(ids)
-
-
-def test_cloning_capable_engine_ids_excludes_model_dependent_adapters():
-    # MLXAudioBackend.supports_cloning is an instance @property (only some of
-    # its curated models can clone) — a class-level getattr() returns the
-    # property descriptor itself, which is truthy, so a naive check would
-    # always recommend "mlx-audio" even when the configured model is Kokoro
-    # (can't clone). Must be excluded from the suggestion list rather than
-    # falsely recommended.
-    tb = _tts_mod()
-    assert isinstance(
-        vars(tb.MLXAudioBackend).get("supports_cloning"), property
-    ), "this test assumes MLXAudioBackend.supports_cloning is a property"
-    assert "mlx-audio" not in set(tb.cloning_capable_engine_ids())
+    assert ids.isdisjoint({"kittentts", "kokoro"})
+    assert {"voxcpm2", "chatterbox"}.issubset(ids)
 
 
 # ── /dub/generate/{job_id} ──────────────────────────────────────────────────
@@ -201,7 +187,7 @@ def test_dub_generate_fails_fast_for_non_cloning_engine(
     detail = exc_info.value.detail
     assert "fake-nonclone" in detail
     assert "voice cloning" in detail
-    assert "omnivoice" in detail  # names a real alternative
+    assert "voxcpm2" in detail  # names a real alternative
 
 
 def test_dub_generate_model_load_oom_is_a_sanitized_resource_error(

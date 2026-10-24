@@ -20,23 +20,13 @@ Engine availability depends on installed models, hardware, and configured provid
 
 ## Speech generation
 
-- **Voiceym** (default, powered by k2-fsa/OmniVoice)
-- omnivoice-subprocess — [Guide](engines/omnivoice-subprocess.md)
-- CosyVoice 3 — [Guide](engines/cosyvoice.md)
-- KittenTTS
-- MLX-Audio
-- VoxCPM2
-- MOSS-TTS-Nano
-- gpt-sovits
-- sherpa-onnx
-- **IndexTTS 2.5** ⚡ — [Guide](engines/indextts.md)
-- omnivoice-gguf
-- supertonic3
-- **MOSS-TTS-v1.5** — [Guide](engines/moss-tts-v15.md)
-- **dots.tts** — [Guide](engines/dots-tts.md)
-- **Confucius4-TTS** — [Guide](engines/confucius4-tts.md)
-- pockettts
-- audiocpp — [Guide](engines/audio-cpp.md)
+- **Kokoro** (default) — [Guide](engines/kokoro.md)
+- Chatterbox — [Guide](engines/chatterbox.md)
+- Indic Parler-TTS — [Guide](engines/indic-parler.md)
+- Indic-TTS — [Guide](engines/indic-tts.md)
+- KittenTTS — [Guide](engines/kittentts.md)
+- VoxCPM2 — [Guide](engines/voxcpm2.md)
+- OmniVoice (retired, non-commercial) — [Guide](engines/omnivoice.md)
 
 ## Transcription
 

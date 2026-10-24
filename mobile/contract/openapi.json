@@ -3954,7 +3954,7 @@
         "type": "null"
        }
       ],
-      "description": "OmniVoice GGUF extension: long-form internal chunk duration.",
+      "description": "Voiceym extension: long-form internal chunk duration.",
       "title": "Chunk Duration"
      },
      "chunk_threshold": {
@@ -3967,7 +3967,7 @@
         "type": "null"
        }
       ],
-      "description": "OmniVoice GGUF extension: long-form internal chunk threshold.",
+      "description": "Voiceym extension: long-form internal chunk threshold.",
       "title": "Chunk Threshold"
      },
      "denoise": {
@@ -4060,7 +4060,7 @@
      },
      "model": {
       "default": "kokoro",
-      "description": "TTS model to use. Maps to Voiceym engine IDs: 'kokoro', 'omnivoice' (non-commercial), 'voxcpm2', 'cosyvoice', 'mlx-audio', 'kittentts', 'moss-tts-nano'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
+      "description": "TTS model to use. Maps to Voiceym engine IDs: 'kokoro', 'voxcpm2', 'chatterbox', 'indic-parler', 'indic-tts', 'kittentts'. OpenAI model ids ('tts-1', 'tts-1-hd', 'gpt-4o-mini-tts', dated snapshots) are aliases for the active engine.",
       "title": "Model",
       "type": "string"
      },

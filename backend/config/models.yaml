@@ -69,18 +69,16 @@ models:
     note: "CC-BY-NC: non-commercial use only. Needed for voice cloning, voice design and dubbing until a commercial-use engine is installed."
 
   - repo_id: "audio-cpp/audio.cpp-gguf"
-    label: "audio.cpp native bundle (Breeze-TTS-2 + Sortformer diarisation)"
-    role: TTS
-    engines: [audiocpp]
-    families: [tts, diarisation]
-    size_gb: 4.98
+    label: "Sortformer diarisation (audio.cpp, up to four speakers)"
+    role: Diarisation
+    engines: []
+    families: [diarisation]
+    size_gb: 0.13
     required_files:
-      - "Breeze-TTS-2-GGUF/breeze-tts-2-q8_0.gguf"
       - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
     allow_patterns:
-      - "Breeze-TTS-2-GGUF/breeze-tts-2-q8_0.gguf"
       - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
-    note: "Optional audio.cpp bundle for native voice cloning and up-to-four-speaker diarisation. Research/non-commercial weights and self-hosted outputs; install only after reviewing the licenses."
+    note: "Optional native diarisation through the audio.cpp runtime. CC-BY-NC-4.0: non-commercial use only; pyannote (MIT) is the commercial-use path."
 
   # ── ASR (optional — curated per platform) ─────────────────────────────
   # No ASR model is required to boot: TTS-only installs work. Dubbing,
@@ -338,12 +336,6 @@ models:
 
   # ── Optional TTS ──────────────────────────────────────────────────────
 
-  - repo_id: "OpenMOSS-Team/MOSS-TTS-Nano-100M"
-    label: "MOSS-TTS-Nano 100M (20 langs, CPU-realtime)"
-    role: TTS
-    engines: [moss-tts-nano]
-    size_gb: 0.4
-
   - repo_id: "KittenML/kitten-tts-mini-0.8"
     label: "KittenTTS (English, 8 preset voices, CPU realtime)"
     role: TTS
@@ -357,76 +349,3 @@ models:
     engines: [voxcpm2]
     size_gb: 5.0
     curated_on: [cuda]
-
-  - repo_id: "FunAudioLLM/Fun-CosyVoice3-0.5B-2512"
-    label: "CosyVoice 3 0.5B (multilingual zero-shot)"
-    role: TTS
-    engines: [cosyvoice]
-    size_gb: 9.8
-    curated_on: [cuda]
-
-  - repo_id: "lj1995/GPT-SoVITS"
-    label: "GPT-SoVITS pretrained weights"
-    role: TTS
-    engines: [gpt-sovits]
-    size_gb: 2.0
-    curated_on: [cuda]
-
-  # ── mlx-audio engines (Apple Silicon only) ────────────────────────────
-
-  - repo_id: "mlx-community/Kokoro-82M-bf16"
-    label: "Kokoro 82M (8 langs, small, mlx-audio default)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 0.15
-    curated_on: [darwin-arm64]
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/csm-1b-8bit"
-    label: "CSM 1B (voice cloning, mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 1.1
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit"
-    label: "Qwen3-TTS 1.7B 4bit (voice design, mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 1.4
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/Dia-1.6B"
-    label: "Dia 1.6B (expressive, mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 3.2
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/Llama-OuteTTS-1.0-1B-4bit"
-    label: "Llama-OuteTTS 1.0 1B 4bit (voice clone, mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 0.8
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/Chatterbox-TTS-4bit"
-    label: "Chatterbox TTS 4bit (mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 0.5
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]
-
-  - repo_id: "mlx-community/MeloTTS-English-v3-MLX"
-    label: "MeloTTS English v3 (mlx-audio)"
-    role: TTS
-    engines: [mlx-audio]
-    size_gb: 0.2
-    note: "Apple Silicon only — via mlx-audio backend."
-    platforms: [darwin-arm64]

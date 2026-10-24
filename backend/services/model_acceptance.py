@@ -29,7 +29,7 @@ ERROR_CODE = "model_licence_required"
 _KEY_PREFIX = "model_licence_accepted:"
 # Pre-existing per-engine acceptances that covered the same upstream terms.
 # They count once, so users who already accepted are not asked twice.
-_LEGACY_ENGINE_ACCEPTANCE = {"supertone/supertonic-3": "supertonic3"}
+_LEGACY_ENGINE_ACCEPTANCE: dict[str, str] = {}
 
 _REPO = re.compile(r"[A-Za-z0-9][\w.-]*/[\w.-]+\Z")
 _cache_lock = threading.Lock()
@@ -194,7 +194,7 @@ def _legacy_accepted(repo_id: str) -> bool:
 
 
 def _sync_legacy(repo_id: str, accepted: bool) -> None:
-    """Engines with their own gate (Supertonic-3) read the per-engine flag, so the
+    """Engines with their own gate read the per-engine flag, so the
     two records must never disagree."""
     engine = _LEGACY_ENGINE_ACCEPTANCE.get(repo_id.casefold())
     if engine is None:

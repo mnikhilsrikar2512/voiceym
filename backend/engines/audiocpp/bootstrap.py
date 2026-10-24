@@ -2,8 +2,8 @@
 
 audio.cpp (0xShug0/audio.cpp) is a pure-C++ ggml inference engine with
 prebuilt release binaries — no Python venv, no ``transformers`` pin, so
-none of the dependency-isolation machinery in ``engines._venv_probe`` or
-``services.subprocess_backend`` applies. The parent instead:
+none of the dependency-isolation machinery in ``services.subprocess_backend``
+applies. The parent instead:
 
 1. locates a user-installed ``audiocpp_server`` (env var, user dir, or this
    package's ``bin/``), and
@@ -333,7 +333,7 @@ def resolve_server_binary() -> Path:
             raise RuntimeError(
                 "audiocpp_server is not executable. Run `chmod +x "
                 "audiocpp_server` on the configured binary, then restart "
-                "Voiceym. See docs/engines/audio-cpp.md."
+                "Voiceym. See docs/features/diarization.md."
             )
     slug = _platform_slug()
     asset = _ASSETS.get(slug)
@@ -342,14 +342,14 @@ def resolve_server_binary() -> Path:
             f"audio.cpp ships no prebuilt binary for this platform ({slug}). "
             "Build from https://github.com/0xShug0/audio.cpp and set "
             f"{BIN_ENV} to your audiocpp_server binary. See "
-            "docs/engines/audio-cpp.md."
+            "docs/features/diarization.md."
         )
     raise RuntimeError(
         "audiocpp_server not found. Download "
         f"https://github.com/{GH_REPO}/releases/download/{VERSION}/{asset[0]} "
         f"(SHA-256 {asset[1]}), verify and extract it, and set {BIN_ENV} to the "
         "audiocpp_server binary (or "
-        f"{DIR_ENV} to its directory). See docs/engines/audio-cpp.md."
+        f"{DIR_ENV} to its directory). See docs/features/diarization.md."
     )
 
 

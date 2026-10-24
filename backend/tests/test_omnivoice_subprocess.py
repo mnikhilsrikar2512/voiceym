@@ -102,6 +102,15 @@ while True:
 '''
 
 
+@pytest.fixture(autouse=True)
+def _list_omnivoice(monkeypatch):
+    """OmniVoice is unlisted for new picks; these tests cover its catalogue rows."""
+    monkeypatch.setattr("services.tts_backend.UNLISTED_ENGINES", frozenset())
+    # Other suites can rebind services.tts_backend; patch the module this file
+    # imported list_backends from as well.
+    monkeypatch.setitem(list_backends.__globals__, "UNLISTED_ENGINES", frozenset())
+
+
 @pytest.fixture
 def stub_sidecar(tmp_path):
     p = tmp_path / "stub_sidecar.py"
@@ -502,38 +511,6 @@ def test_subprocess_sidecar_initial_empty_crash_reports_pipe_closed(monkeypatch)
         b.generate("hello")
     assert "sidecar closed pipe mid-generate" in str(exc.value)
     b._proc = None
-
-
-def test_subprocess_engine_timeouts_raised():
-    """All large subprocess TTS engines must declare generous timeouts rather
-    than inheriting the 60s class default (#2103)."""
-    from engines.confucius4 import Confucius4Backend
-    from engines.dots_tts import DotsTTSBackend
-    from engines.moss_tts_v15 import MossTTSV15Backend
-    from engines.supertonic3.backend import Supertonic3Backend
-
-    assert Confucius4Backend().recv_timeout_s >= 300.0
-    assert DotsTTSBackend().recv_timeout_s >= 300.0
-    assert MossTTSV15Backend().recv_timeout_s >= 300.0
-    assert Supertonic3Backend().recv_timeout_s >= 300.0
-
-
-def test_subprocess_engine_timeout_env_overrides(monkeypatch):
-    """Subprocess TTS engines honor their engine-specific receive timeout env overrides (#2103)."""
-    from engines.confucius4 import Confucius4Backend
-    from engines.dots_tts import DotsTTSBackend
-    from engines.moss_tts_v15 import MossTTSV15Backend
-    from engines.supertonic3.backend import Supertonic3Backend
-
-    monkeypatch.setenv("OMNIVOICE_CONFUCIUS4_RECV_TIMEOUT_S", "1200")
-    monkeypatch.setenv("OMNIVOICE_DOTS_TTS_RECV_TIMEOUT_S", "1000")
-    monkeypatch.setenv("OMNIVOICE_MOSS_TTS_V15_RECV_TIMEOUT_S", "1100")
-    monkeypatch.setenv("OMNIVOICE_SUPERTONIC3_RECV_TIMEOUT_S", "500")
-
-    assert Confucius4Backend().recv_timeout_s == 1200.0
-    assert DotsTTSBackend().recv_timeout_s == 1000.0
-    assert MossTTSV15Backend().recv_timeout_s == 1100.0
-    assert Supertonic3Backend().recv_timeout_s == 500.0
 
 
 def test_subprocess_asr_recv_timeout_env_override(monkeypatch):

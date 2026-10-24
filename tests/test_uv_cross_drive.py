@@ -216,10 +216,6 @@ def _engine_bootstrap_files():
     return sorted((_REPO / "backend" / "engines").glob("*/bootstrap.py"))
 
 
-def test_engine_bootstraps_exist():
-    assert len(_engine_bootstrap_files()) >= 4  # indextts, dots, confucius4, moss
-
-
 @pytest.mark.parametrize("path", _engine_bootstrap_files(), ids=lambda p: p.parent.name)
 def test_every_bootstrap_uv_call_passes_env(path):
     """Every subprocess call inside _bootstrap_engines_venv must pass env=.
@@ -253,9 +249,8 @@ def test_every_bootstrap_uv_call_passes_env(path):
 #
 # The backend runs inside Voiceym's tree, so a uv process it starts
 # discovers the app's pyproject.toml and applies its [tool.uv]
-# constraint-dependencies (torch==2.8.0). Resolved that way,
-# torch==2.9.1+cu128 (MOSS-TTS-v1.5) and torch==2.7.0 (Confucius4) are
-# unsatisfiable. Every engine install and bootstrap gets its environment from
+# constraint-dependencies (torch==2.8.0). Resolved that way, an engine that
+# pins another torch (Indic Parler-TTS: torch==2.7.0) is unsatisfiable. Every engine install and bootstrap gets its environment from
 # uv_subprocess_env; these pin that it always opts out of config discovery.
 
 
@@ -280,22 +275,6 @@ def test_uv_env_keeps_the_mirror_setting(tmp_path, monkeypatch):
     assert env["UV_INDEX_URL"] == "https://mirror.example/simple"
 
 
-@pytest.mark.parametrize(
-    "module",
-    [
-        "engines.indextts.bootstrap",
-        "engines.moss_tts_v15.bootstrap",
-        "engines.confucius4.bootstrap",
-        "engines.dots_tts.bootstrap",
-    ],
-)
-def test_every_engine_bootstrap_ignores_the_apps_uv_config(module):
-    import importlib
-
-    env = importlib.import_module(module)._uv_env()
-    assert env is not None and env["UV_NO_CONFIG"] == "1", module
-
-
 def test_one_click_install_steps_ignore_the_apps_uv_config(tmp_path, monkeypatch):
     envs = []
 
@@ -310,7 +289,7 @@ def test_one_click_install_steps_ignore_the_apps_uv_config(tmp_path, monkeypatch
     monkeypatch.setattr(si, "DATA_DIR", str(tmp_path / "data"))
     monkeypatch.setattr(si, "_locate_uv", lambda: "/fake/uv")
     monkeypatch.setattr(si, "_run_logged", capture)
-    spec = si.get_spec("indextts2")
+    spec = si.get_spec("chatterbox")
     si.managed_checkout(spec).mkdir(parents=True)
     job = si._new_job(spec.engine_id)
     si._step_create_venv(spec, job)
@@ -368,7 +347,3 @@ def test_every_bootstrap_uv_call_gets_the_isolated_env(path):
             f"{path}:{call.lineno}: uv subprocess must pass env=_uv_env()"
         )
 
-
-def test_the_bootstrap_scan_covers_every_engine_that_bootstraps_with_uv():
-    names = {p.parent.name for p in _BOOTSTRAPS}
-    assert {"indextts", "moss_tts_v15", "confucius4", "dots_tts"} <= names

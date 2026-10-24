@@ -26,13 +26,7 @@ import pytest
 SIDECARS = [
     "engines._asr_sidecar.main",
     "engines._echo.main",
-    "engines.confucius4.main",
-    "engines.dots_tts.main",
-    "engines.indextts.main",
-    "engines.moss_tts_v15.main",
     "engines.omnivoice_subprocess.main",
-    "engines.pockettts.main",
-    "engines.supertonic3.sidecar",
 ]
 
 

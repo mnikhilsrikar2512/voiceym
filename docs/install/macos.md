@@ -151,7 +151,7 @@ publishing. Local packages are unsigned. See
 ## Apple Silicon vs Intel
 
 - **Apple Silicon (M-series):** Voiceym automatically picks the `mlx-whisper`
-  and `mlx-audio` backends where available — these use the Apple Neural Engine
+  backend where available — it uses the Apple Neural Engine
   and Metal Performance Shaders for ~2× the throughput of the CPU path.
   Installing the **Parakeet TDT v3 (MLX)** model from **Model Catalogue** (ASR tab → the engine's **Weights**)
   additionally makes dictation/capture prefer the `parakeet-mlx` engine

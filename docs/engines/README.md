@@ -30,26 +30,13 @@ approval), [Windows](../install/windows.md), [Linux](../install/linux.md),
 | Engine | Guide | Runs on | Cloning | Enabled by |
 |---|---|---|---|---|
 | Kokoro (Apache-2.0) — **default** | [kokoro](kokoro.md) | CPU | — (preset voices; English, Hindi + 4) | installed by default |
-| OmniVoice (non-commercial, CC-BY-NC) | [omnivoice](omnivoice.md) | CUDA · MPS · CPU | ✅ | opt-in: install from Model Catalogue |
+| OmniVoice (non-commercial, CC-BY-NC) — retired | [omnivoice](omnivoice.md) | CUDA · MPS · CPU | ✅ | kept only for installs that already use it; not listed for new picks |
 | Chatterbox (MIT) | [chatterbox](chatterbox.md) | CUDA · MPS · CPU | ✅ English | one-click sidecar install |
 | Indic Parler-TTS (Apache-2.0) | [indic-parler](indic-parler.md) | CUDA · MPS · CPU | — (named speakers; 21 Indian languages) | one-click sidecar install + Hugging Face access |
 | Indic-TTS (MIT) | [indic-tts](indic-tts.md) | CPU | — (female and male voices; 12 Indian languages) | one-click sidecar install, no account |
 | VoxCPM2 | [voxcpm2](voxcpm2.md) | CUDA · MPS · CPU | ✅ + voice design | `pip install "voxcpm>=2.0.3"` |
-| MOSS-TTS-Nano | [moss-tts-nano](moss-tts-nano.md) | CUDA · CPU | ✅ (ref only) | clone + `uv pip install -e .` |
 | KittenTTS | [kittentts](kittentts.md) | CPU | — (8 preset voices) | `pip install kittentts` |
-| MLX-Audio (Kokoro, CSM, Dia, …) | [mlx-audio](mlx-audio.md) | Apple Silicon | model-dependent | `pip install mlx-audio` |
-| CosyVoice 3 | [cosyvoice](cosyvoice.md) | CUDA · CPU | ✅ | clone + requirements |
-| GPT-SoVITS | [gpt-sovits](gpt-sovits.md) | external server | ✅ | its own API server |
-| Sherpa-ONNX | [sherpa-onnx](sherpa-onnx.md) | CUDA · CPU | — | `pip install sherpa-onnx` + model dir |
-| IndexTTS 2.5 | [indextts](indextts.md) | CUDA · CPU | ✅ + emotion | one-click sidecar install |
-| OmniVoice GGUF | [omnivoice-gguf](omnivoice-gguf.md) | CUDA · MPS · CPU | ✅ | native binary built from source (not in installers yet) |
-| Supertonic-3 | [supertonic3](supertonic3.md) | CPU | — (7 preset voices) | `uv sync --extra supertonic` + license |
-| MOSS-TTS-v1.5 (8B) | [moss-tts-v15](moss-tts-v15.md) | CUDA · CPU | ✅ | clone + env var |
-| dots.tts (2B) | [dots-tts](dots-tts.md) | CUDA · CPU (not Windows) | ✅ | clone + env var |
 | OmniVoice (subprocess) | [omnivoice-subprocess](omnivoice-subprocess.md) | CUDA · MPS · CPU | ✅ | opt-in pick off MPS; automatic via default OmniVoice on MPS |
-| PocketTTS (Kyutai) | [pockettts](pockettts.md) | CPU (not Intel Mac) | ✅ | `uv sync --extra pockettts` + license |
-| Confucius4-TTS | [confucius4-tts](confucius4-tts.md) | CUDA · CPU | ✅ | clone + env var |
-| audio.cpp (Breeze-TTS-2) | [audio-cpp](audio-cpp.md) | CPU + Vulkan/Metal/CUDA/HIP/ROCm where compiled | ✅ + voice design | prebuilt binary + env var (weights research/non-commercial) |
 
 ### Reference clip length
 

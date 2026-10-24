@@ -22,12 +22,18 @@ metadata and the backend fallback mirror it.
 ### Changed
 
 - Talk's default voice uses the light KittenTTS engine, so conversations stay responsive on 8 GB machines; cloned voices keep their engine (#1)
-- Talk hears any language with multilingual Whisper unless set to English, and its default voice speaks Hindi with Kokoro and other scripts with OmniVoice GGUF when installed (#1)
+- Talk hears any language with multilingual Whisper unless set to English, and its default voice speaks Hindi with Kokoro and other scripts with VoxCPM2 when installed (#1)
 - Kokoro picks a native voice for the requested language instead of reading everything in its American voice (#1)
 - Talk only speaks with commercial-use voices and never falls back to OmniVoice; when no such voice can speak, it answers in text and says why (#1)
 - OmniVoice engines are labelled non-commercial wherever they are offered (#1)
 - Kokoro (Apache-2.0) is now the default voice on every platform; OmniVoice (CC-BY-NC) is opt-in and no longer preloaded unless chosen (#1)
 - Chatterbox (MIT) adds commercial-use English voice cloning as a one-click install; Talk uses it for cloned voices (#1)
+
+### Removed
+
+- Voiceym now ships only voice engines that are free for commercial use: Kokoro (default), KittenTTS, VoxCPM2, Chatterbox, Indic Parler-TTS and Indic-TTS (#10)
+- Removed CosyVoice, GPT-SoVITS, IndexTTS, MOSS-TTS, dots.tts, Confucius4, PocketTTS, Supertonic-3, Sherpa-ONNX TTS, MLX-Audio, audio.cpp TTS and OmniVoice GGUF, so installs are smaller and simpler (#10)
+- OmniVoice (CC-BY-NC) is no longer offered for new picks; an install that already uses it keeps working (#10)
 
 ### Fixed
 

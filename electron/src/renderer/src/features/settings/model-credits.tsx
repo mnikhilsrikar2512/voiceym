@@ -7,7 +7,17 @@ import { SettingsSection } from './settings-layout';
 export const HIGGS_ATTRIBUTION =
   'Built with Higgs Materials licensed from Boson AI USA, Inc., Copyright Boson AI USA, Inc., All Rights Reserved and Meta Llama 3 licensed under the Meta Llama 3 Community License, Copyright Meta Platforms, Inc., All Right Reserved';
 
-const credits = [
+type Credit = {
+  name: string;
+  authors: string;
+  notice?: string;
+  source: string;
+  terms: string;
+  license?: string;
+  adaptations?: { name: string; url: string }[];
+};
+
+const credits: Credit[] = [
   {
     name: 'Parakeet TDT 0.6B v2',
     authors: 'NVIDIA',
@@ -47,14 +57,6 @@ const credits = [
     adaptations: [{ name: 'WeSpeaker', url: 'https://github.com/wenet-e2e/wespeaker' }],
   },
   {
-    name: 'Pocket TTS',
-    authors: 'Kyutai',
-    source: 'https://github.com/kyutai-labs/pocket-tts',
-    // The gated weight card has not been retrieved. Do not turn its API
-    // license label into a verified model-license or clearance claim.
-    terms: 'https://huggingface.co/kyutai/pocket-tts',
-  },
-  {
     name: 'OmniVoice',
     authors:
       'Han Zhu · Lingxuan Ye · Wei Kang · Zengwei Yao · Liyong Guo · Fangjun Kuang · Zhifeng Han · Weiji Zhuang · Long Lin · Daniel Povey',
@@ -62,16 +64,6 @@ const credits = [
     // Upstream names CC-BY-NC without specifying a version in its card.
     terms: 'https://huggingface.co/k2-fsa/OmniVoice#license',
     license: 'CC BY-NC',
-    adaptations: [
-      { name: 'GGUF · Serveurperso', url: 'https://huggingface.co/Serveurperso/OmniVoice-GGUF' },
-    ],
-  },
-  {
-    name: 'OmniVoice-GGUF',
-    authors: 'Serveurperso · OmniVoice',
-    source: 'https://huggingface.co/Serveurperso/OmniVoice-GGUF',
-    terms: 'https://creativecommons.org/licenses/by-nc/4.0/',
-    license: 'CC BY-NC 4.0',
   },
   {
     name: 'NLLB-200 distilled 600M',
@@ -79,24 +71,6 @@ const credits = [
     source: 'https://huggingface.co/facebook/nllb-200-distilled-600M',
     terms: 'https://creativecommons.org/licenses/by-nc/4.0/',
     license: 'CC BY-NC 4.0',
-  },
-  {
-    name: 'Llama-OuteTTS-1.0-1B · MLX 4-bit',
-    authors: 'OuteAI · mlx-community · Meta',
-    notice: 'Built with Llama',
-    source: 'https://huggingface.co/mlx-community/Llama-OuteTTS-1.0-1B-4bit',
-    terms: 'https://huggingface.co/OuteAI/Llama-OuteTTS-1.0-1B',
-    license: 'CC BY-NC-SA 4.0',
-    adaptations: [
-      {
-        name: 'OuteAI/Llama-OuteTTS-1.0-1B',
-        url: 'https://huggingface.co/OuteAI/Llama-OuteTTS-1.0-1B',
-      },
-      {
-        name: 'Meta Llama 3.2 Community License',
-        url: 'https://huggingface.co/meta-llama/Llama-3.2-1B/blob/main/LICENSE.txt',
-      },
-    ],
   },
 ];
 

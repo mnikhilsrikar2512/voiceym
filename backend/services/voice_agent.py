@@ -63,9 +63,9 @@ INDIAN_LANGUAGES = {
     "urdu": "ur", "odia": "or", "assamese": "as", "nepali": "ne",
 }
 #: Voice engines that speak Indian languages, in order of preference: Indic
-#: Parler-TTS (Apache-2.0) or Indic-TTS (MIT) when installed, the GGUF build
-#: of OmniVoice (about 0.7 GB) when its binary is installed, else OmniVoice.
-MULTILINGUAL_ENGINES = ("indic-parler", "indic-tts", "omnivoice-gguf", "omnivoice")
+#: Parler-TTS (Apache-2.0) or Indic-TTS (MIT) when installed, VoxCPM2
+#: (Apache-2.0, 30 languages) when installed, else Kokoro (Hindi).
+MULTILINGUAL_ENGINES = ("indic-parler", "indic-tts", "voxcpm2", "kokoro")
 
 
 def multilingual_engine() -> str:
@@ -355,12 +355,12 @@ INDIC_VOICE_ENGINE = "indic-parler"
 INDIC_TTS_ENGINE = "indic-tts"
 
 #: Light multilingual engine for sentences neither voice above can say
-#: (other Indian scripts and so on): quantized OmniVoice, 600+ languages.
-MULTILINGUAL_VOICE_ENGINE = "omnivoice-gguf"
+#: (other scripts and so on): VoxCPM2, Apache-2.0, 30 languages.
+MULTILINGUAL_VOICE_ENGINE = "voxcpm2"
 
 #: OmniVoice in all its forms is licensed CC-BY-NC: never chosen for a session
 #: that asked for commercial-use voices only (the Talk screen always does).
-NON_COMMERCIAL_ENGINES = frozenset({"omnivoice", "omnivoice-gguf", "omnivoice-subprocess"})
+NON_COMMERCIAL_ENGINES = frozenset({"omnivoice", "omnivoice-subprocess"})
 
 
 def active_tts_engine() -> str:

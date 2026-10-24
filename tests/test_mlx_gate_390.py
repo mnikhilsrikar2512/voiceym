@@ -12,7 +12,6 @@ from __future__ import annotations
 import pytest
 
 _MLX_BACKENDS = [
-    ("services.tts_backend", "MLXAudioBackend"),
     ("services.asr_backend", "MLXWhisperBackend"),
 ]
 

@@ -22,8 +22,6 @@ import threading
 from time import perf_counter
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from huggingface_hub import utils as hf_utils
-from huggingface_hub.errors import HFValidationError
 from pydantic import BaseModel, Field
 
 from api.dependencies import require_admin, require_admin_action, require_desktop, is_loopback
@@ -72,11 +70,6 @@ def _family_payload(family: str, module):
         if active in {"omnivoice", "omnivoice-subprocess"}:
             from services.model_manager import resolve_omnivoice_checkpoint
             model = resolve_omnivoice_checkpoint()
-        elif active == "mlx-audio":
-            from core import prefs
-            cls = tts_backend.MLXAudioBackend
-            key = prefs.resolve("mlx_audio_model_id", env="OMNIVOICE_MLX_AUDIO_MODEL", default=cls.DEFAULT_MODEL_KEY)
-            model = cls.CURATED_MODELS.get(key, key)
         else:
             instance = getattr(tts_backend, "_active_instance", None)
             if instance is not None and getattr(tts_backend, "_active_instance_id", None) == active:
@@ -93,9 +86,6 @@ def _family_payload(family: str, module):
                 backend["output_channels"] = 1 if backend["output_sample_rate"] else None
             if engine_id == active:
                 backend["supported_language_names"] = tts_backend.language_options(active)
-            if engine_id == active == "mlx-audio":
-                # Constructor resolves model preferences only; never loads weights.
-                backend["supports_cloning"] = tts_backend.MLXAudioBackend().supports_cloning
             if engine_id in LICENSE_GATED_ENGINES:
                 backend["license_required"] = True
                 try:
@@ -115,17 +105,6 @@ def _family_payload(family: str, module):
         "env_override": bool(os.environ.get(f"OMNIVOICE_{family.upper()}_BACKEND")),
         "backends": backends,
     }
-
-def _is_hf_repo_id(value: str) -> bool:
-    """Validate the route's ``owner/repo`` contract in bounded time."""
-    if not isinstance(value, str) or len(value) > 96 or value.count("/") != 1:
-        return False
-    try:
-        hf_utils.validate_repo_id(value)
-    except (HFValidationError, TypeError):
-        return False
-    return True
-
 
 def _request_install_capability(payload, request):
     allowed = bool(request and request.client and is_loopback(request.client.host))
@@ -456,7 +435,7 @@ def install_audiocpp_runtime():
         raise HTTPException(status_code=409, detail=str(exc)) from exc
 
 
-# ── One-click sidecar-engine install (IndexTTS-2 & friends) ────────────────
+# ── One-click sidecar-engine install ────────────────
 #
 # Sidecar engines (dedicated venv + source checkout + weights, isolated from
 # the parent's transformers>=5.3) used to require four manual terminal steps.
@@ -862,10 +841,7 @@ def engine_selftest(engine_id: str):
 class SelectEngineRequest(BaseModel):
     family: str   # "tts" | "asr" | "llm"
     backend_id: str
-    # Only meaningful for family="tts", backend_id="mlx-audio" (#981) — picks
-    # which of mlx-audio's curated models is actually loaded. A curated key
-    # ("kokoro") or a raw HF repo id ("mlx-community/Kokoro-82M-bf16") — the
-    # same tolerance MLXAudioBackend.__init__ already has. Ignored otherwise.
+    # ASR only: the CTranslate2 Whisper model to load. Ignored otherwise.
     model_id: str | None = None
 
 
@@ -921,24 +897,6 @@ def select_engine(req: SelectEngineRequest):
             f"Backend {req.backend_id} can't run on this machine: {why}. "
             f"Pick an engine with a CPU path, or one that supports this host's GPU.",
         )
-    # #981: mlx-audio multiplexes 7+ curated models behind one backend id —
-    # persist the model pick alongside the backend id so the UI can actually
-    # select which curated model gets loaded (previously it always defaulted
-    # to Kokoro no matter what the user downloaded in the engine's Weights list in Model Catalogue).
-    if req.family == "tts" and req.backend_id == "mlx-audio" and req.model_id is not None:
-        known_keys = tts_backend.MLXAudioBackend.CURATED_MODELS
-        # Accept a curated key OR a raw HF repo id ("owner/name") — the same
-        # tolerance MLXAudioBackend.__init__ already has for power users.
-        # Anything else (typo'd key, malformed id) is rejected outright
-        # rather than silently persisted as a "custom repo" that then fails
-        # to resolve at load time.
-        if req.model_id not in known_keys and not _is_hf_repo_id(req.model_id):
-            raise HTTPException(
-                400,
-                "Unknown mlx-audio model. Expected a curated model key or a "
-                "Hugging Face repo ID like 'owner/name'.",
-            )
-        prefs.set_("mlx_audio_model_id", req.model_id)
     if req.family == "asr" and req.model_id is not None:
         if req.backend_id not in {"faster-whisper", "faster-whisper-isolated"}:
             raise HTTPException(400, "This ASR engine does not accept a CTranslate2 model")

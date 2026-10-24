@@ -286,7 +286,7 @@ def test_cpu_timeout_message_names_concrete_remedies():
     cpu = stream_failure("generation_timeout", device="cpu")
     assert cpu["code"] == "generation_timeout" and cpu["retryable"] is True
     for needle in ("CPU budget", "Settings → Performance & Device",
-                   "Supertonic-3", "shorter", "restart"):
+                   "Kokoro", "shorter", "restart"):
         assert needle in cpu["detail"]
     gpu = stream_failure("generation_timeout", device="cuda")
     assert gpu == stream_failure("generation_timeout")

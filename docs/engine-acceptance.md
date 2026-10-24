@@ -7,19 +7,24 @@ for it.
 
 So new engines are **hired for a job**, not added to a list.
 
+**Licence first (owner-set 2026-10-24):** a new TTS engine, and the weights it
+loads by default, must be open source and free for commercial use. A
+non-commercial engine (CC-BY-NC, research-only, OpenRAIL with use limits) is
+not accepted, whatever it scores.
+
 ## The job map
 
 Every engine in the tree owns at least one job. A job has exactly one holder.
 
 | Job | Held by |
 | --- | --- |
-| Best zero-shot clone quality | `omnivoice` |
-| Widest language coverage | `omnivoice` |
-| Crash isolation for the default model | `omnivoice-subprocess` |
+| Default voice, commercial use, every platform | `kokoro` |
+| Zero-shot cloning and voice design, 30 languages | `voxcpm2` |
+| Commercial-use English cloning | `chatterbox` |
+| Indian languages from a description | `indic-parler` |
+| Indian languages with no account | `indic-tts` |
+| CPU-realtime English, tiny footprint | `kittentts` |
 | Fastest CPU render / lowest latency | *open — see #1306* |
-| Best Chinese/Japanese expressiveness | `cosyvoice`, `indextts2` |
-| CPU-realtime English, tiny footprint | `kittentts`, `supertonic3` |
-| Bilingual reference-free voice design and direction | `audiocpp` |
 | Best transcription accuracy | `whisperx`, `faster-whisper` |
 | Fastest Apple-Silicon transcription | `parakeet-mlx`, `mlx-whisper` |
 | Crash isolation for transcription | `faster-whisper-isolated` |

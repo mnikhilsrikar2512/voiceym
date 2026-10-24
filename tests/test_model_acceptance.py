@@ -90,18 +90,11 @@ def test_error_lists_every_unaccepted_model_with_structured_detail(store):
 
 
 def test_engine_identity_selects_the_concrete_model(store):
-    # A commercial-category mlx-audio model needs no acceptance even though
-    # other models of the same engine do.
-    ma.ensure_engine_accepted("mlx-audio", "mlx-community/Kokoro-82M-bf16")
+    # The concrete model decides: a commercial-category model needs no
+    # acceptance, a non-commercial one does.
+    ma.ensure_engine_accepted("kokoro", "onnx-community/Kokoro-82M-v1.0-ONNX")
     with pytest.raises(ma.ModelLicenceNotAccepted):
-        ma.ensure_engine_accepted("mlx-audio", "mlx-community/Llama-OuteTTS-1.0-1B-4bit")
-
-
-def test_existing_supertonic_acceptance_carries_over_until_revoked(store):
-    store["supertonic3_license_accepted"] = "1"
-    assert ma.status("Supertone/supertonic-3")["accepted"] is True
-    ma.revoke("Supertone/supertonic-3")
-    assert ma.status("Supertone/supertonic-3")["accepted"] is False
+        ma.ensure_engine_accepted("omnivoice", "k2-fsa/OmniVoice")
 
 
 def test_unreadable_settings_fail_closed(monkeypatch):
@@ -134,22 +127,6 @@ def test_unreadable_store_is_not_treated_as_absent(store, monkeypatch):
         raise OSError("db locked")
     monkeypatch.setattr(settings_store, "get_text", boom)
     assert ma.status("Supertone/supertonic-3")["accepted"] is False
-
-
-def test_new_acceptance_syncs_the_supertonic_engine_flag(store):
-    fp = ma.status("Supertone/supertonic-3")["fingerprint"]
-    ma.accept("Supertone/supertonic-3", fp)
-    assert store["supertonic3_license_accepted"] == "1"
-    ma.revoke("Supertone/supertonic-3")
-    assert store["supertonic3_license_accepted"] == "0"
-
-
-def test_legacy_engine_toggle_syncs_the_new_record(store):
-    ma.sync_from_engine("supertonic3", True)
-    assert ma.status("Supertone/supertonic-3")["accepted"] is True
-    ma.sync_from_engine("supertonic3", False)
-    assert ma.status("Supertone/supertonic-3")["accepted"] is False
-    ma.sync_from_engine("pockettts", True)  # unrelated engines are untouched
 
 
 def _info_with(monkeypatch, **changes):

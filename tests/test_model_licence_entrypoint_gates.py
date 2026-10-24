@@ -23,7 +23,7 @@ for _p in (ROOT, ROOT / "backend"):
 
 pytestmark = pytest.mark.model_licence_gate  # real enforcement, see conftest
 
-GATED_ENGINE, GATED_REPO = "indextts2", "IndexTeam/IndexTTS-2.5"  # unknown category
+GATED_ENGINE, GATED_REPO = "omnivoice-subprocess", "k2-fsa/OmniVoice"  # non-commercial
 COMMERCIAL_ENGINE = "kittentts"  # Apache-2.0
 
 
@@ -84,7 +84,7 @@ def _fake(engine_id):
 @pytest.fixture
 def engine(monkeypatch, tb):
     """Make ``cls`` the active/registered engine everywhere an id is resolved."""
-    saved = (tb._active_instance, tb._active_instance_id, tb._active_mlx_model_key)
+    saved = (tb._active_instance, tb._active_instance_id)
 
     def install(engine_id):
         cls = _fake(engine_id)
@@ -98,7 +98,7 @@ def engine(monkeypatch, tb):
         return cls
 
     yield install
-    tb._active_instance, tb._active_instance_id, tb._active_mlx_model_key = saved
+    tb._active_instance, tb._active_instance_id = saved
     for cls in [c for c in tb._ENGINE_INSTANCES if c.__name__ == "FakeEngine"]:
         tb._ENGINE_INSTANCES.pop(cls, None)
         tb._ENGINE_LAST_USED.pop(cls, None)

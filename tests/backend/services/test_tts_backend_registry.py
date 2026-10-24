@@ -132,8 +132,7 @@ def test_list_backends_resilient(registry_sandbox, caplog):
 
     # And every production backend still appears.
     expected = {
-        "omnivoice", "cosyvoice", "kittentts", "mlx-audio", "voxcpm2",
-        "moss-tts-nano", "indextts2", "gpt-sovits", "sherpa-onnx",
+        "kokoro", "kittentts", "voxcpm2", "chatterbox", "indic-parler", "indic-tts",
     }
     assert expected.issubset(by_id.keys()), (
         f"missing: {expected - by_id.keys()}"
@@ -238,37 +237,11 @@ def test_list_backends_shape(registry_sandbox):
         assert isinstance(entry["supports_emotion"], bool)
 
 
-def test_mlx_audio_curated_models_roster(registry_sandbox):
-    """#981 — mlx-audio's entry carries the curated-model roster + the
-    currently-active pick, so Settings can render a model picker instead of
-    always silently defaulting to Kokoro."""
-    out = {entry["id"]: entry for entry in list_backends()}
-    entry = out["mlx-audio"]
-    assert entry["active_model_id"] == "kokoro"  # DEFAULT_MODEL_KEY, no prefs set
-    keys = {m["key"] for m in entry["curated_models"]}
-    assert keys == set(tts_backend.MLXAudioBackend.CURATED_MODELS)
-    for m in entry["curated_models"]:
-        assert set(m.keys()) == {"key", "label", "repo_id"}
-        assert m["repo_id"] == tts_backend.MLXAudioBackend.CURATED_MODELS[m["key"]]
-        assert m["label"]  # non-empty, readable
-
-
-def test_mlx_audio_active_model_id_reflects_prefs(registry_sandbox, monkeypatch, tmp_path):
-    from core import prefs as _prefs
-    monkeypatch.setattr(_prefs, "_PREFS_PATH", str(tmp_path / "prefs.json"))
-    monkeypatch.delenv("OMNIVOICE_MLX_AUDIO_MODEL", raising=False)
-    _prefs.set_("mlx_audio_model_id", "outetts")
-    out = {entry["id"]: entry for entry in list_backends()}
-    assert out["mlx-audio"]["active_model_id"] == "outetts"
-
-
 def test_curated_models_not_present_on_other_backends(registry_sandbox):
-    """Only mlx-audio multiplexes multiple models behind one backend id — no
-    other entry should carry curated_models/active_model_id."""
+    """No engine multiplexes models behind one backend id, so no entry carries
+    curated_models/active_model_id."""
     out = list_backends()
     for entry in out:
-        if entry["id"] == "mlx-audio":
-            continue
         assert "curated_models" not in entry
         assert "active_model_id" not in entry
 
@@ -281,8 +254,8 @@ def test_isolation_mode_in_process_vs_subprocess(registry_sandbox):
 
     assert out["fake-sub"]["isolation_mode"] == "subprocess"
     assert out["healthy-inproc"]["isolation_mode"] == "in-process"
-    # The pre-existing OmniVoice backend is in-process — sanity check.
-    assert out["omnivoice"]["isolation_mode"] == "in-process"
+    # The default Kokoro backend is in-process — sanity check.
+    assert out["kokoro"]["isolation_mode"] == "in-process"
 
 
 def test_last_error_cleared_after_recovery(registry_sandbox):
@@ -329,16 +302,15 @@ def test_last_error_cleared_after_recovery(registry_sandbox):
 
 
 def test_existing_engines_still_listed():
-    """Sanity: the wrap must not silently drop entries. We expect all nine
-    in-tree engines unchanged."""
+    """Sanity: the wrap must not silently drop entries. We expect every
+    shipped engine unchanged."""
     out = list_backends()
     ids = {entry["id"] for entry in out}
     expected = {
-        "omnivoice", "cosyvoice", "kittentts", "mlx-audio", "voxcpm2",
-        "moss-tts-nano", "indextts2", "gpt-sovits", "sherpa-onnx",
+        "kokoro", "kittentts", "voxcpm2", "chatterbox", "indic-parler", "indic-tts",
     }
     assert expected.issubset(ids), f"missing entries: {expected - ids}"
-    assert len(out) >= 9
+    assert len(out) >= 6
 
 
 def test_install_hint_preserved():
@@ -422,8 +394,4 @@ def test_supports_cloning_true_false_and_model_dependent(registry_sandbox):
     # Plain bool class attrs pass through…
     assert out["no-clone"]["supports_cloning"] is False
     assert out["healthy-inproc"]["supports_cloning"] is True  # TTSBackend default
-    assert out["omnivoice"]["supports_cloning"] is True
-    # …but a property (model-dependent, mlx-audio) must report None — the
-    # descriptor object itself is always truthy, so passing it through would
-    # be a false "clones" claim (same guard as cloning_capable_engine_ids).
-    assert out["mlx-audio"]["supports_cloning"] is None
+    assert out["voxcpm2"]["supports_cloning"] is True

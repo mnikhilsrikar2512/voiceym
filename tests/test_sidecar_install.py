@@ -829,20 +829,6 @@ def test_uninstall_refuses_user_managed_clone(monkeypatch, tmp_path):
     assert os.environ["OMNIVOICE_FAKE_SIDE_DIR"] == str(user_clone)  # never cleared
 
 
-def test_uninstall_clears_legacy_managed_preference(monkeypatch):
-    spec = si.get_spec("indextts2")
-    legacy = si.managed_root(spec) / "index-tts"
-    legacy.mkdir(parents=True)
-    monkeypatch.setenv(spec.env_var, str(legacy))
-    deleted = []
-    monkeypatch.setattr("core.prefs.get", lambda k, d=None: str(legacy))
-    monkeypatch.setattr("core.prefs.delete", lambda k: deleted.append(k))
-
-    assert si.uninstall(spec.engine_id)["status"] == "uninstalled"
-    assert spec.env_var not in os.environ
-    assert deleted == [f"env.{spec.env_var}"]
-
-
 def test_uninstall_refuses_while_job_running(monkeypatch):
     spec = _mk_spec()
     monkeypatch.setitem(si.SPECS, "fake-side", spec)
@@ -851,107 +837,6 @@ def test_uninstall_refuses_while_job_running(monkeypatch):
 
 
 # ── indextts2 spec wiring (the engine this ships for) ─────────────────────
-
-
-def test_indextts2_spec_matches_bootstrap_contract():
-    spec = si.get_spec("indextts2")
-    assert spec is not None
-    # The env var must be the one engines/indextts/bootstrap.py actually
-    # reads — anything else would install into a dir the engine never finds.
-    assert spec.env_var == "OMNIVOICE_INDEXTTS_DIR"
-    assert spec.probe_module == "indextts.infer_v2_5"
-    # main.py loads from <dir>/checkpoints/, resolving whichever accepted
-    # config name is on disk — the installer must put the weights there.
-    assert spec.repo_ref == "indextts-2.5"
-    assert spec.source_revision == "bf2e967fac7933197143b017a60820b1ad40c448"
-    assert spec.source_required_path == "indextts/infer_v2_5.py"
-    assert spec.weights_repo_id == "IndexTeam/IndexTTS-2.5"
-    assert spec.weights_revision == "d0aa86e75bb6f3437f3831e95056fa72842d89ef"
-    assert spec.weights_subdir == "checkpoints"
-    assert spec.weights_config_names == ("config.yaml", "config_v2_5.yaml")
-    assert spec.repo_url.endswith("index-tts.git")
-
-
-def test_indextts25_health_accepts_either_config_name(monkeypatch):
-    """#1611: this used to assert the OPPOSITE — that a checkout holding only
-    config.yaml is unhealthy — which is what a clean IndexTeam/IndexTTS-2.5
-    download actually produces, so every install failed. Both the upstream
-    name and the hand-renamed one from the old workaround are healthy now;
-    neither present is still a truncated download.
-    """
-    spec = si.get_spec("indextts2")
-    monkeypatch.setenv(spec.env_var, str(si.managed_checkout(spec)))
-    checkout = si.managed_checkout(spec)
-    required = checkout / spec.source_required_path
-    required.parent.mkdir(parents=True, exist_ok=True)
-    required.write_text("class IndexTTS2: pass\n")
-    (checkout / "pyproject.toml").write_text("[project]\nname='indextts'\n")
-    (checkout / si._SOURCE_REVISION_MARKER).write_text(f"{spec.source_revision}\n")
-    py = si._venv_python(checkout / ".venv")
-    py.parent.mkdir(parents=True)
-    py.write_text("#!fake\n")
-    wdir = checkout / spec.weights_subdir
-    _write_weights(
-        wdir,
-        complete=True,
-        repo_id=spec.weights_repo_id,
-        revision=spec.weights_revision,
-    )
-    # What a fresh upstream snapshot looks like.
-    assert si._healthy(spec) is True
-    # What the pre-fix workaround left behind.
-    (wdir / "config.yaml").unlink()
-    (wdir / "config_v2_5.yaml").write_text("model: fake\n")
-    assert si._healthy(spec) is True
-    # A genuinely truncated download is still caught.
-    (wdir / "config_v2_5.yaml").unlink()
-    assert si._healthy(spec) is False
-
-
-def test_managed_indextts2_source_is_preserved_during_25_install(monkeypatch):
-    spec = si.get_spec("indextts2")
-    legacy = si.managed_root(spec) / "index-tts"
-    legacy.mkdir(parents=True)
-    (legacy / "pyproject.toml").write_text("[project]\nname='indextts'\n")
-    (legacy / "old-v2-only.txt").write_text("old")
-    monkeypatch.setenv(spec.env_var, str(legacy))
-    checkout = si.managed_checkout(spec)
-    argvs = []
-
-    def fake_run(job, argv, *, timeout, env=None):
-        argvs.append(argv)
-        if argv[1] == "clone":
-            checkout.mkdir(parents=True, exist_ok=True)
-            (checkout / "pyproject.toml").write_text("[project]\nname='indextts'\n")
-            required = checkout / spec.source_required_path
-            required.parent.mkdir(parents=True, exist_ok=True)
-            required.write_text("class IndexTTS2: pass\n")
-        return 0
-
-    monkeypatch.setattr(si.shutil, "which", lambda n: "/usr/bin/git")
-    monkeypatch.setattr(si, "_run_logged", fake_run)
-    job = si._new_job(spec.engine_id)
-    si._job_step(job, "fetch_source")["state"] = "running"
-    si._step_fetch_source(spec, job)
-    clone = next(argv for argv in argvs if argv[1] == "clone")
-    assert clone[clone.index("--branch") + 1] == "indextts-2.5"
-    assert (legacy / "old-v2-only.txt").read_text() == "old"
-    assert si._source_present(spec, checkout)
-
-
-def test_indextts2_env_var_in_settings_allowlist():
-    from api.routers.system import PERSISTENT_KEYS
-    assert "OMNIVOICE_INDEXTTS_DIR" in PERSISTENT_KEYS
-
-
-def test_list_backends_flags_indextts2_one_click():
-    """Fail-before/pass-after: the Settings UI keys the Install button off
-    this field — without it the engine stays a manual setup_snippet."""
-    from services import tts_backend
-    row = next(r for r in tts_backend.list_backends() if r["id"] == "indextts2")
-    assert row["one_click_install"] is True
-    other = next(r for r in tts_backend.list_backends() if r["id"] == "omnivoice")
-    assert other["one_click_install"] is False
 
 
 # ── router wiring ──────────────────────────────────────────────────────────
@@ -1020,9 +905,6 @@ def _capture_install_argvs(monkeypatch, family="cuda"):
     monkeypatch.setattr(si, "_locate_uv", lambda: "/fake/uv")
     monkeypatch.setattr(si, "_host_family", lambda: family)
     monkeypatch.setattr(si, "_run_logged", _fake_run_logged(argvs))
-    constraints = si.managed_checkout(si.get_spec("dots-tts")) / "constraints" / "recommended.txt"
-    constraints.parent.mkdir(parents=True, exist_ok=True)
-    constraints.write_text("six==1.17.0\n")
     return argvs
 
 
@@ -1063,74 +945,16 @@ def test_uninstalling_one_engine_leaves_every_other_engine_intact(monkeypatch):
     monkeypatch.setattr("core.prefs.get", lambda k, d=None: None)
     monkeypatch.setattr("core.prefs.delete", lambda k: None)
 
-    assert si.uninstall("moss-tts-v15")["status"] == "uninstalled"
+    assert si.uninstall("voxcpm2")["status"] == "uninstalled"
 
-    assert not si.managed_root(si.get_spec("moss-tts-v15")).exists()
+    assert not si.managed_root(si.get_spec("voxcpm2")).exists()
     for eid in _ALL_SPEC_IDS:
-        if eid != "moss-tts-v15":
+        if eid != "voxcpm2":
             spec = si.get_spec(eid)
             assert si._venv_python(si.managed_checkout(spec) / ".venv").is_file(), eid
 
 
 # ── per-engine install recipes ────────────────────────────────────────────
-
-
-@pytest.mark.parametrize(
-    ("engine_id", "venv_args", "install_args", "env_var"),
-    [
-        ("moss-tts-v15", ["--python", "3.11"],
-         ["-e", "{c}[torch-runtime]", "torchcodec===0.8.1"],
-         "OMNIVOICE_MOSS_TTS_V15_DIR"),
-        ("confucius4-tts", ["--python", "3.10"], ["-r", "{c}/requirements.txt"],
-         "OMNIVOICE_CONFUCIUS4_TTS_DIR"),
-        ("dots-tts", ["--python", "3.11"],
-         ["-e", "{c}", "-c", "{uri}/constraints/recommended.txt"],
-         "OMNIVOICE_DOTS_TTS_DIR"),
-        # moss-tts-nano installs soundfile alongside the editable install so
-        # torchaudio 2.7's I/O backend is present inside this engine's own
-        # venv — upstream's pyproject pins torchaudio but no backend
-        # (#2100). Without soundfile the engine's first load() crashes with
-        # "Couldn't find appropriate backend to handle uri …".
-        ("moss-tts-nano", ["--python", "3.11"],
-         ["-e", "{c}", "soundfile"], "OMNIVOICE_MOSS_TTS_NANO_DIR"),
-    ],
-)
-def test_new_specs_install_recipe(monkeypatch, engine_id, venv_args, install_args, env_var):
-    """Engine recipes install into their own venv and expose the correct env var."""
-    spec = si.get_spec(engine_id)
-    # The env var must be the one the engine's own bootstrap reads, or the
-    # install lands in a directory the engine never looks at.
-    assert spec.env_var == env_var
-    argvs = _capture_install_argvs(monkeypatch, family="cpu")
-    job = si._new_job(engine_id)
-    si._step_create_venv(spec, job)
-    si._step_install_deps(spec, job)
-
-    checkout = str(si.managed_checkout(spec))
-    venv_cmd = next(a for a in argvs if a[1] == "venv")
-    assert venv_cmd[3:] == venv_args
-    pip = next(a for a in argvs if a[1:3] == ["pip", "install"])
-    assert pip[5:] == [arg.replace("{c}", checkout).replace("{uri}", si.managed_checkout(spec).resolve().as_uri())
-                      for arg in install_args]
-
-
-def test_moss_tts_nano_probe_asserts_an_audio_backend_is_present(monkeypatch):
-    """The moss-tts-nano verify step asserts torchaudio.list_audio_backends()
-    is non-empty — catches a reinstall whose audio read path would crash at
-    first generation (#2100). The probe must compile and reference the
-    assertion so a future refactor cannot silently drop it.
-    """
-    spec = si.get_spec("moss-tts-nano")
-    assert spec.probe_code, (
-        "moss-tts-nano's verify probe must check torchaudio has a backend"
-    )
-    assert "list_audio_backends" in spec.probe_code
-    # The assertion message is allowed to mention a concrete dependency
-    # (soundfile / torchcodec) — that's user-facing guidance, not a probe
-    # requirement. The probe itself must only check the outcome.
-    assert "torchaudio.list_audio_backends()" in spec.probe_code
-    # Compile-check, since probe_code runs through python -c on Windows.
-    compile(spec.probe_code, "<probe>", "exec")
 
 
 @pytest.mark.parametrize("family", ["cuda", "cpu", "rocm", "mps"])
@@ -1185,16 +1009,18 @@ def test_verify_probe_runs_in_the_engines_venv_and_compiles(monkeypatch, engine_
 # ── host gates: no Install button that can only fail ─────────────────────
 
 
+_EVERY_ENGINE = {"voxcpm2", "chatterbox", "indic-parler", "indic-tts"}
+
+
 @pytest.mark.parametrize(
     ("family", "platform", "machine", "expected"),
     [
-        ("cuda", "linux", "x86_64", {"moss-tts-v15", "dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
-        ("cuda", "win32", "AMD64", {"moss-tts-v15", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
-        ("cpu", "win32", "AMD64", {"pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
-        ("mps", "darwin", "arm64", {"dots-tts", "pockettts", "voxcpm2", "moss-tts-nano", "cosyvoice", "chatterbox", "indic-parler", "indic-tts"}),
-        # Intel Mac: PyTorch publishes no build PocketTTS, VoxCPM2,
-        # MOSS-TTS-Nano, CosyVoice, Chatterbox or Indic Parler-TTS can use.
-        ("cpu", "darwin", "x86_64", {"dots-tts"}),
+        ("cuda", "linux", "x86_64", _EVERY_ENGINE),
+        ("cuda", "win32", "AMD64", _EVERY_ENGINE),
+        ("cpu", "win32", "AMD64", _EVERY_ENGINE),
+        ("mps", "darwin", "arm64", _EVERY_ENGINE),
+        # Intel Mac: PyTorch publishes no build these engines can use.
+        ("cpu", "darwin", "x86_64", set()),
     ],
 )
 def test_installable_engine_ids_follow_the_host(monkeypatch, family, platform, machine, expected):
@@ -1202,8 +1028,6 @@ def test_installable_engine_ids_follow_the_host(monkeypatch, family, platform, m
     monkeypatch.setattr(si, "_host_family", lambda: family)
     monkeypatch.setattr(si.sys, "platform", platform)
     monkeypatch.setattr(platform_mod, "machine", lambda: machine)
-    # Offered on every host: IndexTTS 2.5, Confucius4, Supertonic-3.
-    expected = set(expected) | {"indextts2", "confucius4-tts", "supertonic3"}
     assert si.installable_engine_ids() == frozenset(expected)
 
 
@@ -1217,21 +1041,27 @@ def test_a_host_probe_that_raises_counts_as_unsupported():
     assert spec.docs_path in why and "exploded" not in why
 
 
+def _intel_mac(monkeypatch):
+    import platform as platform_mod
+    monkeypatch.setattr(si.sys, "platform", "darwin")
+    monkeypatch.setattr(platform_mod, "machine", lambda: "x86_64")
+
+
 def test_start_install_refuses_an_unsupported_host(monkeypatch):
-    monkeypatch.setattr(si, "_host_family", lambda: "cpu")
-    with pytest.raises(si.HostUnsupported, match="NVIDIA"):
-        si.start_install("moss-tts-v15")
-    assert "moss-tts-v15" not in si._jobs
+    _intel_mac(monkeypatch)
+    with pytest.raises(si.HostUnsupported, match="Intel"):
+        si.start_install("voxcpm2")
+    assert "voxcpm2" not in si._jobs
 
 
 def test_router_maps_unsupported_host_to_409(monkeypatch):
     from fastapi import HTTPException
     from api.routers import engines as engines_router
-    monkeypatch.setattr(si.sys, "platform", "win32")
+    _intel_mac(monkeypatch)
     with pytest.raises(HTTPException) as ei:
-        engines_router.install_sidecar_engine("dots-tts")
+        engines_router.install_sidecar_engine("chatterbox")
     assert ei.value.status_code == 409
-    assert "Windows" in ei.value.detail
+    assert "Intel" in ei.value.detail
 
 
 def test_list_backends_offers_install_only_where_it_can_work(monkeypatch):
@@ -1239,72 +1069,10 @@ def test_list_backends_offers_install_only_where_it_can_work(monkeypatch):
     monkeypatch.setattr(si, "_host_family", lambda: "cpu")
     monkeypatch.setattr(si.sys, "platform", "win32")
     rows = {r["id"]: r for r in tts_backend.list_backends()}
-    assert rows["confucius4-tts"]["one_click_install"] is True
-    assert rows["moss-tts-v15"]["one_click_install"] is False
-    assert rows["dots-tts"]["one_click_install"] is False
-
-
-# ── PyPI-package engines (Supertonic-3, PocketTTS) ─────────────────────────
-
-
-@pytest.mark.parametrize(
-    ("engine_id", "package", "env_var"),
-    [
-        ("supertonic3", "supertonic==1.3.1", "OMNIVOICE_SUPERTONIC3_DIR"),
-        ("pockettts", "pocket-tts==2.1.0", "OMNIVOICE_POCKETTTS_DIR"),
-    ],
-)
-def test_pypi_engines_install_the_apps_own_pin_without_fetching_source(
-    monkeypatch, engine_id, package, env_var
-):
-    import tomllib
-    spec = si.get_spec(engine_id)
-    assert spec.env_var == env_var and not spec.has_source
-    # The same pin as the app's optional extra, so the engine runs the same
-    # wheel whether it was installed here or with `uv sync --extra`.
-    pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
-    extras = tomllib.loads(pyproject.read_text(encoding="utf-8"))["project"]["optional-dependencies"]
-    assert package in {req.split(";")[0].strip() for reqs in extras.values() for req in reqs}
-
-    monkeypatch.delenv(env_var, raising=False)
-    argvs = _capture_install_argvs(monkeypatch, family="cpu")
-    monkeypatch.setattr(si, "disk_free_bytes", lambda p: 100 * _GIB)
-    monkeypatch.setattr(si.shutil, "which", lambda n: None)
-    _stub_verify_ok(monkeypatch)
-    monkeypatch.setattr("core.prefs.set_", lambda k, v: None)
-
-    job = _run(spec)
-
-    assert job["state"] == "succeeded", (job["error"], list(job["log"]))
-    assert not any(os.path.basename(a[0]).startswith("git") for a in argvs)
-    pip = next(a for a in argvs if a[1:3] == ["pip", "install"])
-    assert pip[5] == package
-    assert os.environ[env_var] == str(si.managed_checkout(spec))
-    assert si._healthy(spec)
-
-
-@pytest.mark.parametrize("family", ["cuda", "cpu", "rocm", "mps"])
-def test_pockettts_installs_cpu_torch_on_every_host(monkeypatch, family):
-    from core.torch_indexes import UV_PIP_CPU_ARGS
-    argvs = _capture_install_argvs(monkeypatch, family=family)
-    si._step_install_deps(si.get_spec("pockettts"), si._new_job("pockettts"))
-    pip = next(a for a in argvs if a[1:3] == ["pip", "install"])
-    i = pip.index("--extra-index-url")
-    assert tuple(pip[i:i + len(UV_PIP_CPU_ARGS)]) == UV_PIP_CPU_ARGS
-    assert pip.count("--extra-index-url") == 1
-
-
-def test_an_extra_already_in_the_app_env_counts_as_installed(monkeypatch):
-    """A `uv sync --extra supertonic` install keeps working and is never
-    provisioned over."""
-    import importlib.util as ilu
-    monkeypatch.delenv("OMNIVOICE_SUPERTONIC3_DIR", raising=False)
-    real = ilu.find_spec
-    monkeypatch.setattr(
-        ilu, "find_spec", lambda name, *a: object() if name == "supertonic" else real(name, *a)
-    )
-    assert si.start_install("supertonic3")["status"] == "already_installed"
-    assert "supertonic3" not in si._jobs
+    assert rows["chatterbox"]["one_click_install"] is True
+    _intel_mac(monkeypatch)
+    rows = {r["id"]: r for r in tts_backend.list_backends()}
+    assert rows["chatterbox"]["one_click_install"] is False
 
 
 def test_engine_venv_python_needs_a_real_interpreter(monkeypatch, tmp_path):
@@ -1323,20 +1091,15 @@ def test_engine_venv_python_needs_a_real_interpreter(monkeypatch, tmp_path):
 
 # The root of each pinned upstream commit, as GitHub lists it (2026-09-10).
 _UPSTREAM_ROOT_FILES = {
-    "moss-tts-v15": ("pyproject.toml", "README.md", "LICENSE", "MANIFEST.in"),
-    "confucius4-tts": ("requirements.txt", "setup.py", "README.md", "LICENSE", "server.py"),
-    "dots-tts": ("pyproject.toml", "README.md", "LICENSE", "constraints/recommended.txt"),
-    "moss-tts-nano": ("pyproject.toml", "moss_tts_nano_runtime.py", "requirements.txt",
-                      "README.md", "LICENSE"),
-    "cosyvoice": ("requirements.txt", "README.md", "LICENSE", "cosyvoice/cli/cosyvoice.py",
-                  "asset/zero_shot_prompt.wav"),
+    "chatterbox": ("pyproject.toml", "README.md", "LICENSE", "src/chatterbox/tts.py"),
+    "indic-parler": ("pyproject.toml", "setup.py", "README.md", "LICENSE",
+                     "parler_tts/modeling_parler_tts.py"),
 }
 
 
 @pytest.mark.parametrize("engine_id", sorted(_UPSTREAM_ROOT_FILES))
 def test_a_real_upstream_layout_passes_source_validation(monkeypatch, engine_id):
-    """Confucius4 has no pyproject.toml. Source validation demanded one of every
-    checkout, so its install could never get past fetching the source."""
+    """Source validation accepts the layout each pinned upstream commit has."""
     spec = si.get_spec(engine_id)
 
     def fake_git(job, argv, *, timeout, env=None):
@@ -1431,95 +1194,6 @@ def test_torch_pins_follow_the_host(monkeypatch, family, platform, suffix, index
 # ── ROCm hosts take a ROCm torch, not the upstream's CUDA build (#2371) ────
 
 
-def _capture_rocm_install(monkeypatch, family, variant=None):
-    """Run indextts2's dependency step and return its `uv pip install` argv."""
-    from core.torch_indexes import PYTORCH_ROCM_INDEX_URL
-
-    if variant is None:
-        monkeypatch.delenv("OMNIVOICE_TORCH_VARIANT", raising=False)
-    else:
-        monkeypatch.setenv("OMNIVOICE_TORCH_VARIANT", variant)
-    monkeypatch.setattr(si.sys, "platform", "linux")
-    argvs = _capture_install_argvs(monkeypatch, family=family)
-    spec = si.get_spec("indextts2")
-    si._step_install_deps(spec, si._new_job("indextts2"))
-    pip = next(a for a in argvs if a[1:3] == ["pip", "install"])
-    return pip, PYTORCH_ROCM_INDEX_URL
-
-
-def test_rocm_host_installs_rocm_torch_for_indextts2(monkeypatch):
-    """Fail-before/pass-after for #2371: the step used to run a bare
-    `uv pip install -e <checkout>`, so upstream's `[tool.uv.sources]` routed
-    torch to the cu128 index — a wheel that cannot see an AMD GPU, leaving
-    the whole sidecar on CPU (~17x slower on the reporter's RX 6800 XT)."""
-    from core.torch_indexes import PYTORCH_CU128_INDEX_URL
-
-    pip, rocm_index = _capture_rocm_install(monkeypatch, family="rocm")
-    # Upstream's cu128 tool.uv.sources must be ignored for torch to resolve.
-    assert "--no-sources" in pip
-    assert "torch==2.8.0+rocm6.4" in pip
-    assert "torchaudio==2.8.0+rocm6.4" in pip
-    i = pip.index("--extra-index-url")
-    assert pip[i + 1] == rocm_index
-    assert PYTORCH_CU128_INDEX_URL not in pip
-
-
-def test_rocm_variant_env_opts_in_before_the_family_probe_reports_rocm(monkeypatch):
-    """`OMNIVOICE_TORCH_VARIANT=rocm` is the documented opt-in; it can be set
-    while the main venv swap has not landed yet (family still cpu)."""
-    pip, _ = _capture_rocm_install(monkeypatch, family="cpu", variant=" ROCm ")
-    assert "--no-sources" in pip
-    assert "torch==2.8.0+rocm6.4" in pip
-
-
-def test_rocm_torch_never_leaks_to_other_hosts(monkeypatch):
-    """A CUDA host still resolves torch through upstream's own cu128 sources,
-    and a CPU host keeps its existing install — ROCm args are ROCm-only."""
-    from core.torch_indexes import PYTORCH_ROCM_INDEX_URL
-
-    for family in ("cuda", "cpu"):
-        pip, _ = _capture_rocm_install(monkeypatch, family=family)
-        assert "--no-sources" not in pip
-        assert PYTORCH_ROCM_INDEX_URL not in pip
-        assert not any(a.startswith("torch==2.8.0+") for a in pip)
-
-
-def test_rocm_args_never_reach_engines_that_did_not_opt_in(monkeypatch):
-    """voxcpm2 pins its own torch pair and follows the host (+cpu on ROCm,
-    per test_torch_pins_follow_the_host); opting indextts2 in must not
-    change any other spec's install."""
-    from core.torch_indexes import PYTORCH_ROCM_INDEX_URL
-
-    monkeypatch.delenv("OMNIVOICE_TORCH_VARIANT", raising=False)
-    monkeypatch.setattr(si.sys, "platform", "linux")
-    argvs = _capture_install_argvs(monkeypatch, family="rocm")
-    for engine_id in _ALL_SPEC_IDS:
-        if engine_id == "indextts2":
-            continue
-        spec = si.get_spec(engine_id)
-        if spec.uses_rocm_index:
-            continue
-        argvs.clear()
-        si._step_install_deps(spec, si._new_job(engine_id))
-        pip = next(a for a in argvs if a[1:3] == ["pip", "install"])
-        assert "--no-sources" not in pip, engine_id
-        assert PYTORCH_ROCM_INDEX_URL not in pip, engine_id
-
-
-def test_rocm_index_env_is_the_index_uv_resolves_against(monkeypatch):
-    """Fail-before/pass-after: `OMNIVOICE_TORCH_INDEX` derived the pin tag
-    but the index appended to uv stayed the hard-coded public one — a
-    mirror's pins looked up on someone else's server, bypassing the mirror
-    a restricted network depends on."""
-    mirror = "https://mirror.example.com/pytorch/rocm6.4"
-    monkeypatch.setenv("OMNIVOICE_TORCH_INDEX", mirror)
-    pip, public = _capture_rocm_install(monkeypatch, family="rocm")
-    assert "--no-sources" in pip
-    assert "torch==2.8.0+rocm6.4" in pip  # tag still from the mirror's tail
-    assert mirror in pip
-    assert public not in pip
-
-
 # ── A pre-#2371 managed install is offered the repair on a ROCm host ───────
 
 _CUDA_TORCH_VERSION_PY = (
@@ -1534,77 +1208,6 @@ _ROCM_TORCH_VERSION_PY = (
     "cuda: Optional[str] = None\n"
     "hip: Optional[str] = '6.4.43482'\n"
 )
-
-
-def _mk_complete_indextts2_install(monkeypatch, torch_version_py: str):
-    """A COMPLETE managed indextts2 install whose venv's torch `version.py`
-    says which build it carries."""
-    monkeypatch.delenv("OMNIVOICE_INDEXTTS_DIR", raising=False)
-    monkeypatch.delenv("OMNIVOICE_TORCH_VARIANT", raising=False)
-    spec = si.get_spec("indextts2")
-    checkout = si.managed_checkout(spec)
-    (checkout / "indextts").mkdir(parents=True, exist_ok=True)
-    (checkout / "pyproject.toml").write_text("[project]\nname='index-tts'\n")
-    (checkout / spec.source_required_path).write_text("# fake infer\n")
-    si._write_source_marker(spec, checkout)
-    py = si._venv_python(checkout / ".venv")
-    py.parent.mkdir(parents=True)
-    py.write_text("#!fake\n")
-    _write_weights(
-        checkout / spec.weights_subdir,
-        complete=True,
-        repo_id=spec.weights_repo_id,
-        revision=spec.weights_revision,
-        config_name=spec.weights_config_names[0],
-    )
-    torch_dir = checkout / ".venv" / "lib" / "python3.11" / "site-packages" / "torch"
-    torch_dir.mkdir(parents=True)
-    (torch_dir / "version.py").write_text(torch_version_py)
-    return spec
-
-
-def test_rocm_host_offers_the_repair_when_the_venv_still_has_cuda_torch(monkeypatch):
-    """Fail-before/pass-after for the existing-install half of #2371: by the
-    marker rules this install is COMPLETE, so inventory reported installed
-    and start_install short-circuited with already_installed — the user
-    updates the app and the sidecar still runs on CPU while routing reports
-    acceleration."""
-    spec = _mk_complete_indextts2_install(monkeypatch, _CUDA_TORCH_VERSION_PY)
-    monkeypatch.setattr(si.sys, "platform", "linux")
-    monkeypatch.setattr(si, "_host_family", lambda: "rocm")
-    assert si._rocm_index_url() is not None  # the gate's condition is live
-    assert si._healthy(spec) is False        # fail-before: True (marker-less)
-
-
-def test_rocm_host_keeps_a_rocm_torch_install_healthy(monkeypatch):
-    """The repair offer must not loop: once the deps step has swapped in the
-    ROCm build, the same install reads healthy again."""
-    spec = _mk_complete_indextts2_install(monkeypatch, _ROCM_TORCH_VERSION_PY)
-    monkeypatch.setattr(si.sys, "platform", "linux")
-    monkeypatch.setattr(si, "_host_family", lambda: "rocm")
-    assert si._healthy(spec) is True
-
-
-def test_non_rocm_hosts_keep_installed_means_installed(monkeypatch):
-    """The gate changes nothing where the recipe did not change: CUDA and
-    CPU hosts (and the rocm opt-in turned off) keep the old verdict."""
-    spec = _mk_complete_indextts2_install(monkeypatch, _CUDA_TORCH_VERSION_PY)
-    monkeypatch.setattr(si.sys, "platform", "linux")
-    for family in ("cuda", "cpu"):
-        monkeypatch.setattr(si, "_host_family", lambda f=family: f)
-        assert si._healthy(spec) is True
-    # A rocm-family host with the opt-in machinery unable to select rocm
-    # (probe failure degrades _host_family to "cpu" upstream) is covered by
-    # the "cpu" case above; non-Linux never takes the rocm index at all.
-    monkeypatch.setattr(si.sys, "platform", "win32")
-    # Windows-layout interpreter now that _venv_python asks for one:
-    checkout = si.managed_checkout(spec)
-    win_py = si._venv_python(checkout / ".venv")
-    win_py.parent.mkdir(parents=True, exist_ok=True)
-    win_py.write_text("#!fake\n")
-    monkeypatch.setattr(si, "_host_family", lambda: "rocm")
-    assert si._rocm_index_url() is None
-    assert si._healthy(spec) is True
 
 
 # ── Submodule trees, partial weights, and optional post-install data ──────
@@ -1699,8 +1302,6 @@ def test_weights_from_an_earlier_run_do_not_prove_the_dependencies_finished():
     assert not si._healthy(spec)
     (checkout / si._INSTALL_COMPLETE_MARKER).write_text("x\n", encoding="utf-8")
     assert si._healthy(spec)
-    # IndexTTS predates the marker and keeps its weights-only check.
-    assert si.get_spec("indextts2").requires_install_marker is False
 
 
 def _tarball_with_absolute_symlink() -> bytes:
@@ -1747,93 +1348,6 @@ def test_a_failed_dependency_install_names_the_windows_path_limit(monkeypatch, p
     with pytest.raises(si._StepError) as err:
         si._step_install_deps(spec, si._new_job(spec.engine_id))
     assert ("LongPathsEnabled" in err.value.remediation) == (platform == "win32")
-
-
-@pytest.mark.parametrize('backends', [[], ['soundfile']])
-def test_moss_audio_probe_survives_optimization(backends):
-    """Missing audio support must fail even when Python assertions are disabled."""
-    import types
-    spec = si.get_spec('moss-tts-nano')
-    runtime = types.ModuleType('moss_tts_nano_runtime')
-    audio = types.ModuleType('torchaudio')
-    audio.list_audio_backends = lambda: backends
-    from unittest.mock import patch
-    with patch.dict(sys.modules, moss_tts_nano_runtime=runtime, torchaudio=audio):
-        probe = compile(spec.probe_code, '<probe>', 'exec', optimize=2)
-        if backends:
-            exec(probe, {})
-        else:
-            with pytest.raises(RuntimeError, match='I/O backend'):
-                exec(probe, {})
-
-
-def test_moss_existing_install_offers_dependency_repair(monkeypatch):
-    """Old completion markers cannot hide missing audio dependencies."""
-    spec = si.get_spec('moss-tts-nano')
-    checkout = si.managed_checkout(spec)
-    checkout.mkdir(parents=True)
-    monkeypatch.setattr(si, '_source_present', lambda *_: True)
-    py = si._venv_python(checkout / '.venv')
-    py.parent.mkdir(parents=True)
-    py.write_text('existing interpreter')
-    weights = checkout / 'cached-model.bin'
-    weights.write_bytes(b'existing weights')
-    marker = checkout / si._INSTALL_COMPLETE_MARKER
-    marker.write_text(spec.probe_module + '\n')
-    assert not si.get_status(spec.engine_id)['installed']
-    jobs = []
-    monkeypatch.setattr(si.threading, 'Thread', lambda **kw: SimpleNamespace(start=lambda: jobs.append(kw)))
-    monkeypatch.setattr(si, 'host_support', lambda _: (True, ''))
-    assert si.start_install(spec.engine_id)['status'] == 'started'
-    assert len(jobs) == 1
-    monkeypatch.setattr(si.subprocess, 'run', lambda *a, **k: SimpleNamespace(returncode=0, stdout='3.11\n'))
-    # Execute the repair transaction, including its real source/venv/deps/
-    # verification/weights steps. Only external operations are stubbed.
-    monkeypatch.setattr(si, '_step_preflight', lambda *_: None)
-    monkeypatch.setattr(si, '_locate_uv', lambda: '/fake/uv')
-    monkeypatch.setattr(si, '_persist', lambda *_: None)
-    commands = []
-    monkeypatch.setattr(si, '_run_logged', _fake_run_logged(commands))
-    job = _run(spec)
-    assert job['state'] == 'succeeded', job
-    assert len(commands) == 1
-    assert commands[0][1:3] == ['pip', 'install']
-    assert 'soundfile' in commands[0]
-    assert si._healthy(spec)
-    assert weights.read_bytes() == b'existing weights'
-    assert py.read_text() == 'existing interpreter'
-
-
-@pytest.mark.parametrize('version', ['3.14', '3.11', '3.10'])
-def test_indextts_repairs_only_incompatible_python(monkeypatch, version):
-    spec = si.SPECS['indextts2']
-    checkout = si.managed_checkout(spec)
-    py = si._venv_python(checkout / '.venv')
-    py.parent.mkdir(parents=True)
-    py.write_text('old interpreter')
-    weights = checkout / 'checkpoints' / 'model.bin'
-    weights.parent.mkdir()
-    weights.write_bytes(b'existing weights')
-    source = checkout / 'pyproject.toml'
-    source.write_text('existing source')
-    marker = checkout / si._INSTALL_COMPLETE_MARKER
-    marker.write_text('old success')
-    calls = []
-    monkeypatch.setattr(si, '_locate_uv', lambda: '/fake/uv')
-    monkeypatch.setattr(si, '_run_logged', _fake_run_logged(calls))
-    monkeypatch.setattr(si.subprocess, 'run', lambda *a, **k: SimpleNamespace(
-        returncode=0, stdout=version + '\n', stderr=''))
-    si._step_create_venv(spec, si._new_job(spec.engine_id))
-    if version == '3.14':
-        assert calls and calls[0][-2:] == ['--python', '3.11']
-        assert not marker.exists()
-        assert py.read_text() != 'old interpreter'
-    else:
-        assert calls == []
-        assert marker.exists()
-        assert py.read_text() == 'old interpreter'
-    assert weights.read_bytes() == b'existing weights'
-    assert source.read_text() == 'existing source'
 
 
 def test_all_sidecar_recipes_pin_python():
@@ -1888,7 +1402,7 @@ def test_unspecified_compatibility_does_not_rebuild_working_venv(monkeypatch, ve
     assert si._existing_venv_compatible(spec, Path("existing-python"))
 
 
-@pytest.mark.parametrize('engine', ['cosyvoice', 'moss-tts-nano', 'moss-tts-v15'])
+@pytest.mark.parametrize('engine', ['indic-tts'])
 def test_runtime_rejects_old_managed_recipe_but_preserves_external_installs(monkeypatch, tmp_path, engine):
     """Recipe upgrades invalidate managed markers while preserving external venvs."""
     spec = si.SPECS[engine]
@@ -1910,43 +1424,6 @@ def test_runtime_rejects_old_managed_recipe_but_preserves_external_installs(monk
     (external / si._INSTALL_COMPLETE_MARKER).write_text('external-version\n')
     monkeypatch.setenv(spec.env_var, str(external))
     assert si.engine_venv_python(spec.env_var) == external_py
-
-
-def test_moss_decoder_recipe_upgrade_preserves_venv_and_cached_weights(monkeypatch, tmp_path):
-    """An old managed MOSS install resumes dependencies instead of skipping repair."""
-    spec = si.SPECS['moss-tts-v15']
-    checkout = si.managed_checkout(spec)
-    py = si._venv_python(checkout / '.venv')
-    py.parent.mkdir(parents=True)
-    py.write_text('#!existing-python\n')
-    marker = checkout / si._INSTALL_COMPLETE_MARKER
-    marker.write_text(spec.probe_module + '\n')
-    weights = tmp_path / 'hf-cache' / 'model.safetensors'
-    weights.parent.mkdir()
-    weights.write_bytes(b'existing weights')
-    monkeypatch.setattr(si, '_source_present', lambda *args: True)
-    monkeypatch.setattr(si, '_existing_venv_compatible', lambda *args: True)
-    monkeypatch.setattr(si, '_locate_uv', lambda: '/fake/uv')
-    monkeypatch.setattr(si, '_host_family', lambda: 'cuda')
-    commands = []
-    monkeypatch.setattr(si, '_run_logged', lambda job, argv, **kw: commands.append(argv) or 0)
-    monkeypatch.setattr(si.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0))
-
-    assert not si._healthy(spec)
-    job = si._new_job(spec.engine_id)
-    si._step_create_venv(spec, job)
-    si._step_install_deps(spec, job)
-    assert not marker.exists()
-    si._step_verify(spec, job)
-
-    assert len(commands) == 1
-    assert commands[0][1:3] == ['pip', 'install']
-    assert commands[0][3:5] == ['--python', str(py)]
-    assert 'torchcodec===0.8.1' in commands[0]
-    assert py.read_text() == '#!existing-python\n'
-    assert weights.read_bytes() == b'existing weights'
-    assert si._healthy(spec)
-    assert si._install_marker_valid(spec, checkout)
 
 
 def test_corrupt_non_utf8_markers_read_as_absent_not_crash(monkeypatch):

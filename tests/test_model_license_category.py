@@ -46,9 +46,9 @@ def test_restricted_variant_makes_the_whole_repo_noncommercial():
 
 
 def test_variant_without_own_terms_inherits_repo_category():
-    info = ml.disclosure("kyutai/pocket-tts", ml.load_registry())
-    assert info["license_category"] == "commercial"
-    assert {v["license_category"] for v in info["variants"]} == {"commercial"}
+    info = ml.disclosure("audio-cpp/audio.cpp-gguf", ml.load_registry())
+    assert info["variants"]
+    assert {v["license_category"] for v in info["variants"]} == {info["license_category"]}
 
 
 def test_missing_record_and_invalid_registry_are_unknown():

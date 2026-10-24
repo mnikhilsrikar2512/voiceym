@@ -62,7 +62,7 @@ an NVIDIA driver) run the whole app on the CPU, just slower. When no NVIDIA
 driver is found, the packaged app's runtime setup installs the small CPU build
 of PyTorch rather than the CUDA build and its ~3 GB of `nvidia-*` packages,
 and needs about 5 GiB of free disk instead of 9 GiB. Pick a light voice engine
-(KittenTTS, Supertonic-3, PocketTTS) and a small Whisper model for the best
+(Kokoro or KittenTTS) and a small Whisper model for the best
 speed. `OMNIVOICE_TORCH_VARIANT=cuda|cpu|rocm` overrides the detection, and an
 existing install keeps working untouched. Source setup (`bun run setup:api`)
 also selects the locked CPU wheels on x86-64 hosts without NVIDIA. Linux ARM

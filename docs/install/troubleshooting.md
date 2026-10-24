@@ -593,18 +593,15 @@ Or sidestep cuDNN 8 entirely: switch the ASR backend to **PyTorch Whisper** in
 torch) and needs no cuDNN-8 DLL — it loads its Whisper pipeline on demand (no
 extra env var).
 
-## 11. IndexTTS / CosyVoice / ChatterboxTTS clash
+## 11. Engine dependency clash
 
-**Symptom:** installing one of these engines breaks the others — e.g. after
-installing CosyVoice, IndexTTS errors out with import conflicts.
+**Symptom:** installing one engine breaks another with import conflicts.
 
-**Cause:** these engines pin incompatible transformer / torch versions inside
-their own engine venvs. Pre-v0.3 they shared a single venv.
+**Cause:** engines pin incompatible transformers / torch versions.
 
-**Fix:** Phase 2 ships subprocess isolation per engine (each engine runs in
-its own venv). For v0.3, workaround: install only one of the conflicting
-engines per Voiceym copy. See [docs/engines/cosyvoice.md](../engines/cosyvoice.md)
-for the dedicated CosyVoice path.
+**Fix:** sidecar engines (Chatterbox, VoxCPM2, Indic Parler-TTS, Indic-TTS)
+each install into their own venv from **Settings → Models**, so they never
+share packages. Reinstall the affected engine there.
 
 
 **Same class, ASR side:** the `nemo-parakeet` ASR engine has the identical
@@ -613,8 +610,8 @@ hard-pins `transformers>=4.57,<4.58`, which is unsatisfiable alongside
 Voiceym's own `transformers>=5.3` requirement. Installing it into the
 shared venv breaks the backend outright. Do not `pip install nemo_toolkit`
 into Voiceym's environment; if you want to try it, use a separate Python
-environment. Isolated-venv support for this engine (matching CosyVoice/
-dots-tts) is planned.
+environment. Isolated-venv support for this engine (matching the sidecar
+TTS engines) is planned.
 
 ## 12. CUDA PyTorch wheel download fails on first run
 

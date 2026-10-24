@@ -41,8 +41,6 @@ only for adapters that forward this setting:
 | --- | --- | --- |
 | OmniVoice, including subprocess mode | 8–64 steps | 16/24/32-bit WAV |
 | VoxCPM2 | 8–64 steps | 16/24/32-bit WAV, native 48 kHz |
-| dots.tts | 8–64 steps | 16/24/32-bit WAV |
-| Supertonic-3 | 5–12 steps, matching its adapter limits | 16/24/32-bit WAV |
 | Other TTS engines | Engine manages sampling; no ineffective slider | 16/24/32-bit WAV |
 
 **Even out volume** adds the existing processing chain. Turning it off skips
